@@ -28,8 +28,13 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    runtime 'org.springframework.boot:spring-boot-devtools'
 }
 
 test {
     useJUnitPlatform()
+}
+
+bootRun {
+    sourceResources(sourceSets.main)
 }
