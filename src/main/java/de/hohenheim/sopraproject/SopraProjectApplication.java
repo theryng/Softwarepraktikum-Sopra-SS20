@@ -8,6 +8,6 @@ public class SopraProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SopraProjectApplication.class, args);
-        System.out.println("Testing");
+        System.out.println("Testing Git");
     }
 }
