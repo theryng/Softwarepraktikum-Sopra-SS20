@@ -6,8 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SopraProjectApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(SopraProjectApplication.class, args);
-        System.out.println("Testing Git");
+        System.out.println("Hallo liebes git :D");
     }
 }
