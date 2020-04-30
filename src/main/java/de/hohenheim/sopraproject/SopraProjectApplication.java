@@ -9,6 +9,6 @@ public class SopraProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SopraProjectApplication.class, args);
-        System.out.println("Hallo liebes git");
+        System.out.println("Das ist die Veränderte Version");
     }
 }
