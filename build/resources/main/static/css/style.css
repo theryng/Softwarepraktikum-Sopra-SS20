@@ -146,3 +146,7 @@
     background-color: lightblue;
     color: black;
  }
+
+ .textright{
+     text-align: right;
+ }
