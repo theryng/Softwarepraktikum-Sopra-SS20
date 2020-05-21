@@ -1,70 +1,73 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!--CSS.file home.css mit diesem Dokument verlinkt-->
-    <link rel="stylesheet" href="home.css">
+    <!--CSS.file style.css mit diesem Dokument verlinkt-->
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <title>Startseite</title>
 </head>
 
 <body>
 <!--Obere Leiste für Einstellungen, den Logout und den Profillink-->
-<div style="background-color: darkgray; color: black">
+<div class="topBar">
     <p align="left"> Log In / Logout </p>
-    <p align="right"> Einstellung Suche Profil</p>
+    <p> Einstellung Suche Profil</p>
+
+    <header class="greeting">
+        <h1>Willkommen zurück, Herr Müller!</h1>
+    </header>
 </div>
 
 <!--Hauptelement der Startseite mit der Bearbeitungshistorie und Kalender neben der Auswahl auf der linken Seite-->
 <div>
-    <header>
-        <h2 align="center">Willkommen zurück, Herr Müller!</h2>
-    </header>
-
     <!--Kalender als Tabellenform auf der rechten Seite-->
-    <div style = "background-color: white; float: right; padding: 10px">
-        <h2 align="left">Termine heute</h2>
-        <table>
+    <div class="calender">
+        <h2>Termine heute</h2>
+        <table class="col-12">
             <tr>
-                <th align="center">Termine</th>
-                <th align="center">Notizen</th>
+                <th>Termine</th>
+                <th>Notizen</th>
             </tr>
             <tr>
-                <td align="left">1. 8:00-8:30</td>
-                <td align="left">Frühstück mit Herr Sauter</td>
+                <td>1. 8:00-8:30</td>
+                <td>Frühstück mit Herr Sauter</td>
             </tr>
             <tr>
-                <td align="left">2. 11:00-13:30</td>
-                <td align="left">Bewerbungen der neuen Hilfskräfte wegwerfen</td>
+                <td>2. 11:00-13:30</td>
+                <td>Bewerbungen der neuen Hilfskräfte wegwerfen</td>
             </tr>
             <tr>
-                <td align="left">3. 15:00-16:00</td>
-                <td align="left">Lunch mit den Hilfskräften</td>
+                <td>3. 15:00-16:00</td>
+                <td>Lunch mit den Hilfskräften</td>
             </tr>
             <tr>
-                <td align="left">4. 18:00</td>
-                <td align="left">Feierabend und letztes checkup des Programms</td>
+                <td>4. 18:00</td>
+                <td>Feierabend und letztes checkup des Programms</td>
             </tr>
         </table>
     </div>
 
     <!-- Liste auf der linken Seite für die Navigation -->
-    <div style = "background-color: grey; color: black; float:left; padding: 10px">
-        <p align = "left"> Kontakte</p>
-        <p align = "left"> Events</p>
-        <p align = "left"> Institute</p>
-        <p align = "left"> Kalender</p>
-        <p align = "left"> Bearbeitungshistorie</p>
-    </div>
-
-    <!--Bearbeitungshistorie zwischen der linken sidebar und dem Kalender rechts-->
-    <div style="background-color: white; padding: 10px">
-        <h2 align="left">Bearbeitungshistorie</h2>
-        <ul>
-            <li style="background-color: lightgrey; padding: 10px">Ereignis ist passiert. Kontakt wurde von Person X verändert</li>
-            <li style="background-color: lightgrey; padding: 10px"> nochmal was passiert</li>
-            <li style="background-color: lightgrey; padding: 10px"> schon wieder was passiert</li>
-            <li style="background-color: lightgrey; padding: 10px"> keine Ahnung irgendwas passiert</li>
-        </ul>
+    <div class="row">
+        <div class="col-2 sidebar">
+            <ul>
+                <li>Kontakte</li>
+                <li> Events</li>
+                <li>Institute</li>
+                <li>Kalender</li>
+                <li>Bearbeitungshistorie</li>
+            </ul>
+        </div>
+        <!--Bearbeitungshistorie zwischen der linken sidebar und dem Kalender rechts-->
+        <div class="col-5; timeline" >
+            <h2>Bearbeitungshistorie</h2>
+            <ul class = "col-12">
+                <li> Ereignis ist passiert. Kontakt wurde von Person X verändert</li>
+                <li> nochmal was passiert</li>
+                <li> schon wieder was passiert</li>
+                <li> keine Ahnung irgendwas passiert</li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>
