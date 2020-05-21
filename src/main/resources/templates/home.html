@@ -6,15 +6,27 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <title>Startseite</title>
 </head>
+
 <body>
+
 <!--Obere Leiste für Einstellungen, den Logout und den Profillink-->
 <div class="topBar">
-    <p align="left"> Log In / Logout </p>
-    <p> Einstellung Suche Profil</p>
+    <p align="left" class="col-1">Log In / Logout</p>
+    <!--Suchleiste wird initialisiert-->
+    <div class="search-container">
+        <form action="/action_page.php">
+            <input type="text" placeholder="Suche..." name="search">
+        </form>
+    </div>
+    <p>Profil</p>
+    <p>Einstellungen</p>
 
-    <header class="greeting">
-        <h1>Willkommen zurück, Herr Müller!</h1>
-    </header>
+    <div>
+        <header>
+            <h1>Willkommen zurück, Herr Müller!</h1>
+        </header>
+    </div>
+
 </div>
 
 <!--Hauptelement der Startseite mit der Bearbeitungshistorie und Kalender neben der Auswahl auf der linken Seite-->
@@ -57,6 +69,7 @@
                 <li>Bearbeitungshistorie</li>
             </ul>
         </div>
+
         <!--Bearbeitungshistorie zwischen der linken sidebar und dem Kalender rechts-->
         <div class="col-5; timeline" >
             <h2>Bearbeitungshistorie</h2>
