@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
-    <title>Hello, world!</title>
+    <title>Kontakte</title>
 </head>
 
 <body>
@@ -24,28 +24,25 @@
 
         <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="home.html">Home <span class="sr-only">(current)</span></a>
-                </li>
                 <!-- Kontakte in Navbar -->
-                <li class="nav-item active hover">
-                    <a class="nav-link text-white" href="#">Kontakte</a>
+                <li class="nav-item disabled hover">
+                    <a class="nav-link text-white" href="contacts.html">Kontakte</a>
                 </li>
                 <!-- Kalender in Navbar -->
-               <li class="nav-item active">
-                   <a class="nav-link text-white" href="#">Kalender</a>
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="calendar.html">Kalender</a>
                </li>
                 <!-- Events in Navbar -->
-               <li class="nav-item active">
-                   <a class="nav-link text-white" href="#">Events <span class="sr-only">(current)</span></a>
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="events.html">Events <span class="sr-only">(current)</span></a>
                </li>
                 <!-- Institute in Navbar -->
-               <li class="nav-item active">
-                   <a class="nav-link text-white" href="#">Institute <span class="sr-only">(current)</span></a>
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="institutes.html">Institute <span class="sr-only">(current)</span></a>
                </li>
                 <!-- Bearbeitungshistorie in Navbar -->
-               <li class="nav-item active">
-                   <a class="nav-link text-white" href="#">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="history.html">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
                </li>
            </ul>
            <form class="form-inline my-2 my-lg-0">
@@ -63,41 +60,8 @@
        </div>
    </nav>
    <!-- Main Body -->
-    <div class="col-5; timeline" >
-        <h2>Bearbeitungshistorie</h2>
-        <ul class = "col-sm">
-            <li> Ereignis ist passiert. Kontakt wurde von Person X verändert</li>
-            <li> nochmal was passiert</li>
-            <li> schon wieder was passiert</li>
-            <li> keine Ahnung irgendwas passiert</li>
-        </ul>
-    </div>
 
-    <div class="container">
-        <h2>Termine heute</h2>
-        <table class="col-sm">
-            <tr>
-                <th>Termine</th>
-                <th>Notizen</th>
-            </tr>
-            <tr>
-                <td>1. 8:00-8:30</td>
-                <td>Frühstück mit Herr Sauter</td>
-            </tr>
-            <tr>
-                <td>2. 11:00-13:30</td>
-                <td>Bewerbungen der neuen Hilfskräfte wegwerfen</td>
-            </tr>
-            <tr>
-                <td>3. 15:00-16:00</td>
-                <td>Lunch mit den Hilfskräften</td>
-            </tr>
-            <tr>
-                <td>4. 18:00</td>
-                <td>Feierabend und letztes checkup des Programms</td>
-            </tr>
-        </table>
-    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

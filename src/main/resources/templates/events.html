@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Events</title>
+</head>
+<body>
+<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <a class="navbar-brand" href="home.html">ALUMNI NETZ</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <!-- Kontakte in Navbar -->
+            <li class="nav-item hover">
+                <a class="nav-link text-white" href="/contacts">Kontakte</a>
+            </li>
+            <!-- Kalender in Navbar -->
+            <li class="nav-item">
+                <a class="nav-link text-white" href="calendar.html">Kalender</a>
+            </li>
+            <!-- Events in Navbar -->
+            <li class="nav-item disabled">
+                <a class="nav-link text-white" href="events.html">Events <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- Institute in Navbar -->
+            <li class="nav-item ">
+                <a class="nav-link text-white" href="institutes.html">Institute <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- Bearbeitungshistorie in Navbar -->
+            <li class="nav-item">
+                <a class="nav-link text-white" href="history.html">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account Optionen
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="home.html">Einstellungen</a>
+                    <a class="dropdown-item" href="home.html">Optionen</a>
+                    <a class="dropdown-item" href="/login">Log out</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</nav>
+</body>
+</html>
