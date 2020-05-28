@@ -10,12 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
-    <title>Kalender</title>
-
+    <title>Institute</title>
 </head>
-
 <body>
-<!--Obere Leiste für Einstellungen, den Logout und den Profillink-->
+<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <a class="navbar-brand" href="home.html">ALUMNI NETZ</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +27,7 @@
                 <a class="nav-link text-white" href="contacts.html">Kontakte</a>
             </li>
             <!-- Kalender in Navbar -->
-            <li class="nav-item disabled">
+            <li class="nav-item">
                 <a class="nav-link text-white" href="calendar.html">Kalender</a>
             </li>
             <!-- Events in Navbar -->
@@ -37,7 +35,7 @@
                 <a class="nav-link text-white" href="events.html">Events <span class="sr-only">(current)</span></a>
             </li>
             <!-- Institute in Navbar -->
-            <li class="nav-item">
+            <li class="nav-item disabled">
                 <a class="nav-link text-white" href="institutes.html">Institute <span class="sr-only">(current)</span></a>
             </li>
             <!-- Bearbeitungshistorie in Navbar -->
@@ -45,13 +43,11 @@
                 <a class="nav-link text-white" href="history.html">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
             </li>
         </ul>
-
         <form class="form-inline my-2 my-lg-0">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account Optionen
                 </button>
-
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="home.html">Einstellungen</a>
                     <a class="dropdown-item" href="home.html">Optionen</a>
@@ -61,12 +57,5 @@
         </form>
     </div>
 </nav>
-
-<div>
-  <!--Kalender wahrscheinlich als Javaskript Datei-->
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>

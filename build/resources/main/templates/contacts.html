@@ -110,11 +110,23 @@
 
     <script>
 
+        function contactAdd(){
+            $("#contactTable tbody").append(
+                "<tr>" +
+            )
+        }
 
         function contactDelete(ctl){
             $(ctl).parents("tr").remove();
         }
 
+        function contactUpdate(){
+            if($("#Name").val()!=null && $("#Name").val()!=''{
+                contactAddToTable();
+                fromClear();
+                $("#Name").focus();
+            }
+        }
 
         function fromClear() {
             $("#Name").val("");
