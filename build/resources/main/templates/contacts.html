@@ -11,12 +11,9 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
     <title>Kontakte</title>
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> origin/development_frontend
 </head>
 
 <body>
@@ -32,33 +29,35 @@
             <ul class="navbar-nav mr-auto">
                 <!-- Kontakte in Navbar -->
                 <li class="nav-item disabled hover">
-                    <a class="nav-link text-white" href="contacts">Kontakte</a>
+                    <a class="nav-link text-white" href="contacts.html">Kontakte</a>
                 </li>
                 <!-- Kalender in Navbar -->
                <li class="nav-item">
-                   <a class="nav-link text-white" href="calendar">Kalender</a>
+                   <a class="nav-link text-white" href="calendar.html">Kalender</a>
                </li>
                 <!-- Events in Navbar -->
                <li class="nav-item">
-                   <a class="nav-link text-white" href="events">Events <span class="sr-only">(current)</span></a>
+                   <a class="nav-link text-white" href="events.html">Events <span class="sr-only">(current)</span></a>
                </li>
                 <!-- Institute in Navbar -->
                <li class="nav-item">
-                   <a class="nav-link text-white" href="institutes">Institute <span class="sr-only">(current)</span></a>
+                   <a class="nav-link text-white" href="institutes.html">Institute <span class="sr-only">(current)</span></a>
                </li>
                 <!-- Bearbeitungshistorie in Navbar -->
                <li class="nav-item">
-                   <a class="nav-link text-white" href="history">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
+                   <a class="nav-link text-white" href="history.html">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
                </li>
            </ul>
            <form class="form-inline my-2 my-lg-0">
                <div class="dropdown">
-                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <button class="btn btn-secondary" type="button" href="home.html">
                        Account Optionen
                    </button>
-                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                   <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       <span class="sr-only">Toggle Dropdown</span>
+                   </button>
+                   <div class="dropdown-menu">
                        <a class="dropdown-item" href="home.html">Einstellungen</a>
-                       <a class="dropdown-item" href="home.html">Optionen</a>
                        <a class="dropdown-item" href="/login">Log out</a>
                    </div>
                </div>
@@ -111,23 +110,11 @@
 
     <script>
 
-        function contactAdd(){
-            $("#contactTable tbody").append(
-                "<tr>" +
-            )
-        }
 
         function contactDelete(ctl){
             $(ctl).parents("tr").remove();
         }
 
-        function contactUpdate(){
-            if($("#Name").val()!=null && $("#Name").val()!=''{
-                contactAddToTable();
-                fromClear();
-                $("#Name").focus();
-            }
-        }
 
         function fromClear() {
             $("#Name").val("");
