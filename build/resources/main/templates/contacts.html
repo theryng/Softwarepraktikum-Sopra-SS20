@@ -11,6 +11,12 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
     <title>Kontakte</title>
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> origin/development_frontend
 </head>
 
 <body>
@@ -60,6 +66,75 @@
        </div>
    </nav>
    <!-- Main Body -->
+
+    <div class="btn-group" style="margin-top: 10px">
+        <button type="button" class="btn btn-secondary" onclick="contactUpdate()">Hinzufügen</button>
+        <button type="button" class="btn btn-secondary">Bearbeiten</button>
+        <button type="button" class="btn btn-danger">Löschen</button>
+    </div>
+    <div class="col-md-12">
+    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
+
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Vorname</th>
+            <th scope="col">Beruf</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Markus</td>
+            <td>Miraschov</td>
+            <td>Professor</td>
+            <td align="right"><input type="button" class="btn btn-danger" id="remove" value="Löschen" onclick="contactDelete();"></td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Sebastian</td>
+            <td>Larsson</td>
+            <td>Ingenieur</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Max</td>
+            <td>Mustermann</td>
+            <td>unbekannt</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+
+
+    <script>
+
+        function contactAdd(){
+            $("#contactTable tbody").append(
+                "<tr>" +
+            )
+        }
+
+        function contactDelete(ctl){
+            $(ctl).parents("tr").remove();
+        }
+
+        function contactUpdate(){
+            if($("#Name").val()!=null && $("#Name").val()!=''{
+                contactAddToTable();
+                fromClear();
+                $("#Name").focus();
+            }
+        }
+
+        function fromClear() {
+            $("#Name").val("");
+            $("#Vorname").val("");
+            $("#url").val("");
+        }
+    </script>
 
 
     <!-- Optional JavaScript -->
