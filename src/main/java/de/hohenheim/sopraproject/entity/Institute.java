@@ -13,6 +13,7 @@ import java.util.Set;
 public class Institute {
 
     @Id
+    @GeneratedValue
     private Integer instituteID;
 
     private String name;
