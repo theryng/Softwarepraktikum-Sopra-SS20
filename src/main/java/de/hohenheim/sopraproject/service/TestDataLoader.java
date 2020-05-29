@@ -1,10 +1,7 @@
 package de.hohenheim.sopraproject.service;
 
 import com.sun.xml.fastinfoset.tools.XML_SAX_StAX_FI;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.Institute;
-import de.hohenheim.sopraproject.entity.Role;
-import de.hohenheim.sopraproject.entity.User;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.service.RoleService;
 import de.hohenheim.sopraproject.service.UserService;
 import org.slf4j.Logger;
@@ -38,6 +35,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private InstituteService instituteService;
+
+    @Autowired
+    private ContacthistoryService contacthistoryService;
+
 
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
@@ -97,6 +98,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         admin.setRoles(adminRoles);
         userService.saveUser(admin);
 
+
+
+
+
+
         //Example contacts
         Contact max = new Contact();
         max.setFirstname("Max");
@@ -108,6 +114,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         max.setFreeText("Semestersprecher des fünften Bachelor Semesters");
         max.setFormatDateOfBirth(1996, 0, 01);
         contactService.saveContact(max);
+
+        Contacthistory historyOne = new Contacthistory();
+        historyOne.setText("Beim Kaffetrinken kennengelernt");
+        historyOne.setContact(max);
+        historyOne.setDate("13.04.2018");
+        contacthistoryService.saveContacthistory(historyOne);
 
         Contact julia = new Contact();
         julia.setFirstname("Julia");

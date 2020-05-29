@@ -42,6 +42,9 @@ public class Contact {
         this.dayOfBirth = dayOfBirth;
     }
 
+    @OneToMany
+    private List<Contacthistory> contacthistory = new ArrayList<Contacthistory>();
+
     public Contact() {
         //empty constructor for Hibernate
     }
