@@ -13,15 +13,17 @@ import java.util.Set;
 public class Institute {
 
     @Id
-    @GeneratedValue
     private Integer instituteID;
 
     private String name;
 
     private String location;
 
-    @OneToMany
-    private Set<Contact> contacts;
+   // @OneToMany(mappedBy = "ownInstitute")
+   // private Set<Contact> contacts;
+    @OneToMany //Mark
+    private Set<Contact> contacts;  //Mark
+
 
     public Institute(){
         //empty constructor for Hibernate
