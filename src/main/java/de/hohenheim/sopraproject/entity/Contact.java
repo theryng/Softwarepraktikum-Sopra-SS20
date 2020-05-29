@@ -17,8 +17,6 @@ public class Contact {
 
     private String lastname;
 
-   // private Integer age;
-
     private String occupation;
 
     private String email;
@@ -29,21 +27,27 @@ public class Contact {
 
     private Date dayOfBirth;
 
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Event> events = new HashSet<>();
+
+    @ManyToOne
+    private Institute ownInstitute;
+
+    @OneToMany
+    @GeneratedValue
+    private Set<Contacthistory> contacthistories = new HashSet<>();
+
     public Contact(Integer contactID, String firstname, String lastname/*, Integer age*/, String occupation, String email,
                    String courseOfStudies, String freeText, Date dayOfBirth) {
         this.contactID = contactID;
         this.firstname = firstname;
         this.lastname = lastname;
-        //this.age = age;
         this.occupation = occupation;
         this.email = email;
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
         this.dayOfBirth = dayOfBirth;
     }
-
-    @OneToMany
-    private List<Contacthistory> contacthistory = new ArrayList<Contacthistory>();
 
     public Contact() {
         //empty constructor for Hibernate

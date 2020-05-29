@@ -1,9 +1,6 @@
 package de.hohenheim.sopraproject.service;
 
-import com.sun.xml.fastinfoset.tools.XML_SAX_StAX_FI;
 import de.hohenheim.sopraproject.entity.*;
-import de.hohenheim.sopraproject.service.RoleService;
-import de.hohenheim.sopraproject.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +9,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -38,6 +33,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private ContacthistoryService contacthistoryService;
+
+    @Autowired
+    private EventService eventService;
 
 
     /**
@@ -97,11 +95,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
         userService.saveUser(admin);
-
-
-
-
-
 
         //Example contacts
         Contact max = new Contact();
@@ -374,5 +367,34 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         bwi.setName("Betriebswirtschaftliches Institut (BWI)");
         bwi.setContacts(bwiConacts);
         instituteService.saveInstitute(bwi);
+
+        //example events
+        Set<Contact> janaFlorian = new HashSet<>();
+        janaFlorian.add(jana);
+        janaFlorian.add(florian);
+
+        Set<Contact> joseGuests = new HashSet<>();
+        joseGuests.add(max);
+        joseGuests.add(florian);
+        joseGuests.add(anna);
+        joseGuests.add(paulina);
+        joseGuests.add(peter);
+
+        Event picknick = new Event();
+        picknick.setFormatDateOfEvent(2020, 6, 1);
+        picknick.setEventName("Picknick");
+        picknick.setPlace("Stuttgart Schlossplatz");
+        picknick.setContacts(janaFlorian);
+        picknick.setText("Florian hat Jana gefragt ob sie mit ihm picknicken möchte um sich besser kennen zu lernen. " +
+                "Hans hat Sofia in einer Vorlesung an der Uni Stuttgart kennengelernt.");
+        eventService.saveEvent(picknick);
+
+        Event joseBdayEvent = new Event();
+        joseBdayEvent.setFormatDateOfEvent(2019, 11, 10);
+        joseBdayEvent.setEventName("Josés 21 Geburtstag");
+        joseBdayEvent.setPlace("Stuttgart Vaihingen");
+        joseBdayEvent.setContacts(joseGuests);
+        joseBdayEvent.setText("José hat seinen 21 Geburtstag im Studentenwohnheim zusammen mit seinen engsten Freunden ");
+        eventService.saveEvent(joseBdayEvent);
     }
 }
