@@ -14,7 +14,7 @@ public class HistoryController {
      */
     @GetMapping("/history")
     public String history(Model model) {
-        return "home";
+        return "history";
     }
 
 }

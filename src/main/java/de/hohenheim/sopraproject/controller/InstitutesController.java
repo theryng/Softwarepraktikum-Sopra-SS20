@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class InstitutesController {
     @GetMapping("/institutes")
     public String institutes(Model model) {
-        return "home";
+
+        return "institutes";
     }
 }

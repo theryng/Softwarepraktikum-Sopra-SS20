@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class EventsController {
     @GetMapping("/events")
     public String showHome(Model model) {
-        return "home";
+        return "events";
     }
 }
