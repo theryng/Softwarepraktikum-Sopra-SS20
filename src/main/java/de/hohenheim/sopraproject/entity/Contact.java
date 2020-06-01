@@ -53,7 +53,7 @@ public class Contact {
 
     private Institute ownInstitute;
 
-    @OneToMany
+    @OneToMany(mappedBy = "contact")
     private List<Contacthistory> contacthistory = new ArrayList<Contacthistory>();
 
     public Contact() {
@@ -108,7 +108,32 @@ public class Contact {
     public void setLastname(String nachname) {
         this.lastname = nachname;
     }
-/**
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Institute getOwnInstitute() {
+        return ownInstitute;
+    }
+
+    public void setOwnInstitute(Institute ownInstitute) {
+        this.ownInstitute = ownInstitute;
+    }
+
+    public List<Contacthistory> getContacthistory() {
+        return contacthistory;
+    }
+
+    public void setContacthistory(List<Contacthistory> contacthistory) {
+        this.contacthistory = contacthistory;
+    }
+
+    /**
     public Integer getAge() {
         return age;
     }

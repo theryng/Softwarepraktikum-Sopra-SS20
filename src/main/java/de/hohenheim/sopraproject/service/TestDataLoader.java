@@ -106,13 +106,15 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         max.setCourseOfStudies("Wirtschaftsinformatik");
         max.setFreeText("Semestersprecher des fünften Bachelor Semesters");
         max.setFormatDateOfBirth(1996, 0, 01);
+
         contactService.saveContact(max);
 
-        Contacthistory historyOne = new Contacthistory();
-        historyOne.setText("Beim Kaffetrinken kennengelernt");
-        historyOne.setContact(max);
-        historyOne.setDate("13.04.2018");
-        contacthistoryService.saveContacthistory(historyOne);
+        Contacthistory maxHistory = new Contacthistory();
+        maxHistory.setText("Beim Kaffetrinken kennengelernt");
+        maxHistory.setContact(max);
+        maxHistory.setDate("13.04.2018");
+        contacthistoryService.saveContacthistory(maxHistory);
+
 
         Contact julia = new Contact();
         julia.setFirstname("Julia");
@@ -125,6 +127,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         julia.setFormatDateOfBirth(1997, 2, 12);
         contactService.saveContact(julia);
 
+        Contacthistory juliasHistory = new Contacthistory();
+        juliasHistory.setText("Auf dem Campus getroffen");
+        juliasHistory.setContact(julia);
+        juliasHistory.setDate("10.09.2019");
+        contacthistoryService.saveContacthistory(juliasHistory);
+
         Contact anna = new Contact();
         anna.setFirstname("Anna");
         anna.setLastname("Maria");
@@ -135,6 +143,13 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         anna.setFreeText("");
         anna.setFormatDateOfBirth(1999, 11, 8);
         contactService.saveContact(anna);
+
+        Contacthistory annasHistory = new Contacthistory();
+        annasHistory.setText("In der Mensa getroffen");
+        annasHistory.setDate("03.03.2020");
+        annasHistory.setContact(anna);
+        contacthistoryService.saveContacthistory(annasHistory);
+
 
         Contact jose = new Contact();
         jose.setFirstname("José");
@@ -309,6 +324,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         ibk.setName("Institut für Baukonstruktion (IBK)");
         ibk.setContacts(ibksContacts);
         instituteService.saveInstitute(ibk);
+        max.setOwnInstitute(ibk);
+        contactService.saveContact(max);
 
         Set<Contact> philoConacts = new HashSet<>();
         philoConacts.add(jose);
@@ -321,6 +338,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         philo.setName("Institut für Philosophie (PHILO)");
         philo.setContacts(philoConacts);
         instituteService.saveInstitute(philo);
+        maxW.setOwnInstitute(philo);
+        contactService.saveContact(maxW);
+        alex.setOwnInstitute(philo);
+        contactService.saveContact(alex);
+        min.setOwnInstitute(philo);
+        contactService.saveContact(min);
+        jose.setOwnInstitute(philo);
+        contactService.saveContact(jose);
 
         Set<Contact> iaasContacts = new HashSet<>();
 
@@ -329,6 +354,22 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         iaas.setName("Institut für Architektur von Anwendungssystemen (IAAS)");
         iaas.setContacts(iaasContacts);
         instituteService.saveInstitute(iaas);
+        aleyna.setOwnInstitute(iaas);
+        contactService.saveContact(aleyna);
+        jonas.setOwnInstitute(iaas);
+        contactService.saveContact(jonas);
+        florian.setOwnInstitute(iaas);
+        contactService.saveContact(florian);
+        sabine.setOwnInstitute(iaas);
+        contactService.saveContact(sabine);
+        jana.setOwnInstitute(iaas);
+        contactService.saveContact(jana);
+        tristan.setOwnInstitute(iaas);
+        contactService.saveContact(tristan);
+        alfred.setOwnInstitute(iaas);
+        contactService.saveContact(alfred);
+        milan.setOwnInstitute(iaas);
+        contactService.saveContact(milan);
 
         Set<Contact> iocContacts = new HashSet<>();
         iocContacts.add(luisa);
@@ -340,6 +381,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         ioc.setName("Institut für organische Chemie (IOC)");
         ioc.setContacts(iocContacts);
         instituteService.saveInstitute(ioc);
+        luisa.setOwnInstitute(ioc);
+        contactService.saveContact(luisa);
+        paulina.setOwnInstitute(ioc);
+        contactService.saveContact(paulina);
+        peter.setOwnInstitute(ioc);
+        contactService.saveContact(peter);
 
         Set<Contact> fmiContacts = new HashSet<>();
         fmiContacts.add(jonas);
@@ -367,6 +414,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         bwi.setName("Betriebswirtschaftliches Institut (BWI)");
         bwi.setContacts(bwiConacts);
         instituteService.saveInstitute(bwi);
+        maxW.setOwnInstitute(bwi);
+        contactService.saveContact(maxW);
+        anna.setOwnInstitute(bwi);
+        contactService.saveContact(anna);
+        julia.setOwnInstitute(bwi);
+        contactService.saveContact(julia);
 
         //example events
         Set<Contact> janaFlorian = new HashSet<>();

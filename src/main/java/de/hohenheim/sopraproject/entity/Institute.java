@@ -25,9 +25,9 @@ public class Institute {
     private String location;
 
     @OneToMany(mappedBy = "ownInstitute")
-    private Set<Contact> contacts = new HashSet<>();
-   // @OneToMany //Mark
-   // private Set<Contact> contacts;  //Mark
+
+    private Set<Contact> contact = new HashSet<>();
+
 
 
     public Institute(){
@@ -65,10 +65,10 @@ public class Institute {
     }
 
     public Set<Contact> getContacts() {
-        return contacts;
+        return contact;
     }
 
     public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+        this.contact = contacts;
     }
 }
