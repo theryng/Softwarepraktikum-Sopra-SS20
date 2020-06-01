@@ -42,6 +42,10 @@ public class Contact {
         this.dayOfBirth = dayOfBirth;
     }
 
+    @ManyToOne
+
+    private Institute ownInstitute;
+
     @OneToMany
     private List<Contacthistory> contacthistory = new ArrayList<Contacthistory>();
 

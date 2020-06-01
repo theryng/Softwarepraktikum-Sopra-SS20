@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Entity-class "Institute"
+ */
 @Entity
 public class Institute {
 
@@ -20,10 +23,10 @@ public class Institute {
 
     private String location;
 
-   // @OneToMany(mappedBy = "ownInstitute")
-   // private Set<Contact> contacts;
-    @OneToMany //Mark
-    private Set<Contact> contacts;  //Mark
+    @OneToMany(mappedBy = "ownInstitute")
+    private Set<Contact> contacts;
+   // @OneToMany //Mark
+   // private Set<Contact> contacts;  //Mark
 
 
     public Institute(){
@@ -67,4 +70,6 @@ public class Institute {
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
     }
+
+
 }
