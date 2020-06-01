@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class Institute {
     private String location;
 
     @OneToMany(mappedBy = "ownInstitute")
-    private Set<Contact> contacts;
+    private Set<Contact> contacts = new HashSet<>();
    // @OneToMany //Mark
    // private Set<Contact> contacts;  //Mark
 
@@ -70,6 +71,4 @@ public class Institute {
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
     }
-
-
 }

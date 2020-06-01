@@ -29,6 +29,10 @@ public class Contact {
 
     private Date dayOfBirth;
 
+
+
+
+
     public Contact(Integer contactID, String firstname, String lastname/*, Integer age*/, String occupation, String email,
                    String courseOfStudies, String freeText, Date dayOfBirth) {
         this.contactID = contactID;
@@ -41,6 +45,9 @@ public class Contact {
         this.freeText = freeText;
         this.dayOfBirth = dayOfBirth;
     }
+
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Event> events = new HashSet<>();
 
     @ManyToOne
 
