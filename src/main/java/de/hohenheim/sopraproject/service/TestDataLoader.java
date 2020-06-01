@@ -301,6 +301,28 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         min.setFormatDateOfBirth(1996, 9, 8);
         contactService.saveContact(min);
 
+        Contact sofia = new Contact();
+        sofia.setFirstname("Sofia");
+        sofia.setLastname("Hengst");
+        //min.setAge(25);
+        sofia.setOccupation("Studentin");
+        sofia.setEmail("SofiaH@stud.uni-stuttgart.de");
+        sofia.setCourseOfStudies("Philosophie");
+        sofia.setFreeText("");
+        sofia.setFormatDateOfBirth(1996, 1, 1);
+        contactService.saveContact(sofia);
+
+        Contact marlene = new Contact();
+        sofia.setFirstname("Marlene");
+        sofia.setLastname("Hengst");
+        //min.setAge(25);
+        sofia.setOccupation("Studentin");
+        sofia.setEmail("MarleneH@stud.uni-stuttgart.de");
+        sofia.setCourseOfStudies("Philosophie");
+        sofia.setFreeText("");
+        sofia.setFormatDateOfBirth(2000, 10, 1);
+        contactService.saveContact(marlene);
+
         //Example institutes plus the contacts which leads to them
         Set<Contact> ibksContacts = new HashSet<>();
 
@@ -315,6 +337,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         philoConacts.add(alex);
         philoConacts.add(min);
         philoConacts.add(maxW);
+        philoConacts.add(sofia);
+        philoConacts.add(marlene);
 
         Institute philo = new Institute();
         philo.setLocation("Campus Stadtmitte");
@@ -380,6 +404,18 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         joseGuests.add(paulina);
         joseGuests.add(peter);
 
+        Set<Contact> uniKarate = new HashSet<>();
+        uniKarate.add(jana);
+        uniKarate.add(florian);
+        uniKarate.add(max);
+        uniKarate.add(jose);
+
+        Set<Contact> uniYoga = new HashSet<>();
+        uniKarate.add(jana);
+        uniKarate.add(anna);
+        uniKarate.add(sofia);
+        uniKarate.add(marlene);
+
         Event picknick = new Event();
         picknick.setFormatDateOfEvent(2020, 6, 1);
         picknick.setEventName("Picknick");
@@ -396,5 +432,21 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         joseBdayEvent.setContacts(joseGuests);
         joseBdayEvent.setText("José hat seinen 21 Geburtstag im Studentenwohnheim zusammen mit seinen engsten Freunden ");
         eventService.saveEvent(joseBdayEvent);
+
+        Event uniSportKarate = new Event();
+        uniSportKarate.setFormatDateOfEvent(2019, 05, 1);
+        uniSportKarate.setEventName("Uni Sport Karate für Einsteiger");
+        uniSportKarate.setPlace("Hohenheim, Stuttgart");
+        uniSportKarate.setContacts(uniKarate);
+        uniSportKarate.setText("Wöchentliches Karate training für beginner");
+        eventService.saveEvent(uniSportKarate);
+
+        Event uniSportYoga = new Event();
+        uniSportYoga.setFormatDateOfEvent(2019, 05, 1);
+        uniSportYoga.setEventName("Uni Sport Yoga für Fortgeschrittene");
+        uniSportYoga.setPlace("Hohenheim, Stuttgart");
+        uniSportYoga.setContacts(uniKarate);
+        uniSportYoga.setText("Wöchentliches Yoga für Fortgeschrittene");
+        eventService.saveEvent(uniSportYoga);
     }
 }
