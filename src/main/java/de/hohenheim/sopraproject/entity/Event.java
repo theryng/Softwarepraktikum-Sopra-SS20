@@ -1,5 +1,5 @@
-package de.hohenheim.sopraproject.entity;
 
+package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +8,12 @@ import javax.persistence.ManyToMany;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * This class defines all attriobutes which are needed to create an event. It has an primary key which is the eventID,
+ * and some more attributes. It also has a many to many relationship with contacts, which means that contacts and events
+ * are related to each other with both of their primary keys in a separately table. it also goes with a many to many
+ * relationship with the users. The attribute names are the names of the columns at the database table of the event.
+ */
 @Entity
 public class Event {
 
@@ -21,8 +27,6 @@ public class Event {
 
     private String eventName;
 
-    //private String time;
-
     private String text;
 
     @ManyToMany
@@ -31,12 +35,19 @@ public class Event {
     @ManyToMany(mappedBy = "events")
     private Set<User> users = new HashSet<>();
 
-    //Sergej
-    //@ManyToMany
-    //private List<Role> role = new ArrayList<Role>();
-
     public Event() {
         //empty constructor for Hibernate
+    }
+
+    public Event(Integer eventId, Date date, String place, String eventName, String text, Set<Contact> contacts,
+                 Set<User> users) {
+        this.eventId = eventId;
+        this.date = date;
+        this.place = place;
+        this.eventName = eventName;
+        this.text = text;
+        this.contacts = contacts;
+        this.users = users;
     }
 
     public Set<Contact> getContacts() {
@@ -87,16 +98,6 @@ public class Event {
         this.eventName = eventName;
     }
 
-    /**
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-     */
-
     public String getText() {
         return text;
     }
@@ -112,16 +113,6 @@ public class Event {
     public void setEventId(Integer eventId) {
         this.eventId = eventId;
     }
-
-    /**
-    public List<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(List<Role> role) {
-        this.role = role;
-    }
-     */
 
     public void setFormatDateOfEvent(int year, int month, int day){
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");

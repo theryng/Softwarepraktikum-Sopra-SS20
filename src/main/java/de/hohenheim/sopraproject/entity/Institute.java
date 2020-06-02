@@ -10,6 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * An Institute is in most of the cases the workplace on which a alumni is active. This class which is represented as a
+ * table in the database has a primary key which is the instituteID and some other attributes. It also has an one to
+ * many relationship with the customer. ALl the attribute names will later be the column names of the table.
+ */
 @Entity
 public class Institute {
 
@@ -21,11 +26,8 @@ public class Institute {
 
     private String location;
 
-    @OneToMany(mappedBy = "ownInstitute")
+    @OneToMany(mappedBy = "institute")
     private Set<Contact> contacts = new HashSet<>();
-    //@OneToMany //Mark
-    //private Set<Contact> contacts;  //Mark
-
 
     public Institute(){
         //empty constructor for Hibernate

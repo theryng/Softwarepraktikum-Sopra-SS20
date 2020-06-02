@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * This class defines all attriobutes which are needed to create an contact. It has an primary key which is the contactID,
+ * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
+ * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
+ * relationship with the institute. That means that one Contactact is related to one (primary) institute. The attribute
+ * names are the names of the columns at the database table of the contact.
+ */
 @Entity
 public class Contact {
 
@@ -27,17 +34,24 @@ public class Contact {
 
     private Date dayOfBirth;
 
+    @Embedded
+    private Adress adress;
+
+    private String hobby;
+
+    private String linkToHomepage;
+
     @ManyToMany(mappedBy = "contacts")
     private Set<Event> events = new HashSet<>();
 
     @ManyToOne
-    private Institute ownInstitute;
+    private Institute institute;
 
     @OneToMany
     @GeneratedValue
     private Set<Contacthistory> contacthistories = new HashSet<>();
 
-    public Contact(Integer contactID, String firstname, String lastname/*, Integer age*/, String occupation, String email,
+    public Contact(Integer contactID, String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, Date dayOfBirth) {
         this.contactID = contactID;
         this.firstname = firstname;
@@ -51,6 +65,26 @@ public class Contact {
 
     public Contact() {
         //empty constructor for Hibernate
+    }
+
+    public void setAdress(Adress adress) {
+        this.adress = adress;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getHobby(){
+        return hobby;
+    }
+
+    public Adress getAdress() {
+        return adress;
+    }
+
+    public void setLinkToHomepage(String linkToHomepage) {
+        this.linkToHomepage = linkToHomepage;
     }
 
     public Integer getContactID() {
@@ -101,15 +135,6 @@ public class Contact {
     public void setLastname(String nachname) {
         this.lastname = nachname;
     }
-/**
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer alter) {
-        this.age = alter;
-    }
- */
 
     public String getOccupation() {
         return occupation;
