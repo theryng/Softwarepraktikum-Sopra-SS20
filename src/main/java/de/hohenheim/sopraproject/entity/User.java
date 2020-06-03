@@ -32,6 +32,14 @@ public class User {
         // empty constructor for Hibernate
     }
 
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
     public Integer getUserId() {
         return userId;
     }

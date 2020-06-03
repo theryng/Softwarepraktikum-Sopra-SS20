@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class defines all attributes that are necessary to define a Contacthistory. There is one Contacthistory for every existing Contact. The primary key is "contacthistoryId"
+ * and it has a man to one relation to "Contact".
+ */
 @Entity
 public class Contacthistory {
 
@@ -14,6 +18,7 @@ public class Contacthistory {
     private String date;
 
     private String text;
+
 
     @ManyToOne
     private Contact contact;

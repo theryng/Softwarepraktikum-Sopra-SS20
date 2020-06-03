@@ -7,10 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * This class defines all attriobutes which are needed to create an contact. It has an primary key which is the contactID,
+ * This class defines all attributes which are needed to create a contact. It has a primary key which is the contactID,
  * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
- * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
- * relationship with the institute. That means that one Contactact is related to one (primary) institute. The attribute
+ * are related to each other with both of their primary keys in a separately table. It also goes with a many to one
+ * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
  * names are the names of the columns at the database table of the contact.
  */
 @Entity
@@ -47,7 +47,7 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "contact")
     @GeneratedValue
     private Set<Contacthistory> contacthistories = new HashSet<>();
 
@@ -100,6 +100,54 @@ public class Contact {
         setDayOfBirth(dayOfBirth);
     }
 
+    public Adress getAdress() {
+        return adress;
+    }
+
+    public void setAdress(Adress adress) {
+        this.adress = adress;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getLinkToHomepage() {
+        return linkToHomepage;
+    }
+
+    public void setLinkToHomepage(String linkToHomepage) {
+        this.linkToHomepage = linkToHomepage;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Set<Institute> getInstitutes() {
+        return institutes;
+    }
+
+    public void setInstitutes(Set<Institute> institutes) {
+        this.institutes = institutes;
+    }
+
+    public Set<Contacthistory> getContacthistories() {
+        return contacthistories;
+    }
+
+    public void setContacthistories(Set<Contacthistory> contacthistories) {
+        this.contacthistories = contacthistories;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -115,15 +163,7 @@ public class Contact {
     public void setLastname(String nachname) {
         this.lastname = nachname;
     }
-/**
-    public Integer getAge() {
-        return age;
-    }
 
-    public void setAge(Integer alter) {
-        this.age = alter;
-    }
- */
 
     public String getOccupation() {
         return occupation;
