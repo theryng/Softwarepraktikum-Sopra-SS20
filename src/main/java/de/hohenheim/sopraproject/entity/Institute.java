@@ -24,19 +24,19 @@ public class Institute {
 
     private String name;
 
-    private String location;
+    @Embedded
+    private Adress adress;
 
-    @OneToMany(mappedBy = "institute")
+    @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
     public Institute(){
         //empty constructor for Hibernate
     }
 
-    public Institute(Integer instituteID, String name, String location) {
+    public Institute(Integer instituteID, String name) {
         this.instituteID = instituteID;
         this.name = name;
-        this.location = location;
     }
 
     public Integer getInstituteID() {
@@ -55,19 +55,19 @@ public class Institute {
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String ort) {
-        this.location = ort;
-    }
-
     public Set<Contact> getContacts() {
         return contacts;
     }
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public Adress getAdress() {
+        return adress;
+    }
+
+    public void setAdress(Adress adress) {
+        this.adress = adress;
     }
 }

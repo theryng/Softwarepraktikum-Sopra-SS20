@@ -44,8 +44,8 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Event> events = new HashSet<>();
 
-    @ManyToOne
-    private Institute institute;
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Institute> institutes;
 
     @OneToMany
     @GeneratedValue

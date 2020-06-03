@@ -1,10 +1,7 @@
 
 package de.hohenheim.sopraproject.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -23,7 +20,8 @@ public class Event {
 
     private Date date ;
 
-    private String place;
+    @Embedded
+    private Adress adress;
 
     private String eventName;
 
@@ -39,11 +37,11 @@ public class Event {
         //empty constructor for Hibernate
     }
 
-    public Event(Integer eventId, Date date, String place, String eventName, String text, Set<Contact> contacts,
+    public Event(Integer eventId, Date date, Adress adress, String eventName, String text, Set<Contact> contacts,
                  Set<User> users) {
         this.eventId = eventId;
         this.date = date;
-        this.place = place;
+        this.adress = adress;
         this.eventName = eventName;
         this.text = text;
         this.contacts = contacts;
@@ -82,14 +80,6 @@ public class Event {
         this.date = date;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
     public String getEventName() {
         return eventName;
     }
@@ -112,6 +102,14 @@ public class Event {
 
     public void setEventId(Integer eventId) {
         this.eventId = eventId;
+    }
+
+    public Adress getAdress() {
+        return adress;
+    }
+
+    public void setAdress(Adress adress) {
+        this.adress = adress;
     }
 
     public void setFormatDateOfEvent(int year, int month, int day){
