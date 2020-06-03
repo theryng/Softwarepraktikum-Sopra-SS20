@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Entity-class "Institute"
+ * An Institute is in most of the cases the workplace on which a alumni is active. This class which is represented as a
+ * table in the database has a primary key which is the instituteID and some other attributes. It also has an one to
+ * many relationship with the customer. ALl the attribute names will later be the column names of the table.
  */
 @Entity
 public class Institute {
@@ -22,13 +24,11 @@ public class Institute {
 
     private String name;
 
-    private String location;
+    @Embedded
+    private Adress adress;
 
-    @OneToMany(mappedBy = "ownInstitute")
-
-    private Set<Contact> contact = new HashSet<>();
-
-
+    @ManyToMany
+    private Set<Contact> contacts = new HashSet<>();
 
     public Institute(){
         //empty constructor for Hibernate
@@ -65,10 +65,10 @@ public class Institute {
     }
 
     public Set<Contact> getContacts() {
-        return contact;
+        return contacts;
     }
 
     public void setContacts(Set<Contact> contacts) {
-        this.contact = contacts;
+        this.contacts = contacts;
     }
 }

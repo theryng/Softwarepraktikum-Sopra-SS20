@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * This class defines all attriobutes which are needed to create an contact. It has an primary key which is the contactID,
+ * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
+ * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
+ * relationship with the institute. That means that one Contactact is related to one (primary) institute. The attribute
+ * names are the names of the columns at the database table of the contact.
+ */
 @Entity
 public class Contact {
 
@@ -17,8 +24,6 @@ public class Contact {
 
     private String lastname;
 
-   // private Integer age;
-
     private String occupation;
 
     private String email;
@@ -29,32 +34,34 @@ public class Contact {
 
     private Date dayOfBirth;
 
+    @Embedded
+    private Adress adress;
 
+    private String hobby;
 
+    private String linkToHomepage;
 
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Event> events = new HashSet<>();
 
-    public Contact(Integer contactID, String firstname, String lastname/*, Integer age*/, String occupation, String email,
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Institute> institutes;
+
+    @OneToMany
+    @GeneratedValue
+    private Set<Contacthistory> contacthistories = new HashSet<>();
+
+    public Contact(Integer contactID, String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, Date dayOfBirth) {
         this.contactID = contactID;
         this.firstname = firstname;
         this.lastname = lastname;
-        //this.age = age;
         this.occupation = occupation;
         this.email = email;
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
         this.dayOfBirth = dayOfBirth;
     }
-
-    @ManyToMany(mappedBy = "contacts")
-    private Set<Event> events = new HashSet<>();
-
-    @ManyToOne
-
-    private Institute ownInstitute;
-
-    @OneToMany(mappedBy = "contact")
-    private List<Contacthistory> contacthistory = new ArrayList<Contacthistory>();
 
     public Contact() {
         //empty constructor for Hibernate
@@ -108,32 +115,7 @@ public class Contact {
     public void setLastname(String nachname) {
         this.lastname = nachname;
     }
-
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
-
-    public Institute getOwnInstitute() {
-        return ownInstitute;
-    }
-
-    public void setOwnInstitute(Institute ownInstitute) {
-        this.ownInstitute = ownInstitute;
-    }
-
-    public List<Contacthistory> getContacthistory() {
-        return contacthistory;
-    }
-
-    public void setContacthistory(List<Contacthistory> contacthistory) {
-        this.contacthistory = contacthistory;
-    }
-
-    /**
+/**
     public Integer getAge() {
         return age;
     }
