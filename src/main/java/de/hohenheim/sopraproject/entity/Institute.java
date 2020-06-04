@@ -37,7 +37,6 @@ public class Institute {
     public Institute(Integer instituteID, String name, String location) {
         this.instituteID = instituteID;
         this.name = name;
-        this.location = location;
     }
 
     public Adress getAdress() {
@@ -64,13 +63,7 @@ public class Institute {
         this.name = name;
     }
 
-    public String getLocation() {
-        return location;
-    }
 
-    public void setLocation(String ort) {
-        this.location = ort;
-    }
 
     public Set<Contact> getContacts() {
         return contacts;

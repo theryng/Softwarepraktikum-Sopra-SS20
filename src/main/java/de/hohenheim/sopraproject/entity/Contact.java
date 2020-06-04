@@ -47,6 +47,9 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes;
 
+    @OneToOne
+    private Contacthistory owningHistory;
+
     @OneToMany(mappedBy = "contact")
     @GeneratedValue
     private Set<Contacthistory> contacthistories = new HashSet<>();
@@ -65,6 +68,14 @@ public class Contact {
 
     public Contact() {
         //empty constructor for Hibernate
+    }
+
+    public Contacthistory getOwningHistory() {
+        return owningHistory;
+    }
+
+    public void setOwningHistory(Contacthistory owningHistory) {
+        this.owningHistory = owningHistory;
     }
 
     public Integer getContactID() {

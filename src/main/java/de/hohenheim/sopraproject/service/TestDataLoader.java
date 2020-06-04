@@ -155,7 +155,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Contacthistory annasHistory = new Contacthistory();
         annasHistory.setText("In der Mensa getroffen");
         annasHistory.setDate("03.03.2020");
-        annasHistory.setContact(anna);
+        annasHistory.setContact(max);
+        annasHistory.setOwnerOfHistory(anna);
+
         contacthistoryService.saveContacthistory(annasHistory);
 
 

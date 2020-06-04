@@ -19,12 +19,22 @@ public class Contacthistory {
 
     private String text;
 
+    @OneToOne
+    private Contact ownerOfHistory;
 
     @ManyToOne
     private Contact contact;
 
     public Contacthistory() {
         //empty constructor for Hibernate
+    }
+
+    public Contact getOwnerOfHistory() {
+        return ownerOfHistory;
+    }
+
+    public void setOwnerOfHistory(Contact ownerOfHistory) {
+        this.ownerOfHistory = ownerOfHistory;
     }
 
     public Integer getKontakthistoryId() {
