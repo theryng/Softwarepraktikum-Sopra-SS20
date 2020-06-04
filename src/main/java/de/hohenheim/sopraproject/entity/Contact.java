@@ -47,12 +47,12 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes;
 
-    @OneToOne
+    @OneToOne(mappedBy = "ownerOfHistory")
     private Contacthistory owningHistory;
 
-    @OneToMany(mappedBy = "contact")
+    @ManyToOne
     @GeneratedValue
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+    private Contacthistory contacthistories;
 
     public Contact(Integer contactID, String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, Date dayOfBirth) {
@@ -151,11 +151,11 @@ public class Contact {
         this.institutes = institutes;
     }
 
-    public Set<Contacthistory> getContacthistories() {
+    public Contacthistory getContacthistories() {
         return contacthistories;
     }
 
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
+    public void setContacthistories(Contacthistory contacthistories) {
         this.contacthistories = contacthistories;
     }
 
