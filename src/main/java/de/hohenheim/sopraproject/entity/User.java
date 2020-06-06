@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,9 @@ public class User {
     private String password;
 
     private boolean enabled = true;
+
+    @ManyToMany
+    private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;

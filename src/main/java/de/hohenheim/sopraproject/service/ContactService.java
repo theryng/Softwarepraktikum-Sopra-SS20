@@ -11,13 +11,13 @@ import java.util.List;
 public class ContactService {
 
     @Autowired
-    private ContactRepository kontaktRepository;
+    private ContactRepository contactRepository;
 
     public Contact saveContact(Contact contact) {
-        return kontaktRepository.save(contact);
+        return contactRepository.save(contact);
     }
 
     public List<Contact> findAllContacts(){
-            return kontaktRepository.findAll();
+            return contactRepository.findAll();
     }
 }
