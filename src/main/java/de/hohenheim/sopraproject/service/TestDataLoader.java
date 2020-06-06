@@ -37,7 +37,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private EventService eventService;
 
-
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
      * is initialized that means it will be executed whenever the server is (re-)started. There are several Sets in this
@@ -97,20 +96,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         userService.saveUser(admin);
 
         //Example contacts
-        Contact max = new Contact();
-        max.setFirstname("Max");
-        max.setLastname("Mustermann");
-        max.setOccupation("Projektmanager");
-        max.setEmail("maxM@yahoo.de");
-        max.setCourseOfStudies("Wirtschaftsinformatik");
-        max.setFreeText("Semestersprecher des fünften Bachelor Semesters in SS99 ");
-        max.setFormatDateOfBirth(1986, 0, 01);
-        max.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "1"));
-        max.setHobby("Kickboxen");
-        max.setLinkToHomepage("https://de.wikipedia.org/wiki/Mustermann");
-        //max.setInstitute(mahleStuttgart);
-        contactService.saveContact(max);
-
         Contact julia = new Contact();
         julia.setFirstname("Julia");
         julia.setLastname("Müller");
@@ -125,6 +110,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         //julia.setInstitute(allianzStuttgart);
         contactService.saveContact(julia);
 
+        Set<Contact> maxWife = new HashSet<>();
+        maxWife.add(julia);
+
         Contact anna = new Contact();
         anna.setFirstname("Anna");
         anna.setLastname("Maria");
@@ -138,6 +126,19 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         anna.setLinkToHomepage("");
         //anna.setInstitute(porscheStuttgart);
         contactService.saveContact(anna);
+
+        Contact max = new Contact();
+        max.setFirstname("Max");
+        max.setLastname("Mustermann");
+        max.setOccupation("Projektmanager");
+        max.setEmail("maxM@yahoo.de");
+        max.setCourseOfStudies("Wirtschaftsinformatik");
+        max.setFreeText("Semestersprecher des fünften Bachelor Semesters in SS99 ");
+        max.setFormatDateOfBirth(1986, 0, 01);
+        max.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "1"));
+        max.setHobby("Kickboxen");
+        max.setLinkToHomepage("https://de.wikipedia.org/wiki/Mustermann");
+        contactService.saveContact(max);
 
         Contact jose = new Contact();
         jose.setFirstname("José");
