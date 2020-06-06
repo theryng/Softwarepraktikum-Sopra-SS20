@@ -134,6 +134,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 */
 
 
+        Set<Contact> maxWife = new HashSet<>();
+        maxWife.add(julia);
+
         Contact anna = new Contact();
         anna.setFirstname("Anna");
         anna.setLastname("Maria");
@@ -177,7 +180,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         luisa.setFirstname("Luisa");
         luisa.setLastname("Mayer");
         luisa.setOccupation("Doktorantin");
-        luisa.setEmail("luisaM@stud.uni-stuttgart.de");
+        luisa.setEmail("luisaM@yahoo.de");
         luisa.setCourseOfStudies("Chemi");
         luisa.setFreeText("Promovierte 2020 im Gebiet der organischen Chemie");
         luisa.setFormatDateOfBirth(1992, 5, 13);
@@ -203,9 +206,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Contact peter = new Contact();
         peter.setFirstname("Peter");
         peter.setLastname("Lustig");
-        //peter.setAge(23);
-        peter.setOccupation("Student");
-        peter.setEmail("PeterL@stud.uni-stuttgart.de");
+        peter.setOccupation("Angestellter");
+        peter.setEmail("PeterL@gmail.com");
         peter.setCourseOfStudies("Chemi");
         peter.setFreeText("");
         peter.setFormatDateOfBirth(2001, 9, 28);
@@ -218,7 +220,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jonas.setFirstname("Jonas Alfred");
         jonas.setLastname("Homm");
         jonas.setOccupation("Professor");
-        jonas.setEmail("JonasH@prof.uni-stuttgart.de");
+        jonas.setEmail("JonasH@yahoo.de");
         jonas.setCourseOfStudies("Informatik");
         jonas.setFreeText("Forschungsbereiche: Informationstechnologie");
         jonas.setFormatDateOfBirth(1996, 0, 01);
@@ -270,7 +272,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         tristan.setFirstname("Tristan");
         tristan.setLastname("Müller");
         tristan.setOccupation("Doktorant (Stand: 02.03.2020)");
-        tristan.setEmail("TristanM@stud.uni-stuttgart.de");
+        tristan.setEmail("TristanM@yahoo.de");
         tristan.setCourseOfStudies("Informatik");
         tristan.setFreeText("Forschungsgebiet: Simulationswissenschaft");
         tristan.setFormatDateOfBirth(1996, 8, 28);

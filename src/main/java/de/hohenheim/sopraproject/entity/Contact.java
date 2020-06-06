@@ -16,6 +16,7 @@ import java.util.*;
 @Entity
 public class Contact {
 
+
     @Id
     @GeneratedValue
     private Integer contactID;
@@ -53,6 +54,12 @@ public class Contact {
     @ManyToOne
     @GeneratedValue
     private Contacthistory contacthistories;
+
+//    @ManyToOne()
+//    private Contact contact;
+
+//    @OneToMany(mappedBy = "contact")
+//    private Set<Contact> contacts = new HashSet<>();
 
     public Contact(Integer contactID, String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, Date dayOfBirth) {
