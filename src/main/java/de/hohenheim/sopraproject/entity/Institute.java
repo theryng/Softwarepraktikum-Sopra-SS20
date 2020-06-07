@@ -1,13 +1,7 @@
 package de.hohenheim.sopraproject.entity;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +19,7 @@ public class Institute {
     private String name;
 
     @Embedded
-    private Adress adress;
+    private Address address;
 
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
@@ -63,11 +57,11 @@ public class Institute {
         this.contacts = contacts;
     }
 
-    public Adress getAdress() {
-        return adress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAdress(Adress adress) {
-        this.adress = adress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

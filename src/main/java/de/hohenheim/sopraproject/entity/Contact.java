@@ -1,7 +1,5 @@
 package de.hohenheim.sopraproject.entity;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -33,10 +31,18 @@ public class Contact {
 
     private String freeText;
 
-    private Date dayOfBirth;
+    private String dayOfBirth;
 
     @Embedded
-    private Adress adress;
+    private Address address;
+    @Transient
+    private String tempZipCode;
+    @Transient
+    private String tempHouseNmbr;
+    @Transient
+    private String tempCity;
+    @Transient
+    private String tempStreet;
 
     private String hobby;
 
@@ -46,21 +52,15 @@ public class Contact {
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes;
+    private Set<Institute> institutes = new HashSet<Institute>();
 
     @OneToMany
     @GeneratedValue
     private Set<Contacthistory> contacthistories = new HashSet<>();
 
-//    @ManyToOne()
-//    private Contact contact;
 
-//    @OneToMany(mappedBy = "contact")
-//    private Set<Contact> contacts = new HashSet<>();
-
-    public Contact(Integer contactID, String firstname, String lastname, String occupation, String email,
-                   String courseOfStudies, String freeText, Date dayOfBirth) {
-        this.contactID = contactID;
+    public Contact(String firstname, String lastname, String occupation, String email,
+                   String courseOfStudies, String freeText, String dayOfBirth) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.occupation = occupation;
@@ -73,35 +73,6 @@ public class Contact {
     public Contact() {
         //empty constructor for Hibernate
     }
-
-    public void setAdress(Adress adress) {
-        this.adress = adress;
-    }
-
-    public void setHobby(String hobby) {
-        this.hobby = hobby;
-    }
-
-    public String getHobby(){
-        return hobby;
-    }
-
-    public Adress getAdress() {
-        return adress;
-    }
-
-    public void setLinkToHomepage(String linkToHomepage) {
-        this.linkToHomepage = linkToHomepage;
-    }
-
-    public Integer getContactID() {
-        return contactID;
-    }
-
-    public void setContactID(Integer kontaktID) {
-        this.contactID = kontaktID;
-    }
-
 
     public Date convertStringToDate(final String string){
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -124,31 +95,39 @@ public class Contact {
 
         String stringDate = format.format(date);
         Date dayOfBirth = convertStringToDate(stringDate);
-        setDayOfBirth(dayOfBirth);
+        setDayOfBirth(year+"-"+month+"-"+day);
+    }
+
+    public Integer getContactID() {
+        return contactID;
+    }
+
+    public void setContactID(Integer contactID) {
+        this.contactID = contactID;
     }
 
     public String getFirstname() {
         return firstname;
     }
 
-    public void setFirstname(String vorname) {
-        this.firstname = vorname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String nachname) {
-        this.lastname = nachname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getOccupation() {
         return occupation;
     }
 
-    public void setOccupation(String tätigkeit) {
-        this.occupation = tätigkeit;
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
     public String getEmail() {
@@ -163,23 +142,126 @@ public class Contact {
         return courseOfStudies;
     }
 
-    public void setCourseOfStudies(String studiengang) {
-        this.courseOfStudies = studiengang;
+    public void setCourseOfStudies(String courseOfStudies) {
+        this.courseOfStudies = courseOfStudies;
     }
 
     public String getFreeText() {
         return freeText;
     }
 
-    public void setFreeText(String freitext) {
-        this.freeText = freitext;
+    public void setFreeText(String freeText) {
+        this.freeText = freeText;
     }
 
-    public Date getDayOfBirth() {
+    public String getDayOfBirth() {
         return dayOfBirth;
     }
 
-    public void setDayOfBirth(Date dayOfBirth) {
+    public void setDayOfBirth(String dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+/*
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getHouseNmbr() {
+        return houseNmbr;
+    }
+
+    public void setHouseNmbr(String houseNmbr) {
+        this.houseNmbr = houseNmbr;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
+    }*/
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getLinkToHomepage() {
+        return linkToHomepage;
+    }
+
+    public void setLinkToHomepage(String linkToHomepage) {
+        this.linkToHomepage = linkToHomepage;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Set<Institute> getInstitutes() {
+        return institutes;
+    }
+
+    public void setInstitutes(Set<Institute> institutes) {
+        this.institutes = institutes;
+    }
+
+    public Set<Contacthistory> getContacthistories() {
+        return contacthistories;
+    }
+
+    public void setContacthistories(Set<Contacthistory> contacthistories) {
+        this.contacthistories = contacthistories;
+    }
+    public String getTempZipCode() {
+        return tempZipCode;
+    }
+
+    public void setTempZipCode(String tempZipCode) {
+        this.tempZipCode = tempZipCode;
+    }
+
+    public String getTempHouseNmbr() {
+        return tempHouseNmbr;
+    }
+
+    public void setTempHouseNmbr(String tempHouseNmbr) {
+        this.tempHouseNmbr = tempHouseNmbr;
+    }
+
+    public String getTempCity() {
+        return tempCity;
+    }
+
+    public void setTempCity(String tempCity) {
+        this.tempCity = tempCity;
+    }
+
+    public String getTempStreet() {
+        return tempStreet;
+    }
+
+    public void setTempStreet(String tempStreet) {
+        this.tempStreet = tempStreet;
     }
 }
