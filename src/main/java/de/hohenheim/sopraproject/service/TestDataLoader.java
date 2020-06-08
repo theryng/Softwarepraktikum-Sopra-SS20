@@ -37,7 +37,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private EventService eventService;
 
-
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
      * is initialized that means it will be executed whenever the server is (re-)started. There are several Sets in this
@@ -120,19 +119,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         julia.setCourseOfStudies("BWL");
         julia.setFreeText("Julia arbeitet 2 mal in der Woche ehrenamtlich im Altersheim (Stand: 01.02.2019");
         julia.setFormatDateOfBirth(1977, 2, 12);
-        julia.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "2"));
+        julia.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "2"));
         julia.setHobby("Macht gerne Ballet");
         julia.setLinkToHomepage("");
         //julia.setInstitute(allianzStuttgart);
         contactService.saveContact(julia);
-/**
-        Contacthistory juliasHistory = new Contacthistory();
-        juliasHistory.setText("Auf dem Campus getroffen");
-        juliasHistory.setContact(julia);
-        juliasHistory.setDate("10.09.2019");
-        contacthistoryService.saveContacthistory(juliasHistory);
-*/
 
+        Set<Contact> maxWife = new HashSet<>();
+        maxWife.add(julia);
 
         Contact anna = new Contact();
         anna.setFirstname("Anna");
@@ -142,22 +136,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         anna.setCourseOfStudies("International Business");
         anna.setFreeText("");
         anna.setFormatDateOfBirth(1989, 11, 8);
-        anna.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "3"));
+        anna.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "3"));
         anna.setHobby("Lesen");
         anna.setLinkToHomepage("");
         //anna.setInstitute(porscheStuttgart);
         contactService.saveContact(anna);
-/**
-        Contacthistory annasHistory = new Contacthistory();
-        annasHistory.setText("In der Mensa getroffen");
-        annasHistory.setDate("03.03.2020");
-        annasHistory.setContact(max);
-        annasHistory.setOwnerOfHistory(anna);
-
-        contacthistoryService.saveContacthistory(annasHistory);
-
-        */
-
 
         Contact jose = new Contact();
         jose.setFirstname("José");
@@ -167,7 +150,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jose.setCourseOfStudies("Philosophie");
         jose.setFreeText("José ist in 2019 nach Deutschland gekommen. Er studierte 4 Semester lang Philosophie in Chile");
         jose.setFormatDateOfBirth(1998, 10, 10);
-        jose.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "4"));
+        jose.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "4"));
         jose.setHobby("Schreibt gerne Fabeln");
         jose.setLinkToHomepage("");
         //jose.setInstitute(mercedesStuttgart);
@@ -177,11 +160,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         luisa.setFirstname("Luisa");
         luisa.setLastname("Mayer");
         luisa.setOccupation("Doktorantin");
-        luisa.setEmail("luisaM@stud.uni-stuttgart.de");
+        luisa.setEmail("luisaM@yahoo.de");
         luisa.setCourseOfStudies("Chemi");
         luisa.setFreeText("Promovierte 2020 im Gebiet der organischen Chemie");
         luisa.setFormatDateOfBirth(1992, 5, 13);
-        luisa.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "5"));
+        luisa.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "5"));
         luisa.setHobby("");
         luisa.setLinkToHomepage("");
         //luisa.setInstitute(mercedesStuttgart);
@@ -195,7 +178,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         paulina.setCourseOfStudies("Chemi");
         paulina.setFreeText("");
         paulina.setFormatDateOfBirth(1996, 9, 30);
-        paulina.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "6"));
+        paulina.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "6"));
         paulina.setHobby("Sumo Ringen");
         paulina.setLinkToHomepage("");
         contactService.saveContact(paulina);
@@ -209,7 +192,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setCourseOfStudies("Chemi");
         peter.setFreeText("");
         peter.setFormatDateOfBirth(2001, 9, 28);
-        peter.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "7"));
+        peter.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "7"));
         peter.setHobby("");
         peter.setLinkToHomepage("");
         contactService.saveContact(peter);
@@ -218,11 +201,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jonas.setFirstname("Jonas Alfred");
         jonas.setLastname("Homm");
         jonas.setOccupation("Professor");
-        jonas.setEmail("JonasH@prof.uni-stuttgart.de");
+        jonas.setEmail("JonasH@yahoo.de");
         jonas.setCourseOfStudies("Informatik");
         jonas.setFreeText("Forschungsbereiche: Informationstechnologie");
         jonas.setFormatDateOfBirth(1996, 0, 01);
-        jonas.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "8"));
+        jonas.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "8"));
         jonas.setHobby("");
         jonas.setLinkToHomepage("");
         contactService.saveContact(jonas);
@@ -235,7 +218,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         florian.setCourseOfStudies("Informatik");
         florian.setFreeText("");
         florian.setFormatDateOfBirth( 1991, 6, 6);
-        florian.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "9"));
+        florian.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "9"));
         florian.setHobby("karate");
         florian.setLinkToHomepage("");
         contactService.saveContact(florian);
@@ -248,7 +231,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sabine.setCourseOfStudies("Informatik");
         sabine.setFreeText("");
         sabine.setFormatDateOfBirth(1985, 0, 9);
-        sabine.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "10"));
+        sabine.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "10"));
         sabine.setHobby("Turnt gerne in ihrer Freizeit");
         sabine.setLinkToHomepage("");
         contactService.saveContact(sabine);
@@ -261,7 +244,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jana.setCourseOfStudies("Informatik");
         jana.setFreeText("");
         jana.setFormatDateOfBirth(1966, 11, 19);
-        jana.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "11"));
+        jana.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "11"));
         jana.setHobby("Schwimmen");
         jana.setLinkToHomepage("");
         contactService.saveContact(jana);
@@ -270,11 +253,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         tristan.setFirstname("Tristan");
         tristan.setLastname("Müller");
         tristan.setOccupation("Doktorant (Stand: 02.03.2020)");
-        tristan.setEmail("TristanM@stud.uni-stuttgart.de");
+        tristan.setEmail("TristanM@yahoo.de");
         tristan.setCourseOfStudies("Informatik");
         tristan.setFreeText("Forschungsgebiet: Simulationswissenschaft");
         tristan.setFormatDateOfBirth(1996, 8, 28);
-        tristan.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "12"));
+        tristan.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "12"));
         tristan.setHobby("Entwickelt gerne spiele Apps für Android");
         tristan.setLinkToHomepage("");
         contactService.saveContact(tristan);
@@ -287,7 +270,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         alfred.setCourseOfStudies("Informatik");
         alfred.setFreeText("");
         alfred.setFormatDateOfBirth(1957, 3, 3);
-        alfred.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "13"));
+        alfred.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "13"));
         alfred.setHobby("");
         alfred.setLinkToHomepage("");
         contactService.saveContact(alfred);
@@ -300,7 +283,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         aleyna.setCourseOfStudies("Informatik");
         aleyna.setFreeText("");
         aleyna.setFormatDateOfBirth(1992, 0, 01);
-        aleyna.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "14"));
+        aleyna.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "14"));
         aleyna.setHobby("Reiten");
         aleyna.setLinkToHomepage("");
         contactService.saveContact(aleyna);
@@ -313,7 +296,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         milan.setCourseOfStudies("Informatik");
         milan.setFreeText("");
         milan.setFormatDateOfBirth(1980, 9, 10);
-        milan.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "15"));
+        milan.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "15"));
         milan.setHobby("");
         milan.setLinkToHomepage("");
         contactService.saveContact(milan);
@@ -326,7 +309,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         maxW.setCourseOfStudies("Philosophie");
         maxW.setFreeText("");
         maxW.setFormatDateOfBirth(1979, 7, 7);
-        maxW.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "16"));
+        maxW.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "16"));
         maxW.setHobby("Joggen");
         maxW.setLinkToHomepage("");
         contactService.saveContact(maxW);
@@ -339,7 +322,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         alex.setCourseOfStudies("Philosophie");
         alex.setFreeText("");
         alex.setFormatDateOfBirth(1990, 5, 7);
-        alex.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "17"));
+        alex.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "17"));
         alex.setHobby("Sammelt Briefmarken");
         alex.setLinkToHomepage("");
         contactService.saveContact(alex);
@@ -352,7 +335,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         min.setCourseOfStudies("Philosophie");
         min.setFreeText("");
         min.setFormatDateOfBirth(1976, 9, 8);
-        min.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "18"));
+        min.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "18"));
         min.setHobby("");
         min.setLinkToHomepage("");
         contactService.saveContact(min);
@@ -365,7 +348,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sofia.setCourseOfStudies("Philosophie");
         sofia.setFreeText("");
         sofia.setFormatDateOfBirth(1993, 1, 1);
-        sofia.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "19"));
+        sofia.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "19"));
         sofia.setHobby("Geht in ihrer Freizeit ins Fitnessstudio");
         sofia.setLinkToHomepage("");
         contactService.saveContact(sofia);
@@ -378,7 +361,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         marlene.setCourseOfStudies("Philosophie");
         marlene.setFreeText("");
         marlene.setFormatDateOfBirth(1995, 10, 1);
-        marlene.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "20"));
+        marlene.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "20"));
         marlene.setHobby("Spielt gerne Geige");
         marlene.setLinkToHomepage("");
         contactService.saveContact(marlene);
@@ -438,7 +421,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Event picknick = new Event();
         picknick.setFormatDateOfEvent(2020, 6, 1);
         picknick.setEventName("Picknick");
-        picknick.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));
         picknick.setContacts(janaFlorian);
         picknick.setText("Florian und Jana haben sich in einer Vorlesung an der Uni Stuttgart kennengelernt.");
@@ -447,7 +430,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Event joseBdayEvent = new Event();
         joseBdayEvent.setFormatDateOfEvent(2019, 11, 10);
         joseBdayEvent.setEventName("Josés 21 Geburtstag");
-        joseBdayEvent.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        joseBdayEvent.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "202"));
         joseBdayEvent.setContacts(joseGuests);
         joseBdayEvent.setText("José hat seinen 21 Geburtstag im Studentenwohnheim zusammen mit seinen engsten Freunden ");
@@ -456,7 +439,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Event karateSport = new Event();
         karateSport.setFormatDateOfEvent(2019, 05, 1);
         karateSport.setEventName("Uni Sport karate für Einsteiger");
-        karateSport.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "203"));
         karateSport.setContacts(karate);
         karateSport.setText("Wöchentliches karate training für beginner");
@@ -465,12 +448,17 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Event yogaSport = new Event();
         yogaSport.setFormatDateOfEvent(2019, 05, 1);
         yogaSport.setEventName("Uni Sport Yoga für Fortgeschrittene");
-        yogaSport.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        yogaSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "204"));
         yogaSport.setContacts(karate);
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
 
+        Contacthistory historyOne = new Contacthistory();
+        historyOne.setText("Beim Kaffetrinken kennengelernt");
+        historyOne.setContact(max);
+        historyOne.setDate("13.04.2018");
+        contacthistoryService.saveContacthistory(historyOne);
 
         //Example institutes plus the contacts which leads to them
         Set<Contact> deutscheBahnBerlinContacts = new HashSet<>();
@@ -478,7 +466,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Institute deutscheBahnBerlin = new Institute();
         deutscheBahnBerlin.setName("Deutsche Bahn");
         deutscheBahnBerlin.setContacts(deutscheBahnBerlinContacts);
-        deutscheBahnBerlin.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        deutscheBahnBerlin.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "101"));
         instituteService.saveInstitute(deutscheBahnBerlin);
 
@@ -495,7 +483,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Institute allianzStuttgart = new Institute();
         allianzStuttgart.setName("Allianz AG, Niederlassung in Stuttgart");
         allianzStuttgart.setContacts(allianzStuttgartContacts);
-        allianzStuttgart.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        allianzStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "102"));
         instituteService.saveInstitute(allianzStuttgart);
 
@@ -507,7 +495,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Institute porscheStuttgart = new Institute();
         porscheStuttgart.setName("Porsche Niederlassung in Stuttgart");
         porscheStuttgart.setContacts(porscheStuttgartContacts);
-        porscheStuttgart.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        porscheStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "103"));
         instituteService.saveInstitute(porscheStuttgart);
 
@@ -524,7 +512,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Institute boschLeinfelden = new Institute();
         boschLeinfelden.setName("Bosch Niederlassung in Leinfelden");
         boschLeinfelden.setContacts(boschleinfeldenContacts);
-        boschLeinfelden.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        boschLeinfelden.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "104"));
         instituteService.saveInstitute(boschLeinfelden);
 
@@ -536,14 +524,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Institute mercedesStuttgart = new Institute();
         mercedesStuttgart.setName("Daimler Benz Niederlassung Feuerbach");
         mercedesStuttgart.setContacts(mercedesFeuerbachContacts);
-        mercedesStuttgart.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        mercedesStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "105"));
         instituteService.saveInstitute(mercedesStuttgart);
 
         Institute mahleStuttgart = new Institute();
         mahleStuttgart.setName("MAHLE GmbH");
         mahleStuttgart.setContacts(mahleStuttgartContacts);
-        mahleStuttgart.setAdress(new Adress("12345", "Musterstadt", "Musterstraße",
+        mahleStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "106"));
         instituteService.saveInstitute(mahleStuttgart);
     }

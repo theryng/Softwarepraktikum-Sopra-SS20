@@ -7,14 +7,15 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * This class defines all attributes which are needed to create a contact. It has a primary key which is the contactID,
+ * This class defines all attributes which are needed to create an contact. It has an primary key which is the contactID,
  * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
- * are related to each other with both of their primary keys in a separately table. It also goes with a many to one
+ * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
  * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
  * names are the names of the columns at the database table of the contact.
  */
 @Entity
 public class Contact {
+
 
     @Id
     @GeneratedValue
@@ -32,10 +33,18 @@ public class Contact {
 
     private String freeText;
 
-    private Date dayOfBirth;
+    private String dayOfBirth;
 
     @Embedded
-    private Adress adress;
+    private Address address;
+    @Transient
+    private String tempZipCode;
+    @Transient
+    private String tempHouseNmbr;
+    @Transient
+    private String tempCity;
+    @Transient
+    private String tempStreet;
 
     private String hobby;
 
@@ -45,18 +54,18 @@ public class Contact {
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes;
+    private Set<Institute> institutes = new HashSet<Institute>();
 
     @OneToOne(mappedBy = "ownerOfHistory")
     private Contacthistory owningHistory;
 
     @ManyToOne
     @GeneratedValue
-    private Contacthistory contacthistories;
+    private Set<Contacthistory> contacthistories = new HashSet<>();
 
-    public Contact(Integer contactID, String firstname, String lastname, String occupation, String email,
-                   String courseOfStudies, String freeText, Date dayOfBirth) {
-        this.contactID = contactID;
+
+    public Contact(String firstname, String lastname, String occupation, String email,
+                   String courseOfStudies, String freeText, String dayOfBirth) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.occupation = occupation;
@@ -69,23 +78,6 @@ public class Contact {
     public Contact() {
         //empty constructor for Hibernate
     }
-
-    public Contacthistory getOwningHistory() {
-        return owningHistory;
-    }
-
-    public void setOwningHistory(Contacthistory owningHistory) {
-        this.owningHistory = owningHistory;
-    }
-
-    public Integer getContactID() {
-        return contactID;
-    }
-
-    public void setContactID(Integer kontaktID) {
-        this.contactID = kontaktID;
-    }
-
 
     public Date convertStringToDate(final String string){
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -108,16 +100,104 @@ public class Contact {
 
         String stringDate = format.format(date);
         Date dayOfBirth = convertStringToDate(stringDate);
-        setDayOfBirth(dayOfBirth);
+        setDayOfBirth(year+"-"+month+"-"+day);
     }
 
-    public Adress getAdress() {
-        return adress;
+    public Integer getContactID() {
+        return contactID;
     }
 
-    public void setAdress(Adress adress) {
-        this.adress = adress;
+    public void setContactID(Integer contactID) {
+        this.contactID = contactID;
     }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCourseOfStudies() {
+        return courseOfStudies;
+    }
+
+    public void setCourseOfStudies(String courseOfStudies) {
+        this.courseOfStudies = courseOfStudies;
+    }
+
+    public String getFreeText() {
+        return freeText;
+    }
+
+    public void setFreeText(String freeText) {
+        this.freeText = freeText;
+    }
+
+    public String getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+/*
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getHouseNmbr() {
+        return houseNmbr;
+    }
+
+    public void setHouseNmbr(String houseNmbr) {
+        this.houseNmbr = houseNmbr;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
+    }*/
 
     public String getHobby() {
         return hobby;
@@ -151,68 +231,42 @@ public class Contact {
         this.institutes = institutes;
     }
 
-    public Contacthistory getContacthistories() {
+    public Set<Contacthistory> getContacthistories() {
         return contacthistories;
     }
 
-    public void setContacthistories(Contacthistory contacthistories) {
+    public void setContacthistories(Set<Contacthistory> contacthistories) {
         this.contacthistories = contacthistories;
     }
-
-    public String getFirstname() {
-        return firstname;
+    public String getTempZipCode() {
+        return tempZipCode;
     }
 
-    public void setFirstname(String vorname) {
-        this.firstname = vorname;
+    public void setTempZipCode(String tempZipCode) {
+        this.tempZipCode = tempZipCode;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getTempHouseNmbr() {
+        return tempHouseNmbr;
     }
 
-    public void setLastname(String nachname) {
-        this.lastname = nachname;
+    public void setTempHouseNmbr(String tempHouseNmbr) {
+        this.tempHouseNmbr = tempHouseNmbr;
     }
 
-
-    public String getOccupation() {
-        return occupation;
+    public String getTempCity() {
+        return tempCity;
     }
 
-    public void setOccupation(String tätigkeit) {
-        this.occupation = tätigkeit;
+    public void setTempCity(String tempCity) {
+        this.tempCity = tempCity;
     }
 
-    public String getEmail() {
-        return email;
+    public String getTempStreet() {
+        return tempStreet;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCourseOfStudies() {
-        return courseOfStudies;
-    }
-
-    public void setCourseOfStudies(String studiengang) {
-        this.courseOfStudies = studiengang;
-    }
-
-    public String getFreeText() {
-        return freeText;
-    }
-
-    public void setFreeText(String freitext) {
-        this.freeText = freitext;
-    }
-
-    public Date getDayOfBirth() {
-        return dayOfBirth;
-    }
-
-    public void setDayOfBirth(Date dayOfBirth) {
-        this.dayOfBirth = dayOfBirth;
+    public void setTempStreet(String tempStreet) {
+        this.tempStreet = tempStreet;
     }
 }
