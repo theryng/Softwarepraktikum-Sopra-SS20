@@ -21,7 +21,7 @@ public class Event {
     private Date date ;
 
     @Embedded
-    private Adress adress;
+    private Address address;
 
     private String eventName;
 
@@ -37,11 +37,11 @@ public class Event {
         //empty constructor for Hibernate
     }
 
-    public Event(Integer eventId, Date date, Adress adress, String eventName, String text, Set<Contact> contacts,
+    public Event(Integer eventId, Date date, Address address, String eventName, String text, Set<Contact> contacts,
                  Set<User> users) {
         this.eventId = eventId;
         this.date = date;
-        this.adress = adress;
+        this.address = address;
         this.eventName = eventName;
         this.text = text;
         this.contacts = contacts;
@@ -104,12 +104,12 @@ public class Event {
         this.eventId = eventId;
     }
 
-    public Adress getAdress() {
-        return adress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAdress(Adress adress) {
-        this.adress = adress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public void setFormatDateOfEvent(int year, int month, int day){

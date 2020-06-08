@@ -25,7 +25,7 @@ public class Institute {
     private String name;
 
     @Embedded
-    private Adress adress;
+    private Address address;
 
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
@@ -37,14 +37,6 @@ public class Institute {
     public Institute(Integer instituteID, String name, String location) {
         this.instituteID = instituteID;
         this.name = name;
-    }
-
-    public Adress getAdress() {
-        return adress;
-    }
-
-    public void setAdress(Adress adress) {
-        this.adress = adress;
     }
 
     public Integer getInstituteID() {
@@ -63,13 +55,19 @@ public class Institute {
         this.name = name;
     }
 
-
-
     public Set<Contact> getContacts() {
         return contacts;
     }
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

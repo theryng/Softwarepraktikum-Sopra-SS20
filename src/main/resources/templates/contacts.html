@@ -1,0 +1,157 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Kontakte</title>
+
+
+
+</head>
+
+<body>
+
+    <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
+        <a class="navbar-brand" href="home">ALUMNI NETZ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!-- Kontakte in Navbar -->
+                <li class="nav-item disabled hover">
+                    <a class="nav-link text-white" href="contacts">Kontakte</a>
+                </li>
+                <!-- Kalender in Navbar -->
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="calendar">Kalender</a>
+               </li>
+                <!-- Events in Navbar -->
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="events">Events <span class="sr-only">(current)</span></a>
+               </li>
+                <!-- Institute in Navbar -->
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="institutes">Institute <span class="sr-only">(current)</span></a>
+               </li>
+                <!-- Bearbeitungshistorie in Navbar -->
+               <li class="nav-item">
+                   <a class="nav-link text-white" href="history">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
+               </li>
+           </ul>
+           <form class="form-inline my-2 my-lg-0">
+               <div class="dropdown">
+                   <button class="btn btn-secondary" type="button" href="home">
+                       Account Optionen
+                   </button>
+                   <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       <span class="sr-only">Toggle Dropdown</span>
+                   </button>
+                   <div class="dropdown-menu">
+                       <a class="dropdown-item" href="home">Einstellungen</a>
+                       <a class="dropdown-item" href="login">Log out</a>
+                   </div>
+               </div>
+           </form>
+       </div>
+   </nav>
+   <!-- Main Body -->
+    <div class = "row">
+        <div class = "row">
+            <div class = "col w-25">
+                <h2 class="ml-5">Neuen Kontakt erstellen</h2>
+                <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" method = post>
+                <div class="form-group ml-5 mt-2 mr-5">
+                    <div class = "row">
+                        <div class = "col w-25">
+                            firstname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                        </div>
+                        <div class = "col w-25">
+                            lastname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                        </div>
+                    </div>
+                    occupation:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+                    email:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+                    courseOfStudies:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                    freeText:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                    Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:field="*{dayOfBirth}"></br>
+                    Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+                    Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                    <div class = "row">
+                        <div class = "col">
+                            Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{tempCity}"/>
+                        </div>
+                        <div class = "col">
+                            Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{tempStreet}"/>
+                        </div>
+                        <div class = "col">
+                            Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{tempHouseNmbr}"/>
+                        </div>
+                        <div class = "col">
+                            ZipCode:<input type="text" class="form-control" name = "tempZipCode" th:field="*{tempZipCode}"/>
+                        </div>
+                    </div>
+                    <button name="submit" class="btn btn-primary mt-3" type="submit">Submit</button>
+                </div>
+                </form>
+            </div>
+            <div class = "col w-25">
+                <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
+                <table class="table table-striped">
+                <tr>
+                    <th>firstname</th>
+                    <th>lastname</th>
+                    <th>Course of Study</th>
+                    <th>Date of Birth</th>
+                    <th>Email</th>
+                </tr>
+                <tr th:each="contact : ${allContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.courseOfStudies}"></td>
+                    <td th:text="${contact.dayOfBirth}"></td>
+                    <td th:text="${contact.email}"></td>
+                </tr>
+
+                </table>
+                <div class="btn-group" style="margin-top: 10px">
+                    <button type="button" class="btn btn-secondary" onclick="contactUpdate()">Hinzufügen</button>
+                    <button type="button" class="btn btn-secondary">Bearbeiten</button>
+                    <button type="button" class="btn btn-danger">Löschen</button>
+                </div>
+            </div>
+        </div>
+
+
+    <script>
+
+
+        function contactDelete(ctl){
+            $(ctl).parents("tr").remove();
+        }
+
+
+        function fromClear() {
+            $("#Name").val("");
+            $("#Vorname").val("");
+            $("#url").val("");
+        }
+    </script>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
