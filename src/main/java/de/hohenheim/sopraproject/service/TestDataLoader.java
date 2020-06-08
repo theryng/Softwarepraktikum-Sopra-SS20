@@ -222,7 +222,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Contact sabine = new Contact();
         sabine.setFirstname("Sabine");
-        sabine.setLastname("Angestellte");
+        sabine.setLastname("Müller");
         sabine.setOccupation("Manager");
         sabine.setEmail("SabineM@gmail.com");
         sabine.setCourseOfStudies("Informatik");
