@@ -8,7 +8,7 @@ import javax.persistence.*;
  * attribute names will be the names of the column in the contact table.
  */
 @Embeddable
-public class Adress {
+public class Address {
 
     private String zipCode;
 
@@ -18,9 +18,9 @@ public class Adress {
 
     private String houseNumber;
 
-    public Adress(){};
+    public Address(){};
 
-    public Adress(String zipCode, String city, String street , String houseNumber) {
+    public Address(String zipCode, String city, String street , String houseNumber) {
         this.zipCode = zipCode;
         this.city = city;
         this.street = street;

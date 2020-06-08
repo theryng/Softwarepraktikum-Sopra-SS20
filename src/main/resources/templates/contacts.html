@@ -65,47 +65,71 @@
        </div>
    </nav>
    <!-- Main Body -->
+    <div class = "row">
+        <div class = "row">
+            <div class = "col w-25">
+                <h2 class="ml-5">Neuen Kontakt erstellen</h2>
+                <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" method = post>
+                <div class="form-group ml-5 mt-2 mr-5">
+                    <div class = "row">
+                        <div class = "col w-25">
+                            firstname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                        </div>
+                        <div class = "col w-25">
+                            lastname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                        </div>
+                    </div>
+                    occupation:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+                    email:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+                    courseOfStudies:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                    freeText:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                    Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:field="*{dayOfBirth}"></br>
+                    Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+                    Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                    <div class = "row">
+                        <div class = "col">
+                            Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{tempCity}"/>
+                        </div>
+                        <div class = "col">
+                            Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{tempStreet}"/>
+                        </div>
+                        <div class = "col">
+                            Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{tempHouseNmbr}"/>
+                        </div>
+                        <div class = "col">
+                            ZipCode:<input type="text" class="form-control" name = "tempZipCode" th:field="*{tempZipCode}"/>
+                        </div>
+                    </div>
+                    <button name="submit" class="btn btn-primary mt-3" type="submit">Submit</button>
+                </div>
+                </form>
+            </div>
+            <div class = "col w-25">
+                <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
+                <table class="table table-striped">
+                <tr>
+                    <th>firstname</th>
+                    <th>lastname</th>
+                    <th>Course of Study</th>
+                    <th>Date of Birth</th>
+                    <th>Email</th>
+                </tr>
+                <tr th:each="contact : ${allContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.courseOfStudies}"></td>
+                    <td th:text="${contact.dayOfBirth}"></td>
+                    <td th:text="${contact.email}"></td>
+                </tr>
 
-    <div class="btn-group" style="margin-top: 10px">
-        <button type="button" class="btn btn-secondary" onclick="contactUpdate()">Hinzufügen</button>
-        <button type="button" class="btn btn-secondary">Bearbeiten</button>
-        <button type="button" class="btn btn-danger">Löschen</button>
-    </div>
-    <div class="col-md-12">
-    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
-
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Vorname</th>
-            <th scope="col">Beruf</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Markus</td>
-            <td>Miraschov</td>
-            <td>Professor</td>
-            <td align="right"><input type="button" class="btn btn-danger" id="remove" value="Löschen" onclick="contactDelete();"></td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Sebastian</td>
-            <td>Larsson</td>
-            <td>Ingenieur</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Max</td>
-            <td>Mustermann</td>
-            <td>unbekannt</td>
-        </tr>
-        </tbody>
-    </table>
-    </div>
+                </table>
+                <div class="btn-group" style="margin-top: 10px">
+                    <button type="button" class="btn btn-secondary" onclick="contactUpdate()">Hinzufügen</button>
+                    <button type="button" class="btn btn-secondary">Bearbeiten</button>
+                    <button type="button" class="btn btn-danger">Löschen</button>
+                </div>
+            </div>
+        </div>
 
 
     <script>
