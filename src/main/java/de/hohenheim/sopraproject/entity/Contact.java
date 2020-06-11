@@ -48,7 +48,7 @@ public class Contact {
 
     private String linkToHomepage;
 
-    @ManyToMany(mappedBy = "contacts")
+   @ManyToMany
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts")
@@ -57,7 +57,6 @@ public class Contact {
     @OneToMany
     @GeneratedValue
     private Set<Contacthistory> contacthistories = new HashSet<>();
-
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, String dayOfBirth) {
@@ -210,20 +209,20 @@ public class Contact {
         this.linkToHomepage = linkToHomepage;
     }
 
-    public Set<Event> getEvents() {
+   public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void addEvents(Event event) {
+        this.events.add(event);
     }
 
     public Set<Institute> getInstitutes() {
         return institutes;
     }
 
-    public void setInstitutes(Set<Institute> institutes) {
-        this.institutes = institutes;
+    public void addInstitutes(Institute institutes) {
+        this.institutes.add(institutes);
     }
 
     public Set<Contacthistory> getContacthistories() {
@@ -263,5 +262,10 @@ public class Contact {
 
     public void setTempStreet(String tempStreet) {
         this.tempStreet = tempStreet;
+    }
+    public void addEventEntry(Event event){
+        event.addParticipent(this);
+        events.add(event);
+
     }
 }
