@@ -49,13 +49,13 @@ public class Institute {
         this.name = name;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
-    }
+//    public Set<Contact> getContacts() {
+//        return contacts;
+//    }
+//
+//    public void setContacts(Set<Contact> contacts) {
+//        this.contacts = contacts;
+//    }
 
     public Address getAddress() {
         return address;
@@ -63,5 +63,13 @@ public class Institute {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> cotacts) {
+        this.contacts = cotacts;
     }
 }

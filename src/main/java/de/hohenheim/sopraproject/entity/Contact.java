@@ -14,7 +14,6 @@ import java.util.*;
 @Entity
 public class Contact {
 
-
     @Id
     @GeneratedValue
     private Integer contactID;
@@ -51,8 +50,8 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes = new HashSet<Institute>();
+//    @ManyToMany(mappedBy = "instituteContacts")
+//    private Set<Institute> institutes = new HashSet<Institute>();
 
     @OneToMany
     @GeneratedValue
@@ -218,13 +217,13 @@ public class Contact {
         this.events = events;
     }
 
-    public Set<Institute> getInstitutes() {
-        return institutes;
-    }
-
-    public void setInstitutes(Set<Institute> institutes) {
-        this.institutes = institutes;
-    }
+//    public Set<Institute> getInstitutes() {
+//        return institutes;
+//    }
+//
+//    public void setInstitutes(Set<Institute> institutes) {
+//        this.institutes = institutes;
+//    }
 
     public Set<Contacthistory> getContacthistories() {
         return contacthistories;
