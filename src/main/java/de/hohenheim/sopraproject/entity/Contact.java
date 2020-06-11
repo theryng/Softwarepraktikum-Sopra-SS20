@@ -48,8 +48,8 @@ public class Contact {
 
     private String linkToHomepage;
 
-    @ManyToMany(mappedBy = "contacts")
-    private Set<Event> events = new HashSet<>();
+//    @ManyToMany(mappedBy = "contacts")
+//    private Set<Event> events = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<Institute>();
@@ -210,13 +210,13 @@ public class Contact {
         this.linkToHomepage = linkToHomepage;
     }
 
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
+//    public Set<Event> getEvents() {
+//        return events;
+//    }
+//
+//    public void setEvents(Set<Event> events) {
+//        this.events = events;
+//    }
 
     public Set<Institute> getInstitutes() {
         return institutes;

@@ -159,7 +159,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         luisa.setLastname("Mayer");
         luisa.setOccupation("Doktorantin");
         luisa.setEmail("luisaM@yahoo.de");
-        luisa.setCourseOfStudies("Chemi");
+        luisa.setCourseOfStudies("Chemie");
         luisa.setFreeText("Promovierte 2020 im Gebiet der organischen Chemie");
         luisa.setFormatDateOfBirth(1992, 5, 13);
         luisa.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "5"));
@@ -173,7 +173,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         paulina.setLastname("Josefine");
         paulina.setOccupation("Angestellte");
         paulina.setEmail("PaulinaJ@gmail.com");
-        paulina.setCourseOfStudies("Chemi");
+        paulina.setCourseOfStudies("Chemie");
         paulina.setFreeText("");
         paulina.setFormatDateOfBirth(1996, 9, 30);
         paulina.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "6"));
@@ -186,12 +186,13 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setLastname("Lustig");
         peter.setOccupation("Angestellter");
         peter.setEmail("PeterL@gmail.com");
-        peter.setCourseOfStudies("Chemi");
+        peter.setCourseOfStudies("Chemie");
         peter.setFreeText("");
         peter.setFormatDateOfBirth(2001, 9, 28);
         peter.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "7"));
         peter.setHobby("");
         peter.setLinkToHomepage("");
+       // peter.setEvents();
         contactService.saveContact(peter);
 
         Contact jonas = new Contact();
@@ -222,7 +223,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Contact sabine = new Contact();
         sabine.setFirstname("Sabine");
-        sabine.setLastname("Angestellte");
+        sabine.setLastname("Müller");
         sabine.setOccupation("Manager");
         sabine.setEmail("SabineM@gmail.com");
         sabine.setCourseOfStudies("Informatik");
@@ -422,6 +423,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yogaSport.setContacts(karate);
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
+
+        Set<Event> events = new HashSet<>();
+        events.add(joseBdayEvent);
+        events.add(picknick);
+        events.add(karateSport);
+        events.add(yogaSport);
+        events.add(picknick);
+        events.add(picknick);
 
         Contacthistory historyOne = new Contacthistory();
         historyOne.setText("Beim Kaffetrinken kennengelernt");
