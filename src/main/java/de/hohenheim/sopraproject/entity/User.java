@@ -19,6 +19,10 @@ public class User {
 
     private String password;
 
+    private String firstName;
+
+    private String lastName;
+
     private boolean enabled = true;
 
     @ManyToMany
@@ -27,6 +31,16 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+
+    public User(Integer userId, String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
+        this.userId = userId;
+        this.username = username;
+        this.roles = roles;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.enabled = enabled;
+    }
 
     public User() {
         // empty constructor for Hibernate
@@ -70,5 +84,21 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public void setLastName(String lastName){
+        this.lastName = lastName;
     }
 }
