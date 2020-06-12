@@ -11,13 +11,9 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
     <title>Kontakte</title>
-
-
-
 </head>
 
 <body>
-
     <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
         <a class="navbar-brand" href="home">ALUMNI NETZ</a>
@@ -47,6 +43,9 @@
                <li class="nav-item">
                    <a class="nav-link text-white" href="history">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="registration.html">Nutzer Registrierung <span class="sr-only">(current)</span></a>
+                </li>
            </ul>
            <form class="form-inline my-2 my-lg-0">
                <div class="dropdown">
@@ -124,29 +123,12 @@
 
                 </table>
                 <div class="btn-group" style="margin-top: 10px">
-                    <button type="button" class="btn btn-secondary" onclick="contactUpdate()">Hinzufügen</button>
+                    <button type="button" class="btn btn-secondary">Hinzufügen</button>
                     <button type="button" class="btn btn-secondary">Bearbeiten</button>
                     <button type="button" class="btn btn-danger">Löschen</button>
                 </div>
             </div>
         </div>
-
-
-    <script>
-
-
-        function contactDelete(ctl){
-            $(ctl).parents("tr").remove();
-        }
-
-
-        function fromClear() {
-            $("#Name").val("");
-            $("#Vorname").val("");
-            $("#url").val("");
-        }
-    </script>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
