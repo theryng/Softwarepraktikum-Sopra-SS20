@@ -48,10 +48,10 @@ public class Contact {
 
     private String linkToHomepage;
 
-   @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts")
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @OneToMany
