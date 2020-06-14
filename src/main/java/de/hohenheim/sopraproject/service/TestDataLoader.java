@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.*;
+import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private RelationshipService relationshipService;
 
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
@@ -512,5 +516,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         mahleStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "106"));
         instituteService.saveInstitute(mahleStuttgart);
+
+        Relationship heirat = new Relationship();
+        heirat.setContactA(max);
+        heirat.setContactB(anna);
+        heirat.setSince("10.10.2010");
+        heirat.setTypeOfRelationship("Verheiratet");
+        relationshipService.saveRelationship(heirat);
     }
 }
