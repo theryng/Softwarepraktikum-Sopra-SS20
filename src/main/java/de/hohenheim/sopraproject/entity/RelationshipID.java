@@ -13,7 +13,7 @@ import java.io.Serializable;
  * to many relationship, a many to many relationship is avoided to add more columns to the PK /FK Table.
  * */
 @Embeddable
-public class ContactContactID implements Serializable {
+public class RelationshipID implements Serializable {
 
     private Contact contactA;
 
