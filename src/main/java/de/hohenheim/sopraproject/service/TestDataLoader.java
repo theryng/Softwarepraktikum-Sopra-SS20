@@ -106,7 +106,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         max.setCourseOfStudies("Wirtschaftsinformatik");
         max.setFreeText("Semestersprecher des fünften Bachelor Semesters in SS99 ");
         max.setFormatDateOfBirth(1986, 0, 01);
-        max.setAdress(new Adress("12345", "Musterstadt", "Musterstraße", "1"));
+        max.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "1"));
         max.setHobby("Kickboxen");
         max.setLinkToHomepage("https://de.wikipedia.org/wiki/Mustermann");
         //max.setInstitute(mahleStuttgart);
@@ -379,33 +379,35 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         marlene.setLinkToHomepage("");
         contactService.saveContact(marlene);
 
+        Set<Contact> ContactsHistoryOne = new HashSet<>();
+        ContactsHistoryOne.add(max);
+        ContactsHistoryOne.add(julia);
+
+
+
         //Example contacthistories
-        Set<Contact> maxHistoryContacts = new HashSet<>();
-        maxHistoryContacts.add(julia);
-        maxHistoryContacts.add(anna);
-        maxHistoryContacts.add(jose);
+        //Creates new entry in Contacthistory. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
+        Contacthistory historyOne = new Contacthistory();
+        historyOne.setText("Beim Kaffetrinken kennengelernt");
+        historyOne.setContactOfHistory(ContactsHistoryOne);
+        historyOne.setDate("13.04.2018");
+        contacthistoryService.saveContacthistory(historyOne);
+
+        Set<Contacthistory> historieEins = new HashSet<>();
+        historieEins.add(historyOne);
+
+        //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
+        max.setContacthistories(historieEins);
+        contactService.saveContact(max);
+
+        julia.setContacthistories(historieEins);
+        contactService.saveContact(julia);
 
         Contacthistory maxHistory = new Contacthistory();
-        maxHistory.setOwnerOfHistory(max);
         maxHistory.setDate("09.39.2020");
-        maxHistory.setContact(maxHistoryContacts);
         maxHistory.setText("Beim Teetrinken getroffen");
         contacthistoryService.saveContacthistory(maxHistory);
 
-        Set<Contact> jonasHistoryContacts = new HashSet<>();
-        jonasHistoryContacts.add(max);
-        jonasHistoryContacts.add(marlene);
-        jonasHistoryContacts.add(maxW);
-        jonasHistoryContacts.add(alfred);
-
-
-
-        Contacthistory jonasHistory = new Contacthistory();
-        jonasHistory.setOwnerOfHistory(jonas);
-        jonasHistory.setText("Im Park getroffen");
-        jonasHistory.setDate("21.09.2019");
-        jonasHistory.setContact(jonasHistoryContacts);
-        contacthistoryService.saveContacthistory(jonasHistory);
 
         //example events
         Set<Contact> janaFlorian = new HashSet<>();
@@ -467,11 +469,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
 
-        Contacthistory historyOne = new Contacthistory();
-        historyOne.setText("Beim Kaffetrinken kennengelernt");
-        historyOne.setContact(max);
-        historyOne.setDate("13.04.2018");
-        contacthistoryService.saveContacthistory(historyOne);
+
 
         //Example institutes plus the contacts which leads to them
         Set<Contact> deutscheBahnBerlinContacts = new HashSet<>();

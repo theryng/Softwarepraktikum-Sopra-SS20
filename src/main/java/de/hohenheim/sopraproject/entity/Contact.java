@@ -56,12 +56,10 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<Institute>();
 
-    @OneToOne(mappedBy = "ownerOfHistory")
-    private Contacthistory owningHistory;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Contacthistory> contacthistories;
 
-    @ManyToOne
-    @GeneratedValue
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -101,6 +99,14 @@ public class Contact {
         String stringDate = format.format(date);
         Date dayOfBirth = convertStringToDate(stringDate);
         setDayOfBirth(year+"-"+month+"-"+day);
+    }
+
+    public Set<Contacthistory> getContacthistories() {
+        return contacthistories;
+    }
+
+    public void setContacthistories(Set<Contacthistory> contacthistories) {
+        this.contacthistories = contacthistories;
     }
 
     public Integer getContactID() {
@@ -231,13 +237,6 @@ public class Contact {
         this.institutes = institutes;
     }
 
-    public Set<Contacthistory> getContacthistories() {
-        return contacthistories;
-    }
-
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
-        this.contacthistories = contacthistories;
-    }
     public String getTempZipCode() {
         return tempZipCode;
     }

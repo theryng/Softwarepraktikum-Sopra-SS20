@@ -1,9 +1,7 @@
 package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,30 +19,20 @@ public class Contacthistory {
 
     private String text;
 
-    @OneToOne
-    private Contact ownerOfHistory;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Contact> contactOfHistory;
 
-    @OneToMany
-    private Set<Contact> contact = new HashSet<>();
 
     public Contacthistory() {
         //empty constructor for Hibernate
     }
 
-    public Contact getOwnerOfHistory() {
-        return ownerOfHistory;
+    public Set<Contact> getContactOfHistory() {
+        return contactOfHistory;
     }
 
-    public void setOwnerOfHistory(Contact ownerOfHistory) {
-        this.ownerOfHistory = ownerOfHistory;
-    }
-
-    public Set<Contact> getContact() {
-        return contact;
-    }
-
-    public void setContact(Set<Contact> contact) {
-        this.contact = contact;
+    public void setContactOfHistory(Set<Contact> contactOfHistory) {
+        this.contactOfHistory = contactOfHistory;
     }
 
     public Integer getKontakthistoryId() {
