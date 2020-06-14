@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class represents the Relationship relation in the database. it shows which relationships two cantacts can have
+ * with each other.
+ */
 @Entity
 public class Relationship {
     @Id

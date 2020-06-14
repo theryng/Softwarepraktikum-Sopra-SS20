@@ -393,7 +393,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yoga.add(marlene);
 
         Event picknick = new Event();
-        picknick.setFormatDateOfEvent(2020, 6, 1);
+        picknick.setDate("01.06.2020");
         picknick.setEventName("Picknick");
         picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));
@@ -402,7 +402,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(picknick);
 
         Event joseBdayEvent = new Event();
-        joseBdayEvent.setFormatDateOfEvent(2019, 11, 10);
+        joseBdayEvent.setDate("10.11.2019");
         joseBdayEvent.setEventName("Josés 21 Geburtstag");
         joseBdayEvent.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "202"));
@@ -411,7 +411,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(joseBdayEvent);
 
         Event karateSport = new Event();
-        karateSport.setFormatDateOfEvent(2019, 05, 1);
+        karateSport.setDate("01.05.2019");
         karateSport.setEventName("Uni Sport karate für Einsteiger");
         karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "203"));
@@ -420,7 +420,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(karateSport);
 
         Event yogaSport = new Event();
-        yogaSport.setFormatDateOfEvent(2019, 05, 1);
+        yogaSport.setDate("01.05.2019");
         yogaSport.setEventName("Uni Sport Yoga für Fortgeschrittene");
         yogaSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "204"));
