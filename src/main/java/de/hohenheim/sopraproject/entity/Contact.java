@@ -1,5 +1,7 @@
 package de.hohenheim.sopraproject.entity;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.*;
  */
 @Entity
 public class Contact {
+
 
     @Id
     @GeneratedValue
@@ -47,16 +50,18 @@ public class Contact {
 
     private String linkToHomepage;
 
-    @ManyToMany(mappedBy = "contacts")
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-//    @ManyToMany(mappedBy = "instituteContacts")
-//    private Set<Institute> institutes = new HashSet<Institute>();
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
+    private Set<Institute> institutes = new HashSet<Institute>();
 
-    @OneToMany
+    @OneToOne(mappedBy = "ownerOfHistory")
+    private Contacthistory owningHistory;
+
+    @ManyToOne
     @GeneratedValue
     private Set<Contacthistory> contacthistories = new HashSet<>();
-
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, String dayOfBirth) {
@@ -209,21 +214,21 @@ public class Contact {
         this.linkToHomepage = linkToHomepage;
     }
 
-    public Set<Event> getEvents() {
+   public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void addEvents(Event event) {
+        this.events.add(event);
     }
 
-//    public Set<Institute> getInstitutes() {
-//        return institutes;
-//    }
-//
-//    public void setInstitutes(Set<Institute> institutes) {
-//        this.institutes = institutes;
-//    }
+    public Set<Institute> getInstitutes() {
+        return institutes;
+    }
+
+    public void addInstitutes(Institute institutes) {
+        this.institutes.add(institutes);
+    }
 
     public Set<Contacthistory> getContacthistories() {
         return contacthistories;
@@ -262,5 +267,10 @@ public class Contact {
 
     public void setTempStreet(String tempStreet) {
         this.tempStreet = tempStreet;
+    }
+    public void addEventEntry(Event event){
+        event.addParticipent(this);
+        events.add(event);
+
     }
 }

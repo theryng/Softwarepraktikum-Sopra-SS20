@@ -17,15 +17,16 @@ import java.util.Set;
 @Controller
 public class ContactsController {
 
+    private static Contact viewContactTemp;
     @Autowired
     private ContactRepository contactRepository;
 
     private ContactService contactService;
     @RequestMapping(value ="/contacts", method = RequestMethod.GET)
     public String contacts(Model model) {
+        System.out.println("Contact");
         model.addAttribute("contact", new Contact());
         model.addAttribute("allContacts", contactRepository.findAll());
-        System.out.println("On to Contacts");
         return "contacts";
     }
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
@@ -33,12 +34,18 @@ public class ContactsController {
         System.out.println("saving contact");
         contact.setAddress(new Address(contact.getTempZipCode(), contact.getTempCity(), contact.getTempStreet() , contact.getTempHouseNmbr()));
         contactRepository.save(contact);
-        return "home";
+        return "redirect:/contacts";
     }
     @RequestMapping("/allContacts")
     public String allContacts(Model model) {
         model.addAttribute("allContacts", contactRepository.findAll());
         return "contacts";
     }
+    @RequestMapping("/viewContact")
+    public String viewContact(Contact contactID) {
 
+        ContactDetailsController.contactID = contactID.getContactID();
+        System.out.println(ContactDetailsController.contactID);
+        return "redirect:/contactDetails";
+    }
 }

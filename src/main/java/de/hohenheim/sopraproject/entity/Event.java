@@ -6,9 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * This class defines all attriobutes which are needed to create an event. It has an primary key which is the eventID,
+ * This class defines all attributes which are needed to create n event. It has a primary key which is the eventID,
  * and some more attributes. It also has a many to many relationship with contacts, which means that contacts and events
- * are related to each other with both of their primary keys in a separately table. it also goes with a many to many
+ * are related to each other with both of their primary keys in a separately table. It also goes with a many to many
  * relationship with the users. The attribute names are the names of the columns at the database table of the event.
  */
 @Entity
@@ -18,7 +18,7 @@ public class Event {
     @GeneratedValue
     private Integer eventId;
 
-    private Date date ;
+    private String date ;
 
     @Embedded
     private Address address;
@@ -27,17 +27,14 @@ public class Event {
 
     private String text;
 
-    @ManyToMany
-    private Set<Contact> contacts;
-
-    @ManyToMany(mappedBy = "events")
-    private Set<User> users = new HashSet<>();
+    @ManyToMany (mappedBy = "events")
+    private Set<Contact> contacts = new HashSet<>();
 
     public Event() {
         //empty constructor for Hibernate
     }
 
-    public Event(Integer eventId, Date date, Address address, String eventName, String text, Set<Contact> contacts,
+    public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contacts,
                  Set<User> users) {
         this.eventId = eventId;
         this.date = date;
@@ -45,7 +42,6 @@ public class Event {
         this.eventName = eventName;
         this.text = text;
         this.contacts = contacts;
-        this.users = users;
     }
 
     public Set<Contact> getContacts() {
@@ -56,13 +52,6 @@ public class Event {
         this.contacts = contacts;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
     public Integer getEventid() {
         return eventId;
@@ -72,11 +61,11 @@ public class Event {
         this.eventId = eventid;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -123,7 +112,7 @@ public class Event {
 
         String stringDate = format.format(date);
         Date dateOfEvent = convertStringToDate(stringDate);
-        setDate(dateOfEvent);
+        //setDate(dateOfEvent);
     }
 
     public Date convertStringToDate(final String string){
@@ -134,5 +123,8 @@ public class Event {
         } catch(Exception exception){
             return null;
         }
+    }
+    public void addParticipent (Contact contact){
+        contacts.add(contact);
     }
 }

@@ -9,17 +9,23 @@ public class Contacthistory {
 
     @Id
     @GeneratedValue
-    private Integer contacthistoryId;
+    public Integer contacthistoryId;
 
-    private String date;
+    public String date;
 
-    private String text;
+    public String text;
 
     @ManyToOne
-    private Contact contact;
+    public Contact contact;
 
     public Contacthistory() {
         //empty constructor for Hibernate
+    }
+
+    public Contacthistory(String date, String text, Contact contact) {
+        this.date = date;
+        this.text = text;
+        this.contact = contact;
     }
 
     public Integer getKontakthistoryId() {

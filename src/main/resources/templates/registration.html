@@ -1,0 +1,114 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Registrierung</title>
+</head>
+
+<body>
+
+<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+
+<header th:insert="fragments/htmlHead.html :: header"> </header>
+
+<!-- Main Body -->
+<div class = "row">
+    <div class = "row">
+        <div class = "col w-25">
+            <h2 class="ml-5">Neuen User hinzufügen</h2>
+            <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" method = post class="was-validated">
+                <div class="form-group ml-5 mt-2 mr-5">
+                    <div class = "row">
+                        <div class = "col w-25">
+                            First Name: <input type="text" class="form-control" name = "firstName" th:field="*{firstName}" required>
+                            <div class="valid-feedback">valid.</div>
+                            <div class="invalid-feedback">Please enter a first name.</div>
+                        </div>
+                        <div class = "col w-25">
+                            Last name:<input type="text" class="form-control" name = "lastName" th:field="*{lastName}" required>
+                            <div class="valid-feedback">valid.</div>
+                            <div class="invalid-feedback">Please enter a last name.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col w-25">
+                            Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
+                            <div class="valid-feedback">valid.</div>
+                            <div class="invalid-feedback">Please fill in an username.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col w-25">
+                            Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
+                            <div class="valid-feedback">valid.</div>
+                            <div class="invalid-feedback">Please fill in a password.</div>
+                        </div>
+                        <!--  Wird eingesetzt in den Code sobald die Validierung fertig ist!!
+                        <div class="col w-25">
+                            Repeat Password: <input type="password" id="RepeatPassword" class="form-control" name="RepeatPassword" th:field="*{password}" required>
+                            <div class="valid-feedback">valid.</div>
+                            <div class="invalid-feedback">Please repeat your password.</div>
+                    </div>-->
+                    </div>
+
+                    <label class="form-check-label col w-25" for="Admin">
+                        Role: </br><input type="radio" class="form-check-input" id="Admin" name="role" th:value="*{roles}">Admin
+                    </label>
+                    <div class="form-check-inline">
+                        <label class="form-check-label col w-25" for="Mitarbeiter">
+                            <input type="radio" class="form-check-input" id="Mitarbeiter" name="role" th:value="*{roles}" required>Mitarbeiter
+                        </label>
+                    </div>
+                    <button name="submit" class="btn btn-primary mt-3" type="submit" >Submit</button>
+                </div>
+            </form>
+
+
+        </div>
+        <div class = "col w-25">
+            <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">User/Mitarbeiter der Anwendung</h3>
+            <table class="table table-striped">
+                <thead>
+                    <th>UserId</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                </thead>
+                <tbody style="max-width: available ;overflow-x: scroll">
+                <tr th:each="user : ${allUsers}">
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td th:text="${user.roles}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="btn-group" style="margin-top: 10px">
+                <button type="button" class="btn btn-secondary">Hinzufügen</button>
+                <button type="button" class="btn btn-secondary">Bearbeiten</button>
+                <button type="button" class="btn btn-danger">Löschen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

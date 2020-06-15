@@ -4,19 +4,19 @@ import javax.persistence.*;
 
 /**
  * This is a component class which is used to define the adress of a contact. because of that it has the @Embeddable
- * annotation. To define a adress, this class goes with the attributes: ZIP code, city, street and house number. The
+ * annotation. To define an adress, this class goes with the attributes: ZIP code, city, street and house number. The
  * attribute names will be the names of the column in the contact table.
  */
 @Embeddable
 public class Address {
 
-    private String zipCode;
+    public String zipCode;
 
-    private String city;
+    public String city;
 
-    private String street;
+    public String street;
 
-    private String houseNumber;
+    public String houseNumber;
 
     public Address(){};
 

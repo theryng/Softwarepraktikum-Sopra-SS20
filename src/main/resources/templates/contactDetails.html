@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Kontakte</title>
+</head>
+
+<body>
+
+<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+<header th:insert="fragments/htmlHead.html :: header"> </header>
+
+<!-- Main Body -->
+<h2>Kontakt einsehen</h2>
+<form class="form-horizontal" th:object="${contact}" th:action="@{/savingContact}" method="post">
+    <div class="col-sm-10">
+        <div class = "row">
+            <div class = "col w-25">
+                Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+            </div>
+            <div class = "col w-25">
+                Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+            </div>
+        </div>
+        Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+        Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+        Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+        Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+        Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+        Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+        <div class = "row">
+            <div class = "col">
+                Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{address.city}"/>
+            </div>
+            <div class = "col">
+                Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{address.street}"/>
+            </div>
+            <div class = "col">
+                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"/>
+            </div>
+            <div class = "col">
+                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Kontakt speichern</button>
+</form>
+
+<form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
+    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+    <button type="submit" class="btn btn-secondary">Kontakt löschen </button>
+</form>
+<!--
+<table class="table table-striped">
+    <tr>
+        <th>Datum</th>
+        <th>Text</th>
+        <th>Kontakt</th>
+    </tr>
+    <tr th:each="history : ${contact.contacthistories}">
+        <td th:text="${history.contact.firstname} + ' ' + ${history.contact.lastname}"></td>
+        <td th:text="${history.text}"></td>
+        <td th:text="${history.date}"></td>
+    </tr>
+
+</table>
+-->
+<!--@ManyToMany(mappedBy = "contacts")
+private Set<Event> events = new HashSet<>();
+
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Institute> institutes = new HashSet<Institute>();-->
+
+</body>
+</html>
