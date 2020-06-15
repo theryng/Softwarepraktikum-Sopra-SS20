@@ -21,7 +21,7 @@ public class User {
 
     private boolean enabled = true;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

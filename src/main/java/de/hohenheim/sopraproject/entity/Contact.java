@@ -50,8 +50,14 @@ public class Contact {
 
     private String linkToHomepage;
 
-    @ManyToMany(mappedBy = "contacts")
-    private Set<Event> events = new HashSet<>();
+    @OneToMany(mappedBy = "contactA", cascade = CascadeType.ALL)
+    private Set<Relationship> relationshipsA = new HashSet<>();
+
+    @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
+    private Set<Relationship> relationshipsB = new HashSet<>();
+
+//    @OneToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
+//    private Set<Relationship> relationships = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<Institute>();
@@ -221,13 +227,13 @@ public class Contact {
         this.linkToHomepage = linkToHomepage;
     }
 
-    public Set<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events) {
-        this.events = events;
-    }
+//    public Set<Event> getEvents() {
+//        return events;
+//    }
+//
+//    public void setEvents(Set<Event> events) {
+//        this.events = events;
+//    }
 
     public Set<Institute> getInstitutes() {
         return institutes;
