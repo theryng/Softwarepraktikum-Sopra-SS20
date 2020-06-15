@@ -6,9 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * This class defines all attriobutes which are needed to create an event. It has an primary key which is the eventID,
+ * This class defines all attributes which are needed to create n event. It has a primary key which is the eventID,
  * and some more attributes. It also has a many to many relationship with contacts, which means that contacts and events
- * are related to each other with both of their primary keys in a separately table. it also goes with a many to many
+ * are related to each other with both of their primary keys in a separately table. It also goes with a many to many
  * relationship with the users. The attribute names are the names of the columns at the database table of the event.
  */
 @Entity

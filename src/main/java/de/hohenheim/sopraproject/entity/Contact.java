@@ -1,5 +1,7 @@
 package de.hohenheim.sopraproject.entity;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -60,9 +62,10 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<Institute>();
 
-    @OneToMany
-    @GeneratedValue
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Contacthistory> contacthistories;
+
+
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -104,13 +107,21 @@ public class Contact {
         setDayOfBirth(year+"-"+month+"-"+day);
     }
 
+    public Set<Contacthistory> getContacthistories() {
+        return contacthistories;
+    }
+
+    public void setContacthistories(Set<Contacthistory> contacthistories) {
+        this.contacthistories = contacthistories;
+    }
+
     public Integer getContactID() {
         return contactID;
     }
 
-    public void setContactID(Integer contactID) {
-        this.contactID = contactID;
-    }
+   public void setContactID(Integer contactID) {
+       this.contactID = contactID;
+   }
 
     public String getFirstname() {
         return firstname;
@@ -232,13 +243,6 @@ public class Contact {
         this.institutes = institutes;
     }
 
-    public Set<Contacthistory> getContacthistories() {
-        return contacthistories;
-    }
-
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
-        this.contacthistories = contacthistories;
-    }
     public String getTempZipCode() {
         return tempZipCode;
     }
