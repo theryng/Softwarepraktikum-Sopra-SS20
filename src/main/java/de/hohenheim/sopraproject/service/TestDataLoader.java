@@ -37,6 +37,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private RelationshipService relationshipService;
+
+
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
      * is initialized that means it will be executed whenever the server is (re-)started. There are several Sets in this
@@ -192,7 +196,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "7"));
         peter.setHobby("");
         peter.setLinkToHomepage("");
-        // peter.setEvents();
         contactService.saveContact(peter);
 
         Contact jonas = new Contact();
@@ -364,6 +367,84 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         marlene.setLinkToHomepage("");
         contactService.saveContact(marlene);
 
+        Set<Contact> ContactsHistoryOne = new HashSet<>();
+        ContactsHistoryOne.add(max);
+        ContactsHistoryOne.add(julia);
+
+        Set<Contact> ContactsHistoryTwo = new HashSet<>();
+        ContactsHistoryTwo.add(alfred);
+        ContactsHistoryTwo.add(tristan);
+        ContactsHistoryTwo.add(sabine);
+
+        Set<Contact> ContactsHistoryThree = new HashSet<>();
+        ContactsHistoryThree.add(alex);
+        // ContactsHistoryThree.add(max);
+        ContactsHistoryThree.add(anna);
+        ContactsHistoryThree.add(jana);
+        ContactsHistoryThree.add(peter);
+
+        //Example contacthistories
+        //Creates new entry of Contacthistory Dates. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
+        Contacthistory historyOneDates = new Contacthistory();
+        historyOneDates.setText("Beim Kaffetrinken kennengelernt");
+        historyOneDates.setContactOfHistory(ContactsHistoryOne);
+        historyOneDates.setDate("13.04.2018");
+        contacthistoryService.saveContacthistory(historyOneDates);
+
+        Contacthistory historyTwoDates = new Contacthistory();
+        historyTwoDates.setDate("09.09.2020");
+        historyTwoDates.setText("Beim Teetrinken getroffen");
+        contacthistoryService.saveContacthistory(historyTwoDates);
+
+        Contacthistory historyThreeDates = new Contacthistory();
+        historyThreeDates.setDate("12.12.2019");
+        historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
+        contacthistoryService.saveContacthistory(historyThreeDates);
+
+        Set<Contacthistory> historyOne = new HashSet<>();
+        historyOne.add(historyOneDates);
+
+        Set<Contacthistory> historyTwo = new HashSet<>();
+        historyTwo.add(historyTwoDates);
+
+        Set<Contacthistory> historyThree = new HashSet<>();
+        historyThree.add(historyThreeDates);
+
+        //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
+        max.setContacthistories(historyOne);
+        contactService.saveContact(max);
+
+        julia.setContacthistories(historyOne);
+        contactService.saveContact(julia);
+
+        alfred.setContacthistories(historyTwo);
+        contactService.saveContact(alfred);
+
+        tristan.setContacthistories(historyTwo);
+        contactService.saveContact(tristan);
+
+        sabine.setContacthistories(historyTwo);
+        contactService.saveContact(sabine);
+
+        alex.setContacthistories(historyThree);
+        contactService.saveContact(alex);
+
+        // max.setContacthistories(historyThree);
+        //contactService.saveContact(max);
+
+        anna.setContacthistories(historyThree);
+        contactService.saveContact(anna);
+
+        jana.setContacthistories(historyThree);
+        contactService.saveContact(jana);
+
+        peter.setContacthistories(historyThree);
+        contactService.saveContact(peter);
+
+
+
+
+
         //example events
         Set<Contact> janaFlorian = new HashSet<>();
         janaFlorian.add(jana);
@@ -389,7 +470,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yoga.add(marlene);
 
         Event picknick = new Event();
-        picknick.setFormatDateOfEvent(2020, 6, 1);
+        picknick.setDate("01.06.2020");
         picknick.setEventName("Picknick");
         picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));
@@ -398,7 +479,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(picknick);
 
         Event joseBdayEvent = new Event();
-        joseBdayEvent.setFormatDateOfEvent(2019, 11, 10);
+        joseBdayEvent.setDate("10.11.2019");
         joseBdayEvent.setEventName("Josés 21 Geburtstag");
         joseBdayEvent.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "202"));
@@ -407,7 +488,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(joseBdayEvent);
 
         Event karateSport = new Event();
-        karateSport.setFormatDateOfEvent(2019, 05, 1);
+        karateSport.setDate("01.05.2019");
         karateSport.setEventName("Uni Sport karate für Einsteiger");
         karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "203"));
@@ -416,7 +497,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(karateSport);
 
         Event yogaSport = new Event();
-        yogaSport.setFormatDateOfEvent(2019, 05, 1);
+        yogaSport.setDate("01.05.2019");
         yogaSport.setEventName("Uni Sport Yoga für Fortgeschrittene");
         yogaSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "204"));
@@ -432,11 +513,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         events.add(picknick);
         events.add(picknick);
 
-        Contacthistory historyOne = new Contacthistory();
-        historyOne.setText("Beim Kaffetrinken kennengelernt");
-        historyOne.setContact(max);
-        historyOne.setDate("13.04.2018");
-        contacthistoryService.saveContacthistory(historyOne);
 
         //Example institutes plus the contacts which leads to them
         Set<Contact> deutscheBahnBerlinContacts = new HashSet<>();
@@ -506,13 +582,18 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
                 "105"));
         instituteService.saveInstitute(mercedesStuttgart);
 
-        julia.addInstitutes(mercedesStuttgart);
-
         Institute mahleStuttgart = new Institute();
         mahleStuttgart.setName("MAHLE GmbH");
         mahleStuttgart.setContacts(mahleStuttgartContacts);
         mahleStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "106"));
         instituteService.saveInstitute(mahleStuttgart);
+
+        Relationship heirat = new Relationship();
+        heirat.setContactA(max);
+        heirat.setContactB(anna);
+        heirat.setSince("10.10.2010");
+        heirat.setTypeOfRelationship("Verheiratet");
+        relationshipService.saveRelationship(heirat);
     }
 }

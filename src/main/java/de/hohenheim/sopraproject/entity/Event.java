@@ -27,7 +27,7 @@ public class Event {
 
     private String text;
 
-    @ManyToMany (mappedBy = "events")
+    @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
     public Event() {

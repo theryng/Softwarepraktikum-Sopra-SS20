@@ -51,17 +51,13 @@ public class Contact {
 
     private String linkToHomepage;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Institute> institutes = new HashSet<Institute>();
 
-    @OneToOne(mappedBy = "ownerOfHistory")
-    private Contacthistory owningHistory;
-
-    @ManyToOne
-    @GeneratedValue
+    @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
     private Set<Contacthistory> contacthistories = new HashSet<>();
 
     public Contact(String firstname, String lastname, String occupation, String email,

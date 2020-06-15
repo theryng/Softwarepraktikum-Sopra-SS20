@@ -19,7 +19,7 @@ public class Contacthistory {
 
     private String text;
 //Funk
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Contact> contactOfHistory;
 
 
@@ -35,12 +35,12 @@ public class Contacthistory {
         this.contactOfHistory = contactOfHistory;
     }
 
-    public Integer getKontakthistoryId() {
+    public Integer getContakthistoryId() {
         return contacthistoryId;
     }
 
-    public void setKontakthistoryId(Integer kontakthistoryId) {
-        this.contacthistoryId = kontakthistoryId;
+    public void setContakthistoryId(Integer contakthistoryId) {
+        this.contacthistoryId = contakthistoryId;
     }
 
     public String getDate() {
