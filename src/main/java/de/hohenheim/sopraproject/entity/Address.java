@@ -10,13 +10,13 @@ import javax.persistence.*;
 @Embeddable
 public class Address {
 
-    private String zipCode;
+    public String zipCode;
 
-    private String city;
+    public String city;
 
-    private String street;
+    public String street;
 
-    private String houseNumber;
+    public String houseNumber;
 
     public Address(){};
 
