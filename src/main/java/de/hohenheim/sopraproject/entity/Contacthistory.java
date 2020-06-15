@@ -18,7 +18,7 @@ public class Contacthistory {
     private String date;
 
     private String text;
-
+//Funk
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Contact> contactOfHistory;
 
