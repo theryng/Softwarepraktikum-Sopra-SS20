@@ -1,31 +1,38 @@
 package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * This class defines all attributes that are necessary to define a Contacthistory. There is one Contacthistory for every existing Contact. The primary key is "contacthistoryId"
+ * and it has a man to one relation to "Contact".
+ */
 @Entity
 public class Contacthistory {
 
     @Id
     @GeneratedValue
-    public Integer contacthistoryId;
+    private Integer contacthistoryId;
 
-    public String date;
+    private String date;
 
-    public String text;
+    private String text;
+//Funk
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Set<Contact> contactOfHistory;
 
-    @ManyToOne
-    public Contact contact;
 
     public Contacthistory() {
         //empty constructor for Hibernate
     }
 
-    public Contacthistory(String date, String text, Contact contact) {
-        this.date = date;
-        this.text = text;
-        this.contact = contact;
+    public Set<Contact> getContactOfHistory() {
+        return contactOfHistory;
+    }
+
+    public void setContactOfHistory(Set<Contact> contactOfHistory) {
+        this.contactOfHistory = contactOfHistory;
     }
 
     public Integer getKontakthistoryId() {
@@ -60,11 +67,5 @@ public class Contacthistory {
         this.contacthistoryId = contacthistoryId;
     }
 
-    public Contact getContact() {
-        return contact;
-    }
 
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
 }
