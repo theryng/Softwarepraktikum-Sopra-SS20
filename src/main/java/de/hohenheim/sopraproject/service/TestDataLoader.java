@@ -371,30 +371,78 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         ContactsHistoryOne.add(max);
         ContactsHistoryOne.add(julia);
 
+        Set<Contact> ContactsHistoryTwo = new HashSet<>();
+        ContactsHistoryTwo.add(alfred);
+        ContactsHistoryTwo.add(tristan);
+        ContactsHistoryTwo.add(sabine);
 
+        Set<Contact> ContactsHistoryThree = new HashSet<>();
+        ContactsHistoryThree.add(alex);
+       // ContactsHistoryThree.add(max);
+        ContactsHistoryThree.add(anna);
+        ContactsHistoryThree.add(jana);
+        ContactsHistoryThree.add(peter);
 
         //Example contacthistories
-        //Creates new entry in Contacthistory. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
-        Contacthistory historyOne = new Contacthistory();
-        historyOne.setText("Beim Kaffetrinken kennengelernt");
-        historyOne.setContactOfHistory(ContactsHistoryOne);
-        historyOne.setDate("13.04.2018");
-        contacthistoryService.saveContacthistory(historyOne);
+        //Creates new entry of Contacthistory Dates. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
+        Contacthistory historyOneDates = new Contacthistory();
+        historyOneDates.setText("Beim Kaffetrinken kennengelernt");
+        historyOneDates.setContactOfHistory(ContactsHistoryOne);
+        historyOneDates.setDate("13.04.2018");
+        contacthistoryService.saveContacthistory(historyOneDates);
 
-        Set<Contacthistory> historieEins = new HashSet<>();
-        historieEins.add(historyOne);
+        Contacthistory historyTwoDates = new Contacthistory();
+        historyTwoDates.setDate("09.09.2020");
+        historyTwoDates.setText("Beim Teetrinken getroffen");
+        contacthistoryService.saveContacthistory(historyTwoDates);
+
+        Contacthistory historyThreeDates = new Contacthistory();
+        historyThreeDates.setDate("12.12.2019");
+        historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
+        contacthistoryService.saveContacthistory(historyThreeDates);
+
+        Set<Contacthistory> historyOne = new HashSet<>();
+        historyOne.add(historyOneDates);
+
+        Set<Contacthistory> historyTwo = new HashSet<>();
+        historyTwo.add(historyTwoDates);
+
+        Set<Contacthistory> historyThree = new HashSet<>();
+        historyThree.add(historyThreeDates);
 
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
-        max.setContacthistories(historieEins);
+        max.setContacthistories(historyOne);
         contactService.saveContact(max);
 
-        julia.setContacthistories(historieEins);
+        julia.setContacthistories(historyOne);
         contactService.saveContact(julia);
 
-        Contacthistory maxHistory = new Contacthistory();
-        maxHistory.setDate("09.39.2020");
-        maxHistory.setText("Beim Teetrinken getroffen");
-        contacthistoryService.saveContacthistory(maxHistory);
+        alfred.setContacthistories(historyTwo);
+        contactService.saveContact(alfred);
+
+        tristan.setContacthistories(historyTwo);
+        contactService.saveContact(tristan);
+
+        sabine.setContacthistories(historyTwo);
+        contactService.saveContact(sabine);
+
+        alex.setContacthistories(historyThree);
+        contactService.saveContact(alex);
+
+       // max.setContacthistories(historyThree);
+        //contactService.saveContact(max);
+
+        anna.setContacthistories(historyThree);
+        contactService.saveContact(anna);
+
+        jana.setContacthistories(historyThree);
+        contactService.saveContact(jana);
+
+        peter.setContacthistories(historyThree);
+        contactService.saveContact(peter);
+
+
+
 
 
         //example events
@@ -465,11 +513,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         events.add(picknick);
         events.add(picknick);
 
-        Contacthistory historyOne = new Contacthistory();
-        historyOne.setText("Beim Kaffetrinken kennengelernt");
-        historyOne.setContact(max);
-        historyOne.setDate("13.04.2018");
-        contacthistoryService.saveContacthistory(historyOne);
 
         //Example institutes plus the contacts which leads to them
         Set<Contact> deutscheBahnBerlinContacts = new HashSet<>();

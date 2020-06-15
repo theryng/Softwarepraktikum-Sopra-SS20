@@ -19,7 +19,7 @@ public class Contacthistory {
 
     private String text;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Contact> contactOfHistory;
 
 

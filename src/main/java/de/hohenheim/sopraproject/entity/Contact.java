@@ -119,9 +119,9 @@ public class Contact {
         return contactID;
     }
 
-    public void setContactID(Integer contactID) {
-        this.contactID = contactID;
-    }
+   public void setContactID(Integer contactID) {
+       this.contactID = contactID;
+   }
 
     public String getFirstname() {
         return firstname;
