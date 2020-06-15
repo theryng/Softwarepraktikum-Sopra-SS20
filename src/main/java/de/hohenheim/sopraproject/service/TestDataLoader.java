@@ -192,7 +192,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "7"));
         peter.setHobby("");
         peter.setLinkToHomepage("");
-       // peter.setEvents();
+        // peter.setEvents();
         contactService.saveContact(peter);
 
         Contact jonas = new Contact();
@@ -505,6 +505,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         mercedesStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "105"));
         instituteService.saveInstitute(mercedesStuttgart);
+
+        julia.addInstitutes(mercedesStuttgart);
 
         Institute mahleStuttgart = new Institute();
         mahleStuttgart.setName("MAHLE GmbH");

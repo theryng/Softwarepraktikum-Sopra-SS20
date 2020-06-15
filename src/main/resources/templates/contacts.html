@@ -11,124 +11,98 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
     <title>Kontakte</title>
-
-
-
 </head>
 
 <body>
 
-    <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-        <a class="navbar-brand" href="home">ALUMNI NETZ</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-        <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <!-- Kontakte in Navbar -->
-                <li class="nav-item disabled hover">
-                    <a class="nav-link text-white" href="contacts">Kontakte</a>
-                </li>
-                <!-- Kalender in Navbar -->
-               <li class="nav-item">
-                   <a class="nav-link text-white" href="calendar">Kalender</a>
-               </li>
-                <!-- Events in Navbar -->
-               <li class="nav-item">
-                   <a class="nav-link text-white" href="events">Events <span class="sr-only">(current)</span></a>
-               </li>
-                <!-- Institute in Navbar -->
-               <li class="nav-item">
-                   <a class="nav-link text-white" href="institutes">Institute <span class="sr-only">(current)</span></a>
-               </li>
-                <!-- Bearbeitungshistorie in Navbar -->
-               <li class="nav-item">
-                   <a class="nav-link text-white" href="history">Bearbeitungshistorie <span class="sr-only">(current)</span></a>
-               </li>
-           </ul>
-           <form class="form-inline my-2 my-lg-0">
-               <div class="dropdown">
-                   <button class="btn btn-secondary" type="button" href="home">
-                       Account Optionen
-                   </button>
-                   <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <span class="sr-only">Toggle Dropdown</span>
-                   </button>
-                   <div class="dropdown-menu">
-                       <a class="dropdown-item" href="home">Einstellungen</a>
-                       <a class="dropdown-item" href="login">Log out</a>
-                   </div>
-               </div>
-           </form>
-       </div>
-   </nav>
    <!-- Main Body -->
-    <div class = "row">
-        <div class = "row">
-            <div class = "col w-25">
-                <h2 class="ml-5">Neuen Kontakt erstellen</h2>
-                <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" method = post>
-                <div class="form-group ml-5 mt-2 mr-5">
-                    <div class = "row">
-                        <div class = "col w-25">
-                            firstname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
-                        </div>
-                        <div class = "col w-25">
-                            lastname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
-                        </div>
-                    </div>
-                    occupation:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
-                    email:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
-                    courseOfStudies:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
-                    freeText:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
-                    Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:field="*{dayOfBirth}"></br>
-                    Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
-                    Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
-                    <div class = "row">
-                        <div class = "col">
-                            Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{tempCity}"/>
-                        </div>
-                        <div class = "col">
-                            Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{tempStreet}"/>
-                        </div>
-                        <div class = "col">
-                            Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{tempHouseNmbr}"/>
-                        </div>
-                        <div class = "col">
-                            ZipCode:<input type="text" class="form-control" name = "tempZipCode" th:field="*{tempZipCode}"/>
-                        </div>
-                    </div>
-                    <button name="submit" class="btn btn-primary mt-3" type="submit">Submit</button>
-                </div>
-                </form>
-            </div>
-            <div class = "col w-25">
+            <div class = "container-fluid ml-1000 mr-1000">
+
                 <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
+                <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" method = post>
+                    <div class="form-group ml-5 mt-2 mr-5">
+                        <!-- Submit Button -->
+                        <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                            Neuen Kontakt hinzufügen
+                        </button>
+                        <!-- Modal for Submit Button -->
+                        <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="submitModalLabel">Kontakt Speicherung</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class = "row">
+                                            <div class = "col w-25">
+                                                Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                                            </div>
+                                            <div class = "col w-25">
+                                                Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                                            </div>
+                                        </div>
+                                        Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+                                        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+                                        Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                        Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:field="*{dayOfBirth}"></br>
+                                        Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                        Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+                                        Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                        <div class = "row">
+                                            <div class = "col">
+                                                Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{tempCity}"/>
+                                            </div>
+                                            <div class = "col">
+                                                Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{tempStreet}"/>
+                                            </div>
+                                            <div class = "col">
+                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{tempHouseNmbr}"/>
+                                            </div>
+                                            <div class = "col">
+                                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{tempZipCode}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                        <button type="submit" class="btn btn-primary">Kontakt speichern</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-striped">
                 <tr>
-                    <th>firstname</th>
-                    <th>lastname</th>
-                    <th>Course of Study</th>
-                    <th>Date of Birth</th>
-                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Studium</th>
+                    <th>Geburtsdatum</th>
+                    <th>E-Mail</th>
+                    <th>Funktionen</th>
                 </tr>
                 <tr th:each="contact : ${allContacts}">
-                    <td th:text="${contact.firstname}"></td>
-                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.firstname} + ' ' + ${contact.lastname}">
+
+                    </td>
                     <td th:text="${contact.courseOfStudies}"></td>
                     <td th:text="${contact.dayOfBirth}"></td>
                     <td th:text="${contact.email}"></td>
+                    <td>
+                        <form ACTION="#" th:action="@{/viewContact}" th:object="${contact}">
+                            <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+                            <button type="submit" class="btn btn-secondary">Kontakt einsehen </button>
+                        </form>
+                    </td>
                 </tr>
 
                 </table>
-                <div class="btn-group" style="margin-top: 10px">
-                    <button type="button" class="btn btn-secondary" onclick="contactUpdate()">Hinzufügen</button>
-                    <button type="button" class="btn btn-secondary">Bearbeiten</button>
-                    <button type="button" class="btn btn-danger">Löschen</button>
-                </div>
-            </div>
+
         </div>
 
 
