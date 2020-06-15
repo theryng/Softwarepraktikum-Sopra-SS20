@@ -533,7 +533,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         mahleStuttgartContacts.add(marlene);
 
         Set<Contact> allianzStuttgartContacts = new HashSet<>();
-
+//New institute
         Institute allianzStuttgart = new Institute();
         allianzStuttgart.setName("Allianz AG, Niederlassung in Stuttgart");
         allianzStuttgart.setContacts(allianzStuttgartContacts);
