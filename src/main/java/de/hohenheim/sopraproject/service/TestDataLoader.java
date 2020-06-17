@@ -439,29 +439,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         contactService.saveContact(peter);
 
         //example events
-//        Set<Contact> janaFlorian = new HashSet<>();
-//        janaFlorian.add(jana);
-//        janaFlorian.add(florian);
-
-//        Set<Contact> joseGuests = new HashSet<>();
-//        joseGuests.add(max);
-//        joseGuests.add(florian);
-//        joseGuests.add(anna);
-//        joseGuests.add(paulina);
-//        joseGuests.add(peter);
-
-//        Set<Contact> karate = new HashSet<>();
-//        karate.add(jana);
-//        karate.add(florian);
-//        karate.add(max);
-//        karate.add(jose);
-
-//        Set<Contact> yoga = new HashSet<>();
-//        yoga.add(jana);
-//        yoga.add(anna);
-//        yoga.add(sofia);
-//        yoga.add(marlene);
-
         Event picknick = new Event();
         picknick.setDate("01.06.2020");
         picknick.setEventName("Picknick");
@@ -508,14 +485,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yogaSport.addEventContact(marlene);
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
-
-//        Set<Event> events = new HashSet<>();
-//        events.add(joseBdayEvent);
-//        events.add(picknick);
-//        events.add(karateSport);
-//        events.add(yogaSport);
-//        events.add(picknick);
-//        events.add(picknick);
 
         //Example institutes
         Institute deutscheBahnBerlin = new Institute();
