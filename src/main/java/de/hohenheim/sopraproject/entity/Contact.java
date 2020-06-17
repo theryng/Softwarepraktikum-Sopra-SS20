@@ -12,6 +12,7 @@ import java.util.*;
  * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
  * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
  * names are the names of the columns at the database table of the contact.
+ * By Mark
  */
 @Entity
 public class Contact {
