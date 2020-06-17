@@ -56,17 +56,14 @@ public class Contact {
     @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
     private Set<Relationship> relationshipsB = new HashSet<>();
 
-//    @OneToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
-//    private Set<Relationship> relationships = new HashSet<>();
-
     @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes = new HashSet<Institute>();
+    private Set<Institute> institutes = new HashSet<>();
+
+    @ManyToMany(mappedBy = "contactsEvent")
+    private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Contacthistory> contacthistories;
-
-
-
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, String dayOfBirth) {
@@ -186,30 +183,6 @@ public class Contact {
     public void setAddress(Address address) {
         this.address = address;
     }
-/*
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getHouseNmbr() {
-        return houseNmbr;
-    }
-
-    public void setHouseNmbr(String houseNmbr) {
-        this.houseNmbr = houseNmbr;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }*/
 
     public String getHobby() {
         return hobby;
@@ -226,14 +199,6 @@ public class Contact {
     public void setLinkToHomepage(String linkToHomepage) {
         this.linkToHomepage = linkToHomepage;
     }
-
-//    public Set<Event> getEvents() {
-//        return events;
-//    }
-//
-//    public void setEvents(Set<Event> events) {
-//        this.events = events;
-//    }
 
     public Set<Institute> getInstitutes() {
         return institutes;

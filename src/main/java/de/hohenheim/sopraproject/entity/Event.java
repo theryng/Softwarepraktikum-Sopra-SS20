@@ -28,7 +28,7 @@ public class Event {
     private String text;
 
     @ManyToMany
-    private Set<Contact> contacts;
+    private Set<Contact> contactsEvent = new HashSet<>();
 
     @ManyToMany(mappedBy = "events")
     private Set<User> users = new HashSet<>();
@@ -37,23 +37,23 @@ public class Event {
         //empty constructor for Hibernate
     }
 
-    public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contacts,
+    public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
                  Set<User> users) {
         this.eventId = eventId;
         this.date = date;
         this.address = address;
         this.eventName = eventName;
         this.text = text;
-        this.contacts = contacts;
+        this.contactsEvent = contactsEvent;
         this.users = users;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
+    public Set<Contact> getContactsEvent() {
+        return contactsEvent;
     }
 
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+    public void setContactsEvent(Set<Contact> contactsEvent) {
+        this.contactsEvent = contactsEvent;
     }
 
     public Set<User> getUsers() {
@@ -133,6 +133,12 @@ public class Event {
             return format.parse(string);
         } catch(Exception exception){
             return null;
+        }
+    }
+
+    public void addEventContact(Contact contact){
+        if(contact != null){
+            contactsEvent.add(contact);
         }
     }
 }

@@ -429,9 +429,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         alex.setContacthistories(historyThree);
         contactService.saveContact(alex);
 
-       // max.setContacthistories(historyThree);
-        //contactService.saveContact(max);
-
         anna.setContacthistories(historyThree);
         contactService.saveContact(anna);
 
@@ -441,40 +438,37 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setContacthistories(historyThree);
         contactService.saveContact(peter);
 
-
-
-
-
         //example events
-        Set<Contact> janaFlorian = new HashSet<>();
-        janaFlorian.add(jana);
-        janaFlorian.add(florian);
+//        Set<Contact> janaFlorian = new HashSet<>();
+//        janaFlorian.add(jana);
+//        janaFlorian.add(florian);
 
-        Set<Contact> joseGuests = new HashSet<>();
-        joseGuests.add(max);
-        joseGuests.add(florian);
-        joseGuests.add(anna);
-        joseGuests.add(paulina);
-        joseGuests.add(peter);
+//        Set<Contact> joseGuests = new HashSet<>();
+//        joseGuests.add(max);
+//        joseGuests.add(florian);
+//        joseGuests.add(anna);
+//        joseGuests.add(paulina);
+//        joseGuests.add(peter);
 
-        Set<Contact> karate = new HashSet<>();
-        karate.add(jana);
-        karate.add(florian);
-        karate.add(max);
-        karate.add(jose);
+//        Set<Contact> karate = new HashSet<>();
+//        karate.add(jana);
+//        karate.add(florian);
+//        karate.add(max);
+//        karate.add(jose);
 
-        Set<Contact> yoga = new HashSet<>();
-        yoga.add(jana);
-        yoga.add(anna);
-        yoga.add(sofia);
-        yoga.add(marlene);
+//        Set<Contact> yoga = new HashSet<>();
+//        yoga.add(jana);
+//        yoga.add(anna);
+//        yoga.add(sofia);
+//        yoga.add(marlene);
 
         Event picknick = new Event();
         picknick.setDate("01.06.2020");
         picknick.setEventName("Picknick");
         picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));
-        picknick.setContacts(janaFlorian);
+        picknick.addEventContact(jana);
+        picknick.addEventContact(florian);
         picknick.setText("Florian und Jana haben sich in einer Vorlesung an der Uni Stuttgart kennengelernt.");
         eventService.saveEvent(picknick);
 
@@ -483,7 +477,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         joseBdayEvent.setEventName("Josés 21 Geburtstag");
         joseBdayEvent.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "202"));
-        joseBdayEvent.setContacts(joseGuests);
+        joseBdayEvent.addEventContact(max);
+        joseBdayEvent.addEventContact(florian);
+        joseBdayEvent.addEventContact(anna);
+        joseBdayEvent.addEventContact(paulina);
+        joseBdayEvent.addEventContact(peter);
         joseBdayEvent.setText("José hat seinen 21 Geburtstag im Studentenwohnheim zusammen mit seinen engsten Freunden ");
         eventService.saveEvent(joseBdayEvent);
 
@@ -492,7 +490,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         karateSport.setEventName("Uni Sport karate für Einsteiger");
         karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "203"));
-        karateSport.setContacts(karate);
+        karateSport.addEventContact(jana);
+        karateSport.addEventContact(florian);
+        karateSport.addEventContact(max);
+        karateSport.addEventContact(jose);
         karateSport.setText("Wöchentliches karate training für beginner");
         eventService.saveEvent(karateSport);
 
@@ -501,94 +502,79 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yogaSport.setEventName("Uni Sport Yoga für Fortgeschrittene");
         yogaSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "204"));
-        yogaSport.setContacts(karate);
+        yogaSport.addEventContact(jana);
+        yogaSport.addEventContact(anna);
+        yogaSport.addEventContact(sofia);
+        yogaSport.addEventContact(marlene);
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
 
-        Set<Event> events = new HashSet<>();
-        events.add(joseBdayEvent);
-        events.add(picknick);
-        events.add(karateSport);
-        events.add(yogaSport);
-        events.add(picknick);
-        events.add(picknick);
+//        Set<Event> events = new HashSet<>();
+//        events.add(joseBdayEvent);
+//        events.add(picknick);
+//        events.add(karateSport);
+//        events.add(yogaSport);
+//        events.add(picknick);
+//        events.add(picknick);
 
-
-        //Example institutes plus the contacts which leads to them
-        Set<Contact> deutscheBahnBerlinContacts = new HashSet<>();
-
+        //Example institutes
         Institute deutscheBahnBerlin = new Institute();
         deutscheBahnBerlin.setName("Deutsche Bahn");
-        deutscheBahnBerlin.setContacts(deutscheBahnBerlinContacts);
         deutscheBahnBerlin.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "101"));
         instituteService.saveInstitute(deutscheBahnBerlin);
 
-        Set<Contact> mahleStuttgartContacts = new HashSet<>();
-        mahleStuttgartContacts.add(jose);
-        mahleStuttgartContacts.add(alex);
-        mahleStuttgartContacts.add(min);
-        mahleStuttgartContacts.add(maxW);
-        mahleStuttgartContacts.add(sofia);
-        mahleStuttgartContacts.add(marlene);
-
-        Set<Contact> allianzStuttgartContacts = new HashSet<>();
-
         Institute allianzStuttgart = new Institute();
         allianzStuttgart.setName("Allianz AG, Niederlassung in Stuttgart");
-        allianzStuttgart.setContacts(allianzStuttgartContacts);
         allianzStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "102"));
         instituteService.saveInstitute(allianzStuttgart);
 
-        Set<Contact> porscheStuttgartContacts = new HashSet<>();
-        porscheStuttgartContacts.add(luisa);
-        porscheStuttgartContacts.add(paulina);
-        porscheStuttgartContacts.add(peter);
-
         Institute porscheStuttgart = new Institute();
         porscheStuttgart.setName("Porsche Niederlassung in Stuttgart");
-        porscheStuttgart.setContacts(porscheStuttgartContacts);
+        porscheStuttgart.addInstitutionContacts(luisa);
+        porscheStuttgart.addInstitutionContacts(paulina);
+        porscheStuttgart.addInstitutionContacts(peter);
         porscheStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "103"));
         instituteService.saveInstitute(porscheStuttgart);
 
-        Set<Contact> boschleinfeldenContacts = new HashSet<>();
-        boschleinfeldenContacts.add(jonas);
-        boschleinfeldenContacts.add(florian);
-        boschleinfeldenContacts.add(sabine);
-        boschleinfeldenContacts.add(jana);
-        boschleinfeldenContacts.add(tristan);
-        boschleinfeldenContacts.add(alfred);
-        boschleinfeldenContacts.add(aleyna);
-        boschleinfeldenContacts.add(milan);
-
         Institute boschLeinfelden = new Institute();
         boschLeinfelden.setName("Bosch Niederlassung in Leinfelden");
-        boschLeinfelden.setContacts(boschleinfeldenContacts);
+        boschLeinfelden.addInstitutionContacts(jonas);
+        boschLeinfelden.addInstitutionContacts(florian);
+        boschLeinfelden.addInstitutionContacts(sabine);
+        boschLeinfelden.addInstitutionContacts(jana);
+        boschLeinfelden.addInstitutionContacts(tristan);
+        boschLeinfelden.addInstitutionContacts(alfred);
+        boschLeinfelden.addInstitutionContacts(aleyna);
+        boschLeinfelden.addInstitutionContacts(milan);
         boschLeinfelden.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "104"));
         instituteService.saveInstitute(boschLeinfelden);
 
-        Set<Contact> mercedesFeuerbachContacts = new HashSet<>();
-        mercedesFeuerbachContacts.add(max);
-        mercedesFeuerbachContacts.add(anna);
-        mercedesFeuerbachContacts.add(julia);
-
         Institute mercedesStuttgart = new Institute();
         mercedesStuttgart.setName("Daimler Benz Niederlassung Feuerbach");
-        mercedesStuttgart.setContacts(mercedesFeuerbachContacts);
+        mercedesStuttgart.addInstitutionContacts(max);
+        mercedesStuttgart.addInstitutionContacts(anna);
+        mercedesStuttgart.addInstitutionContacts(julia);
         mercedesStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "105"));
         instituteService.saveInstitute(mercedesStuttgart);
 
         Institute mahleStuttgart = new Institute();
         mahleStuttgart.setName("MAHLE GmbH");
-        mahleStuttgart.setContacts(mahleStuttgartContacts);
+        mahleStuttgart.addInstitutionContacts(jose);
+        mahleStuttgart.addInstitutionContacts(alex);
+        mahleStuttgart.addInstitutionContacts(min);
+        mahleStuttgart.addInstitutionContacts(maxW);
+        mahleStuttgart.addInstitutionContacts(sofia);
+        mahleStuttgart.addInstitutionContacts(marlene);
         mahleStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "106"));
         instituteService.saveInstitute(mahleStuttgart);
 
+        //Test data for relationships between contacts
         Relationship heirat = new Relationship();
         heirat.setContactA(max);
         heirat.setContactB(anna);

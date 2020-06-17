@@ -70,4 +70,10 @@ public class Institute {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public void addInstitutionContacts(Contact contact){
+        if(contact != null){
+            contacts.add(contact);
+        }
+    }
 }
