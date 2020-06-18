@@ -62,7 +62,7 @@ public class Contact {
 
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<Institute>();
-
+//Relation for Contacthistories
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Contacthistory> contacthistories;
 
