@@ -61,8 +61,11 @@ public class Contact {
 //    private Set<Relationship> relationships = new HashSet<>();
 
     @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes = new HashSet<Institute>();
-//Relation for Contacthistories
+    private Set<Institute> institutes = new HashSet<>();
+
+    @ManyToMany(mappedBy = "contactsEvent")
+    private Set<Event> events = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Contacthistory> contacthistories;
 
@@ -187,30 +190,6 @@ public class Contact {
     public void setAddress(Address address) {
         this.address = address;
     }
-/*
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getHouseNmbr() {
-        return houseNmbr;
-    }
-
-    public void setHouseNmbr(String houseNmbr) {
-        this.houseNmbr = houseNmbr;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }*/
 
     public String getHobby() {
         return hobby;
@@ -227,14 +206,6 @@ public class Contact {
     public void setLinkToHomepage(String linkToHomepage) {
         this.linkToHomepage = linkToHomepage;
     }
-
-//    public Set<Event> getEvents() {
-//        return events;
-//    }
-//
-//    public void setEvents(Set<Event> events) {
-//        this.events = events;
-//    }
 
     public Set<Institute> getInstitutes() {
         return institutes;

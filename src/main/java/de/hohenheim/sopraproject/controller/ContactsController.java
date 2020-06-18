@@ -41,4 +41,7 @@ public class ContactsController {
         return "contacts";
     }
 
+    public void addContact(Contact contact){
+
+    }
 }
