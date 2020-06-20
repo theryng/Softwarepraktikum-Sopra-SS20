@@ -24,8 +24,8 @@ public class RegistrationController {
 
     @RequestMapping(value="/registerUser", method = RequestMethod.POST)
     public String registerUser(User user){
-        System.out.println("register user");
         userRepository.save(user);
+        System.out.println("register user");
         return "home";
     }
 
@@ -35,10 +35,10 @@ public class RegistrationController {
         return "registration";
     }
 
-    @RequestMapping(value="/deleteUser", method = RequestMethod.DELETE)
+    @RequestMapping(value="/deleteUser", method = RequestMethod.POST)
     public String deleteUser(User user){
+        userRepository.deleteById(user.getUserId());
         System.out.println("delete user");
-        userRepository.delete(user);
         return "home";
     }
 }

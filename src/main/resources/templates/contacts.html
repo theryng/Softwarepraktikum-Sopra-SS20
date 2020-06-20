@@ -86,9 +86,7 @@
                     <th>Funktionen</th>
                 </tr>
                 <tr th:each="contact : ${allContacts}">
-                    <td th:text="${contact.firstname} + ' ' + ${contact.lastname}">
-
-                    </td>
+                    <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
                     <td th:text="${contact.courseOfStudies}"></td>
                     <td th:text="${contact.dayOfBirth}"></td>
                     <td th:text="${contact.email}"></td>
