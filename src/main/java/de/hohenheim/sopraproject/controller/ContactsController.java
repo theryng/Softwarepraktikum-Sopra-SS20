@@ -43,7 +43,6 @@ public class ContactsController {
     }
     @RequestMapping("/viewContact")
     public String viewContact(Contact contactID) {
-
         ContactDetailsController.contactID = contactID.getContactID();
         System.out.println(ContactDetailsController.contactID);
         return "redirect:/contactDetails";
