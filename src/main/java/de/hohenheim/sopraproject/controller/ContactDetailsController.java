@@ -1,7 +1,9 @@
 package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.Contacthistory;
 import de.hohenheim.sopraproject.repository.ContactRepository;
+import de.hohenheim.sopraproject.repository.ContacthistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ public class ContactDetailsController {
     @RequestMapping(value = "/contactDetails", method = RequestMethod.GET)
     public String contactDetails(Model model) {
         model.addAttribute("contact", contactRepository.findByContactID(contactID));
+        model.addAttribute("history", new Contacthistory());
         System.out.println("Test");
         return "contactDetails";
     }
@@ -35,5 +38,13 @@ public class ContactDetailsController {
         contactRepository.deleteById(contact.getContactID());
         System.out.println("saving");
         return "redirect:/contacts";
+    }
+    @RequestMapping("/editContactHistory")
+    public String editContactHistory(Contacthistory contacthistory) {
+        System.out.println(contacthistory.getContacthistoryId());
+        contactHistoryEditorController.historyID = contacthistory.getContacthistoryId();
+        ContactDetailsController.contactID = contactID;
+        System.out.println(ContactDetailsController.contactID);
+        return "redirect:/contactDetails";
     }
 }

@@ -13,14 +13,14 @@ public class Contacthistory {
 
     @Id
     @GeneratedValue
-    private Integer contacthistoryId;
+    public Integer contacthistoryId;
 
-    private String date;
+    public String date;
 
-    private String text;
+    public String text;
 //Funk
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Contact> contactOfHistory;
+    public Set<Contact> contactOfHistory;
 
 
     public Contacthistory() {

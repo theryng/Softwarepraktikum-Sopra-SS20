@@ -19,67 +19,110 @@
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
 <!-- Main Body -->
-<h2>Kontakt einsehen</h2>
-<form class="form-horizontal" th:object="${contact}" th:action="@{/savingContact}" method="post">
-    <div class="col-sm-10">
-        <div class = "row">
-            <div class = "col w-25">
-                Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+<h2>Kontaktinformationen</h2>
+<div class="container-fluid ml-5 mr-5 mt-5">
+    <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
+
+        <div class="col-sm-10">
+            <div class = "row">
+                <div class = "col w-25">
+                    Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                </div>
+                <div class = "col w-25">
+                    Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                </div>
             </div>
-            <div class = "col w-25">
-                Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+            Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+            E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+            Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+            Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+            Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+            Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+            <div class = "row">
+                <div class = "col">
+                    Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{address.city}"/>
+                </div>
+                <div class = "col">
+                    Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{address.street}"/>
+                </div>
+                <div class = "col">
+                    Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"/>
+                </div>
+                <div class = "col">
+                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
+                </div>
             </div>
         </div>
-        Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
-        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
-        Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
-        Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
-        Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
-        Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
-        Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
-        <div class = "row">
-            <div class = "col">
-                Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{address.city}"/>
+        <div class = "row ml-3">
+            <button type="submit" class="btn btn-primary mt-3 ml-5">Kontakt speichern</button>
+                <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
+                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+                    <button type="submit" class="btn btn-danger">Kontakt löschen </button>
+                </form>
+        </div>
+    </form>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm">
+                Kontakthistorien
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>Informationen</th>
+                        <th>Datum</th>
+                        <th>Funktionen</th>
+                    </tr>
+                    <tr th:each="history : ${contact.contacthistories}">
+                        <td th:text="${history.text}"></td>
+                        <td th:text="${history.date}"></td>
+                        <td>
+                            <form ACTION="#" th:action="@{/editContactHistory}" th:object="${history}">
+                                <input type="hidden" th:value="${history.contacthistoryId}" th:name ="contacthistoryId" />
+
+                                <button type="submit" class="btn btn-secondary">Historie bearbeiten </button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class = "col">
-                Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{address.street}"/>
+            <div class="col-sm">
+                Institute
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    <tr th:each="institute : ${contact.institutes}">
+                        <td th:text="${institute.name}"></td>
+                    </tr>
+                </table>
             </div>
-            <div class = "col">
-                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"/>
-            </div>
-            <div class = "col">
-                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
+            <div class="col-sm">
+                Events
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Datum</th>
+                        <th>Text</th>
+                    </tr>
+                    <tr th:each="event : ${contact.events}">
+                        <td th:text="${event.eventName}"></td>
+                        <td th:text="${event.date}"></td>
+                        <td th:text="${event.text}"></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Kontakt speichern</button>
-</form>
-
-<form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
-    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
-    <button type="submit" class="btn btn-secondary">Kontakt löschen </button>
-</form>
-<!--
-<table class="table table-striped">
-    <tr>
-        <th>Datum</th>
-        <th>Text</th>
-        <th>Kontakt</th>
-    </tr>
-    <tr th:each="history : ${contact.contacthistories}">
-        <td th:text="${history.contact.firstname} + ' ' + ${history.contact.lastname}"></td>
-        <td th:text="${history.text}"></td>
-        <td th:text="${history.date}"></td>
-    </tr>
-
-</table>
--->
-<!--@ManyToMany(mappedBy = "contacts")
-private Set<Event> events = new HashSet<>();
-
-    @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes = new HashSet<Institute>();-->
-
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
