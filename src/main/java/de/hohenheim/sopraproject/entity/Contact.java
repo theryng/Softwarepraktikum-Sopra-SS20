@@ -51,6 +51,12 @@ public class Contact {
 
     private String linkToHomepage;
 
+    @OneToMany(mappedBy = "contactA", cascade = CascadeType.ALL)
+    public Set<Relationship> outgoingRelationships = new HashSet<>();
+
+    @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
+    public Set<Relationship> ingoingRelationships = new HashSet<>();
+
     @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
@@ -269,5 +275,20 @@ public class Contact {
         event.addParticipent(this);
         events.add(event);
 
+    }
+    public Set<Relationship> getOutgoingRelationships() {
+        return outgoingRelationships;
+    }
+
+    public void setOutgoingRelationships(Set<Relationship> outgoingRelationships) {
+        this.outgoingRelationships = outgoingRelationships;
+    }
+
+    public Set<Relationship> getIngoingRelationships() {
+        return ingoingRelationships;
+    }
+
+    public void setIngoingRelationships(Set<Relationship> ingoingRelationships) {
+        this.ingoingRelationships = ingoingRelationships;
     }
 }

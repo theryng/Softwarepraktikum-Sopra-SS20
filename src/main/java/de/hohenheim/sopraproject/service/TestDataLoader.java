@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.*;
+import de.hohenheim.sopraproject.repository.RelationshipRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -441,9 +442,19 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setContacthistories(historyThree);
         contactService.saveContact(peter);
 
+        Relationship outgoing = new Relationship();
+        outgoing.setContactA(anna);
+        outgoing.setContactB(jana);
+        outgoing.setTypeOfRelationship("Vorgesetzter von");
+        outgoing.setSince("2020");
+        relationshipService.saveRelationship(outgoing);
 
-
-
+        Relationship ingoing = new Relationship();
+        ingoing.setContactA(jana);
+        ingoing.setContactB(anna);
+        ingoing.setTypeOfRelationship("arbeitet für");
+        ingoing.setSince("2020");
+        relationshipService.saveRelationship(ingoing);
 
         //example events
         Set<Contact> janaFlorian = new HashSet<>();

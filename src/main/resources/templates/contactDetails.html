@@ -80,69 +80,43 @@
             <div class="card-header" id="headingThree">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Weitere Informationen
+                        Beziehungen
                     </button>
                 </h2>
             </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div class="card-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm">
-                                Kontakthistorien
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+               Test
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Art der Beziehung</th>
+                        <th>Mit</th>
+                        <th>Funktionen</th>
+                    </tr>
+                    <tr th:each="relationship : ${contact.outgoingRelationships}">
+                        <td th:text="${relationship.contactA.firstname}"></td>
+                        <td th:field="*{relationship.typeOfRelationship}"></td>
+                        <td th:text="${relationship.contactB.firstname}"></td>
+                        <td>
+                            <form ACTION="#" th:action="@{/deleteOutgoingRelationship}" th:object="${relationship}">
+                                <input type="hidden" th:value="${relationship.relationshipID}" th:name ="relationshipID" />
+                                <button type="submit" class="btn btn-secondary">Relation löschen </button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
 
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>Informationen</th>
-                                        <th>Datum</th>
-                                        <th>Funktionen</th>
-                                    </tr>
-                                    <tr th:each="history : ${contact.contacthistories}">
-                                        <td th:text="${history.text}"></td>
-                                        <td th:text="${history.date}"></td>
-                                        <td>
-                                            <form ACTION="#" th:action="@{/editContactHistory}" th:object="${history}">
-                                                <input type="hidden" th:value="${history.contacthistoryId}" th:name ="contacthistoryId" />
+                Neue Beziehung hinzufügen
+                <form ACTION="#" th:action="@{/createNewRelationship}" th:object="${contact}" method="post">
+                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+                    <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
+                </form>
 
-                                                <button type="submit" class="btn btn-secondary">Historie bearbeiten </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col-sm">
-                                Institute
 
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>Name</th>
-                                    </tr>
-                                    <tr th:each="institute : ${contact.institutes}">
-                                        <td th:text="${institute.name}"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="col-sm">
-                                Events
-
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Datum</th>
-                                        <th>Text</th>
-                                    </tr>
-                                    <tr th:each="event : ${contact.events}">
-                                        <td th:text="${event.eventName}"></td>
-                                        <td th:text="${event.date}"></td>
-                                        <td th:text="${event.text}"></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 
