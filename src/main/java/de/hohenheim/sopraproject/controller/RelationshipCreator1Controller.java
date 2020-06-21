@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-public class RelationshipCreatorController {
+public class RelationshipCreator1Controller {
 
     public static Contact contactA;
     private Relationship relationshipTemp;
@@ -24,9 +24,8 @@ public class RelationshipCreatorController {
 
     private String searchWord;
     private Set<Contact> foundContacts;
-    private String choosenContact;
 
-    @RequestMapping(value = "/relationshipCreator", method = RequestMethod.GET)
+    @RequestMapping(value = "/relationshipCreator1", method = RequestMethod.GET)
     public String relationshipCreatorController(Model model) {
         relationshipTemp = new Relationship();
         relationshipTemp.setContactA(contactA);
@@ -39,9 +38,8 @@ public class RelationshipCreatorController {
             model.addAttribute("allContacts", new HashSet<Contact>());
         }
         model.addAttribute("searchWord", searchWord);
-        model.addAttribute("choosenContact", choosenContact);
 
-        return "relationshipCreator";
+        return "contacts/relationshipCreator1";
     }
 
     @RequestMapping(value ="/searchContact", method = RequestMethod.POST)
@@ -57,22 +55,17 @@ public class RelationshipCreatorController {
             foundContacts.clear();
             System.out.println("No Contacts Found");
         }
-        return "redirect:/relationshipCreator";
+        return "redirect:/relationshipCreator1";
     }
 
     @RequestMapping(value = "/setContactB", method = RequestMethod.POST)
     public String setContactB(Contact contact) {
         relationshipTemp.setContactB(contactRepository.findByContactID(contact.getContactID()));
-        choosenContact = relationshipTemp.getContactB().getFirstname() + " " + relationshipTemp.getContactB().getLastname();
+        RelationshipCreator2Controller.relationshipTemp = relationshipTemp;
 
-        return "redirect:/relationshipCreator";
+        System.out.println("redirecting to PArt 2");
+
+        return "redirect:/relationshipCreator2";
     }
 
-    @RequestMapping(value = "/saveRelationship", method = RequestMethod.POST)
-    public String saveRelationship(Relationship relationship) {
-        relationshipTemp.setSince(relationship.getSince());
-        relationshipTemp.setTypeOfRelationship(relationship.getTypeOfRelationship());
-
-        return "redirect:/contactDetails";
-    }
 }

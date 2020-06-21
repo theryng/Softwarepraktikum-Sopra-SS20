@@ -1,7 +1,5 @@
 package de.hohenheim.sopraproject.entity;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -64,7 +62,7 @@ public class Contact {
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+    private Set<ContactHistory> contactHistory = new HashSet<>();
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, String dayOfBirth) {
@@ -233,12 +231,12 @@ public class Contact {
         this.institutes.add(institutes);
     }
 
-    public Set<Contacthistory> getContacthistories() {
-        return contacthistories;
+    public Set<ContactHistory> getContactHistory() {
+        return contactHistory;
     }
 
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
-        this.contacthistories = contacthistories;
+    public void setContactHistory(Set<ContactHistory> contacthistories) {
+        this.contactHistory = contacthistories;
     }
     public String getTempZipCode() {
         return tempZipCode;

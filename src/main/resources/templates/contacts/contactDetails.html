@@ -18,15 +18,17 @@
 <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<!-- Main Body -->
-<h2>Kontaktinformationen</h2>
-<div class="container-fluid ml-5 mr-5 mt-5">
-    <div class="accordion" id="accordionExample">
+<div class="container-fluid mt-5">
+
+    <!-- Main Body -->
+    <h1 class="ml-1"> Kontaktinformationen</h1>
+
+    <div class="accordion mt-2" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Kontakt einsehen
+                        <h3>Allgemeine Kontaktinformationen</h3>
                     </button>
                 </h1>
             </div>
@@ -35,22 +37,28 @@
                 <div class="card-body">
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
 
-                        <div class="col-sm-10">
-                            <div class = "row">
-                                <div class = "col w-25">
-                                    Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                        <div class="row">
+                                <div class = "col-sm-10w">
+                                    <div class = "row">
+                                        <div class = "col w-25">
+                                            Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                                        </div>
+                                        <div class = "col w-25">
+                                            Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                                        </div>
+                                    </div>
+                                    Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+                                    E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+                                    Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
                                 </div>
-                                <div class = "col w-25">
-                                    Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                                <div class = "col-sm-10w ml-5">
+                                    Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+                                    Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                    Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+                                    Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
                                 </div>
-                            </div>
-                            Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
-                            E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
-                            Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
-                            Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
-                            Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
-                            Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
-                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                        </div>
+
                             <div class = "row">
                                 <div class = "col">
                                     Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{address.city}"/>
@@ -65,29 +73,28 @@
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
                                 </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-3 ml-5">Kontakt speichern</button>
+
+                        <button type="submit" class="btn btn-primary mt-3 ml-3">Kontakt speichern</button>
                     </form>
                     <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
                         <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
 
-                        <button type="submit" class="btn btn-danger mt-3 ml-5">Kontakt löschen </button>
+                        <button type="submit" class="btn btn-danger mt-3 ml-3">Kontakt löschen </button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="card-header" id="headingThree">
+            <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Beziehungen
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h3>Beziehungen</h3>
                     </button>
                 </h2>
             </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
-               Test
-                <table class="table table-striped">
+                <table class="table table-striped" th:if="${existingRelationships}">
                     <tr>
                         <th>Name</th>
                         <th>Art der Beziehung</th>
@@ -96,7 +103,7 @@
                     </tr>
                     <tr th:each="relationship : ${contact.outgoingRelationships}">
                         <td th:text="${relationship.contactA.firstname}"></td>
-                        <td th:field="*{relationship.typeOfRelationship}"></td>
+                        <td th:text="${relationship.typeOfRelationship}"></td>
                         <td th:text="${relationship.contactB.firstname}"></td>
                         <td>
                             <form ACTION="#" th:action="@{/deleteOutgoingRelationship}" th:object="${relationship}">
@@ -107,8 +114,11 @@
                     </tr>
                 </table>
 
-                Neue Beziehung hinzufügen
-                <form ACTION="#" th:action="@{/createNewRelationship}" th:object="${contact}" method="post">
+                <div th:if="${not existingRelationships}" class="ml-5 mr-5 mt-5">
+                    Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
+                </div>
+
+                <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/createNewRelationship}" th:object="${contact}" method="post">
                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
                     <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
                 </form>
@@ -117,6 +127,39 @@
             </div>
         </div>
     </div>
+
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <h3>Kontakthistorien</h3>
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Datum des Kontakts </th>
+                            <th>Text</th>
+                            <th>Funktionen</th>
+                        </tr>
+                        <tr th:each="contacthistories : ${contact.contactHistory}">
+                            <td th:text="${contacthistories.date}"></td>
+                            <td th:field="*{contacthistories.text}"></td>
+                            <td>
+                                <form ACTION="#" th:action="@{/openEditContactHistory}" th:object="${viewedHistory}">
+                                    <input type="hidden" th:value="${contacthistories.contactHistoryID}" th:name ="contactHistoryID" />
+                                    <button type="submit" class="btn btn-secondary">bearbeiten </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
