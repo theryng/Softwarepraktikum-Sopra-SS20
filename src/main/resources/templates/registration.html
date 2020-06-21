@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="col w-25">
-                            Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" th:field="*{password}" required>
+                            Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
                             <div class="invalid-feedback">Please confirm your password.</div>
                         </div>
                     </div>
@@ -99,6 +99,12 @@
 </div>
 
 <script>
+    /**
+     * Checks if the password in the second field is the exact string of the password in the first field. If not a message will pop up asking the user to
+     * change the second input until the strings are the same
+     *
+     * @type {HTMLElement}
+     */
     var password = document.getElementById("password")
         , confirm_Password = document.getElementById("confirm_Password");
 
