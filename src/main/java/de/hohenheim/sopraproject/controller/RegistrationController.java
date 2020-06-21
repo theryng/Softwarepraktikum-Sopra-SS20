@@ -35,7 +35,7 @@ public class RegistrationController {
         return "registration";
     }
 
-    @RequestMapping(value="/deleteUser", method = RequestMethod.POST)
+    @RequestMapping(value="/deleteUser", method = RequestMethod.DELETE)
     public String deleteUser(User user){
         userRepository.deleteById(user.getUserId());
         System.out.println("delete user");
