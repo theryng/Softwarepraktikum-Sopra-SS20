@@ -32,8 +32,7 @@ public class User {
     private Set<Role> roles;
 
 
-    public User(Integer userId, String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
-        this.userId = userId;
+    public User(String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
         this.username = username;
         this.roles = roles;
         this.password = password;
