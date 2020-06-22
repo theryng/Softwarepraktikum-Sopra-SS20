@@ -25,11 +25,14 @@ public class RelationshipCreator1Controller {
     private String searchWord;
     private Set<Contact> foundContacts;
 
+    private boolean viewTable;
+
     @RequestMapping(value = "/relationshipCreator1", method = RequestMethod.GET)
     public String relationshipCreatorController(Model model) {
         relationshipTemp = new Relationship();
         relationshipTemp.setContactA(contactA);
         model.addAttribute("relationship", relationshipTemp);
+        model.addAttribute("viewTable", viewTable);
 
         if(foundContacts != null){
             model.addAttribute("allContacts", foundContacts);
@@ -50,10 +53,11 @@ public class RelationshipCreator1Controller {
         Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
         if(foundContactsTemp.size()>0){
             foundContacts = foundContactsTemp;
+            viewTable = true;
         }
         else{
             foundContacts.clear();
-            System.out.println("No Contacts Found");
+            viewTable = false;
         }
         return "redirect:/relationshipCreator1";
     }

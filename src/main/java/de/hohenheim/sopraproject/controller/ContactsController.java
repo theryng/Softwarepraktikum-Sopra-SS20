@@ -20,14 +20,12 @@ public class ContactsController {
     private ContactService contactService;
     @RequestMapping(value ="/contacts", method = RequestMethod.GET)
     public String contacts(Model model) {
-        System.out.println("Contact");
         model.addAttribute("contact", new Contact());
         model.addAttribute("allContacts", contactRepository.findAll());
         return "contacts";
     }
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
     public String saveContact(Contact contact){
-        System.out.println("saving contact");
         contact.setAddress(new Address(contact.getTempZipCode(), contact.getTempCity(), contact.getTempStreet() , contact.getTempHouseNmbr()));
         contactRepository.save(contact);
         return "redirect:/contacts";
@@ -40,7 +38,6 @@ public class ContactsController {
     @RequestMapping("/viewContact")
     public String viewContact(Contact contactID) {
         ContactDetailsController.contactID = contactID.getContactID();
-        System.out.println(ContactDetailsController.contactID);
         return "redirect:/contactDetails";
     }
 }

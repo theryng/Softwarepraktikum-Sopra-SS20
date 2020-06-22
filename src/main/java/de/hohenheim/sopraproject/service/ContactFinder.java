@@ -16,9 +16,8 @@ public class ContactFinder {
     public Set<Contact> findContacts(String searchWord, List<Contact> allContacts) {
         Set<Contact> foundContacts = new HashSet<>();
         for (Contact elem : allContacts) {
-            if (elem.getFirstname().contains(searchWord)) {
+            if (elem.getSearchString().contains(searchWord)) {
                 foundContacts.add(elem);
-                System.out.println(elem.getFirstname());
             }
         }
         return foundContacts;

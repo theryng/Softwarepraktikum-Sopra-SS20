@@ -36,21 +36,16 @@ public class ContactDetailsController {
     private Contact contactB;
 
     private boolean existingRelationships;
+    private boolean existingContactHistories;
     @RequestMapping(value = "/contactDetails", method = RequestMethod.GET)
     public String contactDetails(Model model) {
         Contact contact = contactRepository.findByContactID(contactID);
-
-        if(contact.outgoingRelationships.size()>0){
-            existingRelationships = true;
-        }
-        else{
-            existingRelationships = false;
-        }
+        checkTables(contact);
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());
         model.addAttribute("existingRelationships", existingRelationships);
-        System.out.println("Test");
+        model.addAttribute("existingContactHistories", existingContactHistories);
 
         if(foundContacts.size()>0){
             model.addAttribute("allContacts", foundContacts);
@@ -66,21 +61,22 @@ public class ContactDetailsController {
     public String contactDetails(Contact contact) {
         contact.setContactID(contactID);
         contactRepository.save(contact);
-        System.out.println("saving");
         return "redirect:/contacts/contacts";
     }
     @RequestMapping(value = "/deleteContact", method = RequestMethod.POST)
     public String deleteDetails(Contact contact) {
         contactRepository.deleteById(contact.getContactID());
-        System.out.println("saving");
         return "redirect:/contacts";
     }
     @RequestMapping("/openEditContactHistory")
     public String editContactHistory(ContactHistory viewedHistory) {
-        System.out.println("View History");
         ContactHistoryEditorController.contactHistory = contacthistoryRepository.findByContactHistoryID(viewedHistory.getContactHistoryID());
-        System.out.println(viewedHistory.getContactHistoryID());
         return "redirect:/contactHistoryEditor";
+    }
+    @RequestMapping(value ="/createNewContactHistory", method = RequestMethod.POST)
+    public String createNewContactHistory(Contact contact) {
+        ContactHistoryCreator1Controller.originalContact = contactRepository.findByContactID(contact.getContactID());
+        return "redirect:/contactHistoryCreator1";
     }
 
     @RequestMapping(value ="/chooseContact", method = RequestMethod.POST)
@@ -91,13 +87,28 @@ public class ContactDetailsController {
 
     @RequestMapping(value ="/createNewRelationship", method = RequestMethod.POST)
     public String createNewRelationship(Contact contact) {
-        System.out.println(contact.getContactID());
         RelationshipCreator1Controller.contactA = contactRepository.findByContactID(contact.getContactID());
         return "redirect:/relationshipCreator1";
     }
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
         relationshipRepository.deleteById(relationship.getRelationshipID());
-        return "redirect:/contacts/contacts";
+        return "redirect:/contactDetails";
+    }
+
+
+    private void checkTables(Contact contact){
+        if(contact.outgoingRelationships.size()>0){
+            existingRelationships = true;
+        }
+        else{
+            existingRelationships = false;
+        }
+        if(contact.getContactHistory().size()>0){
+            existingContactHistories = true;
+        }
+        else{
+            existingContactHistories = false;
+        }
     }
 }

@@ -34,6 +34,8 @@ public class Contact {
 
     private String dayOfBirth;
 
+    private String searchString;
+
     @Embedded
     private Address address;
     @Transient
@@ -117,6 +119,7 @@ public class Contact {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
+        searchString = searchString + firstname;
     }
 
     public String getLastname() {
@@ -125,6 +128,7 @@ public class Contact {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+        searchString = searchString + lastname;
     }
 
     public String getOccupation() {
@@ -288,5 +292,9 @@ public class Contact {
 
     public void setIngoingRelationships(Set<Relationship> ingoingRelationships) {
         this.ingoingRelationships = ingoingRelationships;
+    }
+    public String getSearchString(){
+        searchString = firstname + lastname + linkToHomepage;
+        return searchString;
     }
 }

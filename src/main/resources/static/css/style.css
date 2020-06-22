@@ -28,5 +28,10 @@
 .container-fluid {
     margin-right: auto;
     margin-left: auto;
-    max-width: 1400px;
+    max-width: 1200px;
+}
+.body{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1200px;
 }
