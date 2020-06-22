@@ -9,21 +9,21 @@ import java.util.Set;
  * and it has a man to one relation to "Contact".
  */
 @Entity
-public class Contacthistory {
+public class ContactHistory {
 
     @Id
     @GeneratedValue
-    private Integer contacthistoryId;
+    private Integer contactHistoryID;
 
-    private String date;
+    public String date;
 
-    private String text;
-//Funk
+    public String text;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Contact> contactOfHistory;
+    public Set<Contact> contactOfHistory;
 
 
-    public Contacthistory() {
+    public ContactHistory() {
         //empty constructor for Hibernate
     }
 
@@ -33,14 +33,6 @@ public class Contacthistory {
 
     public void setContactOfHistory(Set<Contact> contactOfHistory) {
         this.contactOfHistory = contactOfHistory;
-    }
-
-    public Integer getContakthistoryId() {
-        return contacthistoryId;
-    }
-
-    public void setContakthistoryId(Integer contakthistoryId) {
-        this.contacthistoryId = contakthistoryId;
     }
 
     public String getDate() {
@@ -59,12 +51,12 @@ public class Contacthistory {
         this.text = text;
     }
 
-    public Integer getContacthistoryId() {
-        return contacthistoryId;
+    public Integer getContactHistoryID() {
+        return contactHistoryID;
     }
 
-    public void setContacthistoryId(Integer contacthistoryId) {
-        this.contacthistoryId = contacthistoryId;
+    public void setContactHistoryID(Integer contacthistoryId) {
+        this.contactHistoryID = contacthistoryId;
     }
 
 

@@ -32,7 +32,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     private InstituteService instituteService;
 
     @Autowired
-    private ContacthistoryService contacthistoryService;
+    private ContactHistoryService contacthistoryService;
 
     @Autowired
     private EventService eventService;
@@ -138,7 +138,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         max.setEmail("maxM@yahoo.de");
         max.setCourseOfStudies("Wirtschaftsinformatik");
         max.setFreeText("Semestersprecher des fünften Bachelor Semesters in SS99 ");
-        max.setFormatDateOfBirth(1986, 0, 01);
+        max.setFormatDateOfBirth(1986, 1, 1);
         max.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "1"));
         max.setHobby("Kickboxen");
         max.setLinkToHomepage("https://de.wikipedia.org/wiki/Mustermann");
@@ -205,7 +205,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jonas.setEmail("JonasH@yahoo.de");
         jonas.setCourseOfStudies("Informatik");
         jonas.setFreeText("Forschungsbereiche: Informationstechnologie");
-        jonas.setFormatDateOfBirth(1996, 0, 01);
+        jonas.setFormatDateOfBirth(1996, 1, 1);
         jonas.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "8"));
         jonas.setHobby("");
         jonas.setLinkToHomepage("");
@@ -231,7 +231,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sabine.setEmail("SabineM@gmail.com");
         sabine.setCourseOfStudies("Informatik");
         sabine.setFreeText("");
-        sabine.setFormatDateOfBirth(1985, 0, 9);
+        sabine.setFormatDateOfBirth(1985, 1, 9);
         sabine.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "10"));
         sabine.setHobby("Turnt gerne in ihrer Freizeit");
         sabine.setLinkToHomepage("");
@@ -283,7 +283,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         aleyna.setEmail("AleynaT@yahoo.de");
         aleyna.setCourseOfStudies("Informatik");
         aleyna.setFreeText("");
-        aleyna.setFormatDateOfBirth(1992, 0, 01);
+        aleyna.setFormatDateOfBirth(1992, 1, 1);
         aleyna.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "14"));
         aleyna.setHobby("Reiten");
         aleyna.setLinkToHomepage("");
@@ -385,65 +385,75 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         //Example contacthistories
         //Creates new entry of Contacthistory Dates. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
-        Contacthistory historyOneDates = new Contacthistory();
+        ContactHistory historyOneDates = new ContactHistory();
         historyOneDates.setText("Beim Kaffetrinken kennengelernt");
         historyOneDates.setContactOfHistory(ContactsHistoryOne);
         historyOneDates.setDate("13.04.2018");
         contacthistoryService.saveContacthistory(historyOneDates);
 
-        Contacthistory historyTwoDates = new Contacthistory();
+        ContactHistory historyTwoDates = new ContactHistory();
         historyTwoDates.setDate("09.09.2020");
         historyTwoDates.setText("Beim Teetrinken getroffen");
         contacthistoryService.saveContacthistory(historyTwoDates);
 
-        Contacthistory historyThreeDates = new Contacthistory();
+        ContactHistory historyThreeDates = new ContactHistory();
         historyThreeDates.setDate("12.12.2019");
         historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
         contacthistoryService.saveContacthistory(historyThreeDates);
 
-        Set<Contacthistory> historyOne = new HashSet<>();
+        Set<ContactHistory> historyOne = new HashSet<>();
         historyOne.add(historyOneDates);
 
-        Set<Contacthistory> historyTwo = new HashSet<>();
+        Set<ContactHistory> historyTwo = new HashSet<>();
         historyTwo.add(historyTwoDates);
 
-        Set<Contacthistory> historyThree = new HashSet<>();
+        Set<ContactHistory> historyThree = new HashSet<>();
         historyThree.add(historyThreeDates);
 
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
-        max.setContacthistories(historyOne);
+        max.setContactHistory(historyOne);
         contactService.saveContact(max);
 
-        julia.setContacthistories(historyOne);
+        julia.setContactHistory(historyOne);
         contactService.saveContact(julia);
 
-        alfred.setContacthistories(historyTwo);
+        alfred.setContactHistory(historyTwo);
         contactService.saveContact(alfred);
 
-        tristan.setContacthistories(historyTwo);
+        tristan.setContactHistory(historyTwo);
         contactService.saveContact(tristan);
 
-        sabine.setContacthistories(historyTwo);
+        sabine.setContactHistory(historyTwo);
         contactService.saveContact(sabine);
 
-        alex.setContacthistories(historyThree);
+        alex.setContactHistory(historyThree);
         contactService.saveContact(alex);
 
         // max.setContacthistories(historyThree);
         //contactService.saveContact(max);
 
-        anna.setContacthistories(historyThree);
+        anna.setContactHistory(historyThree);
         contactService.saveContact(anna);
 
-        jana.setContacthistories(historyThree);
+        jana.setContactHistory(historyThree);
         contactService.saveContact(jana);
 
-        peter.setContacthistories(historyThree);
+        peter.setContactHistory(historyThree);
         contactService.saveContact(peter);
 
+        Relationship outgoing = new Relationship();
+        outgoing.setContactA(anna);
+        outgoing.setContactB(jana);
+        outgoing.setTypeOfRelationship("Vorgesetzter von");
+        outgoing.setSince("2020");
+        relationshipService.saveRelationship(outgoing);
 
-
-
+        Relationship ingoing = new Relationship();
+        ingoing.setContactA(jana);
+        ingoing.setContactB(anna);
+        ingoing.setTypeOfRelationship("arbeitet für");
+        ingoing.setSince("2020");
+        relationshipService.saveRelationship(ingoing);
 
         //example events
         Set<Contact> janaFlorian = new HashSet<>();

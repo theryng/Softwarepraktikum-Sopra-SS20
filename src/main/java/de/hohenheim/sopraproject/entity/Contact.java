@@ -1,7 +1,5 @@
 package de.hohenheim.sopraproject.entity;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,6 +34,8 @@ public class Contact {
 
     private String dayOfBirth;
 
+    private String searchString;
+
     @Embedded
     private Address address;
     @Transient
@@ -51,6 +51,12 @@ public class Contact {
 
     private String linkToHomepage;
 
+    @OneToMany(mappedBy = "contactA", cascade = CascadeType.ALL)
+    public Set<Relationship> outgoingRelationships = new HashSet<>();
+
+    @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
+    public Set<Relationship> ingoingRelationships = new HashSet<>();
+
     @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
@@ -58,7 +64,7 @@ public class Contact {
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+    private Set<ContactHistory> contactHistory = new HashSet<>();
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, String dayOfBirth) {
@@ -86,17 +92,31 @@ public class Contact {
     }
 
     public void setFormatDateOfBirth(int year, int month, int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD");
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         Date date = calendar.getTime();
+        String monthString;
+        String dayString;
+        if(month<10){
+            monthString = "0"+month;
+        }
+        else{
+            monthString = month+"";
+        }
+        if(day<10){
+            dayString = "0"+day;
+        }
+        else{
+            dayString = day+"";
+        }
 
         String stringDate = format.format(date);
         Date dayOfBirth = convertStringToDate(stringDate);
-        setDayOfBirth(year+"-"+month+"-"+day);
+        setDayOfBirth(year+"-"+monthString+"-"+dayString);
     }
 
     public Integer getContactID() {
@@ -113,6 +133,7 @@ public class Contact {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
+        searchString = searchString + firstname;
     }
 
     public String getLastname() {
@@ -121,6 +142,7 @@ public class Contact {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+        searchString = searchString + lastname;
     }
 
     public String getOccupation() {
@@ -170,30 +192,6 @@ public class Contact {
     public void setAddress(Address address) {
         this.address = address;
     }
-/*
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getHouseNmbr() {
-        return houseNmbr;
-    }
-
-    public void setHouseNmbr(String houseNmbr) {
-        this.houseNmbr = houseNmbr;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }*/
 
     public String getHobby() {
         return hobby;
@@ -227,12 +225,12 @@ public class Contact {
         this.institutes.add(institutes);
     }
 
-    public Set<Contacthistory> getContacthistories() {
-        return contacthistories;
+    public Set<ContactHistory> getContactHistory() {
+        return contactHistory;
     }
 
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
-        this.contacthistories = contacthistories;
+    public void setContactHistory(Set<ContactHistory> contacthistories) {
+        this.contactHistory = contacthistories;
     }
     public String getTempZipCode() {
         return tempZipCode;
@@ -269,5 +267,24 @@ public class Contact {
         event.addParticipent(this);
         events.add(event);
 
+    }
+    public Set<Relationship> getOutgoingRelationships() {
+        return outgoingRelationships;
+    }
+
+    public void setOutgoingRelationships(Set<Relationship> outgoingRelationships) {
+        this.outgoingRelationships = outgoingRelationships;
+    }
+
+    public Set<Relationship> getIngoingRelationships() {
+        return ingoingRelationships;
+    }
+
+    public void setIngoingRelationships(Set<Relationship> ingoingRelationships) {
+        this.ingoingRelationships = ingoingRelationships;
+    }
+    public String getSearchString(){
+        searchString = firstname + lastname + linkToHomepage;
+        return searchString;
     }
 }
