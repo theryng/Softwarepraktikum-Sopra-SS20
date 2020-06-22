@@ -57,6 +57,9 @@ public class Contact {
     @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
     private Set<Relationship> relationshipsB = new HashSet<>();
 
+//    @OneToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
+//    private Set<Relationship> relationships = new HashSet<>();
+
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<>();
 
@@ -65,6 +68,9 @@ public class Contact {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Contacthistory> contacthistories;
+
+
+
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, String dayOfBirth) {
