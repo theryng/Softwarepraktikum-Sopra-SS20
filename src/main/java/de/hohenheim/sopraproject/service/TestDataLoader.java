@@ -138,7 +138,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         max.setEmail("maxM@yahoo.de");
         max.setCourseOfStudies("Wirtschaftsinformatik");
         max.setFreeText("Semestersprecher des fünften Bachelor Semesters in SS99 ");
-        max.setFormatDateOfBirth(1986, 0, 01);
+        max.setFormatDateOfBirth(1986, 1, 1);
         max.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "1"));
         max.setHobby("Kickboxen");
         max.setLinkToHomepage("https://de.wikipedia.org/wiki/Mustermann");
@@ -205,7 +205,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jonas.setEmail("JonasH@yahoo.de");
         jonas.setCourseOfStudies("Informatik");
         jonas.setFreeText("Forschungsbereiche: Informationstechnologie");
-        jonas.setFormatDateOfBirth(1996, 0, 01);
+        jonas.setFormatDateOfBirth(1996, 1, 1);
         jonas.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "8"));
         jonas.setHobby("");
         jonas.setLinkToHomepage("");
@@ -231,7 +231,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sabine.setEmail("SabineM@gmail.com");
         sabine.setCourseOfStudies("Informatik");
         sabine.setFreeText("");
-        sabine.setFormatDateOfBirth(1985, 0, 9);
+        sabine.setFormatDateOfBirth(1985, 1, 9);
         sabine.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "10"));
         sabine.setHobby("Turnt gerne in ihrer Freizeit");
         sabine.setLinkToHomepage("");
@@ -283,7 +283,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         aleyna.setEmail("AleynaT@yahoo.de");
         aleyna.setCourseOfStudies("Informatik");
         aleyna.setFreeText("");
-        aleyna.setFormatDateOfBirth(1992, 0, 01);
+        aleyna.setFormatDateOfBirth(1992, 1, 1);
         aleyna.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "14"));
         aleyna.setHobby("Reiten");
         aleyna.setLinkToHomepage("");

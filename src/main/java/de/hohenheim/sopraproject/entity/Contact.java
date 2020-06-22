@@ -92,17 +92,31 @@ public class Contact {
     }
 
     public void setFormatDateOfBirth(int year, int month, int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD");
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         Date date = calendar.getTime();
+        String monthString;
+        String dayString;
+        if(month<10){
+            monthString = "0"+month;
+        }
+        else{
+            monthString = month+"";
+        }
+        if(day<10){
+            dayString = "0"+day;
+        }
+        else{
+            dayString = day+"";
+        }
 
         String stringDate = format.format(date);
         Date dayOfBirth = convertStringToDate(stringDate);
-        setDayOfBirth(year+"-"+month+"-"+day);
+        setDayOfBirth(year+"-"+monthString+"-"+dayString);
     }
 
     public Integer getContactID() {
@@ -178,30 +192,6 @@ public class Contact {
     public void setAddress(Address address) {
         this.address = address;
     }
-/*
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getHouseNmbr() {
-        return houseNmbr;
-    }
-
-    public void setHouseNmbr(String houseNmbr) {
-        this.houseNmbr = houseNmbr;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
-    }*/
 
     public String getHobby() {
         return hobby;
