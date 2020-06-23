@@ -78,7 +78,7 @@ public class Contact {
         setEmail(email);
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
-       // setDayOfBirth(yearOfBirth, monthOfBirth, dayOfBirth);
+        setDayOfBirth(yearOfBirth, monthOfBirth, dayOfBirth);
     }
 
     public Contact() {
