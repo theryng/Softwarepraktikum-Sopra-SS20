@@ -26,15 +26,35 @@
             </div>
         </div>
 
-        <div class="mr-5 ml-5 mt-3">
-            <form class="form-horizontal" id="multiCollapseExample1" th:object="${relationship}" th:action="@{/saveRelationship}" method="post">
+        <div class="mr-5 ml-5 mt-3 mb-2">
+            <form ACTION="#" th:action="@{/backRelationshipCreator2}" method="post">
+                <button type="submit" class="btn btn-secondary float-right">Zurück</button>
+            </form>
+            <h4>Weitere Eingaben</h4>
 
+            <form class="form-horizontal mt-3" id="multiCollapseExample1" th:object="${relationship}" th:action="@{/saveRelationship}" method="post">
+            <div class="alert alert-success" role="alert">
                 Gewählter Kontakt: <a th:text = "${choosenContact}">  </a></br>
+            </div>
 
                 Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{typeOfRelationship}"/></br>
                 Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{since}"></br>
 
-                <button type="submit" class="btn btn-primary mt-3 ml-5">Kontakt speichern</button>
+                <p>
+                    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Bezeichnung für Gegenrechnung hinzufügen</button>
+                </p>
+                <div class="row">
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="CollapseIngoing">
+                            <div class="card card-body">
+                                <div class="mb-2 text-muted"> Hinweis: Eingabe nicht nötig, bei fehlender Eingabe identisch</div>
+                                Gegenrichtung: <input type="text" class="form-control" name="ingoingString" th:field="*{ingoingString}"></br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Beziehung speichern</button>
             </form>
         </div>
     </div>

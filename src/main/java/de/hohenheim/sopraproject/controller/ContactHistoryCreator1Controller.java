@@ -24,7 +24,7 @@ public class ContactHistoryCreator1Controller {
     private ContactRepository contactRepository;
 
     private String searchWord;
-    private Set<Contact> foundContacts;
+    private Set<Contact> foundContacts = new HashSet<>();
     private Set<Contact> choosenContacts = new HashSet<>();
 
     private boolean viewTableHistories;
@@ -90,5 +90,38 @@ public class ContactHistoryCreator1Controller {
         ContactHistoryCreator2Controller.choosenContacts=choosenContacts;
 
         return "redirect:/contactHistoryCreator2";
+    }
+
+    @RequestMapping(value = "/deleteChoosenContacts", method = RequestMethod.POST)
+    public String deleteChoosenContacts(Contact contact) {
+
+        for(Contact con : choosenContacts){
+            if(con.getContactID() == contact.getContactID()){
+                choosenContacts.remove(con);
+            }
+        }
+        if(choosenContacts.size()<1){
+            viewChoosenTable = false;
+        }
+        return "redirect:/contactHistoryCreator1";
+    }
+
+    @RequestMapping(value = "/backContactHistoryCreator1", method = RequestMethod.POST)
+    public String backContactHistoryCreator1() {
+
+        try {
+            if(!(foundContacts.size()<1)){
+                foundContacts.clear();
+            }
+            if(!(choosenContacts.size()<1)){
+                choosenContacts.clear();
+            }
+        } finally {
+            System.out.println("Nothing to clear");
+        }
+
+        viewTableHistories = false;
+        viewChoosenTable = false;
+        return "redirect:/contactDetails";
     }
 }

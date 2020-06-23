@@ -17,6 +17,7 @@ public class RelationshipCreator2Controller {
     @Autowired
     private RelationshipRepository relationshipRepository;
 
+    private String ingoingString;
 
     @RequestMapping(value = "/relationshipCreator2", method = RequestMethod.GET)
     public String relationshipCreatorController(Model model) {
@@ -30,8 +31,28 @@ public class RelationshipCreator2Controller {
 
         relationship.setContactA(relationshipTemp.getContactA());
         relationship.setContactB(relationshipTemp.getContactB());
+        Relationship ingoingRelationship = new Relationship();
+        if(relationship.getIngoingString() == ""){
+            ingoingRelationship.setContactA(relationship.getContactB());
+            ingoingRelationship.setContactB(relationship.getContactA());
+            ingoingRelationship.setTypeOfRelationship(relationship.getTypeOfRelationship());
+            ingoingRelationship.setSince(relationship.getSince());
+        }
+        else{
+            ingoingRelationship.setContactA(relationship.getContactB());
+            ingoingRelationship.setContactB(relationship.getContactA());
+            ingoingRelationship.setTypeOfRelationship(relationship.getIngoingString());
+            ingoingRelationship.setSince(relationship.getSince());
+        }
+        relationship.setPartnerRelationship(ingoingRelationship);
         relationshipRepository.save(relationship);
+        relationshipRepository.save(ingoingRelationship);
 
         return "redirect:/contactDetails";
+    }
+
+    @RequestMapping(value = "/backRelationshipCreator2", method = RequestMethod.POST)
+    public String backRelationShipCreator1() {
+        return "redirect:/relationshipCreator1";
     }
 }

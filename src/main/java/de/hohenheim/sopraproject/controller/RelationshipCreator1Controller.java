@@ -23,7 +23,7 @@ public class RelationshipCreator1Controller {
     private ContactRepository contactRepository;
 
     private String searchWord;
-    private Set<Contact> foundContacts;
+    private Set<Contact> foundContacts = new HashSet<>();
 
     private boolean viewTable;
 
@@ -70,6 +70,13 @@ public class RelationshipCreator1Controller {
         System.out.println("redirecting to PArt 2");
 
         return "redirect:/relationshipCreator2";
+    }
+
+    @RequestMapping(value = "/backRelationshipCreator1", method = RequestMethod.POST)
+    public String backRelationShipCreator1() {
+        foundContacts.clear();
+        viewTable = false;
+        return "redirect:/contactDetails";
     }
 
 }

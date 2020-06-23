@@ -60,8 +60,11 @@ public class ContactDetailsController {
     @RequestMapping(value = "/savingContact", method = RequestMethod.POST)
     public String contactDetails(Contact contact) {
         contact.setContactID(contactID);
-        contactRepository.save(contact);
-        return "redirect:/contacts/contacts";
+        if(!contactRepository.findByContactID(contact.getContactID()).equals(contact)){
+            contactRepository.save(contact);
+        }
+
+        return "redirect:/contacts";
     }
     @RequestMapping(value = "/deleteContact", method = RequestMethod.POST)
     public String deleteDetails(Contact contact) {
@@ -92,11 +95,16 @@ public class ContactDetailsController {
     }
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
+
         relationshipRepository.deleteById(relationship.getRelationshipID());
         return "redirect:/contactDetails";
     }
 
-
+    @RequestMapping(value = "/backContactDetails", method = RequestMethod.POST)
+    public String backContactDetails() {
+        contactID = null;
+        return "redirect:/contacts";
+    }
     private void checkTables(Contact contact){
         if(contact.outgoingRelationships.size()>0){
             existingRelationships = true;

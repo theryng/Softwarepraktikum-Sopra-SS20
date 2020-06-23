@@ -126,8 +126,19 @@ public class ContactHistoryEditorController {
 
     @RequestMapping(value ="/enableAddContacts", method = RequestMethod.POST)
     public String enableAddContacts(String searchWord) {
-        addContact = true;
+        if(addContact){
+            addContact = false;
+        }
+        else{
+            addContact = true;
+        }
         return "redirect:/contactHistoryEditor";
+    }
+
+    @RequestMapping(value = "/backContactHistoryEditor", method = RequestMethod.POST)
+    public String backContactHistoryEditor() {
+
+        return "redirect:/contactDetails";
     }
 
 }

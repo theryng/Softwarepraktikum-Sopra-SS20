@@ -35,4 +35,10 @@ public class ContactHistoryCreator2Controller {
 
         return "redirect:/contactDetails";
     }
+
+    @RequestMapping(value = "/backContactHistoryCreator2", method = RequestMethod.POST)
+    public String backContactHistoryCreator2() {
+
+        return "redirect:/contactHistoryCreator1";
+    }
 }

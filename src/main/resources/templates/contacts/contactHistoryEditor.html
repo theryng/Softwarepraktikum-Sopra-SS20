@@ -14,10 +14,18 @@
 <!-- HTMLHead with Taskbar -->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
     <!-- Container with main Contents of Site-->
-    <div class = "container-fluid">
+    <div class = "container-fluid mt-5">
+
+        <h1>Bearbeiten einer Kontakthistorie</h1>
+        <form ACTION="#" th:action="@{/backContactHistoryEditor}" method="post">
+            <button type="submit" class="btn btn-secondary float-right">Zurück</button>
+        </form>
+
         <!-- Form for Editing of ContactHistory -->
+
         <form class="form-horizontal" id="EditingHistory" th:object="${contactHistory}" th:action="@{/savingContactHistory}" method="post">
             <div>
+                <h3 class="mt-3">Allgemeine Informationen</h3>
                 Datum: <input type="date" class="form-control" name = "date" th:value = "*{date}" th:field="*{date}"/> </br>
                 Beschreibung: <input type="textarea" class="form-control" name = "text" th:value = "*{text}" th:field="*{text}"/> </br>
             </div>

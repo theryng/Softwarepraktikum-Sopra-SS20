@@ -18,6 +18,11 @@ public class Relationship {
 
     private String since;
 
+    private String ingoingString;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Relationship partnerRelationship;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Contact contactA;
 
@@ -70,5 +75,21 @@ public class Relationship {
 
     public void setContactB(Contact contactB) {
         this.contactB = contactB;
+    }
+
+    public String getIngoingString() {
+        return ingoingString;
+    }
+
+    public void setIngoingString(String ingoingString) {
+        this.ingoingString = ingoingString;
+    }
+
+    public Relationship getPartnerRelationship() {
+        return partnerRelationship;
+    }
+
+    public void setPartnerRelationship(Relationship partnerRelationship) {
+        this.partnerRelationship = partnerRelationship;
     }
 }

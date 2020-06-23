@@ -25,12 +25,17 @@
             </div>
         </div>
         <div class="mr-5 ml-5 mt-3">
-            <h5>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h5>
-            <form ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
+
+            <form ACTION="#" th:action="@{/backRelationshipCreator1}" method="post">
+                <button type="submit" class="btn btn-secondary float-right">Zurück</button>
+            </form>
+            <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
+
+            <form class="mt-2" ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
                 <input th:value="${searchWord}" th:name ="searchWord" />
                 <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
             </form>
-            <table class="table table-striped mt-3">
+            <table class="table table-striped mt-3" th:if="${viewTable}">
                 <tr>
                     <th>Vorname</th>
                     <th>Nachname</th>

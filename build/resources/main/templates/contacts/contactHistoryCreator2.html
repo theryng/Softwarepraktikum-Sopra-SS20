@@ -11,13 +11,33 @@
     <title>Neue Beziehung</title>
 </head>
 <body>
+    <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+    <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-    Hier werden weitere Informationen Wie Text und Datum festgelegt
-    <form action = "#" th:action = "@{/saveFinalContactHistory}" th:object ="${contactHistory}" class="was-validated" method = post>
-        Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{text}"/></br>
-        Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{date}"></br>
-        <button type="submit" class="btn btn-primary">Kontakt Historie speichern</button>
-    </form>
+    <div class="container-fluid">
+        <div class="mr-5 ml-5 mt-3">
+            <h1>Erstellen einer neuen Kontakthistorie</h1>
+        </div>
+        <div class="progress mr-5 ml-5 mt-3">
+            <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                 aria-valuemin="0" aria-valuemax="100" style="width:50%">
+                <span class="sr-only">50% Complete</span>
+            </div>
+        </div>
+
+        <form ACTION="#" th:action="@{/backContactHistoryCreator2}" method="post">
+            <button type="submit" class="btn btn-secondary float-right mr-5 mt-2">Zurück</button>
+        </form>
+
+        <h5 class="mr-5 ml-5 mt-3"> Hier werden weitere Informationen Wie Text und Datum festgelegt</h5>
+        <form action = "#" th:action = "@{/saveFinalContactHistory}" th:object ="${contactHistory}" class="was-validated mr-5 ml-5 mt-3" method = post>
+            Art der Beziehung:<input type="text" class="form-control" name = "text" th:field="*{text}" required/>
+                <div class="invalid-feedback">Bitte geben Sie Art der Kontakthistorie an</div></br>
+            Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{date}" required>
+                 <div class="invalid-feedback">Bitte geben Sie ein Datum an</div></br></br>
+            <button type="submit" class="btn btn-primary">Kontakt Historie speichern</button>
+        </form>
+    </div>
 
 </body>
 </html>
