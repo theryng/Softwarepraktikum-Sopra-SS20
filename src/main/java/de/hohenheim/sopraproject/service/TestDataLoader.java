@@ -102,7 +102,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         //Example contacts
         Contact julia = new Contact();
         julia.setFirstname("Julia");
-        julia.setLastname("Müller");
+        julia.setLastname("Mueller");
         julia.setOccupation("Sekretärin");
         julia.setEmail("juliaM@yahoo.de");
         julia.setCourseOfStudies("BWL");
@@ -180,7 +180,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         paulina.setCourseOfStudies("Chemie");
         paulina.setFreeText("");
         paulina.setFormatDateOfBirth(1996, 9, 30);
-        paulina.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "6"));
+        paulina.setAddress(new Address("12345", "Musterstadt", "Hans-Otto-Rüdiger-Straße", "6"));
         paulina.setHobby("Sumo Ringen");
         paulina.setLinkToHomepage("");
         contactService.saveContact(paulina);
@@ -193,7 +193,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setCourseOfStudies("Chemie");
         peter.setFreeText("");
         peter.setFormatDateOfBirth(2001, 9, 28);
-        peter.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "7"));
+        peter.setAddress(new Address("1234", "Muster-Stadt", "Sigmaringerstraße", "154/1"));
         peter.setHobby("");
         peter.setLinkToHomepage("");
         contactService.saveContact(peter);
@@ -226,7 +226,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Contact sabine = new Contact();
         sabine.setFirstname("Sabine");
-        sabine.setLastname("Müller");
+        sabine.setLastname("Mueller");
         sabine.setOccupation("Manager");
         sabine.setEmail("SabineM@gmail.com");
         sabine.setCourseOfStudies("Informatik");
@@ -239,7 +239,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Contact jana = new Contact();
         jana.setFirstname("Jana");
-        jana.setLastname("Müller");
+        jana.setLastname("Mueller");
         jana.setOccupation("Angestellte");
         jana.setEmail("JanaM@yahoo.de");
         jana.setCourseOfStudies("Informatik");
@@ -252,7 +252,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Contact tristan = new Contact();
         tristan.setFirstname("Tristan");
-        tristan.setLastname("Müller");
+        tristan.setLastname("Mueller");
         tristan.setOccupation("Doktorant (Stand: 02.03.2020)");
         tristan.setEmail("TristanM@yahoo.de");
         tristan.setCourseOfStudies("Informatik");

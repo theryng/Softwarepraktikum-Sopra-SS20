@@ -54,6 +54,11 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+//    if(username.matches("[a-zA-Z]")) {
+//        this.username = username;
+//    }else{
+//        throw new IllegalArgumentException("username fits not the criteria");
+    //}
     }
 
     public String getPassword() {
