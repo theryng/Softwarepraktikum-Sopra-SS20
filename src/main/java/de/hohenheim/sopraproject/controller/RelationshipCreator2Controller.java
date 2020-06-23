@@ -44,7 +44,10 @@ public class RelationshipCreator2Controller {
             ingoingRelationship.setTypeOfRelationship(relationship.getIngoingString());
             ingoingRelationship.setSince(relationship.getSince());
         }
-        relationship.setPartnerRelationship(ingoingRelationship);
+        relationshipRepository.save(relationship);
+        relationshipRepository.save(ingoingRelationship);
+        relationship.setPartnerRelationship(ingoingRelationship.getRelationshipID());
+        ingoingRelationship.setPartnerRelationship(relationship.getRelationshipID());
         relationshipRepository.save(relationship);
         relationshipRepository.save(ingoingRelationship);
 

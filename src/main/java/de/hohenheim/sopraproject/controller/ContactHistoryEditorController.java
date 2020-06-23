@@ -24,7 +24,7 @@ public class ContactHistoryEditorController {
     private ContactRepository contactRepository;
 
     private String searchWord;
-    private Set<Contact> foundContacts;
+    private Set<Contact> foundContacts = new HashSet<>();
     private boolean viewTable;
     private boolean addContact;
 

@@ -15,7 +15,6 @@ import java.util.*;
 @Entity
 public class Contact {
 
-
     @Id
     @GeneratedValue
     private Integer contactID;

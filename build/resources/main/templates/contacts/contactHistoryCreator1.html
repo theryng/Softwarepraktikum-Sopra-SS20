@@ -10,67 +10,83 @@
     <title>Neue Kontakthistorie</title>
 </head>
 <body>
-
     <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-    <div class="mr-5 ml-5 mt-3">
-        <h1>Erstellen einer neuen Kontakthistorie</h1>
-    </div>
-    <div class="progress mr-5 ml-5 mt-3">
-        <div class="progress-bar" role="progressbar" aria-valuenow="70"
-             aria-valuemin="0" aria-valuemax="100" style="width:00%">
-            <span class="sr-only">00% Complete</span>
+    <div class = "container-fluid">
+
+        <div class="mr-5 ml-5 mt-3">
+            <h1>Erstellen einer neuen Kontakthistorie</h1>
         </div>
-    </div>
-    <div class="mr-5 ml-5 mt-3">
-        <h3>Legen Sie zunächst die Teilnehmer fest.</h3>
-        <div class="mt-3 mb-3">
-            <form ACTION="#" th:action="@{/searchContactForHistory}" th:object="${searchWord}" method="post">
-                <input th:value="${searchWord}" th:name ="searchWord" />
-                <button type="submit" class="btn btn-primary" >Kontakt suchen </button>
+        <div class="progress mr-5 ml-5 mt-3">
+            <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                 aria-valuemin="0" aria-valuemax="100" style="width:00%">
+                <span class="sr-only">00% Complete</span>
+            </div>
+        </div>
+
+        <form ACTION="#" th:action="@{/backContactHistoryCreator1}" method="post">
+            <button type="submit" class="btn btn-secondary float-right mr-5 mt-2">Zurück</button>
+        </form>
+
+
+        <div class="mr-5 ml-5 mt-3">
+            <h3>Legen Sie zunächst die Teilnehmer fest.</h3>
+            <div class="mt-3 mb-3">
+                <form ACTION="#" th:action="@{/searchContactForHistory}" th:object="${searchWord}" method="post">
+                    <input th:value="${searchWord}" th:name ="searchWord" />
+                    <button type="submit" class="btn btn-primary" >Kontakt suchen </button>
+                </form>
+            </div>
+            <table class="table table-striped" th:if="${viewTableHistories}">
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Email</th>
+                    <th>Funktion</th>
+                </tr>
+                <tr th:each="contact : ${allContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td>
+                        <form ACTION="#" th:action="@{/chooseContactForHistory}" th:object="${contact}" method="post">
+                            <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+                            <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-striped" th:if="${viewChoosenTable}">
+                <h3>Ausgewählte Teilnehmer</h3>
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Email</th>
+                    <th>Optionen</th>
+                </tr>
+                <tr th:each="contact : ${choosenContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td>
+                        <form ACTION="#" th:action="@{/deleteChoosenContacts}" th:object="${contact}" method = "post">
+                            <input type="hidden" th:value="${contact.getContactID()}" th:name ="contactID" />
+                            <button type="submit" class="btn btn-secondary">Entfernen </button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="mr-5 ml-5 mt-3" th:if="${viewChoosenTable}">
+            <form ACTION="#" th:action="@{/submitChoosenContacts}" method="post">
+                <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Teilnehmer bestätigen</button>
             </form>
         </div>
-        <table class="table table-striped" th:if="${viewTableHistories}">
-            <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Email</th>
-                <th>Funktion</th>
-            </tr>
-            <tr th:each="contact : ${allContacts}">
-                <td th:text="${contact.firstname}"></td>
-                <td th:text="${contact.lastname}"></td>
-                <td th:text="${contact.email}"></td>
-                <td>
-                    <form ACTION="#" th:action="@{/chooseContactForHistory}" th:object="${contact}" method="post">
-                        <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
-                        <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
-
-        <table class="table table-striped" th:if="${viewChoosenTable}">
-            <h3>Ausgewählte Kontakte</h3>
-            <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Email</th>
-            </tr>
-            <tr th:each="contact : ${choosenContacts}">
-                <td th:text="${contact.firstname}"></td>
-                <td th:text="${contact.lastname}"></td>
-                <td th:text="${contact.email}"></td>
-            </tr>
-        </table>
     </div>
-    <div class="mr-5 ml-5 mt-3" th:if="${viewChoosenTable}">
-        <form ACTION="#" th:action="@{/submitChoosenContacts}" method="post">
-            <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Auswahl bestätigen</button>
-        </form>
-    </div>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

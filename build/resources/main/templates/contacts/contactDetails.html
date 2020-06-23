@@ -15,16 +15,54 @@
 
 <body>
 
-<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
 <div class="container-fluid mt-5">
 
-    <!-- Main Body -->
+    <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Kontaktinformationen</h1>
+    <div class="row ml-1">
+            <form ACTION="#" th:action="@{/backContactDetails}" method="post">
+                <button type="submit" class="btn btn-secondary">Zurück</button>
+            </form>
 
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
+                Kontakt Löschen
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Kontakt Löschen</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Sind sie sicher das Sie diesen Kontakt löschen möchten?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
+                                <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+                                <button type="submit" class="btn btn-danger ml-3">Bestätigen</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Accordion for better navigation-->
     <div class="accordion mt-2" id="accordionExample">
         <div class="card">
+
+            <!-- First Accordion Element, with general Information of the viewed Contact-->
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -38,7 +76,8 @@
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
 
                         <div class="row">
-                                <div class = "col-sm-10w">
+                            <!-- Input and View Field for the Contact Details-->
+                                <div class = "col">
                                     <div class = "row">
                                         <div class = "col w-25">
                                             Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
@@ -51,8 +90,8 @@
                                     E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
                                     Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
                                 </div>
-                                <div class = "col-sm-10w ml-5">
-                                    Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+                                <div class = "col">
+                                    Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
                                     Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
                                     Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
                                     Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
@@ -73,40 +112,33 @@
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
                                 </div>
                             </div>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
+                            Änderungen speichern
+                        </button>
 
-                        <button type="submit" class="btn btn-primary mt-3 ml-3">Kontakt speichern</button>
-                    </form>
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger mt-3 ml-3" data-toggle="modal" data-target="#deleteModal">
-                        Kontakt Löschen
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Kontakt Löschen</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Sind sie sicher das Sie diesen Kontakt löschen möchten?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
-                                        <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
-                                        <button type="submit" class="btn btn-danger ml-3">Bestätigen</button>
-                                    </form>
+                        <!-- Modal -->
+                        <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="saveModalLabel">Kontakt Löschen</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Sind sie sicher das Sie die Änderungen speichern möchten?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                        <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </form>
 
                 </div>
             </div>
@@ -191,7 +223,7 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <table class="table table-striped" th:if="${existingContactHistories}">
                         <tr>
                             <th>Datum des Kontakts </th>
                             <th>Text</th>
@@ -209,11 +241,11 @@
                         </tr>
                     </table>
 
-                    <div th:if="${not existingContactHistories}" class="ml-5 mr-5 mt-5">
-                        Keine Kontakthistorien vorhanden, neue Kontakthistorie hinzufügen?
+                    <div th:if="${not existingContactHistories}" class="ml-5 mr-5 mt-5 mb-2">
+                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
 
-                    <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/createNewContactHistory}" th:object="${contact}" method="post">
+                    <form class="ml-5 mr-5 mt-2" ACTION="#" th:action="@{/createNewContactHistory}" th:object="${contact}" method="post">
                         <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
                         <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
                     </form>
