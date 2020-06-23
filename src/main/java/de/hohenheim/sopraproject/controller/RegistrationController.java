@@ -26,7 +26,7 @@ public class RegistrationController {
 
     private final PasswordEncoder passwordEncoder;
 
-    private boolean admin = true;
+    private Boolean admin;
 
     @Autowired
     public RegistrationController(PasswordEncoder passwordEncoder) {
@@ -42,6 +42,7 @@ public class RegistrationController {
      */
     @RequestMapping(value ="/registration", method = RequestMethod.GET)
     public String user(Model model) {
+        admin = false;
         model.addAttribute("user", new User());
         model.addAttribute("admin", admin);
         model.addAttribute("allUsers", userRepository.findAll());
@@ -59,8 +60,8 @@ public class RegistrationController {
 
     @RequestMapping(value="/registerUser", method = RequestMethod.POST)
     public String registerUser(User user){
-        System.out.println(user.getIsAdmin());
         admin = user.getIsAdmin();
+
         if (!StringUtils.isEmpty(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
@@ -80,7 +81,6 @@ public class RegistrationController {
                 }
             }
         }
-
 
         userRepository.save(user);
         System.out.println("register user");

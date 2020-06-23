@@ -23,7 +23,7 @@ public class User {
 
     private String lastName;
 
-    private boolean isAdmin = false;
+    private Boolean isAdmin = false;
 
     private boolean enabled = true;
 
@@ -111,11 +111,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public boolean getIsAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
+    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 }
