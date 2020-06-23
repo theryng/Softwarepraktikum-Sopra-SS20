@@ -60,12 +60,11 @@
                     </div>
                     <!--These radio type inputs gives the admin the choice of selecting a role for the new user. There are two roles to choose from: admin and user.
                     Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
-                    <label class="form-check-label col w-25" for="Admin">
-                        Role: </br><input type="radio" class="form-check-input" id="Admin" name="role" th:action="@{/setAdmin}" th:value="*{roles}" method="post">Admin
-                    </label>
+                    Role:  <input type="checkbox" name= "admin" th:checked="*{isAdmin}">
+
                     <div class="form-check-inline">
                         <label class="form-check-label col w-25" for="Mitarbeiter">
-                            <input type="radio" class="form-check-input" id="Mitarbeiter" name="role" th:value="*{roles}" required>Mitarbeiter
+                            <input type="radio" class="form-check-input" id="Mitarbeiter" name="role">Mitarbeiter
                         </label>
                     </div>
                     <!--Small button to submit the creation of the new user-->
