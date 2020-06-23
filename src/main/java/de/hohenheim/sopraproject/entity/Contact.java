@@ -5,6 +5,8 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class defines all attributes which are needed to create an contact. It has an primary key which is the contactID,
@@ -57,9 +59,6 @@ public class Contact {
     @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
     private Set<Relationship> relationshipsB = new HashSet<>();
 
-//    @OneToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
-//    private Set<Relationship> relationships = new HashSet<>();
-
     @ManyToMany(mappedBy = "contacts")
     private Set<Institute> institutes = new HashSet<>();
 
@@ -70,17 +69,16 @@ public class Contact {
     private Set<Contacthistory> contacthistories;
 
 
-
-
     public Contact(String firstname, String lastname, String occupation, String email,
-                   String courseOfStudies, String freeText, String dayOfBirth) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+                   String courseOfStudies, String freeText, int yearOfBirth, int monthOfBirth, int dayOfBirth) {
+
+        setFirstname(firstname);
+        setLastname(lastname);
         this.occupation = occupation;
-        this.email = email;
+        setEmail(email);
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
-        this.dayOfBirth = dayOfBirth;
+        setDayOfBirth(yearOfBirth, monthOfBirth, dayOfBirth);
     }
 
     public Contact() {
@@ -97,50 +95,90 @@ public class Contact {
         }
     }
 
-    public void setFormatDateOfBirth(int year, int month, int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        Date date = calendar.getTime();
-
-        String stringDate = format.format(date);
-        Date dayOfBirth = convertStringToDate(stringDate);
-        setDayOfBirth(year+"-"+month+"-"+day);
-    }
+//    public void setFormatDateOfBirth(int year, int month, int day){
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.YEAR, year);
+//        calendar.set(Calendar.MONTH, month);
+//        calendar.set(Calendar.DAY_OF_MONTH, day);
+//        Date date = calendar.getTime();
+//
+//        String stringDate = format.format(date);
+//        Date dayOfBirth = convertStringToDate(stringDate);
+//        setDayOfBirth(year+"-"+month+"-"+day);
+//    }
 
     public Set<Contacthistory> getContacthistories() {
         return contacthistories;
     }
 
+    /**
+     * set the contact history of an contact only it is initialized
+     * @param contacthistories
+     */
     public void setContacthistories(Set<Contacthistory> contacthistories) {
-        this.contacthistories = contacthistories;
+        if(contacthistories != null) {
+            this.contacthistories = contacthistories;
+        }else{
+            throw new IllegalStateException("contacthistories should be initialized");
+        }
     }
 
     public Integer getContactID() {
         return contactID;
     }
 
-   public void setContactID(Integer contactID) {
-       this.contactID = contactID;
-   }
-
     public String getFirstname() {
         return firstname;
     }
 
+    /**
+     * Sets the firstname only if it has at least 2 characters an does not contain illegal characters. illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>
+     * @param firstname string value for the first name of a contact
+     */
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        Matcher matcher = pattern.matcher(firstname);
+        Matcher matcher2 = pattern2.matcher(firstname);
+
+        if(matcher2.find()) {
+            throw new IllegalArgumentException("No characters of this kind are allowed: " +
+                    "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        }else if(matcher.find()  && firstname.length()>1){
+            this.firstname = firstname;
+        }else{
+            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only and has to be greater than " +
+                    "one digit long");
+        }
     }
 
     public String getLastname() {
         return lastname;
     }
 
+    /**
+     * Sets the lastname only if it has at least 2 characters an does not contain illegal characters. illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>
+     * @param lastname string value for the first name of a contact
+     */
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        Matcher matcher = pattern.matcher(lastname);
+        Matcher matcher2 = pattern2.matcher(lastname);
+
+        if(matcher2.find()) {
+            throw new IllegalArgumentException("No characters of this kind are allowed: " +
+                    "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        }else if(matcher.find()  && lastname.length()>1){
+            this.lastname = lastname;
+        }else{
+            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only and has to be greater than " +
+                    "one digit long");
+        }
     }
 
     public String getOccupation() {
@@ -155,8 +193,16 @@ public class Contact {
         return email;
     }
 
+    /**
+     * Sets the E-Mail only if there is an "@" character in it
+     * @param email
+     */
     public void setEmail(String email) {
-        this.email = email;
+       if(email.contains("@")) {
+           this.email = email;
+       }else{
+           throw new IllegalStateException("An E-Mail have to contain an @ symbol");
+       }
     }
 
     public String getCourseOfStudies() {
@@ -179,8 +225,50 @@ public class Contact {
         return dayOfBirth;
     }
 
-    public void setDayOfBirth(String dayOfBirth) {
-        this.dayOfBirth = dayOfBirth;
+    public boolean yearFormatCheck(String inputYear){
+       boolean format = false;
+       if(inputYear.length() == 9 && inputYear.matches("[0-9]") && inputYear.contains("-")){
+           format = true;
+       }
+        return format;
+    }
+
+    /**
+     * Sets the Date of birth only if it has this format: yy-MM-dd. the method takes three int values. The method will
+     * check if the values of month and day have only one int value. if so, there will be automatically a "0" added to
+     * ensure the format rule. The method checks also if 0 < day < 31, 0 < month < 12 and year > 0. If the input does not
+     * require the formatting rules, an ISE will be thrown
+     *
+     * @param year
+     * @param month
+     * @param day
+     */
+    public void setDayOfBirth(int year, int month, int day) {
+
+        String stringOfYear = Integer.toString(year);
+        String stringOfMonth = Integer.toString(month);
+        String stringOfDay = Integer.toString(day);
+
+        if(stringOfMonth.length() == 1){
+            stringOfMonth = "0" + stringOfMonth;
+        }
+
+        if(stringOfDay.length() == 1){
+            stringOfDay = "0" + stringOfDay;
+        }
+
+        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
+            throw new IllegalStateException("Illegal state of year, month or day");
+        }
+            if(stringOfYear.length() == 4  &&
+                stringOfMonth.length() == 2 &&
+                stringOfDay.length() == 2) {
+
+                this.dayOfBirth = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
+
+        } else {
+        throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
+        }
     }
 
     public Address getAddress() {
@@ -211,8 +299,16 @@ public class Contact {
         return institutes;
     }
 
+    /**
+     * Sets the institute if it is not null
+     * @param institutes
+     */
     public void setInstitutes(Set<Institute> institutes) {
-        this.institutes = institutes;
+        if(institutes != null) {
+            this.institutes = institutes;
+        } else{
+            throw new IllegalStateException("institute should be initialized");
+        }
     }
 
     public String getTempZipCode() {
