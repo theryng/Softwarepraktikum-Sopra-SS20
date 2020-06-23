@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Controller
 public class ContactHistoryCreator2Controller {
-    private ContactHistory contactHistoryTemp;
+
     public static Set<Contact> choosenContacts;
 
     @Autowired
@@ -23,11 +23,15 @@ public class ContactHistoryCreator2Controller {
 
     @RequestMapping(value = "/contactHistoryCreator2", method = RequestMethod.GET)
     public String ContactHistoryCreatorController(Model model) {
+        model.addAttribute("contactHistory", new ContactHistory());
         System.out.println("In Creator 2");
         return "contacts/contactHistoryCreator2";
     }
-    @RequestMapping(value = "/saveContactHistory", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveFinalContactHistory", method = RequestMethod.POST)
     public String saveContactHistory(ContactHistory contactHistory){
+        contactHistory.setContactOfHistory(choosenContacts);
+
+        choosenContacts.clear();
 
         return "redirect:/contactDetails";
     }

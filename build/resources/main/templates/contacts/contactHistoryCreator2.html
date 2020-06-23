@@ -1,10 +1,23 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Neue Beziehung</title>
 </head>
 <body>
+
     Hier werden weitere Informationen Wie Text und Datum festgelegt
+    <form action = "#" th:action = "@{/saveFinalContactHistory}" th:object ="${contactHistory}" class="was-validated" method = post>
+        Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{text}"/></br>
+        Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{date}"></br>
+        <button type="submit" class="btn btn-primary">Kontakt Historie speichern</button>
+    </form>
+
 </body>
 </html>

@@ -49,31 +49,37 @@
             </tr>
         </table>
 
-        <h5>Wählen Sie einen Kontakt aus</h5>
-        <form ACTION="#" th:action="@{/searchContactForHistoryEditor}" th:object="${searchWord}" method="post">
-            <input th:value="${searchWord}" th:name ="searchWord" />
-            <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+        <form ACTION="#" th:action="@{/enableAddContacts}" method="post">
+            <button type="submit" class="btn btn-secondary" >Neue Kontakte hinzufügen </button>
         </form>
-        <table class="table table-striped mt-3">
-            <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Email</th>
-                <th>Funktion</th>
-            </tr>
-            <tr th:each="contact : ${allContacts}">
-                <td th:text="${contact.firstname}"></td>
-                <td th:text="${contact.lastname}"></td>
-                <td th:text="${contact.email}"></td>
-                <td>
-                    <form ACTION="#" th:action="@{/addContactToHistory}" th:object="${contact}" method="post">
-                        <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
 
-                        <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
+        <div th:if="${addContact}">
+            <h5>Wählen Sie einen Kontakt aus</h5>
+            <form ACTION="#" th:action="@{/searchContactForHistoryEditor}" th:object="${searchWord}" method="post">
+                <input th:value="${searchWord}" th:name ="searchWord" />
+                <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+            </form>
+            <table class="table table-striped mt-3" th:if="${viewTable}">
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Email</th>
+                    <th>Funktion</th>
+                </tr>
+                <tr th:each="contact : ${allContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td>
+                        <form ACTION="#" th:action="@{/addContactToHistory}" th:object="${contact}" method="post">
+                            <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+                            <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
         <!--Form for Deletion of ContactHistory-->
         <form ACTION="#" th:action="@{/deleteContactHistory}" th:object="${contactHistory}" method="post">

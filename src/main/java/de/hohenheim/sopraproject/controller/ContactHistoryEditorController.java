@@ -26,6 +26,7 @@ public class ContactHistoryEditorController {
     private String searchWord;
     private Set<Contact> foundContacts;
     private boolean viewTable;
+    private boolean addContact;
 
 
     @RequestMapping(value = "/contactHistoryEditor", method = RequestMethod.GET)
@@ -37,6 +38,7 @@ public class ContactHistoryEditorController {
             model.addAttribute("allContacts", new HashSet<Contact>());
         }
         model.addAttribute("searchWord", searchWord);
+        model.addAttribute("addContact", addContact);
         model.addAttribute("viewTable", viewTable);
         model.addAttribute("contactHistory", contactHistory);
 
@@ -47,7 +49,13 @@ public class ContactHistoryEditorController {
     public String savingContactHistory(ContactHistory contactHistoryTemp) {
         contactHistory.setDate(contactHistoryTemp.getDate());
         contactHistory.setText(contactHistoryTemp.getText());
+        contacthistoryRepository.save(contactHistory);
+
+        viewTable = false;
+        addContact = false;
+        contactHistory = null;
         foundContacts.clear();
+
         return "redirect:/contactDetails";
     }
 
@@ -79,9 +87,21 @@ public class ContactHistoryEditorController {
     }
     @RequestMapping(value = "/addContactToHistory", method = RequestMethod.POST)
     public String addToContactHistory(Contact contact) {
+        Set<Contact> existingContacts = contactHistory.getContactOfHistory();
         Contact addedContact = contactRepository.findByContactID(contact.getContactID());
-        if(addedContact != null){
-            contactHistory.getContactOfHistory().add(addedContact);
+        boolean exists = false;
+
+        for(Contact con : existingContacts){
+            if(con.getContactID().equals(contact.getContactID())){
+
+                exists = true;
+            }
+        }
+        if(!exists){
+            existingContacts.add(addedContact);
+        }
+        else{
+            System.out.println("Nicht hinzugefügt");
         }
 
         return "redirect:/contactHistoryEditor";
@@ -101,6 +121,12 @@ public class ContactHistoryEditorController {
             foundContacts.clear();
             viewTable = false;
         }
+        return "redirect:/contactHistoryEditor";
+    }
+
+    @RequestMapping(value ="/enableAddContacts", method = RequestMethod.POST)
+    public String enableAddContacts(String searchWord) {
+        addContact = true;
         return "redirect:/contactHistoryEditor";
     }
 
