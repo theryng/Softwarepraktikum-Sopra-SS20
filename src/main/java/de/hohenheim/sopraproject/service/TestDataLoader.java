@@ -392,6 +392,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         contacthistoryService.saveContacthistory(historyOneDates);
 
         Contacthistory historyTwoDates = new Contacthistory();
+        historyTwoDates.addContacthistoryContact(florian);
         historyTwoDates.setDate("09.09.2020");
         historyTwoDates.setText("Beim Teetrinken getroffen");
         contacthistoryService.saveContacthistory(historyTwoDates);
@@ -413,6 +414,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
         max.setContacthistories(historyOne);
         contactService.saveContact(max);
+
 
         julia.setContacthistories(historyOne);
         contactService.saveContact(julia);

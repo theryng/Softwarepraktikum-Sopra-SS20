@@ -20,11 +20,17 @@ public class Contacthistory {
     private String text;
 //Funk
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<Contact> contactOfHistory;
+    private Set<Contact> contactOfHistory = new HashSet<>();
 
 
     public Contacthistory() {
         //empty constructor for Hibernate
+    }
+
+    public void addContacthistoryContact(Contact contact){
+        if(contact != null){
+            contactOfHistory.add(contact);
+        }
     }
 
     public Set<Contact> getContactOfHistory() {

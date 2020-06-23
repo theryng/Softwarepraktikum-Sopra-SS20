@@ -1,8 +1,7 @@
 package de.hohenheim.sopraproject.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -12,6 +11,13 @@ public class Role {
     private Integer id;
 
     private String rolename;
+
+
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> user;
+
 
     public Role() {
         //empty constructor for Hibernate
