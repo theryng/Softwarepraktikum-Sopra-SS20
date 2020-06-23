@@ -15,9 +15,12 @@
 
 <body>
 
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
+
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-   <!-- Main Body -->
+   <!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
+        the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
             <div class = "container-fluid ml-1000 mr-1000">
 
                 <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
@@ -37,7 +40,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <!-- Eingaben für einen neuen Kontakt-->
+                                    <!--Inputs for a contact in a small pop-up window once the button: Neuen Kontakt hinzufügen is pushed-->
                                     <div class="modal-body">
                                         <div class = "row">
                                             <div class = "col w-25">

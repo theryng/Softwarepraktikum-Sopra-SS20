@@ -23,17 +23,18 @@ public class User {
 
     private String lastName;
 
+    private Boolean isAdmin = false;
+
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
-    public User(Integer userId, String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
-        this.userId = userId;
+    public User(String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
         this.username = username;
         this.roles = roles;
         this.password = password;
@@ -108,5 +109,13 @@ public class User {
 
     public void setLastName(String lastName){
         this.lastName = lastName;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }

@@ -15,14 +15,19 @@
 
 <body>
 
-<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<!-- Main Body -->
+<!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
+     as well as some input forms to create new user/admin accounts for this application-->
+
+
 <div class = "row">
     <div class = "row">
         <div class = "col w-25">
+            <!--left side of the body-->
+            <!--Option to create/register a new user for this application. A new user has to have a username, his full name, a password and a role in order to be created-->
             <h2 class="ml-5">Neuen User hinzufügen</h2>
             <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" method = "post">
                 <div class="form-group ml-5 mt-2 mr-5">
@@ -36,6 +41,8 @@
                     </div>
                     <div class="row">
                         <div class="col w-25">
+                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
+                            form will notify the admin if a he needs to make an input or not-->
                             Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
                             <div class="valid-feedback">valid.</div>
                             <div class="invalid-feedback">Please fill in an username.</div>
@@ -46,26 +53,28 @@
                             Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
                             <div class="invalid-feedback">Please fill in a password.</div>
                         </div>
-
+                        <!--The confirmation of the password. It has to be the exact same String or else the submitting progress will fail. A small speechbubble will show up
+                        informing the admin that the input does not overlign with the password he typed in earlier-->
                         <div class="col w-25">
                             Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
                             <div class="invalid-feedback">Please confirm your password.</div>
                         </div>
                     </div>
-
-                    <label class="form-check-label col w-25" for="Admin">
-                        Role: </br><input type="radio" class="form-check-input" id="Admin" name="role" th:value="*{roles}">Admin
-                    </label>
-                    <div class="form-check-inline">
-                        <label class="form-check-label col w-25" for="Mitarbeiter">
-                            <input type="radio" class="form-check-input" id="Mitarbeiter" name="role" th:value="*{roles}" required>Mitarbeiter
-                        </label>
+                    <!--These radio type inputs gives the admin the choice of selecting a role for the new user. There are two roles to choose from: admin and user.
+                    Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
+                    <div>
+                        <label for="adminCheckBox" th:text="'Rolle:'"></label>
+                        <input type="checkbox" id="adminCheckBox" th:field="*{isAdmin}" />
                     </div>
+
+                    <!--Small button to submit the creation of the new user-->
                     <button name="submit" class="btn btn-primary mt-3" type="submit" >User hinzufügen</button>
                 </div>
             </form>
         </div>
     </div>
+    <!--A table to view all the created user and their account information. This information consists of their full name, username, password and role. Whenever a new User is created
+    the table will automatically update itself. Adding the new user to the table. It also provides an option of deleting existing users by the admin-->
     <div class = "col w-25">
     <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">User/Mitarbeiter der Anwendung</h3>
     <table class="table table-striped">
@@ -77,6 +86,7 @@
         <th>Role</th>
         <th>User entfernen</th>
         </thead>
+        <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
         <tbody style="max-width: available ;overflow-x: scroll">
         <tr th:each="user : ${allUsers}">
             <td th:text="${user.userId}"></td>
@@ -86,10 +96,11 @@
             <td th:text="${user.roles}"></td>
 
             <td>
-                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}">
-                    <input type="hidden" th:value="${user.userId}" th:name ="userID" />
-
-                    <button type="button" class="btn btn-danger">User löschen </button>
+                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+                    <input type="hidden" th:value="${user.userId}" th:name ="userId" />
+                    <!--The users in the table will each have a corresponding delete button next to their information. Pressing it will delete this account and removes
+                    the user from the table-->
+                    <button type="submit" class="btn btn-danger">User löschen </button>
                 </form>
             </td>
         </tr>
@@ -100,10 +111,13 @@
 
 <script>
     /**
+     * Password confirmation function for the user creation
+     *
      * Checks if the password in the second field is the exact string of the password in the first field. If not a message will pop up asking the user to
-     * change the second input until the strings are the same
+     * change the second input until the strings are the same.
      *
      * @type {HTMLElement}
+     * @param var password
      */
     var password = document.getElementById("password")
         , confirm_Password = document.getElementById("confirm_Password");
@@ -112,7 +126,7 @@
         if(password.value != confirm_Password.value) {
             confirm_Password.setCustomValidity("Passwords Don't Match");
         } else {
-            confirm_Password.setCustomValidity('');
+            confirm_Password.setCustomValidity(''); //no special messages if the passwords match
         }
     }
 
