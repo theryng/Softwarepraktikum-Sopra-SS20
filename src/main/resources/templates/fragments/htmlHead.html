@@ -7,43 +7,48 @@
 </head>
 <body>
 
-<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+<!--Navbar for every page inside this application. Its meant to provide a smooth way to navigate to all different pages
+    by just clicking on the corresponding items-->
 <div th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-light bg-primary" >
+        <!--ALUMNI NETZ has a reference to the homepage-->
         <a class="navbar-brand" href="home">ALUMNI NETZ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!--hallo Navbar-->
+        <!--Different refences of the navbar as well as a small dropdown menu on the right end of the navbar which contains
+            reference items to some more pages and the logout option-->
         <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <!-- Kontakte in Navbar -->
+                <!--leads to the contactlist-->
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="contacts">Kontakte</a>
                 </li>
-                <!-- Kalender in Navbar -->
+                <!--leads to the calender-->
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="calendar">Kalender</a>
                 </li>
-                <!-- Events in Navbar -->
+                <!--leads to the eventlist-->
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="events">Events</a>
                 </li>
-                <!-- Institute in Navbar -->
+                <!--leads to the institute list-->
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="institutes">Institute</a>
                 </li>
-                <!-- Bearbeitungshistorie in Navbar -->
+                <!--leads to the editing history-->
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="history">Bearbeitungshistorie</a>
                 </li>
             </ul>
+            <!--The small dropdown menu at the end of the navbar-->
             <form class="form-inline my-2 my-lg-0">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Account Optionen
                     </button>
+                    <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/home.html">Einstellungen</a>
                         <a class="dropdown-item" href="/optionen">Optionen</a>
