@@ -96,20 +96,6 @@ public class Contact {
         }
     }
 
-//    public void setFormatDateOfBirth(int year, int month, int day){
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(Calendar.YEAR, year);
-//        calendar.set(Calendar.MONTH, month);
-//        calendar.set(Calendar.DAY_OF_MONTH, day);
-//        Date date = calendar.getTime();
-//
-//        String stringDate = format.format(date);
-//        Date dayOfBirth = convertStringToDate(stringDate);
-//        setDayOfBirth(year+"-"+month+"-"+day);
-//    }
-
     public Set<Contacthistory> getContacthistories() {
         return contacthistories;
     }
@@ -297,11 +283,8 @@ public class Contact {
      * @param linkToHomepage
      */
     public void setLinkToHomepage(String linkToHomepage) {
-      //  if(linkToHomepage.contains(".")) {
             this.email = email;
-      //  }else{
-     //       throw new IllegalStateException("A homepage must contain a point");
-     //   }
+
 
     }
 

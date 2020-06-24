@@ -24,10 +24,10 @@ public class Relationship {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Contact contactB;
 
-    public Relationship(Integer relationshipID, String typeOfRelationship, String since) {
+    public Relationship(Integer relationshipID, String typeOfRelationship, int year, int month, int day) {
         this.relationshipID = relationshipID;
         this.typeOfRelationship = typeOfRelationship;
-        this.since = since;
+        setSince(year, month, day);
     }
 
     public Relationship(){}

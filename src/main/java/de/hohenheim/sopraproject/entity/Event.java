@@ -38,9 +38,9 @@ public class Event {
     }
 
     public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
-                 Set<User> users) {
+                 int year, int month, int day, Set<User> users) {
         this.eventId = eventId;
-        this.date = date;
+        setDate(year,month, day);
         this.address = address;
         this.eventName = eventName;
         this.text = text;
@@ -137,29 +137,7 @@ public class Event {
         this.address = address;
     }
 
-    public void setFormatDateOfEvent(int year, int month, int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        Date date = calendar.getTime();
-
-        String stringDate = format.format(date);
-        Date dateOfEvent = convertStringToDate(stringDate);
-        //setDate(dateOfEvent);
-    }
-
-    public Date convertStringToDate(final String string){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        try{
-            return format.parse(string);
-        } catch(Exception exception){
-            return null;
-        }
-    }
 
     public void addEventContact(Contact contact){
         if(contact != null){

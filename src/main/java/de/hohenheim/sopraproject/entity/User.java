@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class covers the User data. An User has a name and a password. It has a relation to the entity Role to identify
@@ -57,12 +59,20 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username;
-//    if(username.matches("[a-zA-Z]")) {
-//        this.username = username;
-//    }else{
-//        throw new IllegalArgumentException("username fits not the criteria");
-    //}
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern2 = Pattern.compile("[?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        Matcher matcher = pattern.matcher(username);
+        Matcher matcher2 = pattern2.matcher(username);
+
+        if(matcher2.find()) {
+            throw new IllegalArgumentException("No characters of this kind are allowed: " +
+                    "[?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        }else if(matcher.find()  && username.length()>1){
+            this.username = username;
+        }else{
+            throw new IllegalArgumentException("The username must contain \"[a-zA-Z0-9]\" only and has to be greater than " +
+                    "one digit long");
+        }
     }
 
     public String getPassword() {

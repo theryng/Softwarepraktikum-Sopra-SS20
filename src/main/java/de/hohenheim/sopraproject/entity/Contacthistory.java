@@ -23,6 +23,13 @@ public class Contacthistory {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Contact> contactOfHistory = new HashSet<>();
 
+    public Contacthistory(Integer contacthistoryId, String date, String text, Set<Contact> contactOfHistory, int year,
+                          int month, int day) {
+        this.contacthistoryId = contacthistoryId;
+        setDate(year, month, day);
+        this.text = text;
+        this.contactOfHistory = contactOfHistory;
+    }
 
     public Contacthistory() {
         //empty constructor for Hibernate
