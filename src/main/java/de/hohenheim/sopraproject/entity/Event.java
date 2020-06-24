@@ -28,30 +28,41 @@ public class Event {
     private String text;
 
     @ManyToMany
-    private Set<Contact> contacts = new HashSet<>();
+    private Set<Contact> contactsEvent = new HashSet<>();
+
+    @ManyToMany(mappedBy = "events")
+    private Set<User> users = new HashSet<>();
 
     public Event() {
         //empty constructor for Hibernate
     }
 
-    public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contacts,
-                 Set<User> users) {
+    public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
+                 int year, int month, int day, Set<User> users) {
         this.eventId = eventId;
-        this.date = date;
+        setDate(year,month, day);
         this.address = address;
         this.eventName = eventName;
         this.text = text;
-        this.contacts = contacts;
+        this.contactsEvent = contactsEvent;
+        this.users = users;
     }
 
-    public Set<Contact> getContacts() {
-        return contacts;
+    public Set<Contact> getContactsEvent() {
+        return contactsEvent;
     }
 
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
+    public void setContactsEvent(Set<Contact> contactsEvent) {
+        this.contactsEvent = contactsEvent;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public Integer getEventid() {
         return eventId;
@@ -65,8 +76,33 @@ public class Event {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(int year, int month, int day) {
+
+        String stringOfYear = Integer.toString(year);
+        String stringOfMonth = Integer.toString(month);
+        String stringOfDay = Integer.toString(day);
+
+        if(stringOfMonth.length() == 1){
+            stringOfMonth = "0" + stringOfMonth;
+        }
+
+        if(stringOfDay.length() == 1){
+            stringOfDay = "0" + stringOfDay;
+        }
+
+        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
+            throw new IllegalStateException("Illegal state of year, month or day");
+        }
+        if(stringOfYear.length() == 4  &&
+                stringOfMonth.length() == 2 &&
+                stringOfDay.length() == 2) {
+
+            this.date = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
+
+        } else {
+            throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
+        }
+
     }
 
     public String getEventName() {
@@ -101,30 +137,11 @@ public class Event {
         this.address = address;
     }
 
-    public void setFormatDateOfEvent(int year, int month, int day){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        Date date = calendar.getTime();
 
-        String stringDate = format.format(date);
-        Date dateOfEvent = convertStringToDate(stringDate);
-        //setDate(dateOfEvent);
-    }
-
-    public Date convertStringToDate(final String string){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        try{
-            return format.parse(string);
-        } catch(Exception exception){
-            return null;
+    public void addEventContact(Contact contact){
+        if(contact != null){
+            contactsEvent.add(contact);
         }
-    }
-    public void addParticipent (Contact contact){
-        contacts.add(contact);
     }
 }
