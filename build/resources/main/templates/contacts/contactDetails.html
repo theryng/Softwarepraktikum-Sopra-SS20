@@ -237,7 +237,7 @@
                         </tr>
                         <tr th:each="contacthistories : ${contact.contactHistory}">
                             <td th:text="${contacthistories.date}"></td>
-                            <td th:field="*{contacthistories.text}"></td>
+                            <td th:text="*{contacthistories.text}"></td>
                             <td>
                                 <!-- Button to Edit Contact History-->
                                 <form ACTION="#" th:action="@{/openEditContactHistory}" th:object="${viewedHistory}">
