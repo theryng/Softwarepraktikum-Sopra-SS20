@@ -52,13 +52,13 @@ public class RelationshipCreator2Controller {
             ingoingRelationship.setContactA(relationship.getContactB());
             ingoingRelationship.setContactB(relationship.getContactA());
             ingoingRelationship.setTypeOfRelationship(relationship.getTypeOfRelationship());
-            ingoingRelationship.setSince(relationship.getSince());
+            ingoingRelationship.setStringSince(relationship.getSince());
         }
         else{
             ingoingRelationship.setContactA(relationship.getContactB());
             ingoingRelationship.setContactB(relationship.getContactA());
             ingoingRelationship.setTypeOfRelationship(relationship.getIngoingString());
-            ingoingRelationship.setSince(relationship.getSince());
+            ingoingRelationship.setStringSince(relationship.getSince());
         }
         relationshipRepository.save(relationship);
         relationshipRepository.save(ingoingRelationship);

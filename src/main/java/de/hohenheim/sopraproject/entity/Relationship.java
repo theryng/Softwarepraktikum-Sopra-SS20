@@ -82,6 +82,10 @@ public class Relationship {
         }
     }
 
+    public void setStringSince(String since){
+        this.since = since;
+    }
+
     public Contact getContactA() {
         return contactA;
     }

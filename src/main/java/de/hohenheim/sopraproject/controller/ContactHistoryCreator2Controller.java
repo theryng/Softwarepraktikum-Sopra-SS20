@@ -45,6 +45,10 @@ public class ContactHistoryCreator2Controller {
      */
     @RequestMapping(value = "/saveFinalContactHistory", method = RequestMethod.POST)
     public String saveContactHistory(ContactHistory contactHistory){
+        System.out.println("Speichern");
+        System.out.println(choosenContacts.size());
+        System.out.println(contactHistory.getDate());
+        System.out.println(contactHistory.getText());
         contactHistory.setContactOfHistory(choosenContacts);
         contactHistoryRepository.save(contactHistory);
         choosenContacts.clear();

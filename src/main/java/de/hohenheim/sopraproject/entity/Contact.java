@@ -13,9 +13,8 @@ import java.util.regex.Pattern;
  * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
  * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
  * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
- * names are the names of the columns at the database table of the contact. It also has a many to many relation with
- * contacthistory. Thus, many Contacts can have many Contacthistories and many Contacts can be added to many
- * Contacthistories.
+ * names are the names of the columns at the database table of the contact.
+ * By Mark
  */
 @Entity
 public class Contact {
@@ -38,6 +37,8 @@ public class Contact {
 
     private String dayOfBirth;
 
+    private String searchString;
+
     @Embedded
     private Address address;
     @Transient
@@ -54,19 +55,19 @@ public class Contact {
     private String linkToHomepage;
 
     @OneToMany(mappedBy = "contactA", cascade = CascadeType.ALL)
-    private Set<Relationship> relationshipsA = new HashSet<>();
+    public Set<Relationship> outgoingRelationships = new HashSet<>();
 
     @OneToMany(mappedBy = "contactB", cascade = CascadeType.ALL)
-    private Set<Relationship> relationshipsB = new HashSet<>();
+    public Set<Relationship> ingoingRelationships = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts")
-    private Set<Institute> institutes = new HashSet<>();
-
-    @ManyToMany(mappedBy = "contactsEvent")
+    @ManyToMany(mappedBy = "contacts", cascade =  CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.REMOVE)
+    private Set<Institute> institutes = new HashSet<Institute>();
+
+    @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
+    private Set<ContactHistory> contactHistory = new HashSet<>();
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -95,17 +96,17 @@ public class Contact {
         }
     }
 
-    public Set<Contacthistory> getContacthistories() {
-        return contacthistories;
+    public Set<ContactHistory> getContactHistory() {
+        return contactHistory;
     }
 
     /**
      * set the contact history of an contact only it is initialized
      * @param contacthistories
      */
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
+    public void setContacthistories(Set<ContactHistory> contacthistories) {
         if(contacthistories != null) {
-            this.contacthistories = contacthistories;
+            this.contactHistory = contacthistories;
         }else{
             throw new IllegalStateException("contacthistories should be initialized");
         }
@@ -113,6 +114,26 @@ public class Contact {
 
     public Integer getContactID() {
         return contactID;
+    }
+
+    public void setContactID(Integer contactID) {
+        this.contactID = contactID;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
+
+    public void setOutgoingRelationship(Set<Relationship> outgoingRelationship) {
+        this.outgoingRelationships = outgoingRelationship;
+    }
+
+    public void setIngoingRelationship(Set<Relationship> ingoingRelationship) {
+        this.ingoingRelationships = ingoingRelationship;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
     public String getFirstname() {
@@ -333,5 +354,10 @@ public class Contact {
 
     public void setTempStreet(String tempStreet) {
         this.tempStreet = tempStreet;
+    }
+
+    public String getSearchString(){
+        searchString = firstname + lastname + linkToHomepage;
+        return searchString;
     }
 }

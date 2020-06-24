@@ -28,40 +28,28 @@ public class Event {
     private String text;
 
     @ManyToMany
-    private Set<Contact> contactsEvent = new HashSet<>();
-
-    @ManyToMany(mappedBy = "events")
-    private Set<User> users = new HashSet<>();
+    private Set<Contact> contacts = new HashSet<>();
 
     public Event() {
         //empty constructor for Hibernate
     }
 
     public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
-                 int year, int month, int day, Set<User> users) {
+                 int year, int month, int day, Set<Contact> contacts) {
         this.eventId = eventId;
         setDate(year,month, day);
         this.address = address;
         this.eventName = eventName;
         this.text = text;
-        this.contactsEvent = contactsEvent;
-        this.users = users;
+        this.contacts = contacts;
     }
 
-    public Set<Contact> getContactsEvent() {
-        return contactsEvent;
+    public Set<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setContactsEvent(Set<Contact> contactsEvent) {
-        this.contactsEvent = contactsEvent;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public Integer getEventid() {
@@ -137,11 +125,9 @@ public class Event {
         this.address = address;
     }
 
-
-
     public void addEventContact(Contact contact){
         if(contact != null){
-            contactsEvent.add(contact);
+            contacts.add(contact);
         }
     }
 }
