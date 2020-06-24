@@ -7,24 +7,31 @@
           crossorigin="anonymous"/>
     <title>Sopra 2020 Demo Project</title>
 </head>
+
+<!--Main Body of the login site. This is the first site a user will see once he opens this application. A user will also be redirected
+    to this site whenever e decides to logout from his account-->
 <body>
 <div class="container">
     <form th:action="@{/login}" method="POST" class="form-horizontal">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title" th:text="'Sopra 2020 Demo Login'"></h4>
+                <!--Error message if the login wasn't sucessfull -->
                 <div th:if="${param.error}" class="alert alert-danger">
                     <span th:text="'Login fehlgeschlagen.'"></span>
                 </div>
+                <!--Message if the logout was sucessful-->
                 <div th:if="${param.logout}" class="alert alert-success">
                     <span th:text="'Logout erfolgreich.'"></span>
                 </div>
+                <!--Input label for the username-->
                 <div class="row form-group">
                     <div class="col-12 col-md-6">
                         <label>Username</label>
                         <input type="text" id="username" name="username"  th:placeholder="'Username'" class="form-control"/><br/>
                     </div>
                 </div>
+                <!--Input label for the password-->
                 <div class="row form-group">
                     <div class="col-12 col-md-6">
                         <label>Password</label>
@@ -32,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            <!--Button to login with the information inside the two input labels-->
             <div class="card-footer">
                 <button name="Submit" value="Login" type="Submit" th:text="'Login'" class="btn btn-primary"></button>
             </div>

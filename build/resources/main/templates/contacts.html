@@ -40,7 +40,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <!--Inputs for a contact in a small pop-up window once the button: Neuen Kontakt hinzufügen is pushed-->
+                                    <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
                                     <div class="modal-body">
                                         <div class = "row">
                                             <div class = "col w-25">
@@ -54,18 +54,18 @@
                                                 <div class="invalid-feedback">Bitte geben sie einen Nachnamen an</div>
                                             </div>
                                         </div>
-
+                                        <!-- Inputs for the newly generated Contact-->
                                         Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}" required/>
                                         <div class="valid-feedback">valid</div>
                                         <div class="invalid-feedback">Bitte geben sie eine Anstellung an</div></br>
 
-                                        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/>
+                                        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}" required/>
                                         <div class="valid-feedback">valid</div>
                                         <div class="invalid-feedback">Bitte geben sie eine E-Mail an</div></br></br>
 
                                         Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
 
-                                        Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:field="*{dayOfBirth}"></br>
+                                        Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:field="*{dayOfBirth}"></br>
 
                                         Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
 
@@ -88,6 +88,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Options to Dismiss or Save the Contact-->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                                         <button type="submit" class="btn btn-primary">Kontakt speichern</button>
@@ -97,6 +98,11 @@
                         </div>
                     </div>
                 </form>
+
+                <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
+                    the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
+                    Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+                    will open up an editing window where the user can change the stored information or delete this specific contact altogether-->
                 <table class="table table-striped">
                 <tr>
                     <th>Name</th>
@@ -113,7 +119,7 @@
                     <td>
                         <form ACTION="#" th:action="@{/viewContact}" th:object="${contact}">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
+                            <!--Button that opens up the editing window-->
                             <button type="submit" class="btn btn-secondary">Kontakt einsehen </button>
                         </form>
                     </td>

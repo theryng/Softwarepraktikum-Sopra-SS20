@@ -19,6 +19,8 @@ public class ContactHistory {
 
     public String text;
 
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     public Set<Contact> contactOfHistory;
 
@@ -58,6 +60,5 @@ public class ContactHistory {
     public void setContactHistoryID(Integer contacthistoryId) {
         this.contactHistoryID = contacthistoryId;
     }
-
 
 }
