@@ -21,8 +21,6 @@
 
 <!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
      as well as some input forms to create new user/admin accounts for this application-->
-
-
 <div class = "row">
     <div class = "row">
         <div class = "col w-25">
@@ -63,10 +61,9 @@
                     <!--These radio type inputs gives the admin the choice of selecting a role for the new user. There are two roles to choose from: admin and user.
                     Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
                     <div>
-                        <label for="adminCheckBox" th:text="'Rolle:'"></label>
+                        <label for="adminCheckBox" th:text="'User ist ein Admin:'"></label>
                         <input type="checkbox" id="adminCheckBox" th:field="*{isAdmin}" />
                     </div>
-
                     <!--Small button to submit the creation of the new user-->
                     <button name="submit" class="btn btn-primary mt-3" type="submit" >User hinzufügen</button>
                 </div>

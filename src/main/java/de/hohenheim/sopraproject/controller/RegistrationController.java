@@ -37,6 +37,8 @@ public class RegistrationController {
     /**
      * This method gives out all the created users and their attributes.
      *
+     * This method gives out all the created users and all of their attributes inside the database.
+     *
      * @param model
      * @return registration
      */
@@ -51,11 +53,17 @@ public class RegistrationController {
     }
 
     /**
-     * This method creates a new user and saves it inside the database. Once a new user is created the program will
-     * return to the homepage
+     * This method creates a new user and saves it inside the database. Once a new user is created the table will show the
+     * data of the new user inside its table on registration.html
+     *
+     * First a user will be created and a password will be set. Once the password is confirmed again by the admin and a username
+     * was chosen the submitting progress starts. First the password will be encrypted and binded to the user. Next the
+     * role of said user will be decided. The admin role property will only be added to this user if the admin checkbox was checked
+     * before submitting. Or else the standard user property will be bound to this account/user.
      *
      * @param user
-     * @return home
+     * @Boolean admin
+     * @return registration
      */
 
     @RequestMapping(value="/registerUser", method = RequestMethod.POST)
@@ -84,11 +92,13 @@ public class RegistrationController {
 
         userRepository.save(user);
         System.out.println("register user");
-        return "home";
+        return "redirect:/registration";
     }
 
     /**
      * This method gives out all the users in the database
+     *
+     * This method gives out the name of all users inside the existing database
      *
      * @param model
      * @return
@@ -98,6 +108,15 @@ public class RegistrationController {
         model.addAttribute("allUsers", userRepository.findAll());
         return "registration";
     }
+
+    /**
+     * This method sets a users property to admin
+     *
+     * This method sets a newly created user accounts properties to admin upon creation
+     *
+     * @param isAdmin
+     * @return
+     */
 
     @RequestMapping(value ="/setAdmin", method = RequestMethod.POST)
     public String setAdmin(Boolean isAdmin){
@@ -117,7 +136,7 @@ public class RegistrationController {
     public String deleteUser(User user){
         userRepository.deleteById(user.getUserId());
         System.out.println("delete user");
-        return "home";
+        return "redirect:/registration";
     }
 
 }

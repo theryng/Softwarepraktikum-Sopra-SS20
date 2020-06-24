@@ -57,6 +57,18 @@ public class ContactDetailsController {
 
         return "contacts/contactDetails";
     }
+
+    /**
+     * This method creates a new contact and saves it to the existing database
+     *
+     *
+     *
+     *
+     *
+     * @param contact
+     * @return redirect:/contacts
+     */
+
     @RequestMapping(value = "/savingContact", method = RequestMethod.POST)
     public String contactDetails(Contact contact) {
         contact.setContactID(contactID);
@@ -66,33 +78,71 @@ public class ContactDetailsController {
 
         return "redirect:/contacts";
     }
+
+    /**
+     * This method deletes an existing contact inside the database
+     *
+     *
+     *
+     * @param contact
+     * @return redirect:/contacts
+     */
+
     @RequestMapping(value = "/deleteContact", method = RequestMethod.POST)
     public String deleteDetails(Contact contact) {
         contactRepository.deleteById(contact.getContactID());
         return "redirect:/contacts";
     }
+
+    /**
+     *
+     * @param viewedHistory
+     * @return
+     */
     @RequestMapping("/openEditContactHistory")
     public String editContactHistory(ContactHistory viewedHistory) {
         ContactHistoryEditorController.contactHistory = contacthistoryRepository.findByContactHistoryID(viewedHistory.getContactHistoryID());
         return "redirect:/contactHistoryEditor";
     }
+
+    /**
+     *
+     * @param contact
+     * @return
+     */
     @RequestMapping(value ="/createNewContactHistory", method = RequestMethod.POST)
     public String createNewContactHistory(Contact contact) {
         ContactHistoryCreator1Controller.originalContact = contactRepository.findByContactID(contact.getContactID());
         return "redirect:/contactHistoryCreator1";
     }
 
+    /**
+     *
+     * @param contact
+     * @return
+     */
     @RequestMapping(value ="/chooseContact", method = RequestMethod.POST)
     public String chooseContact(Contact contact) {
         contactB = contactRepository.findByContactID(contact.getContactID());
         return "/chooseContact";
     }
 
+    /**
+     *
+     * @param contact
+     * @return
+     */
     @RequestMapping(value ="/createNewRelationship", method = RequestMethod.POST)
     public String createNewRelationship(Contact contact) {
         RelationshipCreator1Controller.contactA = contactRepository.findByContactID(contact.getContactID());
         return "redirect:/relationshipCreator1";
     }
+
+    /**
+     *
+     * @param relationship
+     * @return
+     */
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
         Relationship choosenRelationship = relationshipRepository.findByRelationshipID(relationship.getRelationshipID());
@@ -101,11 +151,20 @@ public class ContactDetailsController {
         return "redirect:/contactDetails";
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/backContactDetails", method = RequestMethod.POST)
     public String backContactDetails() {
         contactID = null;
         return "redirect:/contacts";
     }
+
+    /**
+     *
+     * @param contact
+     */
     private void checkTables(Contact contact){
         if(contact.outgoingRelationships.size()>0){
             existingRelationships = true;
