@@ -37,6 +37,7 @@ public class Contact {
 
     private String dayOfBirth;
 
+    @Transient
     private String searchString;
 
     @Embedded
