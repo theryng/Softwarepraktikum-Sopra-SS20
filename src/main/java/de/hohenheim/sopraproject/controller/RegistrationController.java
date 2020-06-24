@@ -15,6 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This class controls all important methods to create a new user
+ *
+ * Insides this controller there are all the methods needed for a user of this appliction to create a new seperate account.
+ * It helps to create a user, delete a user, show all information about the different users stored inside the database
+ * and set another admin to help manage all different accounts
+ *
+ * @date 26.06.2020
+ * @author Chris Hasselbach
+ */
 @Controller
 public class RegistrationController {
 
@@ -46,9 +56,7 @@ public class RegistrationController {
     public String user(Model model) {
         admin = false;
         model.addAttribute("user", new User());
-        model.addAttribute("admin", admin);
         model.addAttribute("allUsers", userRepository.findAll());
-        System.out.println("On to Users");
         return "registration";
     }
 
@@ -59,7 +67,8 @@ public class RegistrationController {
      * First a user will be created and a password will be set. Once the password is confirmed again by the admin and a username
      * was chosen the submitting progress starts. First the password will be encrypted and binded to the user. Next the
      * role of said user will be decided. The admin role property will only be added to this user if the admin checkbox was checked
-     * before submitting. Or else the standard user property will be bound to this account/user.
+     * before submitting. Or else the standard user property will be bound to this account/user. Once the account was created the
+     * side will be reloaded to update the table.
      *
      * @param user
      * @Boolean admin
@@ -91,7 +100,6 @@ public class RegistrationController {
         }
 
         userRepository.save(user);
-        System.out.println("register user");
         return "redirect:/registration";
     }
 
@@ -101,7 +109,7 @@ public class RegistrationController {
      * This method gives out the name of all users inside the existing database
      *
      * @param model
-     * @return
+     * @return registration
      */
     @RequestMapping("/allUsers")
     public String allUsers(Model model) {
@@ -115,27 +123,25 @@ public class RegistrationController {
      * This method sets a newly created user accounts properties to admin upon creation
      *
      * @param isAdmin
-     * @return
+     * @return registration
      */
 
     @RequestMapping(value ="/setAdmin", method = RequestMethod.POST)
     public String setAdmin(Boolean isAdmin){
         admin = isAdmin;
-        System.out.println("Is Admin");
         return "registration";
     }
 
     /**
      * This method deletes one user from the database. The deletion will be based on the user id so there wont be any
-     * wrong accounts chosen
+     * wrong accounts chosen. Once the account was deleted the page will be reloaded.
      *
      * @param user
-     * @return home
+     * @return registration
      */
     @RequestMapping(value="/deleteUser", method = RequestMethod.POST)
     public String deleteUser(User user){
         userRepository.deleteById(user.getUserId());
-        System.out.println("delete user");
         return "redirect:/registration";
     }
 

@@ -99,8 +99,10 @@
                     </div>
                 </form>
 
-
-
+                <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
+                    the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
+                    Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+                    will open up an editing window where the user can change the stored information or delete this specific contact altogether-->
                 <table class="table table-striped">
                 <tr>
                     <th>Name</th>
@@ -117,7 +119,7 @@
                     <td>
                         <form ACTION="#" th:action="@{/viewContact}" th:object="${contact}">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
+                            <!--Button that opens up the editing window-->
                             <button type="submit" class="btn btn-secondary">Kontakt einsehen </button>
                         </form>
                     </td>

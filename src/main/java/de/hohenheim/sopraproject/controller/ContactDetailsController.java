@@ -15,6 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This controller is used to handle all methods revolving around the html page contactDetails
+ *
+ * It helps with various method to save new contacts, delete existing ones, open up the contactHistoryEditor, create a new contact history
+ * for a certain contact, create a new relationship between two existing contacts or delete a relationship
+ *
+ * @date 26.06.2020
+ * @author Lukas Januschke
+ */
 @Controller
 public class ContactDetailsController {
 
@@ -61,14 +70,13 @@ public class ContactDetailsController {
     /**
      * This method creates a new contact and saves it to the existing database
      *
-     *
-     *
-     *
+     * A new contact will be created with this method. It also checks if the given ID is already mapped to a different
+     * existing contact. As long thats not the case a new contact will be saved to the database. Once the contact is saved
+     * the page will be reloaded to update the table with the new given information/attributes.
      *
      * @param contact
      * @return redirect:/contacts
      */
-
     @RequestMapping(value = "/savingContact", method = RequestMethod.POST)
     public String contactDetails(Contact contact) {
         contact.setContactID(contactID);
@@ -82,7 +90,8 @@ public class ContactDetailsController {
     /**
      * This method deletes an existing contact inside the database
      *
-     *
+     * An existing contact will be deleted. The corresponding contactID will also be deleted so new contacts can get this
+     * ID in the future. Once the contact is deleted the page will be reloaded to update the contact table.
      *
      * @param contact
      * @return redirect:/contacts
@@ -95,9 +104,13 @@ public class ContactDetailsController {
     }
 
     /**
+     * This method opens up the contactHistory editor
+     *
+     * This method opens up the editor for the corresponding contactHistory on a specific contact. It is bound to a button
+     * specifically used for this method. The user will be redirected to the contact history editor once he clicks on that button
      *
      * @param viewedHistory
-     * @return
+     * @return redirect:/contactHistoryEditor
      */
     @RequestMapping("/openEditContactHistory")
     public String editContactHistory(ContactHistory viewedHistory) {
@@ -106,9 +119,11 @@ public class ContactDetailsController {
     }
 
     /**
+     * This method creates a new contactHistory
+     *
      *
      * @param contact
-     * @return
+     * @return redirect:/contactHistoryCreator1
      */
     @RequestMapping(value ="/createNewContactHistory", method = RequestMethod.POST)
     public String createNewContactHistory(Contact contact) {
@@ -117,6 +132,8 @@ public class ContactDetailsController {
     }
 
     /**
+     *This method chooses a specific contact
+     *
      *
      * @param contact
      * @return
@@ -128,9 +145,13 @@ public class ContactDetailsController {
     }
 
     /**
+     * This method creates a new relationship between contacts
+     *
+     * This method creates a new relationship between two already existing contacts. Once the relationship is created the
+     * page will be reloaded to update both contacts with this new relationship entry.
      *
      * @param contact
-     * @return
+     * @return redirect:/relationshipCreator1
      */
     @RequestMapping(value ="/createNewRelationship", method = RequestMethod.POST)
     public String createNewRelationship(Contact contact) {
@@ -139,9 +160,13 @@ public class ContactDetailsController {
     }
 
     /**
+     * This method deletes an outgoing relationship
+     *
+     * This method deletes an existing outgoing relationship from a contact to another. Once finished the page will be reloaded
+     * in order to update the relationships of the specific contact.
      *
      * @param relationship
-     * @return
+     * @return redirect:/contactDetails
      */
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
@@ -152,8 +177,12 @@ public class ContactDetailsController {
     }
 
     /**
+     * This method exits the contactDetails
      *
-     * @return
+     * This method exists the contactDetails page by clicking on a corresponding button bounded with this method. Once clicked
+     * the page will be redirected to the contact page.
+     *
+     * @return redirect:/contacts
      */
     @RequestMapping(value = "/backContactDetails", method = RequestMethod.POST)
     public String backContactDetails() {
@@ -162,6 +191,10 @@ public class ContactDetailsController {
     }
 
     /**
+     * This method checks the existing relationships and the contactHistory
+     *
+     * This method checks if a contact has a existing relationship and a contactHistory. If the count for each of them is higher
+     * than 0 it will return the boolean true
      *
      * @param contact
      */
