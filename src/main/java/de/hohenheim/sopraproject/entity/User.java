@@ -8,6 +8,10 @@ import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class covers the User data. An User has a name and a password. It has a relation to the entity Role to identify
+ * the role of the given user.
+ */
 @Entity
 public class User {
 

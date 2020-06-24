@@ -3,6 +3,9 @@ package de.hohenheim.sopraproject.entity;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * This class has a relation to the User-Entity and gives a role to each User.
+ */
 @Entity
 public class Role {
 

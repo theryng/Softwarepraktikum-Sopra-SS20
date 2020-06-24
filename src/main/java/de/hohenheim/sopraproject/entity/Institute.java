@@ -71,6 +71,10 @@ public class Institute {
         this.address = address;
     }
 
+    /**
+     * Adds a Contact to an Institution, only if the Contact exists.
+     * @param contact
+     */
     public void addInstitutionContacts(Contact contact){
         if(contact != null){
             contacts.add(contact);

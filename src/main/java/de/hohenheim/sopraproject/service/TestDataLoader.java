@@ -363,40 +363,39 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         marlene.setLinkToHomepage("");
         contactService.saveContact(marlene);
 
-        Set<Contact> ContactsHistoryOne = new HashSet<>();
-        ContactsHistoryOne.add(max);
-        ContactsHistoryOne.add(julia);
-
-        Set<Contact> ContactsHistoryTwo = new HashSet<>();
-        ContactsHistoryTwo.add(alfred);
-        ContactsHistoryTwo.add(tristan);
-        ContactsHistoryTwo.add(sabine);
-
-        Set<Contact> ContactsHistoryThree = new HashSet<>();
-        ContactsHistoryThree.add(alex);
-       // ContactsHistoryThree.add(max);
-        ContactsHistoryThree.add(anna);
-        ContactsHistoryThree.add(jana);
-        ContactsHistoryThree.add(peter);
-
         //Example contacthistories
         //Creates new entry of Contacthistory Dates. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
         Contacthistory historyOneDates = new Contacthistory();
+        historyOneDates.addContacthistoryContact(max);
+        historyOneDates.addContacthistoryContact(julia);
         historyOneDates.setText("Beim Kaffetrinken kennengelernt");
-        historyOneDates.setContactOfHistory(ContactsHistoryOne);
-        historyOneDates.setDate("13.04.2018");
+        historyOneDates.setDate(2018, 04, 13);
         contacthistoryService.saveContacthistory(historyOneDates);
 
         Contacthistory historyTwoDates = new Contacthistory();
-        historyTwoDates.addContacthistoryContact(florian);
-        historyTwoDates.setDate("09.09.2020");
+        historyTwoDates.addContacthistoryContact(alfred);
+        historyTwoDates.addContacthistoryContact(tristan);
+        historyTwoDates.addContacthistoryContact(sabine);
+        historyTwoDates.setDate(2020, 9, 31);
         historyTwoDates.setText("Beim Teetrinken getroffen");
         contacthistoryService.saveContacthistory(historyTwoDates);
 
         Contacthistory historyThreeDates = new Contacthistory();
-        historyThreeDates.setDate("12.12.2019");
+        historyThreeDates.addContacthistoryContact(alex);
+        historyThreeDates.addContacthistoryContact(anna);
+        historyThreeDates.addContacthistoryContact(jana);
+        historyThreeDates.addContacthistoryContact(peter);
+        historyThreeDates.setDate(2019, 12, 12);
         historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
         contacthistoryService.saveContacthistory(historyThreeDates);
+
+        Contacthistory historyFourDates = new Contacthistory();
+        historyFourDates.addContacthistoryContact(marlene);
+        historyFourDates.addContacthistoryContact(aleyna);
+        historyFourDates.addContacthistoryContact(florian);
+        historyFourDates.setDate(2019, 07, 27);
+        historyFourDates.setText("In der Stadt getroffen");
+        contacthistoryService.saveContacthistory(historyFourDates);
 
         Set<Contacthistory> historyOne = new HashSet<>();
         historyOne.add(historyOneDates);
@@ -407,10 +406,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Set<Contacthistory> historyThree = new HashSet<>();
         historyThree.add(historyThreeDates);
 
+        Set<Contacthistory> historyFour = new HashSet<>();
+        historyFour.add(historyFourDates);
+
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
         max.setContacthistories(historyOne);
         contactService.saveContact(max);
-
 
         julia.setContacthistories(historyOne);
         contactService.saveContact(julia);
@@ -436,9 +437,19 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setContacthistories(historyThree);
         contactService.saveContact(peter);
 
+
+        marlene.setContacthistories(historyFour);
+        contactService.saveContact(marlene);
+
+        aleyna.setContacthistories(historyFour);
+        contactService.saveContact(aleyna);
+
+        florian.setContacthistories(historyFour);
+        contactService.saveContact(florian);
+
         //example events
         Event picknick = new Event();
-        picknick.setDate("01.06.2020");
+        picknick.setDate(2020, 06, 06);
         picknick.setEventName("Picknick");
         picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));
@@ -448,7 +459,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(picknick);
 
         Event joseBdayEvent = new Event();
-        joseBdayEvent.setDate("10.11.2019");
+        joseBdayEvent.setDate(2019, 10, 11);
         joseBdayEvent.setEventName("Josés 21 Geburtstag");
         joseBdayEvent.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "202"));
@@ -461,7 +472,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(joseBdayEvent);
 
         Event karateSport = new Event();
-        karateSport.setDate("01.05.2019");
+        karateSport.setDate(2019, 5, 01);
         karateSport.setEventName("Uni Sport karate für Einsteiger");
         karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "203"));
@@ -473,7 +484,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(karateSport);
 
         Event yogaSport = new Event();
-        yogaSport.setDate("01.05.2019");
+        yogaSport.setDate(2019, 05, 01);
         yogaSport.setEventName("Uni Sport Yoga für Fortgeschrittene");
         yogaSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "204"));
@@ -545,7 +556,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Relationship heirat = new Relationship();
         heirat.setContactA(max);
         heirat.setContactB(anna);
-        heirat.setSince("10.10.2010");
+        heirat.setSince(2010, 01, 30);
         heirat.setTypeOfRelationship("Verheiratet");
         relationshipService.saveRelationship(heirat);
     }

@@ -52,8 +52,33 @@ public class Relationship {
         return since;
     }
 
-    public void setSince(String since) {
-        this.since = since;
+    public void setSince(int year, int month, int day) {
+
+
+        String stringOfYear = Integer.toString(year);
+        String stringOfMonth = Integer.toString(month);
+        String stringOfDay = Integer.toString(day);
+
+        if(stringOfMonth.length() == 1){
+            stringOfMonth = "0" + stringOfMonth;
+        }
+
+        if(stringOfDay.length() == 1){
+            stringOfDay = "0" + stringOfDay;
+        }
+
+        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
+            throw new IllegalStateException("Illegal state of year, month or day");
+        }
+        if(stringOfYear.length() == 4  &&
+                stringOfMonth.length() == 2 &&
+                stringOfDay.length() == 2) {
+
+            this.since = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
+
+        } else {
+            throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
+        }
     }
 
     public Contact getContactA() {

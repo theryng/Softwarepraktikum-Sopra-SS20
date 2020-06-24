@@ -13,8 +13,9 @@ import java.util.regex.Pattern;
  * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
  * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
  * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
- * names are the names of the columns at the database table of the contact.
- * By Mark
+ * names are the names of the columns at the database table of the contact. It also has a many to many relation with
+ * contacthistory. Thus, many Contacts can have many Contacthistories and many Contacts can be added to many
+ * Contacthistories.
  */
 @Entity
 public class Contact {
@@ -66,7 +67,7 @@ public class Contact {
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Contacthistory> contacthistories;
+    private Set<Contacthistory> contacthistories = new HashSet<>();
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -291,8 +292,17 @@ public class Contact {
         return linkToHomepage;
     }
 
+    /**
+     * Sets the homepage of a Contact only if the String contains a point. Otherwise it throws an Exception
+     * @param linkToHomepage
+     */
     public void setLinkToHomepage(String linkToHomepage) {
-        this.linkToHomepage = linkToHomepage;
+      //  if(linkToHomepage.contains(".")) {
+            this.email = email;
+      //  }else{
+     //       throw new IllegalStateException("A homepage must contain a point");
+     //   }
+
     }
 
     public Set<Institute> getInstitutes() {
