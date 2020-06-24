@@ -1,8 +1,6 @@
 package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class represents the Relationship relation in the database. it shows which relationships two cantacts can have
@@ -17,6 +15,10 @@ public class Relationship {
     private String typeOfRelationship;
 
     private String since;
+
+    private String ingoingString;
+
+    private int partnerRelationshipID;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Contact contactA;
@@ -94,5 +96,21 @@ public class Relationship {
 
     public void setContactB(Contact contactB) {
         this.contactB = contactB;
+    }
+
+    public String getIngoingString() {
+        return ingoingString;
+    }
+
+    public void setIngoingString(String ingoingString) {
+        this.ingoingString = ingoingString;
+    }
+
+    public int getPartnerRelationship() {
+        return partnerRelationshipID;
+    }
+
+    public void setPartnerRelationship(int partnerRelationshipID) {
+        this.partnerRelationshipID = partnerRelationshipID;
     }
 }

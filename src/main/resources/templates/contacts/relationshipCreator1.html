@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Lukas Januschke">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
@@ -10,11 +11,12 @@
     <title>Neue Beziehung</title>
 </head>
 <body>
-    <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+    <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
     <div class="container-fluid mt-5">
 
+        <!-- Main Body, with Heading and Progressbar -->
         <div class="mr-5 ml-5 mt-3">
             <h1>Erstellen einer neuen Beziehung</h1>
         </div>
@@ -25,12 +27,18 @@
             </div>
         </div>
         <div class="mr-5 ml-5 mt-3">
-            <h5>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h5>
-            <form ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
+            <!-- Back button to return to contactDetails -->
+            <form ACTION="#" th:action="@{/backRelationshipCreator1}" method="post">
+                <button type="submit" class="btn btn-secondary float-right">Zurück</button>
+            </form>
+            <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
+            <!-- Search Button, to search for a certain Contact to have a Relationship with -->
+            <form class="mt-2" ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
                 <input th:value="${searchWord}" th:name ="searchWord" />
                 <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
             </form>
-            <table class="table table-striped mt-3">
+            <!-- Table with the Possible Results -->
+            <table class="table table-striped mt-3" th:if="${viewTable}">
                 <tr>
                     <th>Vorname</th>
                     <th>Nachname</th>
@@ -42,9 +50,9 @@
                     <td th:text="${contact.lastname}"></td>
                     <td th:text="${contact.email}"></td>
                     <td>
+                        <!-- Button which selects the Contact you have a relationship with -->
                         <form ACTION="#" th:action="@{/setContactB}" th:object="${contact}" method="post">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
                             <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
                         </form>
                     </td>

@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 @Entity
 public class Contact {
 
-
     @Id
     @GeneratedValue
     private Integer contactID;

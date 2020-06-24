@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Lukas Januschke">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
@@ -14,17 +15,25 @@
 <!-- HTMLHead with Taskbar -->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
     <!-- Container with main Contents of Site-->
-    <div class = "container-fluid">
-        <!-- Form for Editing of ContactHistory -->
+    <div class = "container-fluid mt-5">
+
+        <h1>Bearbeiten einer Kontakthistorie</h1>
+        <!-- Back button returns to ContactDetails -->
+        <form ACTION="#" th:action="@{/backContactHistoryEditor}" method="post">
+            <button type="submit" class="btn btn-secondary float-right">Zurück</button>
+        </form>
+
+        <!-- Editing and Viewing general Information of the History -->
         <form class="form-horizontal" id="EditingHistory" th:object="${contactHistory}" th:action="@{/savingContactHistory}" method="post">
             <div>
+                <h3 class="mt-3">Allgemeine Informationen</h3>
                 Datum: <input type="date" class="form-control" name = "date" th:value = "*{date}" th:field="*{date}"/> </br>
                 Beschreibung: <input type="textarea" class="form-control" name = "text" th:value = "*{text}" th:field="*{text}"/> </br>
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Kontakthistorie speichern</button>
         </form>
-
+        <!-- Table with the current Contacts of the History -->
         <h3 class="mt-3">Beteiligte Kontakte</h3>
         <table class="table table-striped mt-3">
             <tr>
@@ -40,6 +49,7 @@
                 <td th:text="${contact.dayOfBirth}"></td>
                 <td th:text="${contact.email}"></td>
                 <td>
+                    <!-- Delete Contact from History -->
                     <form ACTION="#" th:action="@{/deleteContactFromHistory}" th:object="${contact}" method="post">
                         <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
 
@@ -48,17 +58,19 @@
                 </td>
             </tr>
         </table>
-
+        <!-- Button to enable the adding of other Contacts -->
         <form ACTION="#" th:action="@{/enableAddContacts}" method="post">
             <button type="submit" class="btn btn-secondary" >Neue Kontakte hinzufügen </button>
         </form>
-
+        <!-- Form with which you can add another Contact to the ContactHistory -->
         <div th:if="${addContact}">
             <h5>Wählen Sie einen Kontakt aus</h5>
+            <!-- Search option for Contacts -->
             <form ACTION="#" th:action="@{/searchContactForHistoryEditor}" th:object="${searchWord}" method="post">
                 <input th:value="${searchWord}" th:name ="searchWord" />
                 <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
             </form>
+            <!-- Table with the results -->
             <table class="table table-striped mt-3" th:if="${viewTable}">
                 <tr>
                     <th>Vorname</th>
@@ -71,6 +83,7 @@
                     <td th:text="${contact.lastname}"></td>
                     <td th:text="${contact.email}"></td>
                     <td>
+                        <!-- Add selected Contact to the History -->
                         <form ACTION="#" th:action="@{/addContactToHistory}" th:object="${contact}" method="post">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
 
