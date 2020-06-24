@@ -93,18 +93,48 @@
             <td th:text="${user.roles}"></td>
 
             <td>
-                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
-                    <input type="hidden" th:value="${user.userId}" th:name ="userId" />
+                <!--Modal trigger Button-->
+                <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
+                User löschen
                     <!--The users in the table will each have a corresponding delete button next to their information. Pressing it will delete this account and removes
                     the user from the table-->
-                    <button type="submit" class="btn btn-danger">User löschen </button>
-                </form>
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">User löschen</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                Sind sie sicher das Sie diesen User löschen möchten?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+                                    <input type="hidden" th:value="${user.userId}" th:name ="userId" />
+
+                                    <button type="submit" class="btn btn-danger ml-3">Bestätigen</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
 </div>
+
+
+
+
 
 <script>
     /**
