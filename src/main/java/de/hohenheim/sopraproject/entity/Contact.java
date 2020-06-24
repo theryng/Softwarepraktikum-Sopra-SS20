@@ -283,7 +283,7 @@ public class Contact {
      * @param linkToHomepage
      */
     public void setLinkToHomepage(String linkToHomepage) {
-            this.email = email;
+            this.linkToHomepage = linkToHomepage;
 
 
     }

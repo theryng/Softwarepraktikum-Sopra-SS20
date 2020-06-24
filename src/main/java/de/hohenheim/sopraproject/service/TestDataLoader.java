@@ -376,7 +376,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyTwoDates.addContacthistoryContact(alfred);
         historyTwoDates.addContacthistoryContact(tristan);
         historyTwoDates.addContacthistoryContact(sabine);
-        historyTwoDates.setDate(2020, 9, 31);
+        historyTwoDates.setDate(2020, 9, 30);
         historyTwoDates.setText("Beim Teetrinken getroffen");
         contacthistoryService.saveContacthistory(historyTwoDates);
 
@@ -455,7 +455,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
                 "201"));
         picknick.addEventContact(jana);
         picknick.addEventContact(florian);
-        picknick.setText("Florian und Jana haben sich in einer Vorlesung an der Uni Stuttgart kennengelernt.");
+        picknick.setText("Florian und Jana haben sich auf einer Firmenfeier kennengelernt.");
         eventService.saveEvent(picknick);
 
         Event joseBdayEvent = new Event();
@@ -480,7 +480,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         karateSport.addEventContact(florian);
         karateSport.addEventContact(max);
         karateSport.addEventContact(jose);
-        karateSport.setText("Wöchentliches karate training für beginner");
+        karateSport.setText("Wöchentliches karate training für Beginner");
         eventService.saveEvent(karateSport);
 
         Event yogaSport = new Event();
