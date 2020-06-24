@@ -54,7 +54,6 @@ public class Relationship {
 
     public void setSince(int year, int month, int day) {
 
-
         String stringOfYear = Integer.toString(year);
         String stringOfMonth = Integer.toString(month);
         String stringOfDay = Integer.toString(day);

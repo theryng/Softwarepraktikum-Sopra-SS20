@@ -15,12 +15,8 @@ public class Role {
 
     private String rolename;
 
-
-
-
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> user;
-
 
     public Role() {
         //empty constructor for Hibernate
