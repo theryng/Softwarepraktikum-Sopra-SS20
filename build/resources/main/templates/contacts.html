@@ -15,13 +15,16 @@
 
 <body>
 
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
+
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-   <!-- Main Body -->
+   <!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
+        the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
             <div class = "container-fluid ml-1000 mr-1000">
 
                 <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
-                <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" method = post>
+                <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
                     <div class="form-group ml-5 mt-2 mr-5">
                         <!-- Submit Button -->
                         <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
@@ -37,22 +40,39 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
+                                    <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
                                     <div class="modal-body">
                                         <div class = "row">
                                             <div class = "col w-25">
-                                                Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                                                Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}" required>
+                                                    <div class="valid-feedback">valid</div>
+                                                    <div class="invalid-feedback">Bitte geben sie einen Vornamen an</div>
                                             </div>
                                             <div class = "col w-25">
-                                                Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                                                Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}" required>
+                                                <div class="valid-feedback">valid</div>
+                                                <div class="invalid-feedback">Bitte geben sie einen Nachnamen an</div>
                                             </div>
                                         </div>
-                                        Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
-                                        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+                                        <!-- Inputs for the newly generated Contact-->
+                                        Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}" required/>
+                                        <div class="valid-feedback">valid</div>
+                                        <div class="invalid-feedback">Bitte geben sie eine Anstellung an</div></br>
+
+                                        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}" required/>
+                                        <div class="valid-feedback">valid</div>
+                                        <div class="invalid-feedback">Bitte geben sie eine E-Mail an</div></br></br>
+
                                         Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
-                                        Geburtsdatum:<input type="date" id="start" class="form-control" name="trip-start" th:field="*{dayOfBirth}"></br>
+
+                                        Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:field="*{dayOfBirth}"></br>
+
                                         Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+
                                         Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+
                                         Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+
                                         <div class = "row">
                                             <div class = "col">
                                                 Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{tempCity}"/>
@@ -68,6 +88,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Options to Dismiss or Save the Contact-->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                                         <button type="submit" class="btn btn-primary">Kontakt speichern</button>
@@ -77,6 +98,11 @@
                         </div>
                     </div>
                 </form>
+
+                <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
+                    the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
+                    Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+                    will open up an editing window where the user can change the stored information or delete this specific contact altogether-->
                 <table class="table table-striped">
                 <tr>
                     <th>Name</th>
@@ -86,41 +112,21 @@
                     <th>Funktionen</th>
                 </tr>
                 <tr th:each="contact : ${allContacts}">
-                    <td th:text="${contact.firstname} + ' ' + ${contact.lastname}">
-
-                    </td>
+                    <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
                     <td th:text="${contact.courseOfStudies}"></td>
                     <td th:text="${contact.dayOfBirth}"></td>
                     <td th:text="${contact.email}"></td>
                     <td>
                         <form ACTION="#" th:action="@{/viewContact}" th:object="${contact}">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
+                            <!--Button that opens up the editing window-->
                             <button type="submit" class="btn btn-secondary">Kontakt einsehen </button>
                         </form>
                     </td>
                 </tr>
 
                 </table>
-
         </div>
-
-
-    <script>
-
-
-        function contactDelete(ctl){
-            $(ctl).parents("tr").remove();
-        }
-
-
-        function fromClear() {
-            $("#Name").val("");
-            $("#Vorname").val("");
-            $("#url").val("");
-        }
-    </script>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

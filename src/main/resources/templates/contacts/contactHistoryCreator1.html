@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Lukas Januschke">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Neue Kontakthistorie</title>
+</head>
+<body>
+    <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
+    <header th:insert="fragments/htmlHead.html :: header"> </header>
+
+    <div class = "container-fluid">
+        <!--Progressbar and Heading-->
+        <div class="mr-5 ml-5 mt-3">
+            <h1>Erstellen einer neuen Kontakthistorie</h1>
+        </div>
+        <div class="progress mr-5 ml-5 mt-3">
+            <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                 aria-valuemin="0" aria-valuemax="100" style="width:00%">
+                <span class="sr-only">00% Complete</span>
+            </div>
+        </div>
+        <!--Back Button which returns to the ContactDetails page-->
+        <form ACTION="#" th:action="@{/backContactHistoryCreator1}" method="post">
+            <button type="submit" class="btn btn-secondary float-right mr-5 mt-2">Zurück</button>
+        </form>
+
+        <!--General Informations-->
+        <div class="mr-5 ml-5 mt-3">
+            <h3>Legen Sie zunächst die Teilnehmer fest.</h3>
+            <div class="mt-3 mb-3">
+                <!--Search Function to find a Contact-->
+                <form ACTION="#" th:action="@{/searchContactForHistory}" th:object="${searchWord}" method="post">
+                    <input th:value="${searchWord}" th:name ="searchWord" />
+                    <button type="submit" class="btn btn-primary" >Kontakt suchen </button>
+                </form>
+            </div>
+            <!--Table which shows the results of the , only visible if search is succesfull-->
+            <table class="table table-striped" th:if="${viewTableHistories}">
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Email</th>
+                    <th>Funktion</th>
+                </tr>
+                <tr th:each="contact : ${allContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td>
+                        <!--Button, which adds a Contact to the chosen Contact List-->
+                        <form ACTION="#" th:action="@{/chooseContactForHistory}" th:object="${contact}" method="post">
+                            <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+
+                            <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <!--Chosen Contacts, only to be seen if it has an entry-->
+            <table class="table table-striped" th:if="${viewChosenTable}">
+                <h3>Ausgewählte Teilnehmer</h3>
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Email</th>
+                    <th>Optionen</th>
+                </tr>
+                <tr th:each="contact : ${chosenContacts}">
+                    <td th:text="${contact.firstname}"></td>
+                    <td th:text="${contact.lastname}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td>
+                        <!--Button for Deletion of a Chosen Contact from the List-->
+                        <form ACTION="#" th:action="@{/deleteChoosenContacts}" th:object="${contact}" method = "post">
+                            <input type="hidden" th:value="${contact.getContactID()}" th:name ="contactID" />
+                            <button type="submit" class="btn btn-secondary">Entfernen </button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="mr-5 ml-5 mt-3" th:if="${viewChosenTable}">
+            <form ACTION="#" th:action="@{/submitChosenContacts}" method="post">
+                <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Teilnehmer bestätigen</button>
+            </form>
+        </div>
+    </div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>

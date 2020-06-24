@@ -24,3 +24,14 @@
     line-height: 0px;
     margin: 0px 8px;
 }
+/* set a max-width for horizontal fluid layout and make it centered */
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1200px;
+}
+.body{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1200px;
+}

@@ -1,8 +1,6 @@
 package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class represents the Relationship relation in the database. it shows which relationships two cantacts can have
@@ -18,16 +16,20 @@ public class Relationship {
 
     private String since;
 
+    private String ingoingString;
+
+    private int partnerRelationshipID;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Contact contactA;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Contact contactB;
 
-    public Relationship(Integer relationshipID, String typeOfRelationship, String since) {
+    public Relationship(Integer relationshipID, String typeOfRelationship, int year, int month, int day) {
         this.relationshipID = relationshipID;
         this.typeOfRelationship = typeOfRelationship;
-        this.since = since;
+        setSince(year, month, day);
     }
 
     public Relationship(){}
@@ -52,7 +54,35 @@ public class Relationship {
         return since;
     }
 
-    public void setSince(String since) {
+    public void setSince(int year, int month, int day) {
+
+        String stringOfYear = Integer.toString(year);
+        String stringOfMonth = Integer.toString(month);
+        String stringOfDay = Integer.toString(day);
+
+        if(stringOfMonth.length() == 1){
+            stringOfMonth = "0" + stringOfMonth;
+        }
+
+        if(stringOfDay.length() == 1){
+            stringOfDay = "0" + stringOfDay;
+        }
+
+        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
+            throw new IllegalStateException("Illegal state of year, month or day");
+        }
+        if(stringOfYear.length() == 4  &&
+                stringOfMonth.length() == 2 &&
+                stringOfDay.length() == 2) {
+
+            this.since = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
+
+        } else {
+            throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
+        }
+    }
+
+    public void setStringSince(String since){
         this.since = since;
     }
 
@@ -70,5 +100,21 @@ public class Relationship {
 
     public void setContactB(Contact contactB) {
         this.contactB = contactB;
+    }
+
+    public String getIngoingString() {
+        return ingoingString;
+    }
+
+    public void setIngoingString(String ingoingString) {
+        this.ingoingString = ingoingString;
+    }
+
+    public int getPartnerRelationship() {
+        return partnerRelationshipID;
+    }
+
+    public void setPartnerRelationship(int partnerRelationshipID) {
+        this.partnerRelationshipID = partnerRelationshipID;
     }
 }
