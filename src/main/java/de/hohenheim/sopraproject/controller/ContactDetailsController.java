@@ -139,7 +139,10 @@ public class ContactDetailsController {
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
         Relationship choosenRelationship = relationshipRepository.findByRelationshipID(relationship.getRelationshipID());
-        relationshipRepository.deleteById(choosenRelationship.getPartnerRelationship());
+        if(!(choosenRelationship.getPartnerRelationship()==0)){
+            relationshipRepository.deleteById(choosenRelationship.getPartnerRelationship());
+        }
+
         relationshipRepository.deleteById(relationship.getRelationshipID());
         return "redirect:/contactDetails";
     }

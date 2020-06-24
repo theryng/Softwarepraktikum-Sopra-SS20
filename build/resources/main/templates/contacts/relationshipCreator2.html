@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Lukas Januschke">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
@@ -11,11 +12,11 @@
     <title>Neue Beziehung</title>
 </head>
 <body>
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
     <div class="container-fluid mt-5">
-        <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
-
+        <!-- Main Body, with Heading and Progressbar -->
         <div class="mr-5 ml-5 mt-3">
             <h1>Erstellen einer neuen Beziehung</h1>
         </div>
@@ -25,37 +26,35 @@
                 <span class="sr-only">50% Complete</span>
             </div>
         </div>
-
+        <!-- Button which returns to the first Step of the Creation process, relationshipCreator1 -->
         <div class="mr-5 ml-5 mt-3 mb-2">
             <form ACTION="#" th:action="@{/backRelationshipCreator2}" method="post">
                 <button type="submit" class="btn btn-secondary float-right">Zurück</button>
             </form>
             <h4>Weitere Eingaben</h4>
-
+            <!-- Form to add Information to the Relationship -->
             <form class="form-horizontal mt-3" id="multiCollapseExample1" th:object="${relationship}" th:action="@{/saveRelationship}" method="post">
-            <div class="alert alert-success" role="alert">
-                Gewählter Kontakt: <a th:text = "${choosenContact}">  </a></br>
-            </div>
-
-                Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{typeOfRelationship}"/></br>
-                Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{since}"></br>
-
-                <p>
-                    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Bezeichnung für Gegenrechnung hinzufügen</button>
-                </p>
-                <div class="row">
-                    <div class="col">
-                        <div class="collapse multi-collapse" id="CollapseIngoing">
-                            <div class="card card-body">
-                                <div class="mb-2 text-muted"> Hinweis: Eingabe nicht nötig, bei fehlender Eingabe identisch</div>
-                                Gegenrichtung: <input type="text" class="form-control" name="ingoingString" th:field="*{ingoingString}"></br>
+                <div class="alert alert-success" role="alert">
+                    Gewählter Kontakt: <a th:text = "${choosenContact}">  </a></br>
+                </div>
+                    Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{typeOfRelationship}"/></br>
+                    Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{since}"></br>
+                    <p>
+                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Bezeichnung für Gegenrechnung hinzufügen</button>
+                    </p>
+                    <!-- Option to add the ingoing Relationship Type -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="collapse multi-collapse" id="CollapseIngoing">
+                                <div class="card card-body">
+                                    <div class="mb-2 text-muted"> Hinweis: Eingabe nicht nötig, bei fehlender Eingabe identisch</div>
+                                    Gegenrichtung: <input type="text" class="form-control" name="ingoingString" th:field="*{ingoingString}"></br>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Beziehung speichern</button>
-            </form>
+                    <button type="submit" class="btn btn-primary">Beziehung speichern</button>
+                </form>
         </div>
     </div>
 
