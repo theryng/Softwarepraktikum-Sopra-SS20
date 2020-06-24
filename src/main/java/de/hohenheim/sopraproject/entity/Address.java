@@ -53,7 +53,7 @@ public class Address {
     }
 
     /**
-     * sets only a value for zipCode if the zipCode contains out of numbers only and is greater than three and smaller
+     * Sets only a value for zipCode if the zipCode contains out of numbers only and is greater than three and smaller
      * than seven digits long. If the requirements do not fulfills, an IllegalArgumentException will be thrown
      * @param zipCode the input String for a zip code Value of an Address object
      */
