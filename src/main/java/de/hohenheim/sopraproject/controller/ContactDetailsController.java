@@ -46,6 +46,12 @@ public class ContactDetailsController {
 
     private boolean existingRelationships;
     private boolean existingContactHistories;
+
+    /**
+     * Main method for Viewing of Contact Details Site, adds necessary Attributes
+     * @param model
+     * @return contactDetails
+     */
     @RequestMapping(value = "/contactDetails", method = RequestMethod.GET)
     public String contactDetails(Model model) {
         Contact contact = contactRepository.findByContactID(contactID);
