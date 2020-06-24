@@ -85,12 +85,12 @@
         </thead>
         <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
         <tbody style="max-width: available ;overflow-x: scroll">
-        <tr th:each="user : ${allUsers}">
-            <td th:text="${user.userId}"></td>
-            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.password}"></td>
-            <td th:text="${user.roles}"></td>
+        <tr th:each="users : ${allUsers}">
+            <td th:text="${users.userId}"></td>
+            <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
+            <td th:text="${users.username}"></td>
+            <td th:text="${users.password}"></td>
+            <td th:text="${users.roles}"></td>
 
             <td>
                 <!--Modal trigger Button-->
@@ -109,15 +109,15 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            
+
                             <div class="modal-body">
                                 Sind sie sicher das Sie diesen User löschen möchten?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
 
                                 <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
-                                    <input type="hidden" th:value="${user.userId}" th:name ="userId" />
+                                    <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
 
                                     <button type="submit" class="btn btn-danger ml-3">Bestätigen</button>
                                 </form>
