@@ -51,9 +51,10 @@
                             </div>
                             <div class="row">
                                 <div class="col w-25">
-                            Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
-                            <div class="valid-feedback">valid.</div>
-                            <div class="invalid-feedback">Please fill in an username.</div>
+                                    Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
+                                    <div class="valid-feedback">valid.</div>
+                                    <div class="invalid-feedback">Please fill in an username.</div>
+
                                 </div>
                             </div>
                             <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
@@ -93,19 +94,17 @@
     <table class="table table-striped">
         <thead>
         <th>UserId</th>
-        <th>Vorname</th>
-        <th>Nachname</th>
+        <th>Name</th>
         <th>Username</th>
         <th>Password</th>
         <th>Rolle</th>
-        <th>User entfernen</th>
+        <th>Funktionen</th>
         </thead>
         <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
         <tbody style="max-width: available ;overflow-x: scroll">
         <tr th:each="users : ${allUsers}">
             <td th:text="${users.userId}"></td>
-            <td th:text="${users.firstName}"></td>
-            <td th:text="${users.lastName}"></td>
+            <td th:text="${users.firstName} + '' + ${users.lastName}*"></td>
             <td th:text="${users.username}"></td>
             <td th:text="${users.password}"></td>
             <td>
@@ -113,7 +112,7 @@
             <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
             </td>
             <td>
-                <form  ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
                     <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
 
                     <button type="submit" class="btn btn-danger ml-3">User löschen</button>
