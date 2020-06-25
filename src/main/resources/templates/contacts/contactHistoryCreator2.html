@@ -33,6 +33,10 @@
         <!--Input Form for other general Information, like type of Relationship and when it started-->
         <h5 class="mr-5 ml-5 mt-3"> Hier werden weitere Informationen wie Text und Datum festgelegt</h5>
         <form action = "#" th:action = "@{/saveFinalContactHistory}" th:object ="${contactHistory}" class="was-validated mr-5 ml-5 mt-3" method = post>
+            <div class="alert alert-danger" role="alert" th:if="${hasError}">
+                Bitte überprüfen Sie Ihre Eingaben, da diese Fehlerhaft sind.
+            </div>
+
             Art der Beziehung:<input type="text" class="form-control" name = "text" th:field="*{text}" required/>
                 <div class="invalid-feedback">Bitte geben Sie Art der Kontakthistorie an</div></br>
             Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{date}" required>

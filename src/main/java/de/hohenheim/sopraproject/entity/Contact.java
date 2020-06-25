@@ -1,8 +1,10 @@
 package de.hohenheim.sopraproject.entity;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;

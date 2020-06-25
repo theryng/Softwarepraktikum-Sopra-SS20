@@ -7,8 +7,11 @@ import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 /**
  * This controller contains the methods to create a new contact
@@ -27,6 +30,8 @@ public class ContactsController {
     @Autowired
     private ContactRepository contactRepository;
 
+    private static boolean hasError = false;
+
     /**
      * This method gets all the information about a contact
      *
@@ -39,6 +44,7 @@ public class ContactsController {
     @RequestMapping(value ="/contacts", method = RequestMethod.GET)
     public String contacts(Model model) {
         model.addAttribute("contact", new Contact());
+        model.addAttribute("hasError", hasError);
         model.addAttribute("allContacts", contactRepository.findAll());
         return "contacts";
     }
@@ -54,10 +60,18 @@ public class ContactsController {
      * @return redirect:/contacts
      */
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
-    public String saveContact(Contact contact){
-        contact.setAddress(new Address(contact.getTempZipCode(), contact.getTempCity(), contact.getTempStreet() , contact.getTempHouseNmbr()));
-        contactRepository.save(contact);
-        return "redirect:/contacts";
+    public String saveContact(@Valid Contact contact, BindingResult result){
+        if(result.hasErrors()){
+            System.out.println("Fehler");
+            hasError = true;
+            return "redirect:/contacts";
+        }
+        else{
+            hasError = false;
+            contact.setAddress(new Address(contact.getTempZipCode(), contact.getTempCity(), contact.getTempStreet() , contact.getTempHouseNmbr()));
+            contactRepository.save(contact);
+            return "redirect:/contacts";
+        }
     }
 
     /**
