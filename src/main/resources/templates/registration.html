@@ -104,7 +104,7 @@
         <tbody style="max-width: available ;overflow-x: scroll">
         <tr th:each="users : ${allUsers}">
             <td th:text="${users.userId}"></td>
-            <td th:text="${users.firstName} + '' + ${users.lastName}*"></td>
+            <td th:text="${users.firstName} + ' ' + ${users.lastName}*"></td>
             <td th:text="${users.username}"></td>
             <td th:text="${users.password}"></td>
             <td>
