@@ -52,6 +52,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent event){
         logger.info("Initialisiere Datenbank mit Testdaten...");
 
+        //Role data
         Role userRole = new Role("ROLE_USER");
         Role adminRole = new Role("ROLE_ADMIN");
         roleService.saveRole(userRole);
@@ -63,6 +64,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
 
+        // User data
         User normalUser1 = new User();
         normalUser1.setUsername("user1");
         normalUser1.setPassword(passwordEncoder.encode("1234"));

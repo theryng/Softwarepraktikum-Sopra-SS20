@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  * This class covers the User data. An User has a name and a password. It has a relation to the entity Role to identify
- * the role of the given user.
+ * the role of the given user. One User can only have one role. User ID is the primary key.
  */
 @Entity
 public class User {
@@ -58,6 +58,11 @@ public class User {
         return username;
     }
 
+    /**
+     * Sets the username only if it does not contain illegal characters. Illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>      Throws an Exception if there are illegal arguments.
+     * @param username
+     */
     public void setUsername(String username) {
         Pattern pattern = Pattern.compile("[a-zA-Z]");
         Pattern pattern2 = Pattern.compile("[?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");

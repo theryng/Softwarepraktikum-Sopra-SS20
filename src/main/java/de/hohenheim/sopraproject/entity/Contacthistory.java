@@ -6,8 +6,8 @@ import java.util.Set;
 
 /**
  * This class defines all attributes that are necessary to define a Contacthistory. There is one Contacthistory for
- * every existing Contact. The primary key is "contacthistoryId" and it has a many to one relation to "Contact".
- * Contacthistories contain a free text, a date and the Contact related to the Contacthistory.
+ * every existing Contact. The primary key is "contacthistoryId" and it has a many to many relation to "Contact".
+ * Contacthistories contain a free text, a date and the Contact related to the Contacthistory. Contactshistory ID is the primary key.
  */
 @Entity
 public class Contacthistory {
@@ -36,7 +36,7 @@ public class Contacthistory {
     }
 
     /**
-     * This method adds an existing Contact to a contacthistory.
+     * This method adds an existing Contact to a contacthistory, if the added contact exists.
      * @param contact
      */
     public void addContacthistoryContact(Contact contact){
@@ -66,7 +66,10 @@ public class Contacthistory {
     }
 
     /**
-     * Sets the date of the Contacthistory. The Exception ensures the right Date-format
+     * Sets the date of the interaction with the contact. It takes  in three values: int year, int month and int day and
+     * the output is the following date-format: YYYY-MM-DD. If the month or the day value only have one digit, it adds a
+     * zero before this digit. The method also checks if 0 < day < 31, 0 < month < 12 and year > 0. If the input does not
+     * fit the formatting rules, an Exception will be thrown.
      * @param year
      * @param month
      * @param day

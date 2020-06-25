@@ -10,6 +10,7 @@ import java.util.*;
  * and some more attributes. It also has a many to many relationship with contacts, which means that contacts and events
  * are related to each other with both of their primary keys in a separately table. It also goes with a many to many
  * relationship with the users. The attribute names are the names of the columns at the database table of the event.
+ * Event ID is the primary key.
  */
 @Entity
 public class Event {
@@ -76,6 +77,15 @@ public class Event {
         return date;
     }
 
+    /**
+     * Sets the date of the event. It takes  in three values: int year, int month and int day and the output
+     * is the following date-format: YYYY-MM-DD. If the month or the day value only have one digit, it adds a zero before
+     * this digit. The method also checks if 0 < day < 31, 0 < month < 12 and year > 0. If the input does not fit the
+     * formatting rules, an Exception will be thrown.
+     * @param year
+     * @param month
+     * @param day
+     */
     public void setDate(int year, int month, int day) {
 
         String stringOfYear = Integer.toString(year);

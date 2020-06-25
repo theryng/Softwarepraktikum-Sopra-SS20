@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
  * names are the names of the columns at the database table of the contact. It also has a many to many relation with
  * contacthistory. Thus, many Contacts can have many Contacthistories and many Contacts can be added to many
- * Contacthistories.
+ * Contacthistories. Contact ID is the primary key.
  */
 @Entity
 public class Contact {
@@ -101,7 +101,7 @@ public class Contact {
     }
 
     /**
-     * set the contact history of an contact only it is initialized
+     * Sets the contacthistory of a contact only if the contacthistory is initialized. Otherwise it throws an Exception.
      * @param contacthistories
      */
     public void setContacthistories(Set<Contacthistory> contacthistories) {
@@ -121,8 +121,8 @@ public class Contact {
     }
 
     /**
-     * Sets the firstname only if it has at least 2 characters an does not contain illegal characters. illegal characters
-     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>
+     * Sets the firstname only if it has at least 2 characters and does not contain illegal characters. Illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>      Throws an Exception if there are illegal arguments.
      * @param firstname string value for the first name of a contact
      */
     public void setFirstname(String firstname) {
@@ -147,9 +147,9 @@ public class Contact {
     }
 
     /**
-     * Sets the lastname only if it has at least 2 characters an does not contain illegal characters. illegal characters
-     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>
-     * @param lastname string value for the first name of a contact
+     * Sets the lastname only if it has at least 2 characters and does not contain illegal characters. illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>         Throws an Exception if there are illegal arguments.
+     * @param lastname string value for the last name of a contact
      */
     public void setLastname(String lastname) {
         Pattern pattern = Pattern.compile("[a-zA-Z]");
@@ -181,7 +181,7 @@ public class Contact {
     }
 
     /**
-     * Sets the E-Mail only if there is an "@" character in it
+     * Sets the E-Mail of a contact only if there is a "@" character. Throws an Exception if there is no "@".
      * @param email
      */
     public void setEmail(String email) {
@@ -278,10 +278,7 @@ public class Contact {
         return linkToHomepage;
     }
 
-    /**
-     * Sets the homepage of a Contact only if the String contains a point. Otherwise it throws an Exception
-     * @param linkToHomepage
-     */
+
     public void setLinkToHomepage(String linkToHomepage) {
             this.linkToHomepage = linkToHomepage;
 
@@ -293,7 +290,7 @@ public class Contact {
     }
 
     /**
-     * Sets the institute if it is not null
+     * Sets the institute if it is not null.
      * @param institutes
      */
     public void setInstitutes(Set<Institute> institutes) {

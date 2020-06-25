@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * This class has a relation to the User-Entity and gives a role to each User.
+ * This class has a relation to the User-Entity and gives a role to each User. You can define several roles. Each role
+ * has an ID and a rolename. Role ID is the primary key.
  */
 @Entity
 public class Role {

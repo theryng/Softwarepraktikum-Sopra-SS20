@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * An Institute is in most of the cases the workplace on which a alumni is active. This class which is represented as a
+ * An Institute is in most of the cases the workplace on which an alumni is active. This class which is represented as a
  * table in the database has a primary key which is the instituteID and some other attributes. It also has an one to
  * many relationship with the customer. ALl the attribute names will later be the column names of the table.
+ * Institue ID is the primary key.
  */
 @Entity
 public class Institute {

@@ -29,12 +29,14 @@ public class Address {
         setHouseNumber(houseNumber);
     }
 
+
     public String getHouseNumber() {
         return houseNumber;
     }
 
     /**
-     * This setter method to set a house number allows only a expressions which contains a number from 0 to 9. This ensures that no nonsense hose number can be set.
+     * This setter method to set a house number allows only a expressions which contains a number from 0 to 9.
+     * This ensures that no nonsense hose number can be set.
      * @param houseNumber the input String value of a house number
      */
     public void setHouseNumber(String houseNumber) {
