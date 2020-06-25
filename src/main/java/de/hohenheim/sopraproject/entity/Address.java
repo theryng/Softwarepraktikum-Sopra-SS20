@@ -38,12 +38,14 @@ public class Address {
         setHouseNumber(houseNumber);
     }
 
+
     public String getHouseNumber() {
         return houseNumber;
     }
 
     /**
-     * This setter method to set a house number allows only a expressions which contains a number from 0 to 9. This ensures that no nonsense hose number can be set.
+     * This setter method to set a house number allows only a expressions which contains a number from 0 to 9.
+     * This ensures that no nonsense hose number can be set.
      * @param houseNumber the input String value of a house number
      */
     public void setHouseNumber(String houseNumber) {
@@ -62,7 +64,7 @@ public class Address {
     }
 
     /**
-     * sets only a value for zipCode if the zipCode contains out of numbers only and is greater than three and smaller
+     * Sets only a value for zipCode if the zipCode contains out of numbers only and is greater than three and smaller
      * than seven digits long. If the requirements do not fulfills, an IllegalArgumentException will be thrown
      * @param zipCode the input String for a zip code Value of an Address object
      */

@@ -3,8 +3,8 @@ package de.hohenheim.sopraproject.entity;
 import javax.persistence.*;
 
 /**
- * This class represents the Relationship relation in the database. it shows which relationships two cantacts can have
- * with each other.
+ * This class represents the Relationship relation in the database. It shows which relationships two cantacts can have
+ * with each other. It has two many to one relationships with contact: Contact A and Contact B. Relationship ID is the primary key.
  */
 @Entity
 public class Relationship {
@@ -65,6 +65,12 @@ public class Relationship {
         return since;
     }
 
+    /**
+     * Sets the date since when the relationship between two contacts consists. It takes  in they int year, int month
+     * and int day and the output is the following date-format: YYYY-MM-DD. If the month or the day value only have one
+     * digit, it adds a zero before this digit. The method also checks if 0 < day < 31, 0 < month < 12 and year > 0. If
+     * the input does not fit the formatting rules, an EXception will be thrown.
+     */
     public void setSince(int year, int month, int day) {
 
         String stringOfYear = Integer.toString(year);

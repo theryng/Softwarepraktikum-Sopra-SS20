@@ -2,6 +2,7 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.Contacthistory;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
