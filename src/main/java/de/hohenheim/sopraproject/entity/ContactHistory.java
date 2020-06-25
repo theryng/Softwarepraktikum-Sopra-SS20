@@ -10,7 +10,7 @@ import java.util.Set;
  * Contacthistories contain a free text, a date and the Contact related to the Contacthistory. Contactshistory ID is the primary key.
  */
 @Entity
-public class Contacthistory {
+public class ContactHistory {
 
     @Id
     @GeneratedValue
@@ -23,7 +23,7 @@ public class Contacthistory {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Contact> contactOfHistory = new HashSet<>();
 
-    public Contacthistory(Integer contacthistoryId, String date, String text, Set<Contact> contactOfHistory, int year,
+    public ContactHistory(Integer contacthistoryId, String date, String text, Set<Contact> contactOfHistory, int year,
                           int month, int day) {
         this.contacthistoryId = contacthistoryId;
         setDate(year, month, day);
@@ -31,7 +31,7 @@ public class Contacthistory {
         this.contactOfHistory = contactOfHistory;
     }
 
-    public Contacthistory() {
+    public ContactHistory() {
         //empty constructor for Hibernate
     }
 

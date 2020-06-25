@@ -2,17 +2,13 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.Contacthistory;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.Set;
 
 @Controller
 public class ContactsController {

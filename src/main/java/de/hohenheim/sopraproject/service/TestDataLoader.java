@@ -32,7 +32,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     private InstituteService instituteService;
 
     @Autowired
-    private ContacthistoryService contacthistoryService;
+    private ContactHistoryService contactHistoryService;
 
     @Autowired
     private EventService eventService;
@@ -367,48 +367,48 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         //Example contacthistories
         //Creates new entry of Contacthistory Dates. An entry can contain multiple Contacts, Connects Contacthistory to Contact.
-        Contacthistory historyOneDates = new Contacthistory();
+        ContactHistory historyOneDates = new ContactHistory();
         historyOneDates.addContacthistoryContact(max);
         historyOneDates.addContacthistoryContact(julia);
         historyOneDates.setText("Beim Kaffetrinken kennengelernt");
         historyOneDates.setDate(2018, 04, 13);
-        contacthistoryService.saveContacthistory(historyOneDates);
+        contactHistoryService.saveContacthistory(historyOneDates);
 
-        Contacthistory historyTwoDates = new Contacthistory();
+        ContactHistory historyTwoDates = new ContactHistory();
         historyTwoDates.addContacthistoryContact(alfred);
         historyTwoDates.addContacthistoryContact(tristan);
         historyTwoDates.addContacthistoryContact(sabine);
         historyTwoDates.setDate(2020, 9, 30);
         historyTwoDates.setText("Beim Teetrinken getroffen");
-        contacthistoryService.saveContacthistory(historyTwoDates);
+        contactHistoryService.saveContacthistory(historyTwoDates);
 
-        Contacthistory historyThreeDates = new Contacthistory();
+        ContactHistory historyThreeDates = new ContactHistory();
         historyThreeDates.addContacthistoryContact(alex);
         historyThreeDates.addContacthistoryContact(anna);
         historyThreeDates.addContacthistoryContact(jana);
         historyThreeDates.addContacthistoryContact(peter);
         historyThreeDates.setDate(2019, 12, 12);
         historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
-        contacthistoryService.saveContacthistory(historyThreeDates);
+        contactHistoryService.saveContacthistory(historyThreeDates);
 
-        Contacthistory historyFourDates = new Contacthistory();
+        ContactHistory historyFourDates = new ContactHistory();
         historyFourDates.addContacthistoryContact(marlene);
         historyFourDates.addContacthistoryContact(aleyna);
         historyFourDates.addContacthistoryContact(florian);
         historyFourDates.setDate(2019, 07, 27);
         historyFourDates.setText("In der Stadt getroffen");
-        contacthistoryService.saveContacthistory(historyFourDates);
+        contactHistoryService.saveContacthistory(historyFourDates);
 
-        Set<Contacthistory> historyOne = new HashSet<>();
+        Set<ContactHistory> historyOne = new HashSet<>();
         historyOne.add(historyOneDates);
 
-        Set<Contacthistory> historyTwo = new HashSet<>();
+        Set<ContactHistory> historyTwo = new HashSet<>();
         historyTwo.add(historyTwoDates);
 
-        Set<Contacthistory> historyThree = new HashSet<>();
+        Set<ContactHistory> historyThree = new HashSet<>();
         historyThree.add(historyThreeDates);
 
-        Set<Contacthistory> historyFour = new HashSet<>();
+        Set<ContactHistory> historyFour = new HashSet<>();
         historyFour.add(historyFourDates);
 
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.

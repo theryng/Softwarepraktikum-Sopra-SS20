@@ -1,7 +1,5 @@
 package de.hohenheim.sopraproject.entity;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -67,7 +65,7 @@ public class Contact {
     private Set<Event> events = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Contacthistory> contacthistories = new HashSet<>();
+    private Set<ContactHistory> contacthistories = new HashSet<>();
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -96,7 +94,7 @@ public class Contact {
         }
     }
 
-    public Set<Contacthistory> getContacthistories() {
+    public Set<ContactHistory> getContacthistories() {
         return contacthistories;
     }
 
@@ -104,7 +102,7 @@ public class Contact {
      * Sets the contacthistory of a contact only if the contacthistory is initialized. Otherwise it throws an Exception.
      * @param contacthistories
      */
-    public void setContacthistories(Set<Contacthistory> contacthistories) {
+    public void setContacthistories(Set<ContactHistory> contacthistories) {
         if(contacthistories != null) {
             this.contacthistories = contacthistories;
         }else{
