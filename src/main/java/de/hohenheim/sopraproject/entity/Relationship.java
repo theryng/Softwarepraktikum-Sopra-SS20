@@ -26,6 +26,17 @@ public class Relationship {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Contact contactB;
 
+    /**
+     * The constructor which calls the setter methods of the specified attributes, to ensure that all the defensive
+     * programming which were made in the special setter methods has its validity, even if the attributes are
+     * called in the constructor. This ensures that only attributes are set to the constructor which requires the
+     * conditions. This is only for necessary for attributes with expanded setter
+     * @param relationshipID
+     * @param typeOfRelationship
+     * @param year
+     * @param month
+     * @param day
+     */
     public Relationship(Integer relationshipID, String typeOfRelationship, int year, int month, int day) {
         this.relationshipID = relationshipID;
         this.typeOfRelationship = typeOfRelationship;

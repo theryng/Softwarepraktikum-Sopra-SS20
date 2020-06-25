@@ -22,6 +22,15 @@ public class Address {
 
     public Address(){};
 
+    /**
+     * The constructor which calls the setter methods of the specified attributes, to ensure that all the defensive
+     * programming which were made in the special setter methods has its validity, even if the attributes are called in
+     * the constructor. This ensures that only attributes are set to the constructor which requires the conditions.
+     * @param zipCode
+     * @param city
+     * @param street
+     * @param houseNumber
+     */
     public Address(String zipCode, String city, String street , String houseNumber) {
         setZipCode(zipCode);
         setCity(city);

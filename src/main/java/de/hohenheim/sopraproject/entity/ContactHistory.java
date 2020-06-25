@@ -54,7 +54,6 @@ public class ContactHistory {
      * @param day
      */
     public void setDate(int year, int month, int day) {
-        this.date = date;
 
         String stringOfYear = Integer.toString(year);
         String stringOfMonth = Integer.toString(month);

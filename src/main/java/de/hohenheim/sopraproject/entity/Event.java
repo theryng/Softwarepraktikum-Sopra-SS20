@@ -34,6 +34,22 @@ public class Event {
         //empty constructor for Hibernate
     }
 
+    /**
+     * The constructor which calls the setter methods of the specified attributes, to ensure that all the defensive
+     * programming which were made in the special setter methods has its validity, even if the attributes are called in
+     * the constructor. This ensures that only attributes are set to the constructor which requires the conditions.
+     * This is only for necessary for attributes with expanded setter.
+     * @param eventId
+     * @param date
+     * @param address
+     * @param eventName
+     * @param text
+     * @param contactsEvent
+     * @param year
+     * @param month
+     * @param day
+     * @param contacts
+     */
     public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
                  int year, int month, int day, Set<Contact> contacts) {
         this.eventId = eventId;
