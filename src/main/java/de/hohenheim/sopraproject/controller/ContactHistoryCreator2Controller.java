@@ -20,6 +20,8 @@ import java.util.Set;
 @Controller
 public class ContactHistoryCreator2Controller {
 
+    public static Contact originalContact;
+
     public static Set<Contact> choosenContacts;
 
     @Autowired
@@ -50,6 +52,7 @@ public class ContactHistoryCreator2Controller {
         System.out.println(contactHistory.getDate());
         System.out.println(contactHistory.getText());
         contactHistory.setContactOfHistory(choosenContacts);
+        contactHistory.getContactOfHistory().add(originalContact);
         contactHistoryRepository.save(contactHistory);
         choosenContacts.clear();
         ContactHistoryCreator1Controller.resetController();

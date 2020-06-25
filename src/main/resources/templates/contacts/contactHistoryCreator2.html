@@ -31,7 +31,7 @@
             <button type="submit" class="btn btn-secondary float-right mr-5 mt-2">Zurück</button>
         </form>
         <!--Input Form for other general Information, like type of Relationship and when it started-->
-        <h5 class="mr-5 ml-5 mt-3"> Hier werden weitere Informationen Wie Text und Datum festgelegt</h5>
+        <h5 class="mr-5 ml-5 mt-3"> Hier werden weitere Informationen wie Text und Datum festgelegt</h5>
         <form action = "#" th:action = "@{/saveFinalContactHistory}" th:object ="${contactHistory}" class="was-validated mr-5 ml-5 mt-3" method = post>
             Art der Beziehung:<input type="text" class="form-control" name = "text" th:field="*{text}" required/>
                 <div class="invalid-feedback">Bitte geben Sie Art der Kontakthistorie an</div></br>

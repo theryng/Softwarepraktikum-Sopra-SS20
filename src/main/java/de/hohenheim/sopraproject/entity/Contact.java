@@ -352,7 +352,7 @@ public class Contact {
     }
 
     public String getSearchString(){
-        searchString = firstname + lastname + linkToHomepage;
+        searchString = firstname + lastname + email;
         return searchString;
     }
 }

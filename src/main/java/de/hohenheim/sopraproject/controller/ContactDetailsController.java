@@ -140,7 +140,6 @@ public class ContactDetailsController {
     /**
      *This method chooses a specific contact
      *
-     *
      * @param contact
      * @return
      */

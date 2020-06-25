@@ -20,13 +20,13 @@
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
 <!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
-     as well as some input forms to create new user/admin accounts for this application-->
+     as well as a button to open up a modal which allows te admin to create more users for this application-->
 <div class = "container-fluid ml-1000 mr-1000">
 
     <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Mitarbeiter/User der Anwendung</h3>
     <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" class="was-validated" method = post>
         <div class="form-group ml-5 mt-2 mr-5">
-            <!-- Submit Button -->
+            <!--Button to open up the modal to create a new user-->
             <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
                 Neuen User hinzufügen
             </button>
@@ -39,7 +39,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <!--Inputs for a contact in a small Modal once the button: Neuen User hinzufügen is pushed-->
+                        <!--Inputs for a user in a small Modal once the button: Neuen User hinzufügen is pushed-->
                         <div class="modal-body">
                             <div class = "row">
                                 <div class = "col w-25">
@@ -51,13 +51,13 @@
                             </div>
                             <div class="row">
                                 <div class="col w-25">
-                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
-                            form will notify the admin if a he needs to make an input or not-->
                             Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
                             <div class="valid-feedback">valid.</div>
                             <div class="invalid-feedback">Please fill in an username.</div>
                                 </div>
                             </div>
+                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
+                            form will notify the admin if a he needs to make an input or not-->
                             <div class="row">
                                 <div class="col w-25">
                                     Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
@@ -70,13 +70,13 @@
                                     <div class="invalid-feedback">Please confirm your password.</div>
                                 </div>
                             </div>
-                            <!--These radio type inputs gives the admin the choice of selecting a role for the new user. There are two roles to choose from: admin and user.
+                            <!--This checkbox input gives the admin the choice of selecting a adminrole for the user.
                             Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
                             <div>
                                 <label for="adminCheckBox" th:text="'User ist ein Admin:'"></label>
                                 <input type="checkbox" id="adminCheckBox" th:field="*{isAdmin}" />
                             </div>
-                            <!--Small button to submit the creation of the new user-->
+                            <!--Small button to submit the creation of the new user as well as a dismiss button "Abbrechen" if the admin changes its mind and doesnt want to create a new user-->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                                 <button type="submit" class="btn btn-primary">User speichern</button>
@@ -107,7 +107,7 @@
             <td th:text="${users.firstName}"></td>
             <td th:text="${users.lastName}"></td>
             <td th:text="${users.username}"></td>
-            <td th:text="${users.getPassword()}"></td>
+            <td th:text="${users.password}"></td>
             <td>
             <span th:if="${users.isAdmin == true}">Administrator</span>
             <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
