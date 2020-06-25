@@ -75,9 +75,14 @@
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
-
+                        <!-- Input and View Field for the Contact Details-->
+                        <div class="alert alert-danger" role="alert" th:if="${hasError}">
+                            Bitte überprüfen Sie Ihr Änderungen, da diese Fehlerhaft sind.
+                        </div>
+                        <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                            <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
+                        </div>-->
                         <div class="row">
-                            <!-- Input and View Field for the Contact Details-->
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
@@ -87,7 +92,7 @@
                                         Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
                                     </div>
                                 </div>
-                                Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
+                                Anstellung:<input type="text" class="form-control" name = "occupation"  th:field="*{occupation}"/></br>
                                 E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
                                 Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
                             </div>
@@ -254,7 +259,7 @@
                     <!-- Button to Start Creation of new Contact History -->
                     <form class="ml-5 mr-5 mt-2" ACTION="#" th:action="@{/createNewContactHistory}" th:object="${contact}" method="post">
                         <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                        <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
+                        <button type="submit" class="btn btn-secondary">Neue Kontakthistorie erstellen </button>
                     </form>
 
                 </div>

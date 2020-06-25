@@ -108,6 +108,7 @@ public class ContactHistoryCreator1Controller {
     @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
     public String submitChosenContacts() {
         ContactHistoryCreator2Controller.choosenContacts=chosenContacts;
+        ContactHistoryCreator2Controller.originalContact = originalContact;
         return "redirect:/contactHistoryCreator2";
     }
 

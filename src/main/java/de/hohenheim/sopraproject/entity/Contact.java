@@ -1,8 +1,10 @@
 package de.hohenheim.sopraproject.entity;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -352,7 +354,7 @@ public class Contact {
     }
 
     public String getSearchString(){
-        searchString = firstname + lastname + linkToHomepage;
+        searchString = firstname + lastname + email;
         return searchString;
     }
 }
