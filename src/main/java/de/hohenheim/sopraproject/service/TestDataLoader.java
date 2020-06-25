@@ -97,6 +97,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
+        admin.setIsAdmin(true);
         userService.saveUser(admin);
 
         //Example contacts

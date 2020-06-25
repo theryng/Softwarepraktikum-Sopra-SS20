@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="">
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -20,121 +20,110 @@
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
 <!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
-     as well as some input forms to create new user/admin accounts for this application-->
-<div class = "row">
-    <div class = "row">
-        <div class = "col w-25">
-            <!--left side of the body-->
-            <!--Option to create/register a new user for this application. A new user has to have a username, his full name, a password and a role in order to be created-->
-            <h2 class="ml-5">Neuen User hinzufügen</h2>
-            <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" method = "post">
-                <div class="form-group ml-5 mt-2 mr-5">
-                    <div class = "row">
-                        <div class = "col w-25">
-                            First Name: <input type="text" class="form-control" name = "firstName" th:field="*{firstName}">
+     as well as a button to open up a modal which allows te admin to create more users for this application-->
+<div class = "container-fluid ml-1000 mr-1000">
+
+    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Mitarbeiter/User der Anwendung</h3>
+    <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" class="was-validated" method = post>
+        <div class="form-group ml-5 mt-2 mr-5">
+            <!--Button to open up the modal to create a new user-->
+            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                Neuen User hinzufügen
+            </button>
+            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="submitModalLabel">User Registrierung</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class = "col w-25">
-                            Last name:<input type="text" class="form-control" name = "lastName" th:field="*{lastName}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col w-25">
-                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
-                            form will notify the admin if a he needs to make an input or not-->
+                        <!--Inputs for a user in a small Modal once the button: Neuen User hinzufügen is pushed-->
+                        <div class="modal-body">
+                            <div class = "row">
+                                <div class = "col w-25">
+                                    First Name: <input type="text" class="form-control" name = "firstName" th:field="*{firstName}">
+                                </div>
+                                <div class = "col w-25">
+                                    Last name:<input type="text" class="form-control" name = "lastName" th:field="*{lastName}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col w-25">
                             Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
                             <div class="valid-feedback">valid.</div>
                             <div class="invalid-feedback">Please fill in an username.</div>
+                                </div>
+                            </div>
+                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
+                            form will notify the admin if a he needs to make an input or not-->
+                            <div class="row">
+                                <div class="col w-25">
+                                    Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
+                                    <div class="invalid-feedback">Please fill in a password.</div>
+                                </div>
+                                <!--The confirmation of the password. It has to be the exact same String or else the submitting progress will fail. A small speechbubble will show up
+                                informing the admin that the input does not overlign with the password he typed in earlier-->
+                                <div class="col w-25">
+                                    Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
+                                    <div class="invalid-feedback">Please confirm your password.</div>
+                                </div>
+                            </div>
+                            <!--This checkbox input gives the admin the choice of selecting a adminrole for the user.
+                            Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
+                            <div>
+                                <label for="adminCheckBox" th:text="'User ist ein Admin:'"></label>
+                                <input type="checkbox" id="adminCheckBox" th:field="*{isAdmin}" />
+                            </div>
+                            <!--Small button to submit the creation of the new user as well as a dismiss button "Abbrechen" if the admin changes its mind and doesnt want to create a new user-->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                <button type="submit" class="btn btn-primary">User speichern</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col w-25">
-                            Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
-                            <div class="invalid-feedback">Please fill in a password.</div>
-                        </div>
-                        <!--The confirmation of the password. It has to be the exact same String or else the submitting progress will fail. A small speechbubble will show up
-                        informing the admin that the input does not overlign with the password he typed in earlier-->
-                        <div class="col w-25">
-                            Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
-                            <div class="invalid-feedback">Please confirm your password.</div>
-                        </div>
-                    </div>
-                    <!--These radio type inputs gives the admin the choice of selecting a role for the new user. There are two roles to choose from: admin and user.
-                    Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
-                    <div>
-                        <label for="adminCheckBox" th:text="'User ist ein Admin:'"></label>
-                        <input type="checkbox" id="adminCheckBox" th:field="*{isAdmin}" />
-                    </div>
-                    <!--Small button to submit the creation of the new user-->
-                    <button name="submit" class="btn btn-primary mt-3" type="submit" >User hinzufügen</button>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
     <!--A table to view all the created user and their account information. This information consists of their full name, username, password and role. Whenever a new User is created
     the table will automatically update itself. Adding the new user to the table. It also provides an option of deleting existing users by the admin-->
-    <div class = "col w-25">
-    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">User/Mitarbeiter der Anwendung</h3>
+    <div class = "col w-60">
     <table class="table table-striped">
         <thead>
         <th>UserId</th>
-        <th>Name</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
         <th>Username</th>
         <th>Password</th>
-        <th>Role</th>
+        <th>Rolle</th>
         <th>User entfernen</th>
         </thead>
         <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
         <tbody style="max-width: available ;overflow-x: scroll">
         <tr th:each="users : ${allUsers}">
             <td th:text="${users.userId}"></td>
-            <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
+            <td th:text="${users.firstName}"></td>
+            <td th:text="${users.lastName}"></td>
             <td th:text="${users.username}"></td>
             <td th:text="${users.password}"></td>
-            <td th:text="${users.roles}"></td>
-
             <td>
-                <!--Modal trigger Button-->
-                <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-                User löschen
-                    <!--The users in the table will each have a corresponding delete button next to their information. Pressing it will delete this account and removes
-                    the user from the table-->
-                </button>
-                <!-- Modal -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">User löschen</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+            <span th:if="${users.isAdmin == true}">Administrator</span>
+            <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
+            </td>
+            <td>
+                <form  ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+                    <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
 
-                            <div class="modal-body">
-                                Sind sie sicher das Sie diesen User löschen möchten?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-
-                                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
-                                    <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
-
-                                    <button type="submit" class="btn btn-danger ml-3">Bestätigen</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <button type="submit" class="btn btn-danger ml-3">User löschen</button>
+                </form>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
 </div>
-
-
-
-
 
 <script>
     /**
