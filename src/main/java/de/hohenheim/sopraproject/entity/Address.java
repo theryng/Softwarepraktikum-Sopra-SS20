@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This is a component class which is used to define the address of a contact. because of that it has the @Embeddable
- * annotation. To define an adress, this class goes with the attributes: ZIP code, city, street and house number. The
+ * This is a component class which is used to define an address. because of that it has the @Embeddable
+ * annotation. To define an address, this class goes with the attributes: ZIP code, city, street and house number. The
  * attribute names will be the names of the column in the contact table.
  */
 @Embeddable

@@ -202,7 +202,7 @@ public class Contact {
     }
 
     /**
-     * Sets the E-Mail only if there is an "@" character in it
+     * Sets the E-Mail only if there is an "@" character in it otherwise it will throw an IllegalStateException
      * @param email
      */
     public void setEmail(String email) {
@@ -299,14 +299,8 @@ public class Contact {
         return linkToHomepage;
     }
 
-    /**
-     * Sets the homepage of a Contact only if the String contains a point. Otherwise it throws an Exception
-     * @param linkToHomepage
-     */
     public void setLinkToHomepage(String linkToHomepage) {
             this.linkToHomepage = linkToHomepage;
-
-
     }
 
     public Set<Institute> getInstitutes() {
@@ -314,7 +308,7 @@ public class Contact {
     }
 
     /**
-     * Sets the institute if it is not null
+     * Sets the institute if it is not null, otherwise it will throw an IllegalStateException
      * @param institutes
      */
     public void setInstitutes(Set<Institute> institutes) {

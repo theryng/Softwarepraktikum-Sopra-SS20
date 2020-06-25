@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class defines all attributes that are necessary to define a Contacthistory. There is one Contacthistory for every existing Contact. The primary key is "contacthistoryId"
- * and it has a man to one relation to "Contact".
+ * This class defines all attributes that are necessary to define a Contacthistory. There is one Contacthistory for every
+ * existing Contact. The primary key is "contacthistoryId" and it has a many to one relation to "Contact".
  */
 @Entity
 public class ContactHistory {
