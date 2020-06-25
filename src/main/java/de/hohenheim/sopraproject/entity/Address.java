@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This is a component class which is used to define the adress of a contact. because of that it has the @Embeddable
- * annotation. To define an adress, this class goes with the attributes: ZIP code, city, street and house number. The
+ * This is a component class which is used to define an address. because of that it has the @Embeddable
+ * annotation. To define an address, this class goes with the attributes: ZIP code, city, street and house number. The
  * attribute names will be the names of the column in the contact table.
  */
 @Embeddable
@@ -22,6 +22,15 @@ public class Address {
 
     public Address(){};
 
+    /**
+     * The constructor which calls the setter methods of the specified attributes, to ensure that all the defensive
+     * programming which were made in the special setter methods has its validity, even if the attributes are called in
+     * the constructor. This ensures that only attributes are set to the constructor which requires the conditions.
+     * @param zipCode
+     * @param city
+     * @param street
+     * @param houseNumber
+     */
     public Address(String zipCode, String city, String street , String houseNumber) {
         setZipCode(zipCode);
         setCity(city);

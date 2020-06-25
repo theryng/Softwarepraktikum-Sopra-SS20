@@ -43,7 +43,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
-    //Konstruktor for this class
+    //Construktor for this class
     public User(String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
         this.username = username;
         this.roles = roles;
