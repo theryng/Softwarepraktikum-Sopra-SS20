@@ -15,6 +15,7 @@ public class HomeController {
     @GetMapping("/home")
     public String showHome(Model model) {
         model.addAttribute("message", "Und hier sehen Sie ein Model Attribut");
+        ContactsController.hasError = false;
         return "home";
     }
 

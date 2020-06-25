@@ -2,7 +2,7 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.Contacthistory;
+import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ContactsController {
     @Autowired
     private ContactRepository contactRepository;
 
-    private static boolean hasError = false;
+    public static boolean hasError = false;
 
     /**
      * This method gets all the information about a contact

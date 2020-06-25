@@ -91,37 +91,37 @@
     <!--A table to view all the created user and their account information. This information consists of their full name, username, password and role. Whenever a new User is created
     the table will automatically update itself. Adding the new user to the table. It also provides an option of deleting existing users by the admin-->
     <div class = "col w-60">
-    <table class="table table-striped">
-        <thead>
-        <th>UserId</th>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Rolle</th>
-        <th>Funktionen</th>
-        </thead>
-        <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
-        <tbody style="max-width: available ;overflow-x: scroll">
-        <tr th:each="users : ${allUsers}">
-            <td th:text="${users.userId}"></td>
-            <td th:text="${users.firstName} + ' ' + ${users.lastName}*"></td>
-            <td th:text="${users.username}"></td>
-            <td th:text="${users.password}"></td>
-            <td>
-            <span th:if="${users.isAdmin == true}">Administrator</span>
-            <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
-            </td>
-            <td>
-                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
-                    <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
+        <table class="table table-striped">
+            <thead>
+            <th>UserId</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Rolle</th>
+            <th>Funktionen</th>
+            </thead>
+            <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
+            <tbody style="max-width: available ;overflow-x: scroll">
+            <tr th:each="users : ${allUsers}">
+                <td th:text="${users.userId}"></td>
+                <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
+                <td th:text="${users.username}"></td>
+                <td th:text="${users.password}"></td>
+                <td>
+                    <span th:if="${users.isAdmin == true}">Administrator</span>
+                    <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
+                </td>
+                <td>
+                    <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+                        <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
 
-                    <button type="submit" class="btn btn-danger ml-3">User löschen</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+                        <button type="submit" class="btn btn-danger ml-3">User löschen</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
