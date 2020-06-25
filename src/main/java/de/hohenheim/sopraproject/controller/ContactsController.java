@@ -31,7 +31,7 @@ public class ContactsController {
     @Autowired
     private ContactRepository contactRepository;
 
-    public static boolean hasError = false;
+    public boolean hasError = false;
 
     /**
      * This method gets all the information about a contact
@@ -47,6 +47,7 @@ public class ContactsController {
         model.addAttribute("contact", new Contact());
         model.addAttribute("hasError", hasError);
         model.addAttribute("allContacts", contactRepository.findAll());
+        hasError = false;
         return "contacts";
     }
 

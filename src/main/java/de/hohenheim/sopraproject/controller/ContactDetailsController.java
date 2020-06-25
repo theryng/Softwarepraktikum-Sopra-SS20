@@ -48,7 +48,7 @@ public class ContactDetailsController {
 
     private boolean existingRelationships = false;
     private boolean existingContactHistories = false;
-    private static boolean hasError = false;
+    public boolean hasError = false;
 
     /**
      * Main method for Viewing of Contact Details Site, adds necessary Attributes
@@ -73,7 +73,7 @@ public class ContactDetailsController {
             model.addAttribute("allContacts", new HashSet<Contact>());
         }
         model.addAttribute("searchWord", searchWord);
-
+        hasError = false;
         return "contacts/contactDetails";
     }
 

@@ -28,7 +28,7 @@ public class ContactHistoryCreator2Controller {
     @Autowired
     private ContactHistoryRepository contactHistoryRepository;
 
-    private static boolean hasError = false;
+    public boolean hasError = false;
 
     /**
      * Main Method which opens the site contactHistoryCreator2,
@@ -41,6 +41,7 @@ public class ContactHistoryCreator2Controller {
         model.addAttribute("hasError", hasError);
         model.addAttribute("contactHistory", new ContactHistory());
         System.out.println("In Creator 2");
+        hasError = false;
         return "contacts/contactHistoryCreator2";
     }
 

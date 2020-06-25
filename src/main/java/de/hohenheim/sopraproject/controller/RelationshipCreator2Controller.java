@@ -24,7 +24,7 @@ public class RelationshipCreator2Controller {
     @Autowired
     private RelationshipRepository relationshipRepository;
     private String ingoingString;
-    private static boolean hasError = false;
+    public boolean hasError = false;
 
     /**
      * Main Method of the second part of the Relationship Creator process
@@ -38,6 +38,7 @@ public class RelationshipCreator2Controller {
         model.addAttribute("hasError", hasError);
         model.addAttribute("relationship", relationshipTemp);
         model.addAttribute("choosenContact", choosenContact);
+        hasError = false;
         return "contacts/relationshipCreator2";
     }
 
