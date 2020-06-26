@@ -200,6 +200,12 @@
         document.getElementById("message").style.display = "none";
     }
 
+    /**
+     * Validation process of all the checked attributes
+     *
+     * validation of all the checked attributes for the password. If one of the requirements doesnt match the validation will be set to invalid until
+     * the user makes the proper adjustments
+     */
     firstInput.onkeyup = function() {
         // Validation the lowercase letters
         var lowerCaseLetters = /[a-z]/g;
@@ -241,18 +247,38 @@
         }
     }
 
-    var userInput = document.getElementById("username");
 
+
+    //Username validation variables
+    var userInput = document.getElementById("username");
+    var whiteSpace = document.getElementById("whiteSpace");
+
+    /**
+     * The display block will show up once during the input
+     *
+     * The block displaying the username requirements will pop-up once the admin clicks inside the input space
+     */
     userInput.onfocus = function(){
         document.getElementById("usernameMessage").style.display = "block";
     }
 
+    /**
+     * The display block vanishes after input
+     *
+     * The display block closes itself once the admin finishes his input and clicks on a different space than the input of said username
+     */
     userInput.onblur = function(){
         document.getElementById("usernameMessage").style.display = "none";
     }
 
-    var whiteSpace = document.getElementById("whiteSpace");
 
+
+    /**
+     * Validation process of all the checked attributes
+     *
+     * validation of all the checked attributes for the correct username. If one of the requirements doesnt match the validation will be set to invalid until
+     * the user makes the proper adjustments
+     */
     userInput.onkeyup = function() {
         var whiteSpace = /^\S/;
         if(userInput.value.match(whiteSpace)) {
@@ -263,7 +289,7 @@
             number.classList.add("invalid");
         }
 
-        if(userInput.value.length >= 3) { //has to be 3 letters or more
+        if(userInput.value.length >= 4) { //has to be 4 letters or more
             length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
             length.classList.add("valid");
         } else {
@@ -271,7 +297,6 @@
             length.classList.add("invalid");
         }
     }
-
 </script>
 
 
