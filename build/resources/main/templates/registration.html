@@ -52,17 +52,16 @@
                             <div class="row">
                                 <div class="col w-25">
                                     <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
-                            form will notify the admin if a he needs to make an input or not-->
-                                    Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
+                                     form will notify the admin if a he needs to make an input or not. Usernames have to be at least 4 letters long and are not allowed to contain a whitespace-->
+                                    Username:<input type="text" class="form-control" id="username" name="username" pattern="[^''][A-Za-z0-9]{3,}" th:field="*{username}" required>
                                     <div class="valid-feedback">valid</div>
                                     <div class="invalid-feedback">Please fill in an username.</div>
-
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col w-25">
                                     <!--Input to create a password for the new user. The requirements for it have to be met in order to receive a valid feedback. The requirements aer state inside the creation modal as well and can be looked up-->
-                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}" th:field="*{password}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}" th:field="*{password}" required>
                                     <div class="valid-feedback">valid password</div>
                                     <div class="invalid-feedback">Please fill in a correct password.</div>
                                 </div>
@@ -94,6 +93,13 @@
                                 <li id="length" class="invalid">Mindestens <b>4 Zeichen</b></li>
                                 </ul>
                             </div>
+                            <div id="usernameMessage">
+                                <h5>Der Username hat folgende Richtlinien:</h5>
+                                <ul>
+                                    <li id="userLength" class="invalid">Mindestens <b>3 Zeichen</b></li>
+                                    <li id="whiteSpace" class="invalid"><b>Keine</b> Leerzeichen</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +114,6 @@
             <th>UserId</th>
             <th>Name</th>
             <th>Username</th>
-            <th>Password</th>
             <th>Rolle</th>
             <th>Funktionen</th>
             </thead>
@@ -118,7 +123,6 @@
                 <td th:text="${users.userId}"></td>
                 <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
                 <td th:text="${users.username}"></td>
-                <td th:text="${users.password}"></td>
                 <td>
                     <span th:if="${users.isAdmin == true}">Administrator</span>
                     <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
@@ -162,18 +166,24 @@
 
 
     //Variables needed for the password requirements; Code used based on https://www.w3schools.com/howto/howto_js_password_validation.asp
-    var myInput = document.getElementById("password");
+    var firstInput = document.getElementById("password");
+    var confirmInput = document.getElementById("confirm_Password");
     var letter = document.getElementById("letter");
     var capital = document.getElementById("capital");
     var number = document.getElementById("number");
     var length = document.getElementById("length");
+    var space = document.getElementById("space");
 
     /**
      * The display block will show up once during the input
      *
      * The block displaying the  password requirements will pop-up once the admin clicks inside the input space
      */
-    myInput.onfocus = function() {
+    firstInput.onfocus = function() {
+        document.getElementById("message").style.display = "block";
+    }
+
+    confirmInput.onfocus = function(){
         document.getElementById("message").style.display = "block";
     }
 
@@ -182,14 +192,24 @@
      *
      * The display block closes itself once the admin finishes his input and clicks on a different space than the input of said password
      */
-    myInput.onblur = function() {
+    firstInput.onblur = function() {
         document.getElementById("message").style.display = "none";
     }
 
-    myInput.onkeyup = function() {
+    confirmInput.onblur = function(){
+        document.getElementById("message").style.display = "none";
+    }
+
+    /**
+     * Validation process of all the checked attributes
+     *
+     * validation of all the checked attributes for the password. If one of the requirements doesnt match the validation will be set to invalid until
+     * the user makes the proper adjustments
+     */
+    firstInput.onkeyup = function() {
         // Validation the lowercase letters
         var lowerCaseLetters = /[a-z]/g;
-        if(myInput.value.match(lowerCaseLetters)) {
+        if(firstInput.value.match(lowerCaseLetters)) {
             letter.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
             letter.classList.add("valid");
         } else {
@@ -199,7 +219,7 @@
 
         // Validation of the capital letters
         var upperCaseLetters = /[A-Z]/g;
-        if(myInput.value.match(upperCaseLetters)) {
+        if(firstInput.value.match(upperCaseLetters)) {
             capital.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
             capital.classList.add("valid");
         } else {
@@ -209,7 +229,7 @@
 
         // Validation of used numbers
         var numbers = /[0-9]/g;
-        if(myInput.value.match(numbers)) {
+        if(firstInput.value.match(numbers)) {
             number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
             number.classList.add("valid");
         } else {
@@ -218,7 +238,58 @@
         }
 
         // Validation of the password length
-        if(myInput.value.length >= 4) { //has to be 4 letters or more
+        if(firstInput.value.length >= 4) { //has to be 4 letters or more
+            length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+
+
+
+    //Username validation variables
+    var userInput = document.getElementById("username");
+    var whiteSpace = document.getElementById("whiteSpace");
+
+    /**
+     * The display block will show up once during the input
+     *
+     * The block displaying the username requirements will pop-up once the admin clicks inside the input space
+     */
+    userInput.onfocus = function(){
+        document.getElementById("usernameMessage").style.display = "block";
+    }
+
+    /**
+     * The display block vanishes after input
+     *
+     * The display block closes itself once the admin finishes his input and clicks on a different space than the input of said username
+     */
+    userInput.onblur = function(){
+        document.getElementById("usernameMessage").style.display = "none";
+    }
+
+
+
+    /**
+     * Validation process of all the checked attributes
+     *
+     * validation of all the checked attributes for the correct username. If one of the requirements doesnt match the validation will be set to invalid until
+     * the user makes the proper adjustments
+     */
+    userInput.onkeyup = function() {
+        var whiteSpace = /^\S/;
+        if(userInput.value.match(whiteSpace)) {
+            number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        if(userInput.value.length >= 4) { //has to be 4 letters or more
             length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
             length.classList.add("valid");
         } else {
