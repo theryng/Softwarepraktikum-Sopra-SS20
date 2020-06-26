@@ -46,14 +46,6 @@ public class Contact {
 
     @Embedded
     private Address address;
-    @Transient
-    private String tempZipCode;
-    @Transient
-    private String tempHouseNmbr;
-    @Transient
-    private String tempCity;
-    @Transient
-    private String tempStreet;
 
     private String hobby;
 
@@ -68,7 +60,7 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts", cascade =  CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
@@ -321,49 +313,6 @@ public class Contact {
             throw new IllegalStateException("institute should be initialized");
         }
     }
-
-    public String getTempZipCode() {
-        return tempZipCode;
-    }
-
-    public void setTempZipCode(String tempZipCode) {
-        Pattern pattern = Pattern.compile("[0-9]");
-        Matcher matcher = pattern.matcher(tempZipCode);
-        if(tempZipCode.length()==5){
-            this.tempZipCode = tempZipCode;
-        }
-        else if(matcher.find()){
-            throw new IllegalStateException("ZipCode must only contain Numbers");
-        }
-        else{
-            throw new IllegalStateException("ZipCode must be 5 Characters long");
-        }
-    }
-
-    public String getTempHouseNmbr() {
-        return tempHouseNmbr;
-    }
-
-    public void setTempHouseNmbr(String tempHouseNmbr) {
-        this.tempHouseNmbr = tempHouseNmbr;
-    }
-
-    public String getTempCity() {
-        return tempCity;
-    }
-
-    public void setTempCity(String tempCity) {
-        this.tempCity = tempCity;
-    }
-
-    public String getTempStreet() {
-        return tempStreet;
-    }
-
-    public void setTempStreet(String tempStreet) {
-        this.tempStreet = tempStreet;
-    }
-
     public String getSearchString(){
         searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
         return searchString;
