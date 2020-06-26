@@ -43,31 +43,33 @@
                         <div class="modal-body">
                             <div class = "row">
                                 <div class = "col w-25">
-                                    First Name: <input type="text" class="form-control" name = "firstName" th:field="*{firstName}">
+                                    Vorname: <input type="text" class="form-control" name = "firstName" th:field="*{firstName}">
                                 </div>
                                 <div class = "col w-25">
-                                    Last name:<input type="text" class="form-control" name = "lastName" th:field="*{lastName}">
+                                    Nachname:<input type="text" class="form-control" name = "lastName" th:field="*{lastName}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col w-25">
+                                    <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
+                            form will notify the admin if a he needs to make an input or not-->
                                     Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
-                                    <div class="valid-feedback">valid.</div>
+                                    <div class="valid-feedback">valid</div>
                                     <div class="invalid-feedback">Please fill in an username.</div>
 
                                 </div>
                             </div>
-                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
-                            form will notify the admin if a he needs to make an input or not-->
                             <div class="row">
                                 <div class="col w-25">
-                                    Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
-                                    <div class="invalid-feedback">Please fill in a password.</div>
+                                    <!--Input to create a password for the new user. The requirements for it have to be met in order to receive a valid feedback. The requirements aer state inside the creation modal as well and can be looked up-->
+                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}" th:field="*{password}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                                    <div class="valid-feedback">valid password</div>
+                                    <div class="invalid-feedback">Please fill in a correct password.</div>
                                 </div>
                                 <!--The confirmation of the password. It has to be the exact same String or else the submitting progress will fail. A small speechbubble will show up
                                 informing the admin that the input does not overlign with the password he typed in earlier-->
                                 <div class="col w-25">
-                                    Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
+                                    Passwort bestätigen: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
                                     <div class="invalid-feedback">Please confirm your password.</div>
                                 </div>
                             </div>
@@ -81,6 +83,16 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                                 <button type="submit" class="btn btn-primary">User speichern</button>
+                            </div>
+                            <!--Information text for the admin. It shows the requirements in order to create a valid password.-->
+                            <div id="message">
+                                <h5>Das Passwort muss folgendes enthalten:</h5>
+                                <ul>
+                                <li id="letter" class="invalid">Einen <b>Kleinbuchstaben</b></li>
+                                <li id="capital" class="invalid"><b>Großen</b> Anfangsbuchstaben</li>
+                                <li id="number" class="invalid">Eine <b>Zahl</b></li>
+                                <li id="length" class="invalid">Mindestens <b>4 Zeichen</b></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -147,6 +159,73 @@
 
     password.onchange = validatePassword;
     confirm_Password.onkeyup = validatePassword;
+
+
+    //Variables needed for the password requirements; Code used based on https://www.w3schools.com/howto/howto_js_password_validation.asp
+    var myInput = document.getElementById("password");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+
+    /**
+     * The display block will show up once during the input
+     *
+     * The block displaying the  password requirements will pop-up once the admin clicks inside the input space
+     */
+    myInput.onfocus = function() {
+        document.getElementById("message").style.display = "block";
+    }
+
+    /**
+     * The display block vanishes after input
+     *
+     * The display block closes itself once the admin finishes his input and clicks on a different space than the input of said password
+     */
+    myInput.onblur = function() {
+        document.getElementById("message").style.display = "none";
+    }
+
+    myInput.onkeyup = function() {
+        // Validation the lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validation of the capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if(myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        // Validation of used numbers
+        var numbers = /[0-9]/g;
+        if(myInput.value.match(numbers)) {
+            number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validation of the password length
+        if(myInput.value.length >= 4) { //has to be 4 letters or more
+            length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
 </script>
 
 
