@@ -84,7 +84,8 @@
                                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                                             </div>
                                             <div class = "col">
-                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" pattern="^[0-9]$" th:field="*{address.houseNumber}" required/>
+                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" pattern="^[0-9]$" th:field="*{address.houseNumber}"
+                                                                  title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                             </div>
                                             <div class = "col">
                                                 Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
@@ -126,7 +127,7 @@
 
                 </form>
                 <!-- Table with the Possible Results -->
-                <table class="table table-striped mt-3">
+                <table class="table table-striped mt-3 mb-5">
                     <tr>
                         <th>Name</th>
                         <th>Studium</th>

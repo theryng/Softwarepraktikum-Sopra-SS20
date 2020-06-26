@@ -64,6 +64,7 @@ public class RelationshipCreator1Controller {
         System.out.println(searchWord);
         ContactFinder findContact = new ContactFinder();
         Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
+        foundContactsTemp.remove(contactRepository.findByContactID(contactA.getContactID()));
         if(foundContactsTemp.size()>0){
             foundContacts = foundContactsTemp;
             viewTable = true;

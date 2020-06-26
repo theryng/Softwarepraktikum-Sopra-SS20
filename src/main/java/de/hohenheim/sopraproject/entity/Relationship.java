@@ -40,7 +40,7 @@ public class Relationship {
     public Relationship(Integer relationshipID, String typeOfRelationship, int year, int month, int day) {
         this.relationshipID = relationshipID;
         this.typeOfRelationship = typeOfRelationship;
-        setSince(year, month, day);
+        setSinceDate(year, month, day);
     }
 
     public Relationship(){}
@@ -71,7 +71,7 @@ public class Relationship {
      * digit, it adds a zero before this digit. The method also checks if 0 < day < 31, 0 < month < 12 and year > 0. If
      * the input does not fit the formatting rules, an EXception will be thrown.
      */
-    public void setSince(int year, int month, int day) {
+    public void setSinceDate(int year, int month, int day) {
 
         String stringOfYear = Integer.toString(year);
         String stringOfMonth = Integer.toString(month);
@@ -98,8 +98,7 @@ public class Relationship {
             throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
         }
     }
-
-    public void setStringSince(String since){
+    public void setSince(String since){
         this.since = since;
     }
 

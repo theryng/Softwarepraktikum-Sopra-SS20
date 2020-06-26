@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
-    <title>Kontakte</title>
+    <title>Institut Details</title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            Kontakt Löschen
+            Institut Löschen
         </button>
 
         <!-- Modal -->
@@ -37,7 +37,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Beziehung Löschen</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Institut löschen</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -79,7 +79,7 @@
                         <div class="alert alert-danger" role="alert" th:if="${hasError}">
                             Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
                         </div>
-                        <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
+                        <!--Viewing and Editing general Informations of the Institute-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
                                          pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
@@ -99,7 +99,8 @@
                                     Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" pattern="^[0-9]$" th:field="*{address.houseNumber}" required/>
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                                      title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"

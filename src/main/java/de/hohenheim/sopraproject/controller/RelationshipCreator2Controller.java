@@ -50,7 +50,7 @@ public class RelationshipCreator2Controller {
      */
     @RequestMapping(value = "/saveRelationship", method = RequestMethod.POST)
     public String saveRelationship(@Valid Relationship relationship, BindingResult result){
-
+        System.out.println(relationship.getSince());
         if(result.hasErrors()){
             hasError = true;
 
@@ -65,13 +65,13 @@ public class RelationshipCreator2Controller {
                 ingoingRelationship.setContactA(relationship.getContactB());
                 ingoingRelationship.setContactB(relationship.getContactA());
                 ingoingRelationship.setTypeOfRelationship(relationship.getTypeOfRelationship());
-                ingoingRelationship.setStringSince(relationship.getSince());
+                ingoingRelationship.setSince(relationship.getSince());
             }
             else{
                 ingoingRelationship.setContactA(relationship.getContactB());
                 ingoingRelationship.setContactB(relationship.getContactA());
                 ingoingRelationship.setTypeOfRelationship(relationship.getIngoingString());
-                ingoingRelationship.setStringSince(relationship.getSince());
+                ingoingRelationship.setSince(relationship.getSince());
             }
             relationshipRepository.save(relationship);
             relationshipRepository.save(ingoingRelationship);

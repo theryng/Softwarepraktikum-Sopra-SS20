@@ -76,7 +76,7 @@ public class Contact {
         setEmail(email);
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
-        setDayOfBirth(yearOfBirth, monthOfBirth, dayOfBirth);
+        setDayOfBirthDate(yearOfBirth, monthOfBirth, dayOfBirth);
     }
 
     public Contact() {
@@ -117,7 +117,7 @@ public class Contact {
         this.contactID = contactID;
     }
 
-    public void setDayOfBirth(String dayOfBirth) {
+    public void setDayOfBirthDate(String dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
     }
 
@@ -245,7 +245,7 @@ public class Contact {
      * @param month
      * @param day
      */
-    public void setDayOfBirth(int year, int month, int day) {
+    public void setDayOfBirthDate(int year, int month, int day) {
 
         String stringOfYear = Integer.toString(year);
         String stringOfMonth = Integer.toString(month);
@@ -272,7 +272,9 @@ public class Contact {
         throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
         }
     }
-
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
     public Address getAddress() {
         return address;
     }

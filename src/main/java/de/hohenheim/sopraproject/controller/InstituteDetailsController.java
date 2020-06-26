@@ -96,13 +96,13 @@ public class InstituteDetailsController {
      * ID in the future. Once the institute is deleted the page will be reloaded to update the contact table.
      *
      * @param institute
-     * @return redirect:/institute
+     * @return redirect:/institutes
      */
 
     @RequestMapping(value = "/deleteInstitute", method = RequestMethod.POST)
     public String deleteInstitute(Institute institute) {
         instituteRepository.deleteById(institute.getInstituteID());
-        return "redirect:/institute";
+        return "redirect:/institutes";
     }
 
     /**
