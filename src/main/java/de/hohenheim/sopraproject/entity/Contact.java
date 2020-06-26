@@ -151,7 +151,7 @@ public class Contact {
      * @param firstname string value for the first name of a contact
      */
     public void setFirstname(String firstname) {
-        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ]");
         Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
         Matcher matcher = pattern.matcher(firstname);
         Matcher matcher2 = pattern2.matcher(firstname);
@@ -159,11 +159,10 @@ public class Contact {
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
                     "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
-        }else if(matcher.find()  && firstname.length()>1){
+        }else if(matcher.find()){
             this.firstname = firstname;
         }else{
-            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only and has to be greater than " +
-                    "one digit long");
+            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only ");
         }
     }
 
@@ -177,7 +176,7 @@ public class Contact {
      * @param lastname string value for the last name of a contact
      */
     public void setLastname(String lastname) {
-        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ]");
         Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
         Matcher matcher = pattern.matcher(lastname);
         Matcher matcher2 = pattern2.matcher(lastname);
@@ -185,11 +184,10 @@ public class Contact {
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
                     "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
-        }else if(matcher.find()  && lastname.length()>1){
+        }else if(matcher.find()){
             this.lastname = lastname;
         }else{
-            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only and has to be greater than " +
-                    "one digit long");
+            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only");
         }
     }
 
@@ -329,7 +327,17 @@ public class Contact {
     }
 
     public void setTempZipCode(String tempZipCode) {
-        this.tempZipCode = tempZipCode;
+        Pattern pattern = Pattern.compile("[0-9]");
+        Matcher matcher = pattern.matcher(tempZipCode);
+        if(tempZipCode.length()==5){
+            this.tempZipCode = tempZipCode;
+        }
+        else if(matcher.find()){
+            throw new IllegalStateException("ZipCode must only contain Numbers");
+        }
+        else{
+            throw new IllegalStateException("ZipCode must be 5 Characters long");
+        }
     }
 
     public String getTempHouseNmbr() {
@@ -357,7 +365,7 @@ public class Contact {
     }
 
     public String getSearchString(){
-        searchString = firstname + lastname + email;
+        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
         return searchString;
     }
 }
