@@ -87,7 +87,6 @@ public class ContactsController {
         }
         else{
             hasError = false;
-            contact.setAddress(new Address(contact.getTempZipCode(), contact.getTempCity(), contact.getTempStreet() , contact.getTempHouseNmbr()));
             contactRepository.save(contact);
             return "redirect:/contacts";
         }
@@ -119,6 +118,7 @@ public class ContactsController {
     @RequestMapping("/viewContact")
     public String viewContact(Contact contactID) {
         ContactDetailsController.contactID = contactID.getContactID();
+        foundContacts.clear();
         return "redirect:/contactDetails";
     }
     /**

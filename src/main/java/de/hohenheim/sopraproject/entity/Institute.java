@@ -25,8 +25,18 @@ public class Institute {
 
     private String name;
 
+    private String linkToHomepage;
+
     @Embedded
-    private Address address;
+    private Address address = new Address();
+    @Transient
+    private String tempZipCode;
+    @Transient
+    private String tempHouseNmbr;
+    @Transient
+    private String tempCity;
+    @Transient
+    private String tempStreet;
 
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
@@ -81,4 +91,44 @@ public class Institute {
             contacts.add(contact);
         }
     }
+
+    public String getTempZipCode() {
+        return tempZipCode;
+    }
+
+    public void setTempZipCode(String tempZipCode) {
+        this.tempZipCode = tempZipCode;
+    }
+
+    public String getTempHouseNmbr() {
+        return tempHouseNmbr;
+    }
+
+    public void setTempHouseNmbr(String tempHouseNmbr) {
+        this.tempHouseNmbr = tempHouseNmbr;
+    }
+
+    public String getTempCity() {
+        return tempCity;
+    }
+
+    public void setTempCity(String tempCity) {
+        this.tempCity = tempCity;
+    }
+
+    public String getTempStreet() {
+        return tempStreet;
+    }
+
+    public void setTempStreet(String tempStreet) {
+        this.tempStreet = tempStreet;
+    }
+
+    public String getLinkToHomepage() {
+        return linkToHomepage;
+    }
+    public void setLinkToHomepage(String linkToHomepage) {
+        this.linkToHomepage = linkToHomepage;
+    }
+
 }
