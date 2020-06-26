@@ -44,7 +44,7 @@
                         <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
                         <div class="modal-body">
                             Name: <input type="text" class="form-control" name = "name"
-                                         pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
+                                         title="Ein Name darf keinerlei Sonderzeichen enthalten"
                                          th:field="*{name}" required>
                                     <div class="valid-feedback">valid</div>
                                     <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
@@ -62,7 +62,8 @@
                                     Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}" required/>
+                                    Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" pattern="^[0-9]$" th:field="*{address.houseNumber}"
+                                                      title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"

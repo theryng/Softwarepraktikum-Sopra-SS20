@@ -79,7 +79,7 @@
                         <div class="alert alert-danger" role="alert" th:if="${hasError}">
                             Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
                         </div>
-                        <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
+                        <!--Viewing and Editing general Informations of the Institute-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
                                          pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
@@ -99,7 +99,8 @@
                                     Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}" required/>
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                                      title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"

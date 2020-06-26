@@ -106,18 +106,19 @@
 
                         <div class = "row">
                             <div class = "col">
-                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}"/>
+                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
 
                             </div>
                             <div class = "col">
-                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}"/>
+                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"/>
+                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                                  title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
                                 Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
-                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang"/>
+                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                             </div>
                         </div>
                         <!-- Button trigger modal -->
@@ -168,12 +169,14 @@
                             <th>Name</th>
                             <th>Art der Beziehung</th>
                             <th>Mit</th>
+                            <th>Seit</th>
                             <th>Funktionen</th>
                         </tr>
                         <tr th:each="relationship : ${contact.outgoingRelationships}">
                             <td th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></td>
                             <td th:text="${relationship.typeOfRelationship}"></td>
                             <td th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></td>
+                            <td th:text="${relationship.since}"></td>
                             <td>
 
                                 <!-- Button for Deletion of Relationship -->

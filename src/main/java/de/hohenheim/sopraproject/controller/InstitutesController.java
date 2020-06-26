@@ -63,9 +63,9 @@ public class InstitutesController {
     }
 
     /**
-     * This method finds all Contacts
+     * This method finds all Institutes.
      *
-     * This method finds all existing contacts and gives them out to the user
+     * This method finds all existing institutes and returns them to the user
      *
      * @param model
      * @return contacts
@@ -77,13 +77,13 @@ public class InstitutesController {
     }
 
     /**
-     * This method shows the details of a contact
+     * This method shows the details of a institute
      *
-     * This method opens up the contactDetails page of a specific contact the user wishes to see. Once the user clicks the
-     * button that this method is bound to the window will open and allows him to view the details to this contact.
+     * This method opens up the instituteDetails page of a specific institute the user wishes to see. Once the user clicks the
+     * button that this method is bound to the window will open and allows him to view the details to this institute.
      *
      * @param institute
-     * @return redirect:/contactDetails
+     * @return redirect:/instituteDetails
      */
     @RequestMapping("/viewInstitute")
     public String viewInstitute(Institute institute) {
@@ -91,8 +91,8 @@ public class InstitutesController {
         return "redirect:/instituteDetails";
     }
     /**
-     *  Method which can be used to search for a certain Contact.
-     *  Calls the Contact Finder, and uses a searchWord to find a Contact.
+     *  Method which can be used to search for a certain Institute.
+     *  Calls the Contact Finder, and uses a searchWord to find a Institute.
      *  Reloads the Site at the very End.
      * @param searchWord
      * @return contactHistoryCreator1

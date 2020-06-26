@@ -38,7 +38,7 @@ public class InstituteContactCreatorController {
     private static boolean viewChoosenTable;
 
     /**
-     * Main Method of the Contact History Creation.
+     * Main Method of the Institute Contact Creator.
      * Adds the necessary Attributes and opens the site.
      * @param model
      * @return instituteContactCreator
@@ -85,7 +85,7 @@ public class InstituteContactCreatorController {
     }
 
     /**
-     * Selects a Contact for the Contact History
+     * Selects a Contact for the Institute.
      * Reloads the page at the End.
      * @param contact
      * @return instituteContactCreator
@@ -107,8 +107,7 @@ public class InstituteContactCreatorController {
     }
 
     /**
-     * Submits the chosen Contacts for the next Step of the
-     * Creation process.
+     * Submits the chosen Contacts to the Institute
      * @return instituteDetails
      */
     @RequestMapping(value = "/submitContactsForInstitute", method = RequestMethod.POST)
@@ -140,7 +139,7 @@ public class InstituteContactCreatorController {
     }
 
     /**
-     * Back Button which returns the user to the contactDetails Site
+     * Back Button which returns the user to the instituteDetails Site
      * Also calls the resetsController method, to ensure a blank slate for the next Creation process.
      * @return contactDetails
      */

@@ -20,10 +20,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This controller is used to handle all methods revolving around the html page contactDetails
+ * This controller is used to handle all methods revolving around the html page instituteDetails
  *
- * It helps with various method to save new contacts, delete existing ones, open up the contactHistoryEditor, create a new contact history
- * for a certain contact, create a new relationship between two existing contacts or delete a relationship
+ * It helps with various method to save new Institutes, delete existing ones, open up the InstituteContactCreator.
  *
  * @date 26.06.2020
  * @author Lukas Januschke
@@ -46,7 +45,7 @@ public class InstituteDetailsController {
     public boolean hasError = false;
 
     /**
-     * Main method for Viewing of Contact Details Site, adds necessary Attributes
+     * Main method for Viewing of Institute Details Site, adds necessary Attributes
      * @param model
      * @return instituteDetails
      */
@@ -65,10 +64,10 @@ public class InstituteDetailsController {
     }
 
     /**
-     * This method creates a new contact and saves it to the existing database
+     * This method saves the Institutes and saves it to the existing database
      *
-     * A new contact will be created with this method. It also checks if the given ID is already mapped to a different
-     * existing contact. As long thats not the case a new contact will be saved to the database. Once the contact is saved
+     * It also checks if the given ID is already mapped to a different
+     * existing institute. As long thats not the case a new institute will be saved to the database. Once the institute is saved
      * the page will be reloaded to update the table with the new given information/attributes.
      *
      * @param institute
@@ -86,15 +85,15 @@ public class InstituteDetailsController {
             if(!instituteRepository.findByInstituteID(institute.getInstituteID()).equals(institute)){
                 instituteRepository.save(institute);
             }
-            return "redirect:/institutes";
+            return "redirect:/instituteDetails";
         }
     }
 
     /**
-     * This method deletes an existing contact inside the database
+     * This method deletes an existing institute inside the database
      *
-     * An existing contact will be deleted. The corresponding contactID will also be deleted so new contacts can get this
-     * ID in the future. Once the contact is deleted the page will be reloaded to update the contact table.
+     * An existing institute will be deleted. The corresponding contactID will also be deleted so new contacts can get this
+     * ID in the future. Once the institute is deleted the page will be reloaded to update the contact table.
      *
      * @param institute
      * @return redirect:/institute
@@ -107,10 +106,10 @@ public class InstituteDetailsController {
     }
 
     /**
-     * This method exits the contactDetails
+     * This method exits the instituteDetails
      *
-     * This method exists the contactDetails page by clicking on a corresponding button bounded with this method. Once clicked
-     * the page will be redirected to the contact page.
+     * This method exits the instituteDetails page by clicking on a corresponding button bounded with this method. Once clicked
+     * the page will be redirected to the institute page.
      *
      * @return redirect:/institutes
      */
@@ -151,15 +150,20 @@ public class InstituteDetailsController {
         System.out.println(contactInstitute.size());
         return "redirect:/instituteDetails";
     }
+    /**
+     * This method deletes the chosen Contact from the Contacts of the Institute
+     * @param institute
+     * @return redirect:/institutes
+     */
     @RequestMapping(value ="/addContactsToInstitute", method = RequestMethod.POST)
     public String addContactsToInstitute(Institute institute) {
         InstituteContactCreatorController.insituteID = institute.getInstituteID();
         return "redirect:/instituteContactCreator";
     }
     /**
-     * This method checks the existing relationships and the contactHistory
+     * This method checks whether there are tables to display
      *
-     * This method checks if a contact has a existing relationship and a contactHistory. If the count for each of them is higher
+     * This method checks whether the institute has an existing contact. If the count for each of them is higher
      * than 0 it will return the boolean true
      *
      * @param institute
