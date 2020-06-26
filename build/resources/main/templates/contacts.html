@@ -84,7 +84,7 @@
                                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                                             </div>
                                             <div class = "col">
-                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" pattern="^[0-9]$" th:field="*{address.houseNumber}"
+                                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
                                                                   title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                             </div>
                                             <div class = "col">
