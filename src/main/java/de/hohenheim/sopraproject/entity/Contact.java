@@ -151,7 +151,7 @@ public class Contact {
      * @param firstname string value for the first name of a contact
      */
     public void setFirstname(String firstname) {
-        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ]");
         Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
         Matcher matcher = pattern.matcher(firstname);
         Matcher matcher2 = pattern2.matcher(firstname);
@@ -176,7 +176,7 @@ public class Contact {
      * @param lastname string value for the last name of a contact
      */
     public void setLastname(String lastname) {
-        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ]");
         Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
         Matcher matcher = pattern.matcher(lastname);
         Matcher matcher2 = pattern2.matcher(lastname);
