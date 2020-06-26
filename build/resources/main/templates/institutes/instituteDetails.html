@@ -51,7 +51,7 @@
                         <form ACTION="#" th:action="@{/deleteInstitute}" th:object="${institute}" method="post">
                             <input type="hidden" th:value="${institute.instituteID}" th:name ="instituteID" />
 
-                            <button type="submit" class="btn btn-danger ml-3">Kontakt löschen</button>
+                            <button type="submit" class="btn btn-danger ml-3">Institut löschen</button>
                         </form>
                     </div>
                 </div>
@@ -151,13 +151,13 @@
                     <table class="table table-striped" th:if="${existingContacts}">
                         <tr>
                             <th>Name</th>
-                            <th>Art der Beziehung</th>
-                            <th>Mit</th>
+                            <th>Studium</th>
+                            <th>Homepage</th>
                             <th>Funktionen</th>
                         </tr>
                         <tr th:each="contact : ${institute.contacts}">
                             <td th:text="${contact.firstname + ' ' + contact.lastname}"></td>
-                            <td th:text="${contact.dayOfBirth}"></td>
+                            <td th:text="${contact.courseOfStudies}"></td>
                             <td th:text="${contact.linkToHomepage}"></td>
                             <td>
                                 <form ACTION="#" th:action="@{/deleteContactFromInstitute}" th:object="${tempContact}" method="post">
