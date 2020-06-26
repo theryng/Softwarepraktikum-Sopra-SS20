@@ -156,8 +156,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         contactService.saveContact(jose);
 
         Contact luisa = new Contact();
-        luisa.setFirstname("Luisa");
-        luisa.setLastname("Mayer");
+        luisa.setFirstname("Luisa-müller");
+        luisa.setLastname("Mayer-Übler");
         luisa.setOccupation("Doktorantin");
         luisa.setEmail("luisaM@yahoo.de");
         luisa.setCourseOfStudies("Chemie");
