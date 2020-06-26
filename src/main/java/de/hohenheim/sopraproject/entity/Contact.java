@@ -159,11 +159,10 @@ public class Contact {
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
                     "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
-        }else if(matcher.find()  && firstname.length()>1){
+        }else if(matcher.find()){
             this.firstname = firstname;
         }else{
-            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only and has to be greater than " +
-                    "one digit long");
+            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only ");
         }
     }
 
@@ -185,11 +184,10 @@ public class Contact {
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
                     "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
-        }else if(matcher.find()  && lastname.length()>1){
+        }else if(matcher.find()){
             this.lastname = lastname;
         }else{
-            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only and has to be greater than " +
-                    "one digit long");
+            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only");
         }
     }
 
@@ -329,7 +327,17 @@ public class Contact {
     }
 
     public void setTempZipCode(String tempZipCode) {
-        this.tempZipCode = tempZipCode;
+        Pattern pattern = Pattern.compile("[0-9]");
+        Matcher matcher = pattern.matcher(tempZipCode);
+        if(tempZipCode.length()==5){
+            this.tempZipCode = tempZipCode;
+        }
+        else if(matcher.find()){
+            throw new IllegalStateException("ZipCode must only contain Numbers");
+        }
+        else{
+            throw new IllegalStateException("ZipCode must be 5 Characters long");
+        }
     }
 
     public String getTempHouseNmbr() {

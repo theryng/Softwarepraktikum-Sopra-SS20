@@ -77,7 +77,7 @@
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
                         <!-- Input and View Field for the Contact Details-->
                         <div class="alert alert-danger" role="alert" th:if="${hasError}">
-                            Bitte überprüfen Sie Ihr Änderungen, da diese Fehlerhaft sind.
+                            Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
                         </div>
                         <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
@@ -115,7 +115,8 @@
                                 Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"/>
                             </div>
                             <div class = "col">
-                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
+                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang"/>
                             </div>
                         </div>
                         <!-- Button trigger modal -->

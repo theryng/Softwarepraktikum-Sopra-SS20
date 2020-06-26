@@ -35,3 +35,12 @@
     margin-left: auto;
     max-width: 1200px;
 }
+.container-center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lightgrey {
+    background-color: rgb(245, 245, 245);
+}
