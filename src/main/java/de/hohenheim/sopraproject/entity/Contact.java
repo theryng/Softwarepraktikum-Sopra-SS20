@@ -365,7 +365,7 @@ public class Contact {
     }
 
     public String getSearchString(){
-        searchString = firstname + lastname + email;
+        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
         return searchString;
     }
 }

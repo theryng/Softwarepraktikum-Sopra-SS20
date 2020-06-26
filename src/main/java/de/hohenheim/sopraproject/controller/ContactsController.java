@@ -4,6 +4,7 @@ import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.repository.ContactRepository;
+import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This controller contains the methods to create a new contact
@@ -30,8 +35,10 @@ public class ContactsController {
     private static Contact viewContactTemp;
     @Autowired
     private ContactRepository contactRepository;
-
+    private List<Contact> allContacts = new LinkedList<>();
+    private Set<Contact> foundContacts = new HashSet<>();
     public boolean hasError = false;
+    private String searchWord;
 
     /**
      * This method gets all the information about a contact
@@ -44,9 +51,19 @@ public class ContactsController {
     private ContactService contactService;
     @RequestMapping(value ="/contacts", method = RequestMethod.GET)
     public String contacts(Model model) {
+        if(allContacts.size()<1){
+            allContacts = contactRepository.findAll();
+        }
+        if(foundContacts.size()<1){
+            model.addAttribute("allContacts", allContacts);
+        }
+        else{
+            model.addAttribute("allContacts", foundContacts);
+        }
+        model.addAttribute("searchWord", searchWord);
         model.addAttribute("contact", new Contact());
         model.addAttribute("hasError", hasError);
-        model.addAttribute("allContacts", contactRepository.findAll());
+
         hasError = false;
         return "contacts";
     }
@@ -103,5 +120,24 @@ public class ContactsController {
     public String viewContact(Contact contactID) {
         ContactDetailsController.contactID = contactID.getContactID();
         return "redirect:/contactDetails";
+    }
+    /**
+     *  Method which can be used to search for a certain Contact.
+     *  Calls the Contact Finder, and uses a searchWord to find a Contact.
+     *  Reloads the Site at the very End.
+     * @param searchWord
+     * @return contactHistoryCreator1
+     */
+    @RequestMapping(value ="/searchContact", method = RequestMethod.POST)
+    public String searchContacts(String searchWord) {
+        ContactFinder findContact = new ContactFinder();
+        Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
+        if(foundContactsTemp.size()>0){
+            foundContacts = foundContactsTemp;
+        }
+        else{
+            foundContacts.clear();
+        }
+        return "redirect:/contacts";
     }
 }

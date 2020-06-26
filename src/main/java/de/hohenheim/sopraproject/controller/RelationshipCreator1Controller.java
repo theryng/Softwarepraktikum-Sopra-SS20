@@ -59,7 +59,7 @@ public class RelationshipCreator1Controller {
      * @param searchWord
      * @return relationshipCreator1
      */
-    @RequestMapping(value ="/searchContact", method = RequestMethod.POST)
+    @RequestMapping(value ="/searchRelationshipContact", method = RequestMethod.POST)
     public String searchContacts(String searchWord) {
         System.out.println(searchWord);
         ContactFinder findContact = new ContactFinder();
