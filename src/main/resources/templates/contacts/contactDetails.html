@@ -86,13 +86,13 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
+                                        Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstname}" required/> </br>
                                     </div>
                                     <div class = "col w-25">
-                                        Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
+                                        Nachname:<input type="text" class="form-control" name = "lastname"  th:field="*{lastname}" required/></br>
                                     </div>
                                 </div>
-                                Anstellung:<input type="text" class="form-control" name = "occupation"  th:field="*{occupation}"/></br>
+                                Anstellung:<input type="text" class="form-control" name = "occupation"  th:field="*{occupation}" /></br>
                                 E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
                                 Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
                             </div>
