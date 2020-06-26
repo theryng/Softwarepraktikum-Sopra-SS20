@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col w-25">
                                     <!--Input to create a password for the new user. The requirements for it have to be met in order to receive a valid feedback. The requirements aer state inside the creation modal as well and can be looked up-->
-                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}" th:field="*{password}" required>
+                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required>
                                     <div class="valid-feedback">valid password</div>
                                     <div class="invalid-feedback">Please fill in a correct password.</div>
                                 </div>
@@ -88,7 +88,6 @@
                                 <h5>Das Passwort muss folgendes enthalten:</h5>
                                 <ul>
                                 <li id="letter" class="invalid">Einen <b>Kleinbuchstaben</b></li>
-                                <li id="capital" class="invalid"><b>Großen</b> Anfangsbuchstaben</li>
                                 <li id="number" class="invalid">Eine <b>Zahl</b></li>
                                 <li id="length" class="invalid">Mindestens <b>4 Zeichen</b></li>
                                 </ul>
@@ -169,10 +168,8 @@
     var firstInput = document.getElementById("password");
     var confirmInput = document.getElementById("confirm_Password");
     var letter = document.getElementById("letter");
-    var capital = document.getElementById("capital");
     var number = document.getElementById("number");
     var length = document.getElementById("length");
-    var space = document.getElementById("space");
 
     /**
      * The display block will show up once during the input
@@ -215,16 +212,6 @@
         } else {
             letter.classList.remove("valid");
             letter.classList.add("invalid");
-        }
-
-        // Validation of the capital letters
-        var upperCaseLetters = /[A-Z]/g;
-        if(firstInput.value.match(upperCaseLetters)) {
-            capital.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
-            capital.classList.add("valid");
-        } else {
-            capital.classList.remove("valid");
-            capital.classList.add("invalid");
         }
 
         // Validation of used numbers
