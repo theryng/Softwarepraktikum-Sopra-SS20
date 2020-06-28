@@ -34,6 +34,11 @@
             <h4>Weitere Eingaben</h4>
             <!-- Form to add Information to the Relationship -->
             <form class="form-horizontal mt-3" id="multiCollapseExample1" th:object="${relationship}" th:action="@{/saveRelationship}" method="post">
+
+                <div class="alert alert-danger" role="alert" th:if="${hasError}">
+                    Bitte überprüfen Sie Ihre Eingaben, da diese Fehlerhaft sind.
+                </div>
+
                 <div class="alert alert-success" role="alert">
                     Gewählter Kontakt: <a th:text = "${choosenContact}">  </a></br>
                 </div>

@@ -33,7 +33,7 @@
             </form>
             <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
             <!-- Search Button, to search for a certain Contact to have a Relationship with -->
-            <form class="mt-2" ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
+            <form class="mt-2" ACTION="#" th:action="@{/searchRelationshipContact}" th:object="${searchWord}" method="post">
                 <input th:value="${searchWord}" th:name ="searchWord" />
                 <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
             </form>

@@ -2,8 +2,10 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
+import de.hohenheim.sopraproject.entity.Institute;
 import de.hohenheim.sopraproject.entity.Relationship;
 import de.hohenheim.sopraproject.repository.ContactRepository;
+import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +22,13 @@ import java.util.Set;
  * @author Lukas Januschke
  */
 @Controller
-public class ContactHistoryCreator1Controller {
+public class InstituteContactCreatorController {
 
-    public static Contact originalContact;
+    private Institute institute;
+    public static int insituteID;
     private ContactHistory contactHistoryTemp;
+    @Autowired
+    private InstituteRepository instituteRepository;
     @Autowired
     private ContactRepository contactRepository;
     private String searchWord;
@@ -33,13 +38,14 @@ public class ContactHistoryCreator1Controller {
     private static boolean viewChoosenTable;
 
     /**
-     * Main Method of the Contact History Creation.
+     * Main Method of the Institute Contact Creator.
      * Adds the necessary Attributes and opens the site.
      * @param model
-     * @return contactHistoryCreator1
+     * @return instituteContactCreator
      */
-    @RequestMapping(value = "/contactHistoryCreator1", method = RequestMethod.GET)
-    public String relationshipCreatorController(Model model) {
+    @RequestMapping(value = "/instituteContactCreator", method = RequestMethod.GET)
+    public String instituteContactCreator(Model model) {
+        institute = instituteRepository.findByInstituteID(insituteID);
         contactHistoryTemp = new ContactHistory();
         contactHistoryTemp.setContactOfHistory(foundContacts);
         model.addAttribute("foundContacts", contactHistoryTemp);
@@ -53,7 +59,7 @@ public class ContactHistoryCreator1Controller {
             model.addAttribute("allContacts", new HashSet<Contact>());
         }
         model.addAttribute("searchWord", searchWord);
-        return "contacts/contactHistoryCreator1";
+        return "institutes/instituteContactCreator";
     }
 
     /**
@@ -61,9 +67,9 @@ public class ContactHistoryCreator1Controller {
      *  Calls the Contact Finder, and uses a searchWord to find a Contact.
      *  Reloads the Site at the very End.
      * @param searchWord
-     * @return contactHistoryCreator1
+     * @return instituteContactCreator
      */
-    @RequestMapping(value ="/searchContactForHistory", method = RequestMethod.POST)
+    @RequestMapping(value ="/searchContactForInstituteCreator", method = RequestMethod.POST)
     public String searchContacts(String searchWord) {
         ContactFinder findContact = new ContactFinder();
         Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
@@ -75,17 +81,17 @@ public class ContactHistoryCreator1Controller {
             foundContacts.clear();
             viewTableHistories = false;
         }
-        return "redirect:/contactHistoryCreator1";
+        return "redirect:/instituteContactCreator";
     }
 
     /**
-     * Selects a Contact for the Contact History
+     * Selects a Contact for the Institute.
      * Reloads the page at the End.
      * @param contact
-     * @return contactHistoryCreator1
+     * @return instituteContactCreator
      */
-    @RequestMapping(value = "/chooseContactForHistory", method = RequestMethod.POST)
-    public String setContactB(Contact contact) {
+    @RequestMapping(value = "/chooseContactForInstitute", method = RequestMethod.POST)
+    public String chooseContactForInstitute(Contact contact) {
         Contact selectedContact = contactRepository.findByContactID(contact.getContactID());
         boolean exists = false;
         for(Contact con : chosenContacts){
@@ -97,19 +103,19 @@ public class ContactHistoryCreator1Controller {
             chosenContacts.add(selectedContact);
             viewChoosenTable = true;
         }
-        return "redirect:/contactHistoryCreator1";
+        return "redirect:/instituteContactCreator";
     }
 
     /**
-     * Submits the chosen Contacts for the next Step of the
-     * Creation process.
-     * @return contactHistoryCreator2
+     * Submits the chosen Contacts to the Institute
+     * @return instituteDetails
      */
-    @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
-    public String submitChosenContacts() {
-        ContactHistoryCreator2Controller.choosenContacts=chosenContacts;
-        ContactHistoryCreator2Controller.originalContact = originalContact;
-        return "redirect:/contactHistoryCreator2";
+    @RequestMapping(value = "/submitContactsForInstitute", method = RequestMethod.POST)
+    public String submitContactsForInstitute() {
+        InstituteDetailsController.institute.getContacts().addAll(chosenContacts);
+        instituteRepository.save(InstituteDetailsController.institute);
+        resetController();
+        return "redirect:/instituteDetails";
     }
 
     /**
@@ -118,7 +124,7 @@ public class ContactHistoryCreator1Controller {
      * @param contact
      * @return
      */
-    @RequestMapping(value = "/deleteChoosenContacts", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteContactsForInstitute", method = RequestMethod.POST)
     public String deleteChosenContacts(Contact contact) {
 
         for(Contact con : chosenContacts){
@@ -129,22 +135,22 @@ public class ContactHistoryCreator1Controller {
         if(chosenContacts.size()<1){
             viewChoosenTable = false;
         }
-        return "redirect:/contactHistoryCreator1";
+        return "redirect:/instituteContactCreator";
     }
 
     /**
-     * Back Button which returns the user to the contactDetails Site
+     * Back Button which returns the user to the instituteDetails Site
      * Also calls the resetsController method, to ensure a blank slate for the next Creation process.
      * @return contactDetails
      */
-    @RequestMapping(value = "/backContactHistoryCreator1", method = RequestMethod.POST)
-    public String backContactHistoryCreator1() {
+    @RequestMapping(value = "/backInstituteContactCreator", method = RequestMethod.POST)
+    public String backInstituteContactCreator() {
         try {
             resetController();
         } finally {
             System.out.println("Nothing to clear");
         }
-        return "redirect:/contactDetails";
+        return "redirect:/instituteDetails";
     }
 
     /**

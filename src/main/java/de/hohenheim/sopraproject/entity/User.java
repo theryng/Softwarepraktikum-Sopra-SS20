@@ -7,7 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The class user of this application
@@ -16,7 +17,6 @@ import java.util.Set;
  * regular user. This property decides what sites a certain user can view/visit.
  *
  * @date 26.06.2020
- * @author
  */
 @Entity
 public class User {
@@ -43,7 +43,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
-    //Konstruktor for this class
+    //Construktor for this class
     public User(String username, String password, Set<Role> roles, String firstName, String lastName, boolean enabled){
         this.username = username;
         this.roles = roles;
@@ -98,11 +98,25 @@ public class User {
     }
 
     /**
-     * Setter for the attribute username
+     * Sets the username only if it does not contain illegal characters. Illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>      Throws an Exception if there are illegal arguments.
      * @param username
      */
     public void setUsername(String username) {
-        this.username = username;
+        Pattern pattern = Pattern.compile("[a-zA-Z]");
+        Pattern pattern2 = Pattern.compile("[?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        Matcher matcher = pattern.matcher(username);
+        Matcher matcher2 = pattern2.matcher(username);
+
+        if(matcher2.find()) {
+            throw new IllegalArgumentException("No characters of this kind are allowed: " +
+                    "[?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
+        }else if(matcher.find()  && username.length()>1){
+            this.username = username;
+        }else{
+            throw new IllegalArgumentException("The username must contain \"[a-zA-Z0-9]\" only and has to be greater than " +
+                    "one digit long");
+        }
     }
 
     /**

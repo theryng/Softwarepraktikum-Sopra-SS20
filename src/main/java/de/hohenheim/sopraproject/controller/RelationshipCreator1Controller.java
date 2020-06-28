@@ -59,11 +59,12 @@ public class RelationshipCreator1Controller {
      * @param searchWord
      * @return relationshipCreator1
      */
-    @RequestMapping(value ="/searchContact", method = RequestMethod.POST)
+    @RequestMapping(value ="/searchRelationshipContact", method = RequestMethod.POST)
     public String searchContacts(String searchWord) {
         System.out.println(searchWord);
         ContactFinder findContact = new ContactFinder();
         Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
+        foundContactsTemp.remove(contactRepository.findByContactID(contactA.getContactID()));
         if(foundContactsTemp.size()>0){
             foundContacts = foundContactsTemp;
             viewTable = true;

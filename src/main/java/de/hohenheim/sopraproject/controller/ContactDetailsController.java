@@ -9,9 +9,11 @@ import de.hohenheim.sopraproject.repository.RelationshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,8 +46,9 @@ public class ContactDetailsController {
 
     private Contact contactB;
 
-    private boolean existingRelationships;
-    private boolean existingContactHistories;
+    private boolean existingRelationships = false;
+    private boolean existingContactHistories = false;
+    public boolean hasError = false;
 
     /**
      * Main method for Viewing of Contact Details Site, adds necessary Attributes
@@ -56,6 +59,7 @@ public class ContactDetailsController {
     public String contactDetails(Model model) {
         Contact contact = contactRepository.findByContactID(contactID);
         checkTables(contact);
+        model.addAttribute("hasError", hasError);
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());
@@ -69,7 +73,7 @@ public class ContactDetailsController {
             model.addAttribute("allContacts", new HashSet<Contact>());
         }
         model.addAttribute("searchWord", searchWord);
-
+        hasError = false;
         return "contacts/contactDetails";
     }
 
@@ -84,13 +88,19 @@ public class ContactDetailsController {
      * @return redirect:/contacts
      */
     @RequestMapping(value = "/savingContact", method = RequestMethod.POST)
-    public String contactDetails(Contact contact) {
-        contact.setContactID(contactID);
-        if(!contactRepository.findByContactID(contact.getContactID()).equals(contact)){
-            contactRepository.save(contact);
+    public String contactDetails(@Valid Contact contact, BindingResult result) {
+        if(result.hasErrors()){
+            hasError = true;
+            return "redirect:/contactDetails";
         }
-
-        return "redirect:/contacts";
+        else{
+            hasError = false;
+            contact.setContactID(contactID);
+            if(!contactRepository.findByContactID(contact.getContactID()).equals(contact)){
+                contactRepository.save(contact);
+            }
+            return "redirect:/contacts";
+        }
     }
 
     /**
@@ -139,7 +149,6 @@ public class ContactDetailsController {
 
     /**
      *This method chooses a specific contact
-     *
      *
      * @param contact
      * @return

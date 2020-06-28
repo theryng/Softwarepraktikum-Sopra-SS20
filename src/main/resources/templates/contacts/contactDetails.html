@@ -23,40 +23,40 @@
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Kontaktinformationen</h1>
     <div class="row ml-1">
-            <form ACTION="#" th:action="@{/backContactDetails}" method="post">
-                <button type="submit" class="btn btn-secondary">Zurück</button>
-            </form>
+        <form ACTION="#" th:action="@{/backContactDetails}" method="post">
+            <button type="submit" class="btn btn-secondary">Zurück</button>
+        </form>
 
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-                Kontakt Löschen
-            </button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
+            Kontakt Löschen
+        </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Beziehung Löschen</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Sind sie sicher das Sie diesen Kontakt löschen möchten?
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Beziehung Löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Sind sie sicher das Sie diesen Kontakt löschen möchten?
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                            <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
-                                <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
+                            <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
 
-                                <button type="submit" class="btn btn-danger ml-3">Kontakt löschen</button>
-                            </form>
-                        </div>
+                            <button type="submit" class="btn btn-danger ml-3">Kontakt löschen</button>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 
     <!-- Accordion for better navigation-->
@@ -75,44 +75,52 @@
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
-
+                        <!-- Input and View Field for the Contact Details-->
+                        <div class="alert alert-danger" role="alert" th:if="${hasError}">
+                            Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
+                        </div>
+                        <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                            <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
+                        </div>-->
                         <div class="row">
-                            <!-- Input and View Field for the Contact Details-->
-                                <div class = "col">
-                                    <div class = "row">
-                                        <div class = "col w-25">
-                                            Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}"/> </br>
-                                        </div>
-                                        <div class = "col w-25">
-                                            Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}"/></br>
-                                        </div>
+                            <div class = "col">
+                                <div class = "row">
+                                    <div class = "col w-25">
+                                        Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstname}" required/> </br>
                                     </div>
-                                    Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}"/></br>
-                                    E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
-                                    Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                    <div class = "col w-25">
+                                        Nachname:<input type="text" class="form-control" name = "lastname"  th:field="*{lastname}" required/></br>
+                                    </div>
                                 </div>
-                                <div class = "col">
-                                    Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
-                                    Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
-                                    Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
-                                    Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
-                                </div>
+                                Anstellung:<input type="text" class="form-control" name = "occupation"  th:field="*{occupation}" /></br>
+                                E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
+                                Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                            </div>
+                            <div class = "col">
+                                Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+                                Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+                                Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                            </div>
                         </div>
 
-                            <div class = "row">
-                                <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{address.city}"/>
-                                </div>
-                                <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{address.street}"/>
-                                </div>
-                                <div class = "col">
-                                    Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"/>
-                                </div>
-                                <div class = "col">
-                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"/>
-                                </div>
+                        <div class = "row">
+                            <div class = "col">
+                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+
                             </div>
+                            <div class = "col">
+                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                            </div>
+                            <div class = "col">
+                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                                  title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
+                            </div>
+                            <div class = "col">
+                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
+                            </div>
+                        </div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
                             Änderungen speichern
@@ -153,70 +161,72 @@
                     </button>
                 </h2>
             </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-            <div class="card-body">
-                <!--Table for Relationships-->
-                <table class="table table-striped" th:if="${existingRelationships}">
-                    <tr>
-                        <th>Name</th>
-                        <th>Art der Beziehung</th>
-                        <th>Mit</th>
-                        <th>Funktionen</th>
-                    </tr>
-                    <tr th:each="relationship : ${contact.outgoingRelationships}">
-                        <td th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></td>
-                        <td th:text="${relationship.typeOfRelationship}"></td>
-                        <td th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></td>
-                        <td>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <!--Table for Relationships-->
+                    <table class="table table-striped" th:if="${existingRelationships}">
+                        <tr>
+                            <th>Name</th>
+                            <th>Art der Beziehung</th>
+                            <th>Mit</th>
+                            <th>Seit</th>
+                            <th>Funktionen</th>
+                        </tr>
+                        <tr th:each="relationship : ${contact.outgoingRelationships}">
+                            <td th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></td>
+                            <td th:text="${relationship.typeOfRelationship}"></td>
+                            <td th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></td>
+                            <td th:text="${relationship.since}"></td>
+                            <td>
 
-                            <!-- Button for Deletion of Relationship -->
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#relationshipModal">
-                                Beziehung Löschen
-                            </button>
+                                <!-- Button for Deletion of Relationship -->
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#relationshipModal">
+                                    Beziehung Löschen
+                                </button>
 
-                            <!-- Modal for Deletion of Relationships -->
-                            <div class="modal fade" id="relationshipModal" tabindex="-1" role="dialog" aria-labelledby="relationshipModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="relationshipModalLabel">Beziehung Löschen</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Sind sie sicher das Sie diese Beziehung löschen möchten?
-                                            <div class="mt-2 text-muted"> Hinweis: Die Gegenrichtung wird ebenfalls entfernt</div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                                            <!-- Button for Deletion of Relationship-->
-                                            <form ACTION="#" th:action="@{/deleteOutgoingRelationship}" th:object="${relationship}" method="post">
-                                                <input type="hidden" th:value="${relationship.relationshipID}" th:name ="relationshipID" />
-                                                <button type="submit" class="btn btn-danger">Beziehung löschen </button>
-                                            </form>
+                                <!-- Modal for Deletion of Relationships -->
+                                <div class="modal fade" id="relationshipModal" tabindex="-1" role="dialog" aria-labelledby="relationshipModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="relationshipModalLabel">Beziehung Löschen</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Sind sie sicher das Sie diese Beziehung löschen möchten?
+                                                <div class="mt-2 text-muted"> Hinweis: Die Gegenrichtung wird ebenfalls entfernt</div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                                <!-- Button for Deletion of Relationship-->
+                                                <form ACTION="#" th:action="@{/deleteOutgoingRelationship}" th:object="${relationship}" method="post">
+                                                    <input type="hidden" th:value="${relationship.relationshipID}" th:name ="relationshipID" />
+                                                    <button type="submit" class="btn btn-danger">Beziehung löschen </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </td>
-                    </tr>
-                </table>
-                <!-- If Statement if no Relationship is available -->
-                <div th:if="${not existingRelationships}" class="ml-5 mr-5 mt-5">
-                    Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- If Statement if no Relationship is available -->
+                    <div th:if="${not existingRelationships}" class="ml-5 mr-5 mt-5">
+                        Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
+                    </div>
+                    <!-- Button to Start Creation of new Relationship -->
+                    <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/createNewRelationship}" th:object="${contact}" method="post">
+                        <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+                        <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
+                    </form>
+
+
                 </div>
-                <!-- Button to Start Creation of new Relationship -->
-                <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/createNewRelationship}" th:object="${contact}" method="post">
-                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                    <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
-                </form>
-
-
             </div>
         </div>
-    </div>
         <!-- Third Accordion Element for Viewing of Contact Histories-->
         <div class="card">
             <div class="card-header" id="headingThree">
@@ -254,7 +264,7 @@
                     <!-- Button to Start Creation of new Contact History -->
                     <form class="ml-5 mr-5 mt-2" ACTION="#" th:action="@{/createNewContactHistory}" th:object="${contact}" method="post">
                         <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                        <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
+                        <button type="submit" class="btn btn-secondary">Neue Kontakthistorie erstellen </button>
                     </form>
 
                 </div>

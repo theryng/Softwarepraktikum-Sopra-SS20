@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:security="">
 <head th:fragment="head">
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -49,11 +49,11 @@
                         Account Optionen
                     </button>
                     <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/home.html">Einstellungen</a>
+                    <div   class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/home">Einstellungen</a>
                         <a class="dropdown-item" href="/optionen">Optionen</a>
-                        <a class="dropdown-item" href="/registration">User hinzufügen</a>
-                        <a class="dropdown-item" href="/login">Log out</a>
+                        <a sec:authorize ="hasRole('ROLE_ADMIN')" class="dropdown-item" href="/registration">User hinzufügen</a>
+                        <a class="dropdown-item" href="/logout">Log out</a>
                     </div>
                 </div>
             </form>
