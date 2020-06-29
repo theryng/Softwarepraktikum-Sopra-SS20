@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.LinkedList;
 import java.util.Set;
 /**
  * Controller for the second Step of the Contact History Creator
@@ -37,7 +39,7 @@ public class ContactHistoryCreator2Controller {
      * @return contactHistoryCreator2
      */
     @RequestMapping(value = "/contactHistoryCreator2", method = RequestMethod.GET)
-    public String ContactHistoryCreatorController(Model model) {
+    public String ContactHistoryCreatorController(@ModelAttribute("chosenContacts") LinkedList chosenContacts, Model model) {
         model.addAttribute("hasError", hasError);
         model.addAttribute("contactHistory", new ContactHistory());
         System.out.println("In Creator 2");
@@ -66,7 +68,6 @@ public class ContactHistoryCreator2Controller {
             contactHistory.getContactOfHistory().add(originalContact);
             contactHistoryRepository.save(contactHistory);
             choosenContacts.clear();
-            ContactHistoryCreator1Controller.resetController();
             return "redirect:/contactDetails";
         }
     }

@@ -76,9 +76,7 @@
                 <div class="card-body">
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
                         <!-- Input and View Field for the Contact Details-->
-                        <div class="alert alert-danger" role="alert" th:if="${hasError}">
-                            Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
-                        </div>
+                        <input type="hidden" th:field="*{contactID}"/>
                         <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
                         </div>-->
@@ -218,12 +216,8 @@
                         Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
-                    <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/createNewRelationship}" th:object="${contact}" method="post">
-                        <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                        <button type="submit" class="btn btn-secondary">Neue Beziehung erstellen </button>
-                    </form>
-
-
+                    <a type="button" th:href="@{/relationshipCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    </a>
                 </div>
             </div>
         </div>
@@ -249,11 +243,9 @@
                             <td th:text="${contacthistories.date}"></td>
                             <td th:text="*{contacthistories.text}"></td>
                             <td>
-                                <!-- Button to Edit Contact History-->
-                                <form ACTION="#" th:action="@{/openEditContactHistory}" th:object="${viewedHistory}">
-                                    <input type="hidden" th:value="${contacthistories.contactHistoryID}" th:name ="contactHistoryID" />
-                                    <button type="submit" class="btn btn-secondary">Bearbeiten </button>
-                                </form>
+                                <!--Button that opens up the editing window-->
+                                <a type="button" th:href="@{/contactHistoryEditor/{contactHistoryID}(contactHistoryID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
+                                </a>
                             </td>
                         </tr>
                     </table>
@@ -262,10 +254,8 @@
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
-                    <form class="ml-5 mr-5 mt-2" ACTION="#" th:action="@{/createNewContactHistory}" th:object="${contact}" method="post">
-                        <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                        <button type="submit" class="btn btn-secondary">Neue Kontakthistorie erstellen </button>
-                    </form>
+                    <a type="button" class="" th:href="@{/contactHistoryCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    </a>
 
                 </div>
             </div>

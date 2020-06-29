@@ -20,4 +20,12 @@ public class ContactService {
     public List<Contact> findAllContacts(){
             return contactRepository.findAll();
     }
+
+    public Contact findByContactID(Integer id){
+        return contactRepository.findByContactID(id);
+    }
+
+    public void deleteByContactID(Integer id){
+        contactRepository.deleteById(id);
+    }
 }

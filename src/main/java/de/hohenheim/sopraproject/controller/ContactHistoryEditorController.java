@@ -8,6 +8,7 @@ import de.hohenheim.sopraproject.service.ContactFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,7 +22,6 @@ import java.util.Set;
 @Controller
 public class ContactHistoryEditorController {
 
-    public static ContactHistory contactHistory;
     @Autowired
     private ContactHistoryRepository contacthistoryRepository;
     @Autowired
@@ -39,7 +39,7 @@ public class ContactHistoryEditorController {
      * @return contactHistoryEditor
      */
     @RequestMapping(value = "/contactHistoryEditor", method = RequestMethod.GET)
-    public String contactHistoryEditor(Model model) {
+    public String contactHistoryEditor(@PathVariable("contactHistoryID") Integer contactHistoryID, Model model) {
         if(foundContacts != null){
             model.addAttribute("allContacts", foundContacts);
         }
@@ -49,7 +49,7 @@ public class ContactHistoryEditorController {
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("addContact", addContact);
         model.addAttribute("viewTable", viewTable);
-        model.addAttribute("contactHistory", contactHistory);
+        model.addAttribute("contactHistory", contacthistoryRepository.findByContactHistoryID(contactHistoryID));
         return "contacts/contactHistoryEditor";
     }
 
@@ -60,14 +60,15 @@ public class ContactHistoryEditorController {
      * @return contactDetails
      */
     @RequestMapping(value = "/savingContactHistory", method = RequestMethod.POST)
-    public String savingContactHistory(ContactHistory contactHistoryTemp) {
+    public String savingContactHistory(@PathVariable("contactHistoryID") Integer contactHistoryID, ContactHistory contactHistoryTemp) {
+        /*ContactHistory contactHistory = contacthistoryRepository.findByContactHistoryID();
         contactHistory.setDate(contactHistoryTemp.getDate());
         contactHistory.setText(contactHistoryTemp.getText());
         contacthistoryRepository.save(contactHistory);
         viewTable = false;
         addContact = false;
         contactHistory = null;
-        foundContacts.clear();
+        foundContacts.clear();*/
         return "redirect:/contactDetails";
     }
 
@@ -90,6 +91,7 @@ public class ContactHistoryEditorController {
      */
     @RequestMapping(value = "/deleteContactFromHistory", method = RequestMethod.POST)
     public String deleteFromContactHistory(Contact contact) {
+        /*
         Set<Contact> contacts = contactHistory.getContactOfHistory();
         Contact tempContact = new Contact();
         int contactIDA = contact.getContactID();
@@ -104,7 +106,7 @@ public class ContactHistoryEditorController {
         } catch (Exception e) {
             System.out.println("Deletion not possible");
         }
-
+*/
         return "redirect:/contactHistoryEditor";
     }
 
@@ -115,6 +117,7 @@ public class ContactHistoryEditorController {
      */
     @RequestMapping(value = "/addContactToHistory", method = RequestMethod.POST)
     public String addToContactHistory(Contact contact) {
+        /*
         Set<Contact> existingContacts = contactHistory.getContactOfHistory();
         Contact addedContact = contactRepository.findByContactID(contact.getContactID());
         boolean exists = false;
@@ -131,7 +134,7 @@ public class ContactHistoryEditorController {
         else{
             System.out.println("Adding of Contact stopped, as it already exists");
         }
-
+*/
         return "redirect:/contactHistoryEditor";
     }
 
@@ -144,7 +147,7 @@ public class ContactHistoryEditorController {
     @RequestMapping(value ="/searchContactForHistoryEditor", method = RequestMethod.POST)
     public String searchContactsForHistoryEditor(String searchWord) {
         ContactFinder findContact = new ContactFinder();
-        Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
+        /*Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
         if(foundContactsTemp.size()>0){
             foundContacts = foundContactsTemp;
             viewTable = true;
@@ -152,7 +155,7 @@ public class ContactHistoryEditorController {
         else{
             foundContacts.clear();
             viewTable = false;
-        }
+        }*/
         return "redirect:/contactHistoryEditor";
     }
 

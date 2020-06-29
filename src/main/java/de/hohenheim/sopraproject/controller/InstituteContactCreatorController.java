@@ -72,6 +72,7 @@ public class InstituteContactCreatorController {
     @RequestMapping(value ="/searchContactForInstituteCreator", method = RequestMethod.POST)
     public String searchContacts(String searchWord) {
         ContactFinder findContact = new ContactFinder();
+        /*
         Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
         if(foundContactsTemp.size()>0){
             foundContacts = foundContactsTemp;
@@ -81,6 +82,7 @@ public class InstituteContactCreatorController {
             foundContacts.clear();
             viewTableHistories = false;
         }
+        */
         return "redirect:/instituteContactCreator";
     }
 

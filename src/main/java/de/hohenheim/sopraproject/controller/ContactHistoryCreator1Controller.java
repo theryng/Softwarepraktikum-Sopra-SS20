@@ -1,18 +1,18 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.ContactDTO;
+import de.hohenheim.sopraproject.dto.ContactHistoryDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
-import de.hohenheim.sopraproject.entity.Relationship;
-import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Controller for the First Step of the Contact History Creator
@@ -22,15 +22,8 @@ import java.util.Set;
 @Controller
 public class ContactHistoryCreator1Controller {
 
-    public static Contact originalContact;
-    private ContactHistory contactHistoryTemp;
     @Autowired
-    private ContactRepository contactRepository;
-    private String searchWord;
-    private static Set<Contact> foundContacts = new HashSet<>();
-    private static Set<Contact> chosenContacts = new HashSet<>();
-    private static boolean viewTableHistories;
-    private static boolean viewChoosenTable;
+    private ContactService contactService;
 
     /**
      * Main Method of the Contact History Creation.
@@ -38,21 +31,15 @@ public class ContactHistoryCreator1Controller {
      * @param model
      * @return contactHistoryCreator1
      */
-    @RequestMapping(value = "/contactHistoryCreator1", method = RequestMethod.GET)
-    public String relationshipCreatorController(Model model) {
-        contactHistoryTemp = new ContactHistory();
-        contactHistoryTemp.setContactOfHistory(foundContacts);
-        model.addAttribute("foundContacts", contactHistoryTemp);
-        model.addAttribute("chosenContacts", chosenContacts);
-        model.addAttribute("viewTableHistories", viewTableHistories);
-        model.addAttribute("viewChosenTable", viewChoosenTable);
-        if(foundContacts != null){
-            model.addAttribute("allContacts", foundContacts);
-        }
-        else{
-            model.addAttribute("allContacts", new HashSet<Contact>());
-        }
-        model.addAttribute("searchWord", searchWord);
+    @GetMapping("/contactHistoryCreator1/{contactID}")
+    public String contactHistoryCreator1Controller(@PathVariable("contactID") Integer contactID, Model model) {
+
+        List<Contact> allContacts = contactService.findAllContacts();
+        ContactHistoryDTO contactHistoryDTO = new ContactHistoryDTO();
+        contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
+        String searchWord = "";
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+
         return "contacts/contactHistoryCreator1";
     }
 
@@ -60,76 +47,87 @@ public class ContactHistoryCreator1Controller {
      *  Method which can be used to search for a certain Contact.
      *  Calls the Contact Finder, and uses a searchWord to find a Contact.
      *  Reloads the Site at the very End.
-     * @param searchWord
      * @return contactHistoryCreator1
      */
     @RequestMapping(value ="/searchContactForHistory", method = RequestMethod.POST)
-    public String searchContacts(String searchWord) {
+    public String searchContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO,  Model model) {
+
+        System.out.println(contactHistoryDTO.getSearchWord());
         ContactFinder findContact = new ContactFinder();
-        Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
-        if(foundContactsTemp.size()>0){
-            foundContacts = foundContactsTemp;
-            viewTableHistories = true;
+        List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts());
+        if(foundContacts.size()>0){
+            contactHistoryDTO.setFoundContacts(foundContacts);
+            for(Contact con : foundContacts){
+                contactHistoryDTO.setStringFoundIDs(contactHistoryDTO.getStringFoundIDs() + con.getContactID() + " ");
+            }
+            model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         }
         else{
-            foundContacts.clear();
-            viewTableHistories = false;
+            model.addAttribute("contactHistoryDTO", contactService.findAllContacts());
         }
-        return "redirect:/contactHistoryCreator1";
+        return "contacts/contactHistoryCreator1";
     }
 
     /**
      * Selects a Contact for the Contact History
      * Reloads the page at the End.
-     * @param contact
+     * @param
      * @return contactHistoryCreator1
      */
     @RequestMapping(value = "/chooseContactForHistory", method = RequestMethod.POST)
-    public String setContactB(Contact contact) {
-        Contact selectedContact = contactRepository.findByContactID(contact.getContactID());
+    public String chooseContactForHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
+        System.out.println("Test");
+        System.out.println(contactHistoryDTO.getSelectedContact());
+        System.out.println("Test");
+        Contact selectedContact = contactService.findByContactID(contactHistoryDTO.getSelectedContact());
         boolean exists = false;
-        for(Contact con : chosenContacts){
-            if(con.getContactID().equals(selectedContact.getContactID())){
-                exists = true;
+        List<Integer> chosenList = new LinkedList<Integer>();
+        List<Integer> foundList = new LinkedList<Integer>();
+        String[] stringTemp;
+        if(!(contactHistoryDTO.getStringChosenIDs() == "")){
+            String string1 = contactHistoryDTO.getStringChosenIDs();
+            String[] stringTemp1  = string1.split(" ");
+            for(String strings : stringTemp1) {
+                chosenList.add(Integer.valueOf(strings));
             }
         }
-        if(!exists){
-            chosenContacts.add(selectedContact);
-            viewChoosenTable = true;
-        }
-        return "redirect:/contactHistoryCreator1";
-    }
 
-    /**
-     * Submits the chosen Contacts for the next Step of the
-     * Creation process.
-     * @return contactHistoryCreator2
-     */
-    @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
-    public String submitChosenContacts() {
-        ContactHistoryCreator2Controller.choosenContacts=chosenContacts;
-        ContactHistoryCreator2Controller.originalContact = originalContact;
-        return "redirect:/contactHistoryCreator2";
+        String string2 = contactHistoryDTO.getStringFoundIDs();
+        String[] stringTemp2  = string2.split(" ");
+        for(String string : stringTemp2){
+            foundList.add(Integer.valueOf(string.trim()));
+        }
+        chosenList.add(selectedContact.getContactID());
+
+        for(Integer integer : chosenList){
+            contactHistoryDTO.getChosenContacts().add(contactService.findByContactID(integer));
+            contactHistoryDTO.setStringChosenIDs(contactHistoryDTO.getStringChosenIDs() + integer + " ");
+        }
+        for(Integer integer : foundList){
+            contactHistoryDTO.getFoundContacts().add(contactService.findByContactID(integer));
+        }
+
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        return "contacts/contactHistoryCreator1";
     }
 
     /**
      * Deletes the Contact specified in the HTML page.
      * Finds the chosen Contact and deletes it.
-     * @param contact
+     * @param
      * @return
      */
     @RequestMapping(value = "/deleteChoosenContacts", method = RequestMethod.POST)
-    public String deleteChosenContacts(Contact contact) {
-
-        for(Contact con : chosenContacts){
-            if(con.getContactID() == contact.getContactID()){
-                chosenContacts.remove(con);
+    public String deleteChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
+        List<Contact> contacts = contactHistoryDTO.getChosenContacts();
+        for(Contact con : contacts){
+            if(con.getContactID() == contactHistoryDTO.getSelectedContact()){
+                contactHistoryDTO.getChosenContacts().remove(con);
             }
         }
-        if(chosenContacts.size()<1){
-            viewChoosenTable = false;
+        if(contactHistoryDTO.getChosenContacts().size()<1){
         }
-        return "redirect:/contactHistoryCreator1";
+        return "contactHistoryCreator1";
     }
 
     /**
@@ -139,25 +137,11 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/backContactHistoryCreator1", method = RequestMethod.POST)
     public String backContactHistoryCreator1() {
-        try {
-            resetController();
-        } finally {
-            System.out.println("Nothing to clear");
-        }
+
         return "redirect:/contactDetails";
     }
 
     /**
      * Function which resets the Controller for the next use
      */
-    public static void resetController(){
-        if(!(foundContacts.size()<1)){
-            foundContacts.clear();
-        }
-        if(!(chosenContacts.size()<1)){
-            chosenContacts.clear();
-        }
-        viewTableHistories = false;
-        viewChoosenTable = false;
-    }
 }
