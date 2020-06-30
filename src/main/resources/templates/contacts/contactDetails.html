@@ -212,7 +212,7 @@
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div th:if="${not existingRelationships}" class="ml-5 mr-5 mt-5">
+                    <div class="ml-5 mr-5 mt-5">
                         Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
@@ -233,7 +233,7 @@
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body">
                     <!-- Table for Contact Histories-->
-                    <table class="table table-striped" th:if="${existingContactHistories}">
+                    <table class="table table-striped">
                         <tr>
                             <th>Datum des Kontakts </th>
                             <th>Text</th>
@@ -244,13 +244,13 @@
                             <td th:text="*{contacthistories.text}"></td>
                             <td>
                                 <!--Button that opens up the editing window-->
-                                <a type="button" th:href="@{/contactHistoryEditor/{contactHistoryID}(contactHistoryID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
+                                <a type="button" th:href="@{/contactHistoryEditor/{contactID}(contactID=${contact.getContactID()})/{historyID}(historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
                                 </a>
                             </td>
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div th:if="${not existingContactHistories}" class="ml-5 mr-5 mt-5 mb-2">
+                    <div class="ml-5 mr-5 mt-5 mb-2">
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->

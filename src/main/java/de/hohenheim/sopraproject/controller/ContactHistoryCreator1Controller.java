@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ContactHistoryCreator1Controller {
 
         List<Contact> allContacts = contactService.findAllContacts();
         ContactHistoryDTO contactHistoryDTO = new ContactHistoryDTO();
+        contactHistoryDTO.setOriginalContactID(contactID+"");
         contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
         String searchWord = "";
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
@@ -105,6 +107,8 @@ public class ContactHistoryCreator1Controller {
             chosenContacts.add(contactService.findByContactID(integer));
             stringChosen = stringChosen + integer.toString() + " ";
         }
+
+        System.out.println("done list: "+stringChosen);
         contactHistoryDTO.setStringChosenIDs(stringChosen);
         contactHistoryDTO.setChosenContacts(chosenContacts);
 
@@ -138,14 +142,17 @@ public class ContactHistoryCreator1Controller {
     }
 
     /**
-     * Back Button which returns the user to the contactDetails Site
-     * Also calls the resetsController method, to ensure a blank slate for the next Creation process.
-     * @return contactDetails
+     * Deletes the Contact specified in the HTML page.
+     * Finds the chosen Contact and deletes it.
+     * @param
+     * @return
      */
-    @RequestMapping(value = "/backContactHistoryCreator1", method = RequestMethod.POST)
-    public String backContactHistoryCreator1() {
+    @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
+    public String submitChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, RedirectAttributes redirectAttributes) {
+        System.out.println("Vor Submit " + contactHistoryDTO.getStringChosenIDs());
 
-        return "redirect:/contactDetails";
+        redirectAttributes.addFlashAttribute("contactHistoryDTO", contactHistoryDTO);
+        return "redirect:/contactHistoryCreator2/"+contactHistoryDTO.getOriginalContactID();
     }
 
     /**
@@ -163,5 +170,13 @@ public class ContactHistoryCreator1Controller {
             foundContacts.add(contactService.findByContactID(integer));
         }
         return foundContacts;
+    }
+
+    public String generateString(List<Contact> list){
+        String string = "";
+        for(Contact con : list){
+            string = string + con.getContactID() + " ";
+        }
+        return string;
     }
 }

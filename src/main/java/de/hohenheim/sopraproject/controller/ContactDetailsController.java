@@ -1,5 +1,6 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.ContactDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Relationship;
@@ -44,14 +45,13 @@ public class ContactDetailsController {
      */
     @GetMapping("/contactDetails/{contactID}")
     public String contactDetails(@PathVariable("contactID") Integer contactID, Model model) {
+        System.out.println("Testing the stuff " + contactID);
         Contact contact = contactService.findByContactID(contactID);
 
         String searchWord = "";
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());
-        model.addAttribute("existingRelationships", checkTablesRelationships(contact));
-        model.addAttribute("existingContactHistories", checkTablesContactHistory(contact));
 
         model.addAttribute("searchWord", searchWord);
         return "contacts/contactDetails";
@@ -96,21 +96,6 @@ public class ContactDetailsController {
     public String deleteDetails(Contact contact) {
         contactService.deleteByContactID(contact.getContactID());
         return "redirect:/contacts";
-    }
-
-    /**
-     * This method opens up the contactHistory editor
-     *
-     * This method opens up the editor for the corresponding contactHistory on a specific contact. It is bound to a button
-     * specifically used for this method. The user will be redirected to the contact history editor once he clicks on that button
-     *
-     * @param viewedHistory
-     * @return redirect:/contactHistoryEditor
-     */
-    @RequestMapping("/openEditContactHistory")
-    public String editContactHistory(ContactHistory viewedHistory) {
-        //ContactHistoryEditorController.contactHistory = contacthistoryRepository.findByContactHistoryID(viewedHistory.getContactHistoryID());
-        return "redirect:/contactHistoryEditor";
     }
 
     /**
@@ -160,27 +145,4 @@ public class ContactDetailsController {
         return "redirect:/contacts";
     }
 
-    /**
-     * This method checks the existing relationships and the contactHistory
-     *
-     * This method checks if a contact has a existing relationship and a contactHistory. If the count for each of them is higher
-     * than 0 it will return the boolean true
-     *
-     * @param contact
-     */
-    private boolean checkTablesRelationships(Contact contact) {
-        if (contact.outgoingRelationships.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    private boolean checkTablesContactHistory(Contact contact) {
-        if(contact.getContactHistory().size()>0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 }

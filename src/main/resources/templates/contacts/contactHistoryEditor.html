@@ -24,11 +24,14 @@
         </form>
 
         <!-- Editing and Viewing general Information of the History -->
-        <form class="form-horizontal" id="EditingHistory" th:object="${contactHistory}" th:action="@{/savingContactHistory}" method="post">
+        <form class="form-horizontal" id="EditingHistory" th:object="${contactHistoryDTO}" th:action="@{/savingContactHistory}" method="post">
+            <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
+            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+            <input type="hidden" th:value="${contactHistoryDTO.contactHistory.contactHistoryID}" th:name ="contactHistoryID"/>
             <div>
                 <h3 class="mt-3">Allgemeine Informationen</h3>
-                Datum: <input type="date" class="form-control" name = "date" th:value = "*{date}" th:field="*{date}"/> </br>
-                Beschreibung: <input type="textarea" class="form-control" name = "text" th:value = "*{text}" th:field="*{text}"/> </br>
+                Datum: <input type="date" class="form-control" name = "date" th:value = "*{contactHistory.date}" th:field="*{contactHistory.date}"/> </br>
+                Beschreibung: <input type="textarea" class="form-control" name = "text" th:value = "*{contactHistory.text}" th:field="*{contactHistory.text}"/> </br>
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Kontakthistorie speichern</button>
@@ -43,16 +46,18 @@
                 <th>E-Mail</th>
                 <th>Funktionen</th>
             </tr>
-            <tr th:each="contact : ${contactHistory.contactOfHistory}">
+            <tr th:each="contact : ${contactHistoryDTO.contactHistory.contactOfHistory}">
                 <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
                 <td th:text="${contact.courseOfStudies}"></td>
                 <td th:text="${contact.dayOfBirth}"></td>
                 <td th:text="${contact.email}"></td>
                 <td>
                     <!-- Delete Contact from History -->
-                    <form ACTION="#" th:action="@{/deleteContactFromHistory}" th:object="${contact}" method="post">
+                    <form ACTION="#" th:action="@{/deleteContactFromHistory}" th:object="${contactHistoryDTO}" method="post">
                         <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-
+                        <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
+                        <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                        <input type="hidden" th:value="${contactHistoryDTO.contactHistory.contactHistoryID}" th:name ="contactHistoryID"/>
                         <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt Entfernen</button>
                     </form>
                 </td>
@@ -95,8 +100,8 @@
         </div>
 
         <!--Form for Deletion of ContactHistory-->
-        <form ACTION="#" th:action="@{/deleteContactHistory}" th:object="${contactHistory}" method="post">
-            <input type="hidden" th:value="${contactHistory.contactHistoryID}" th:name ="contactHistoryID" />
+        <form ACTION="#" th:action="@{/deleteContactHistory}" th:object="${contactHistoryDTO}" method="post">
+            <input type="hidden" th:value="${contactHistoryDTO.contactHistory.contactHistoryID}" th:name ="contactHistoryID" />
 
             <button type="submit" class="btn btn-danger mt-3">Kontakthistorie löschen </button>
         </form>

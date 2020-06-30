@@ -1,19 +1,21 @@
 package de.hohenheim.sopraproject.dto;
 
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.ContactHistory;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ContactHistoryDTO {
+    private ContactHistory contactHistory = new ContactHistory();
     private List<Contact> foundContacts= new LinkedList<Contact>();
     private List<Contact> chosenContacts = new LinkedList<Contact>();
     private String searchWord = "";
     private int selectedContact;
     private List<Integer> chosenIDs = new LinkedList<Integer>();
-    private String stringChosenIDs;
-    private String stringFoundIDs;
-    boolean areChosenContacts = false;
+    private String stringChosenIDs = "";
+    private String stringFoundIDs = "";
+    private String originalContactID;
 
 
     public ContactHistoryDTO(){
@@ -65,7 +67,7 @@ public class ContactHistoryDTO {
     }
 
     public void setStringChosenIDs(String stringChosenIDs) {
-        stringChosenIDs = stringChosenIDs;
+        this.stringChosenIDs = stringChosenIDs;
     }
 
     public String getStringFoundIDs() {
@@ -76,11 +78,19 @@ public class ContactHistoryDTO {
         this.stringFoundIDs = stringFoundIDs;
     }
 
-    public boolean isAreChosenContacts() {
-        return areChosenContacts;
+    public ContactHistory getContactHistory() {
+        return contactHistory;
     }
 
-    public void setAreChosenContacts(boolean areChosenContacts) {
-        this.areChosenContacts = areChosenContacts;
+    public void setContactHistory(ContactHistory contactHistory) {
+        this.contactHistory = contactHistory;
+    }
+
+    public String getOriginalContactID() {
+        return originalContactID;
+    }
+
+    public void setOriginalContactID(String originalContactID) {
+        this.originalContactID = originalContactID;
     }
 }
