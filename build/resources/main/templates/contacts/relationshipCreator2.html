@@ -28,9 +28,9 @@
         </div>
         <!-- Button which returns to the first Step of the Creation process, relationshipCreator1 -->
         <div class="mr-5 ml-5 mt-3 mb-2">
-            <form ACTION="#" th:action="@{/backRelationshipCreator2}" method="post">
-                <button type="submit" class="btn btn-secondary float-right">Zurück</button>
-            </form>
+            <!--Button that opens up the editing window-->
+            <a type="button" class="btn btn-secondary" th:href="@{/relationshipCreator1/{contactHistoryID}(contactHistoryID=${relationshipDTO.getContactA()})}" method="get" th:text="'Zurück'">
+            </a>
             <h4>Weitere Eingaben</h4>
             <!-- Form to add Information to the Relationship -->
             <form class="form-horizontal mt-3" id="multiCollapseExample1" th:object="${relationshipDTO}" th:action="@{/saveRelationship}" method="post">

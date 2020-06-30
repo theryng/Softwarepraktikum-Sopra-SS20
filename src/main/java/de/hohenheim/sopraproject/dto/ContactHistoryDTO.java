@@ -11,12 +11,13 @@ public class ContactHistoryDTO {
     private String searchWord = "";
     private int selectedContact;
     private List<Integer> chosenIDs = new LinkedList<Integer>();
-    private String stringChosenIDs = "";
-    private String stringFoundIDs = "";
+    private String stringChosenIDs;
+    private String stringFoundIDs;
+    boolean areChosenContacts = false;
 
 
     public ContactHistoryDTO(){
-
+            stringChosenIDs = "";
     }
 
     public List<Contact> getFoundContacts() {
@@ -73,5 +74,13 @@ public class ContactHistoryDTO {
 
     public void setStringFoundIDs(String stringFoundIDs) {
         this.stringFoundIDs = stringFoundIDs;
+    }
+
+    public boolean isAreChosenContacts() {
+        return areChosenContacts;
+    }
+
+    public void setAreChosenContacts(boolean areChosenContacts) {
+        this.areChosenContacts = areChosenContacts;
     }
 }

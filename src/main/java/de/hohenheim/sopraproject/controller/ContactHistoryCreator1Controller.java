@@ -1,9 +1,7 @@
 package de.hohenheim.sopraproject.controller;
 
-import de.hohenheim.sopraproject.dto.ContactDTO;
 import de.hohenheim.sopraproject.dto.ContactHistoryDTO;
 import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Controller for the First Step of the Contact History Creator
@@ -51,10 +49,15 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value ="/searchContactForHistory", method = RequestMethod.POST)
     public String searchContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO,  Model model) {
+        System.out.println(contactHistoryDTO.getStringChosenIDs());
 
-        System.out.println(contactHistoryDTO.getSearchWord());
+
+        if(!(contactHistoryDTO.getStringChosenIDs().equals(""))){
+            contactHistoryDTO.setChosenContacts(generateList(contactHistoryDTO.getStringChosenIDs()));
+        }
         ContactFinder findContact = new ContactFinder();
         List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts());
+
         if(foundContacts.size()>0){
             contactHistoryDTO.setFoundContacts(foundContacts);
             for(Contact con : foundContacts){
@@ -76,14 +79,13 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/chooseContactForHistory", method = RequestMethod.POST)
     public String chooseContactForHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println("Test");
-        System.out.println(contactHistoryDTO.getSelectedContact());
-        System.out.println("Test");
+        System.out.println(contactHistoryDTO.getStringChosenIDs());
+
         Contact selectedContact = contactService.findByContactID(contactHistoryDTO.getSelectedContact());
-        boolean exists = false;
+
         List<Integer> chosenList = new LinkedList<Integer>();
         List<Integer> foundList = new LinkedList<Integer>();
-        String[] stringTemp;
+
         if(!(contactHistoryDTO.getStringChosenIDs() == "")){
             String string1 = contactHistoryDTO.getStringChosenIDs();
             String[] stringTemp1  = string1.split(" ");
@@ -91,23 +93,28 @@ public class ContactHistoryCreator1Controller {
                 chosenList.add(Integer.valueOf(strings));
             }
         }
-
         String string2 = contactHistoryDTO.getStringFoundIDs();
         String[] stringTemp2  = string2.split(" ");
         for(String string : stringTemp2){
             foundList.add(Integer.valueOf(string.trim()));
         }
         chosenList.add(selectedContact.getContactID());
-
+        List<Contact> chosenContacts = new LinkedList<Contact>();
+        String stringChosen = "";
         for(Integer integer : chosenList){
-            contactHistoryDTO.getChosenContacts().add(contactService.findByContactID(integer));
-            contactHistoryDTO.setStringChosenIDs(contactHistoryDTO.getStringChosenIDs() + integer + " ");
+            chosenContacts.add(contactService.findByContactID(integer));
+            stringChosen = stringChosen + integer.toString() + " ";
         }
-        for(Integer integer : foundList){
-            contactHistoryDTO.getFoundContacts().add(contactService.findByContactID(integer));
-        }
+        contactHistoryDTO.setStringChosenIDs(stringChosen);
+        contactHistoryDTO.setChosenContacts(chosenContacts);
 
+        List<Contact> foundContacts = new LinkedList<Contact>();
+        for(Integer integer : foundList){
+            foundContacts.add(contactService.findByContactID(integer));
+        }
+        contactHistoryDTO.setFoundContacts(foundContacts);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        System.out.println(contactHistoryDTO.getStringChosenIDs());
         return "contacts/contactHistoryCreator1";
     }
 
@@ -119,14 +126,14 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/deleteChoosenContacts", method = RequestMethod.POST)
     public String deleteChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
-        List<Contact> contacts = contactHistoryDTO.getChosenContacts();
+        System.out.println(contactHistoryDTO.getStringChosenIDs());
+        List<Contact> contacts = generateList(contactHistoryDTO.getStringChosenIDs());
         for(Contact con : contacts){
             if(con.getContactID() == contactHistoryDTO.getSelectedContact()){
-                contactHistoryDTO.getChosenContacts().remove(con);
+                contacts.remove(con);
             }
         }
-        if(contactHistoryDTO.getChosenContacts().size()<1){
-        }
+        contactHistoryDTO.setChosenContacts(contacts);
         return "contactHistoryCreator1";
     }
 
@@ -144,4 +151,17 @@ public class ContactHistoryCreator1Controller {
     /**
      * Function which resets the Controller for the next use
      */
+    public List<Contact> generateList(String list){
+        List<Integer> foundList = new LinkedList<Integer>();
+        String[] stringTemp2  = list.split(" ");
+        for(String string : stringTemp2){
+            foundList.add(Integer.valueOf(string.trim()));
+        }
+
+        List<Contact> foundContacts = new LinkedList<Contact>();
+        for(Integer integer : foundList){
+            foundContacts.add(contactService.findByContactID(integer));
+        }
+        return foundContacts;
+    }
 }

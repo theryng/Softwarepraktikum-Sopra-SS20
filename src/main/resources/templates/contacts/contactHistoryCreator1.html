@@ -37,6 +37,7 @@
                 <!--Search Function to find a Contact-->
                 <form ACTION="#" th:action="@{/searchContactForHistory}" th:object="${contactHistoryDTO}" method="post">
                     <input th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" />
+                    <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
                     <button type="submit" class="btn btn-primary" >Kontakt suchen </button>
                 </form>
             </div>
@@ -78,8 +79,9 @@
                     <td th:text="${contact.email}"></td>
                     <td>
                         <!--Button for Deletion of a Chosen Contact from the List-->
-                        <form ACTION="#" th:action="@{/deleteChoosenContacts}" th:object="${contact}" method = "post">
+                        <form ACTION="#" th:action="@{/deleteChoosenContacts}" th:object="${contactHistoryDTO}" method = "post">
                             <input type="hidden" th:value="${contactHistoryDTO.selectedContact}" th:name ="selectedContact" />
+                            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
                             <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt Entfernen</button>
                         </form>
                     </td>
@@ -87,7 +89,7 @@
             </table>
         </div>
         <div class="mr-5 ml-5 mt-3">
-            <form ACTION="#" th:action="@{/contactHistoryCreator2}" th:object="${chosenContacts}" method="post">
+            <form ACTION="#" th:action="@{/contactHistoryCreator2}" th:object="${contactHistoryDTO}" method="post">
                 <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Teilnehmer bestätigen</button>
             </form>
         </div>
