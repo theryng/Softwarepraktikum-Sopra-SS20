@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/static/css/style.css}" rel="stylesheet" />
+
+    <title>Projekt</title>
+</head>
+<body>
+<!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
+
+<header th:insert="fragments/htmlHead.html :: header"> </header>
+
+<!-- Main Body of the projects.html site. It shows a table across the site showing off all the important information of the projects and a function
+    column filled with a button per project that allows the user to edit/delete the said project-->
+<div class = "container-fluid ml-1000 mr-1000">
+
+    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Projekte in der Datenbank</h3>
+    <div class="alert alert-danger" role="alert" th:if="${hasError}">
+        Bei der Speicherung des Projekts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+    </div>
+    <form action = "#" th:action = "@{/saveProject}" th:object ="${project}" class="was-validated" method = post>
+        <div class="form-group mt-2 mr-5">
+            <!-- Submit Button -->
+            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                Neues Projekt hinzufügen
+            </button>
+            <!-- Modal for Submit Button -->
+            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="submitModalLabel">Projekt speichern</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!--Inputs for a Project in a small Modal once the button: Neues Projekt hinzufügen is pushed-->
+                        <div class="modal-body">
+                            Name: <input type="text" class="form-control" name = "name"
+                                         title="Ein Name darf keinerlei Sonderzeichen enthalten"
+                                         th:field="*{name}" required>
+                            <div class="valid-feedback">valid</div>
+                            <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
+
+                            Kurzbeschreibung:<input type="text" class="form-control" name = "description" th:field="*{description}" required/></br>
+
+                            Seit:<input type="date" id="start" class="form-control" name="since" th:field="*{since}"></br>
+
+                        </div>
+                        <!-- Options to Dismiss or Save the Institut-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                            <button type="submit" class="btn btn-primary">Projekt speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--The table that shows all the stored Project inside the database.
+    Each Project has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+    will open up an editing window where the user can change the stored information or delete this specific project altogether-->
+    <table class="table table-striped mt-3">
+         <tr>
+            <th>Name</th>
+            <th>Kurzbeschreibung</th>
+            <th>Seit</th>
+            <th>Funktionen</th>
+        </tr>
+        <tr th:each="project : ${allProjects}">
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.description}" th:href="${project.description}"></td>
+            <td th:text="${project.since}"></td>
+            <td>
+                <form ACTION="#" th:action="@{/viewProject}" th:object="${project}">
+                    <input type="hidden" th:value="${project.projectID}" th:name ="projectID" />
+                    <!--Button that opens up the editing window-->
+                    <button type="submit" class="btn btn-secondary">Projekt einsehen </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>

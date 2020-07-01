@@ -71,7 +71,7 @@ public class InstituteDetailsController {
      * the page will be reloaded to update the table with the new given information/attributes.
      *
      * @param institute
-     * @return redirect:/institutes
+     * @return redirect:/instituteDetails
      */
     @RequestMapping(value = "/savingInstitute", method = RequestMethod.POST)
     public String savingInstitute(@Valid Institute institute, BindingResult result) {
@@ -150,16 +150,18 @@ public class InstituteDetailsController {
         System.out.println(contactInstitute.size());
         return "redirect:/instituteDetails";
     }
+
     /**
      * This method deletes the chosen Contact from the Contacts of the Institute
      * @param institute
-     * @return redirect:/institutes
+     * @return redirect:/instituteContactCreator
      */
     @RequestMapping(value ="/addContactsToInstitute", method = RequestMethod.POST)
     public String addContactsToInstitute(Institute institute) {
         InstituteContactCreatorController.insituteID = institute.getInstituteID();
         return "redirect:/instituteContactCreator";
     }
+
     /**
      * This method checks whether there are tables to display
      *

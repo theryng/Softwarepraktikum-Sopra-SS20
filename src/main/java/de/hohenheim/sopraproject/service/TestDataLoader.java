@@ -40,6 +40,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private RelationshipService relationshipService;
 
+    @Autowired
+    private ProjectService projectService;
+
 
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
@@ -521,6 +524,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         allianzStuttgart.setName("Allianz AG, Niederlassung in Stuttgart");
         allianzStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "102"));
+        allianzStuttgart.setLinkToHomepage("www.allianz.de");
         instituteService.saveInstitute(allianzStuttgart);
 
         Institute porscheStuttgart = new Institute();
@@ -555,6 +559,13 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
                 "105"));
         instituteService.saveInstitute(mercedesStuttgart);
 
+        Institute sap = new Institute();
+        sap.setName("SAP");
+        sap.addInstitutionContacts(jana);
+        sap.addInstitutionContacts(peter);
+        sap.setAddress(new Address("55554", "Fritzhausen", "Carl-Otto-Weg", "1"));
+        instituteService.saveInstitute(sap);
+
         Institute mahleStuttgart = new Institute();
         mahleStuttgart.setName("MAHLE GmbH");
         mahleStuttgart.addInstitutionContacts(jose);
@@ -574,5 +585,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         heirat.setSinceDate(2010, 01, 30);
         heirat.setTypeOfRelationship("Verheiratet");
         relationshipService.saveRelationship(heirat);
+
+        Project covid = new Project();
+        covid.setName("Corona tracking app");
+        covid.setDescription("Entwickeln einer Corona tranking App to flatten the curve");
+        covid.setSince(2020, 04, 20);
+        covid.addProjectContact(max);
+        covid.addProjectContact(jana);
+        covid.addProjectInstitutes(sap);
+        projectService.saveProject(covid);
     }
 }

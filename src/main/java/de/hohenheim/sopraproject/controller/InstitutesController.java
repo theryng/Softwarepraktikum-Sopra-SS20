@@ -90,6 +90,7 @@ public class InstitutesController {
         InstituteDetailsController.instituteID = institute.getInstituteID();
         return "redirect:/instituteDetails";
     }
+
     /**
      *  Method which can be used to search for a certain Institute.
      *  Calls the Contact Finder, and uses a searchWord to find a Institute.
