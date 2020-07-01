@@ -11,9 +11,137 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
     <title>Events</title>
+
 </head>
 <body>
 <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
+
+<div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
+
+    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Events in der Datenbank</h3>
+    <div class="alert alert-danger" role="alert" th:if="${hasError}">
+        Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+    </div>
+    <form action = "#" th:action = "@{/saveEvent}" th:object ="${event}" class="was-validated" method = post>
+        <div class="form-group mt-2 mr-5">
+            <!-- Submit Button -->
+            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                Neues Event hinzufügen
+            </button>
+            <!-- Modal for Submit Button -->
+            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="submitModalLabel">Event speichern</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!--Inputs for an Event in a small Modal once the button: Neues Event hinzufügen is pushed-->
+                        <div class="modal-body">
+                            Name: <input type="text" class="form-control" name = "eventName"
+                                         title="Ein Name darf keinerlei Sonderzeichen enthalten"
+                                         th:field="*{eventName}" required>
+                            <div class="valid-feedback">valid</div>
+                            <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
+
+                            Datum:<input type="date" id="start" class="form-control" name="date" th:field="*{date}"></br>
+
+                            E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}" required/></br>
+
+                            <div class = "row">
+                                <div class = "col">
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+
+                                </div>
+                                <div class = "col">
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                                </div>
+                                <div class = "col">
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{address.houseNumber}"
+                                                      title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
+                                </div>
+                                <div class = "col">
+                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                                        pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Options to Dismiss or Save the Event-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                            <button type="submit" class="btn btn-primary">Event speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--The table that shows all the stored institutes inside the database.
+        Each institute has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+        will open up an editing window where the user can change the stored information or delete this specific institute altogether-->
+    <table class="table table-striped mt-3">
+        <tr>
+            <th>Name</th>
+            <th>Datum</th>
+            <th>Adresse</th>
+            <th>Freier Text</th>
+            <th>Funktionen</th>
+        </tr>
+        <tr th:each="event : ${allEvents}">
+            <td th:text="${event.eventName}"></td>
+            <td th:text="${event.date}"></td>
+            <td th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></td>
+            <td>
+                <form ACTION="#" th:action="@{/viewEvent}" th:object="${event}">
+                    <input type="hidden" th:value="${event.eventId}" th:name ="eventId" />
+                    <!--Button that opens up the editing window-->
+                    <button type="submit" class="btn btn-secondary">Event einsehen </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- Table that shows all necessary information about events: The name of an event, the adress of an event, the date, and
+a free text about an event. Each event has a button at the end of its row, which will open the editing menu for events.
+    <table>
+        <tr>
+            <th>Eventname</th>
+            <th>Adresse</th>
+            <th>Datum</th>
+            <th>Freier Text</th>
+            <th>Funktionen</th>
+        </tr>
+        <tr>
+            <td>Hochzeit</td>
+            <td>Königstraße 90</td>
+            <td>01.09.2020</td>
+            <td>Am Schlossplatz</td>
+            <td>Event einsehen</td>
+        </tr>
+        <tr>
+            <td>Abschlussfeier</td>
+            <td>Am Feldrand 13</td>
+            <td>31.07.2020</td>
+
+            <td>Event einsehen</td>
+        </tr>
+        <tr>
+            <td>Eröffnung Informatiker-Gebäude</td>
+            <td>Universitätsstraße 39</td>
+            <td>15.03.2021</td>
+            <td>Neubau Universitäts-Geäbude wird eröffnet</td>
+            <td>Event einsehen</td>
+        </tr>
+    </table>
+-->
+</div>
+
+
+
+
+
 </body>
 </html>
