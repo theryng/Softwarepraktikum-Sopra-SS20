@@ -10,7 +10,7 @@
 
     <title>Neue Beziehung</title>
 </head>
-<body>
+<body class="backgroundimage">
     <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
@@ -39,7 +39,7 @@
                 <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
             </form>
             <!-- Table with the Possible Results -->
-            <table class="table table-striped mt-3">
+            <table th:if="${viewTable}" class="table table-striped mt-3">
                 <tr>
                     <th>Vorname</th>
                     <th>Nachname</th>

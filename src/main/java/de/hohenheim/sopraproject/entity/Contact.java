@@ -63,7 +63,7 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts", cascade =  CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
@@ -121,6 +121,18 @@ public class Contact {
 
     public void setIngoingRelationship(Set<Relationship> ingoingRelationship) {
         this.ingoingRelationships = ingoingRelationship;
+    }
+
+    public Set<Relationship> getOutgoingRelationships() {
+        return outgoingRelationships;
+    }
+
+    public Set<Relationship> getIngoingRelationships() {
+        return ingoingRelationships;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
     }
 
     public void setEvents(Set<Event> events) {

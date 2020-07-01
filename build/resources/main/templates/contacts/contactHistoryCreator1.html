@@ -10,7 +10,7 @@
 
     <title>Neue Kontakthistorie</title>
 </head>
-<body>
+<body class="backgroundimage">
     <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
     <header th:insert="fragments/htmlHead.html :: header"> </header>
 
@@ -26,9 +26,9 @@
             </div>
         </div>
         <!--Back Button which returns to the ContactDetails page-->
-        <form ACTION="#" th:action="@{/backContactHistoryCreator1}" method="post">
-            <button type="submit" class="btn btn-secondary float-right mr-5 mt-2">Zurück</button>
-        </form>
+        <!-- Back button to return to contactDetails -->
+        <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
+        </a>
 
         <!--General Informations-->
         <div class="mr-5 ml-5 mt-3">

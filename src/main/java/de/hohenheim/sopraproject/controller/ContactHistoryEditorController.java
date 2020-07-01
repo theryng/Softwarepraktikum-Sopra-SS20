@@ -39,13 +39,14 @@ public class ContactHistoryEditorController {
      */
     @GetMapping("/contactHistoryEditor/{contactID}/{historyID}")
     public String contactHistoryEditor(@PathVariable("contactID") Integer id, @PathVariable("historyID") Integer historyID, Model model) {
-        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(id);
+        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(historyID);
         ContactHistoryDTO contactHistoryDTO = new ContactHistoryDTO();
         contactHistoryDTO.setOriginalContactID(id+"");
         contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
         contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
         contactHistoryDTO.setContactHistory(contactHistory);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        model.addAttribute("allContacts", contactService.findAllContacts());
         return "contacts/contactHistoryEditor";
     }
 
@@ -55,10 +56,13 @@ public class ContactHistoryEditorController {
      * @param
      * @return contactDetails
      */
-    @RequestMapping(value = "/savingContactHistory", method = RequestMethod.POST)
+    @RequestMapping(value = "/savingContactHistory", method = RequestMethod.GET)
     public String savingContactHistory(@ModelAttribute("contactHistoryEditor")ContactHistoryDTO contactHistoryDTO, Model model) {
         ContactHistory contactHistory = contactHistoryDTO.getContactHistory();
-        Set<Contact> list = generateList(contactHistoryDTO.getStringChosenIDs());
+        System.out.println(contactHistoryDTO.getContactHistory().getText());
+        System.out.println(contactHistory.getDate());
+        System.out.println(contactHistory.getContactHistoryID());
+        Set<Contact> list = generateSet(contactHistoryDTO.getStringChosenIDs());
         for(Contact con : list){
             contactHistory.addContactHistoryContact(con);
         }
@@ -76,7 +80,7 @@ public class ContactHistoryEditorController {
     public String deleteContactHistory(ContactHistoryDTO contactHistoryDTO) {
         contactHistoryService.deleteByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
 
-        return "redirect:/contactDetails/"+contactHistoryDTO.getOriginalContactID();
+        return "redirect:/contactDetails"+contactHistoryDTO.getOriginalContactID();
     }
 
     /**
@@ -86,18 +90,28 @@ public class ContactHistoryEditorController {
      */
     @RequestMapping(value = "/deleteContactFromHistory", method = RequestMethod.POST)
     public String deleteFromContactHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
-        Set<Contact> contactList = generateList(contactHistoryDTO.getStringChosenIDs());
-        Contact selectedContact = contactService.findByContactID(contactHistoryDTO.getSelectedContact());
+        System.out.println("Delete Contact: "+contactHistoryDTO.getSelectedContact());
+        String string = contactHistoryDTO.getStringChosenIDs();
 
-        contactList.remove(selectedContact);
-        Set<Contact> list = generateList(contactHistoryDTO.getStringChosenIDs());
-        for(Contact con : list){
-            contactHistoryDTO.getChosenContacts().add(con);
+        Set<Contact> contactList = generateSet(string);
+
+        contactList.remove(contactService.findByContactID(contactHistoryDTO.getSelectedContact()));
+
+        List<Contact> chosenContacts = new LinkedList<Contact>();
+        for(Contact con : contactList){
+            System.out.println(con.getContactID()+"");
+            chosenContacts.add(con);
         }
+        System.out.println(generateString(contactList));
+        contactHistoryDTO.setStringChosenIDs(generateString(contactList));
+        contactHistoryDTO.setChosenContacts(chosenContacts);
+        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
+        contactHistory.setContactOfHistory(contactList);
+        contactHistoryService.saveContacthistory(contactHistory);
 
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
 
-        return "redirect:/contactHistoryEditor/"+contactHistoryDTO.getOriginalContactID();
+        return "contactHistoryEditor";
     }
 
     /**
@@ -106,15 +120,14 @@ public class ContactHistoryEditorController {
      * @return contactHistoryEditor
      */
     @RequestMapping(value = "/addContactToHistory", method = RequestMethod.POST)
-    public String addToContactHistory(ContactHistoryDTO contactHistoryDTO) {
-        /*
-        Set<Contact> existingContacts = contactHistory.getContactOfHistory();
-        Contact addedContact = contactRepository.findByContactID(contact.getContactID());
+    public String addToContactHistory(ContactHistoryDTO contactHistoryDTO, Model model) {
+
+        Set<Contact> existingContacts = generateSet(contactHistoryDTO.getStringChosenIDs());
+        Contact addedContact = contactService.findByContactID(contactHistoryDTO.getSelectedContact());
         boolean exists = false;
 
         for(Contact con : existingContacts){
-            if(con.getContactID().equals(contact.getContactID())){
-
+            if(con.getContactID().equals(contactHistoryDTO.getSelectedContact())){
                 exists = true;
             }
         }
@@ -124,8 +137,19 @@ public class ContactHistoryEditorController {
         else{
             System.out.println("Adding of Contact stopped, as it already exists");
         }
-*/
-        return "redirect:/contactHistoryEditor";
+        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
+        contactHistory.setContactOfHistory(existingContacts);
+        contactHistoryService.saveContacthistory(contactHistory);
+        contactHistoryDTO.setOriginalContactID(contactHistoryDTO.getOriginalContactID());
+        contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
+        contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
+        contactHistoryDTO.setContactHistory(contactHistory);
+
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        model.addAttribute("addContact", false);
+        model.addAttribute("viewTable", false);
+
+        return "contacts/contactHistoryEditor";
     }
 
     /**
@@ -135,35 +159,59 @@ public class ContactHistoryEditorController {
      * @return contactHistoryEditor
      */
     @RequestMapping(value ="/searchContactForHistoryEditor", method = RequestMethod.POST)
-    public String searchContactsForHistoryEditor(ContactHistoryDTO contactHistoryDTO) {
+    public String searchContactsForHistoryEditor(ContactHistoryDTO contactHistoryDTO, Model model) {
+        System.out.println(contactHistoryDTO.getStringFoundIDs());
+
+        if(!(contactHistoryDTO.getStringFoundIDs().equals(""))){
+            contactHistoryDTO.setChosenContacts(generateList(contactHistoryDTO.getStringFoundIDs()));
+        }
         ContactFinder findContact = new ContactFinder();
-        /*Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
-        if(foundContactsTemp.size()>0){
-            foundContacts = foundContactsTemp;
-            viewTable = true;
+        List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts());
+
+        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
+        contactHistoryDTO.setOriginalContactID(contactHistoryDTO.getOriginalContactID());
+        contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
+        contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
+        contactHistoryDTO.setContactHistory(contactHistory);
+        System.out.println("Anzahl Suchergebnisse: "+foundContacts.size());
+        if(foundContacts.size()>0){
+            String string = "";
+            for(Contact con : foundContacts){
+                string = string + con.getContactID() + " ";
+            }
+            contactHistoryDTO.setStringFoundIDs(string);
+            model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+            model.addAttribute("allContacts", foundContacts);
+            model.addAttribute("addContact", true);
+            model.addAttribute("viewTable", true);
         }
         else{
-            foundContacts.clear();
-            viewTable = false;
-        }*/
-        return "redirect:/contactHistoryEditor";
+            model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+            model.addAttribute("allContacts", contactService.findAllContacts());
+            model.addAttribute("addContact", true);
+            model.addAttribute("viewTable", true);
+        }
+        System.out.println("Die gefunden Kontakte sind: "+contactHistoryDTO.getFoundContacts());
+        return "contacts/contactHistoryEditor";
     }
 
     /**
      *  Enables the Viewing of the addContact Table,
      *  if its already seen it hides it.
-     * @param searchWord
      * @return contactHistoryEditor
      */
     @RequestMapping(value ="/enableAddContacts", method = RequestMethod.POST)
-    public String enableAddContacts(String searchWord) {
-       /* if(addContact){
-            addContact = false;
-        }
-        else{
-            addContact = true;
-        }*/
-        return "redirect:/contactHistoryEditor";
+    public String enableAddContacts(ContactHistoryDTO contactHistoryDTO, Model model) {
+
+        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
+        contactHistoryDTO.setOriginalContactID(contactHistoryDTO.getOriginalContactID());
+        contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
+        contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
+        contactHistoryDTO.setContactHistory(contactHistory);
+
+        model.addAttribute("addContact", true);
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        return "contacts/contactHistoryEditor";
     }
 
     public String generateString(Set<Contact> list){
@@ -174,7 +222,7 @@ public class ContactHistoryEditorController {
         return string;
     }
 
-    public Set<Contact> generateList(String list){
+    public Set<Contact> generateSet(String list){
         Set<Integer> foundList = new HashSet<Integer>();
         String[] stringTemp2  = list.split(" ");
         for(String string : stringTemp2){
@@ -182,6 +230,20 @@ public class ContactHistoryEditorController {
         }
 
         Set<Contact> foundContacts = new HashSet<Contact>();
+        for(Integer integer : foundList){
+            foundContacts.add(contactService.findByContactID(integer));
+        }
+        return foundContacts;
+    }
+
+    public List<Contact> generateList(String list){
+        List<Integer> foundList = new LinkedList<Integer>();
+        String[] stringTemp2  = list.split(" ");
+        for(String string : stringTemp2){
+            foundList.add(Integer.valueOf(string.trim()));
+        }
+
+        List<Contact> foundContacts = new LinkedList<Contact>();
         for(Integer integer : foundList){
             foundContacts.add(contactService.findByContactID(integer));
         }

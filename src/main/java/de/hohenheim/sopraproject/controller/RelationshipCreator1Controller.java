@@ -39,6 +39,7 @@ public class RelationshipCreator1Controller {
         RelationshipDTO relationshipDTO = new RelationshipDTO();
         relationshipDTO.setContactA(contactID);
         model.addAttribute("relationshipDTO", relationshipDTO);
+        model.addAttribute("viewTable", false);
 
         return "contacts/relationshipCreator1";
     }
@@ -58,6 +59,7 @@ public class RelationshipCreator1Controller {
         List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
         relationshipDTO.setFoundContact(foundContactsTemp);
 
+        model.addAttribute("viewTable", true);
         model.addAttribute("relationshipDTO", relationshipDTO);
         return "contacts/relationshipCreator1";
     }

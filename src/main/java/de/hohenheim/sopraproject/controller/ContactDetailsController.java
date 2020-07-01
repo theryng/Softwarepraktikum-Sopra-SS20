@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This controller is used to handle all methods revolving around the html page contactDetails
@@ -52,7 +54,8 @@ public class ContactDetailsController {
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());
-
+        model.addAttribute("viewContactHistory", checkContactHistoryList(contact.getContactHistory()));
+        model.addAttribute("viewRelationship", checkRelationshipList(contact.getOutgoingRelationships()));
         model.addAttribute("searchWord", searchWord);
         return "contacts/contactDetails";
     }
@@ -123,13 +126,15 @@ public class ContactDetailsController {
      */
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
+
         Relationship choosenRelationship = relationshipService.findByRelationshipID(relationship.getRelationshipID());
+        Integer id = choosenRelationship.getContactA().getContactID();
         if(!(choosenRelationship.getPartnerRelationship()==0)){
             relationshipService.deleteByRelationshipID(choosenRelationship.getPartnerRelationship());
         }
 
         relationshipService.deleteByRelationshipID(relationship.getRelationshipID());
-        return "redirect:/contactDetails";
+        return "redirect:/contactDetails/"+id;
     }
 
     /**
@@ -145,4 +150,17 @@ public class ContactDetailsController {
         return "redirect:/contacts";
     }
 
+    private boolean checkContactHistoryList(Set<ContactHistory> list){
+        if(list.size()>0){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkRelationshipList(Set<Relationship> list){
+        if(list.size()>0){
+            return true;
+        }
+        return false;
+    }
 }

@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Kontakte</title>
 </head>
 
-<body>
+<body class="backgroundimage">
 
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 
@@ -133,7 +135,7 @@
                         <th>Studium</th>
                         <th>Geburtsdatum</th>
                         <th>E-Mail</th>
-                        <th>Funktionen</th>
+                        <th></th>
                     </tr>
                     <tr th:each="contact : ${allContacts}">
                         <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
@@ -142,7 +144,8 @@
                         <td th:text="${contact.email}"></td>
                         <td>
                             <!--Button that opens up the editing window-->
-                            <a type="button" th:href="@{/contactDetails/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Kontakt einsehen'">
+                            <a type="button" th:href="@{/contactDetails/{contactId}(contactId=${contact.getContactID()})}" method="get">
+                                <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
                             </a>
                         </td>
                     </tr>
