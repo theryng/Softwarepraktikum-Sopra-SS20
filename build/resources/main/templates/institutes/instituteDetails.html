@@ -23,9 +23,8 @@
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Institut Informationen</h1>
     <div class="row ml-1">
-        <form ACTION="#" th:action="@{/backInstituteDetails}" method="post">
-            <button type="submit" class="btn btn-secondary">Zurück</button>
-        </form>
+        <a type="button" class="btn btn-secondary" th:href="@{/institutes}" method="get" th:text="'Zurück'">
+        </a>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
@@ -48,8 +47,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <form ACTION="#" th:action="@{/deleteInstitute}" th:object="${institute}" method="post">
-                            <input type="hidden" th:value="${institute.instituteID}" th:name ="instituteID" />
+                        <form ACTION="#" th:action="@{/deleteInstitute}" th:object="${instituteDTO}" method="post">
+                            <input type="hidden" th:value="${instituteDTO.instituteID}" th:name ="instituteID" />
 
                             <button type="submit" class="btn btn-danger ml-3">Institut löschen</button>
                         </form>
@@ -74,36 +73,39 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${institute}" th:action="@{/savingInstitute}" method="post">
+                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${instituteDTO}" th:action="@{/savingInstitute}" method="post">
+
+                        <input type="hidden" th:value="${instituteDTO.instituteID}" th:name ="instituteID" />
                         <!-- Input and View Field for the Contact Details-->
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
                         </div>
+
                         <!--Viewing and Editing general Informations of the Institute-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
                                          pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
-                                         th:field="*{name}" required>
+                                         th:field="*{institute.name}" required>
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}" required/></br>
+                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{institute.linkToHomepage}" required/></br>
 
-                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{email}" required/></br>
+                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{institute.email}" required/></br>
                             <div class = "row">
                                 <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{institute.address.city}" required/>
 
                                 </div>
                                 <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{institute.address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{institute.address.houseNumber}"
                                                       title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
-                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{institute.address.zipCode}"
                                                         pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                                 </div>
                             </div>
@@ -152,35 +154,34 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <!--Table for Relationships-->
-                    <table class="table table-striped" >
+                    <table class="table table-striped" th:if="${viewTable}">
                         <tr>
                             <th>Name</th>
                             <th>Studium</th>
                             <th>Homepage</th>
                             <th>Funktionen</th>
                         </tr>
-                        <tr th:each="contact : ${institute.contacts}">
+                        <tr th:each="contact : ${instituteDTO.institute.contacts}">
                             <td th:text="${contact.firstname + ' ' + contact.lastname}"></td>
                             <td th:text="${contact.courseOfStudies}"></td>
                             <td th:text="${contact.linkToHomepage}"></td>
                             <td>
-                                <form ACTION="#" th:action="@{/deleteContactFromInstitute}" th:object="${tempContact}" method="post">
-                                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+                                <form ACTION="#" th:action="@{/deleteContactFromInstitute}" th:object="${instituteDTO}" method="post">
+                                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
+                                    <input type="hidden" th:value="${instituteDTO.instituteID}" th:name ="instituteID" />
                                     <button type="submit" class="btn btn-danger">Mitarbeiter entfernen </button>
                                 </form>
                             </td>
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div class="ml-5 mr-5 mt-5">
+                    <div class="ml-5 mr-5 mt-5" th:if="${not viewTable}">
                         Institut besitzt keine Mitarbeiter, neuen Mitarbeiter zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
-                    <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/addContactsToInstitute}" th:object="${institute}" method="post">
-                        <input type="hidden" th:value="${institute.instituteID}" th:name ="instituteID" />
-                        <button type="submit" class="btn btn-secondary"> Mitarbeiter zuordnen </button>
-                    </form>
-
+                    <!-- Button to enable the adding of other Contacts -->
+                    <a type="button" class="btn btn-primary" th:href="@{/instituteContactCreator/{instituteID}(instituteID=${instituteDTO.getInstituteID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    </a>
 
                 </div>
             </div>

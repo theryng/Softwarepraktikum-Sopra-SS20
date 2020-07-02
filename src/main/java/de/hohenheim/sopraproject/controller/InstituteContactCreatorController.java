@@ -1,171 +1,86 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.InstituteDTO;
+import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Institute;
 import de.hohenheim.sopraproject.entity.Relationship;
-import de.hohenheim.sopraproject.repository.ContactRepository;
-import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
- * Controller for the First Step of the Contact History Creator
+ * Controller for the First Step of the Relationship Creation process
  * @date 26.06.2020
  * @author Lukas Januschke
  */
 @Controller
 public class InstituteContactCreatorController {
 
-    private Institute institute;
-    public static int insituteID;
-    private ContactHistory contactHistoryTemp;
     @Autowired
-    private InstituteRepository instituteRepository;
+    private ContactService contactService;
     @Autowired
-    private ContactRepository contactRepository;
-    private String searchWord;
-    private static Set<Contact> foundContacts = new HashSet<>();
-    private static Set<Contact> chosenContacts = new HashSet<>();
-    private static boolean viewTableHistories;
-    private static boolean viewChoosenTable;
+    private InstituteService instituteService;
 
     /**
-     * Main Method of the Institute Contact Creator.
-     * Adds the necessary Attributes and opens the site.
+     * Main method of the Relationship Creator
+     * Also adds necessary Attributes
      * @param model
-     * @return instituteContactCreator
+     * @return institutes/instituteContactCreator
      */
-    @RequestMapping(value = "/instituteContactCreator", method = RequestMethod.GET)
-    public String instituteContactCreator(Model model) {
-        institute = instituteRepository.findByInstituteID(insituteID);
-        contactHistoryTemp = new ContactHistory();
-        contactHistoryTemp.setContactOfHistory(foundContacts);
-        model.addAttribute("foundContacts", contactHistoryTemp);
-        model.addAttribute("chosenContacts", chosenContacts);
-        model.addAttribute("viewTableHistories", viewTableHistories);
-        model.addAttribute("viewChosenTable", viewChoosenTable);
-        if(foundContacts != null){
-            model.addAttribute("allContacts", foundContacts);
-        }
-        else{
-            model.addAttribute("allContacts", new HashSet<Contact>());
-        }
-        model.addAttribute("searchWord", searchWord);
+    @GetMapping("/instituteContactCreator/{contactID}")
+    public String instituteContactCreator(@PathVariable("contactID") Integer contactID, Model model) {
+        InstituteDTO instituteDTO = new InstituteDTO();
+        instituteDTO.setInstituteID(contactID);
+        model.addAttribute("instituteDTO", instituteDTO);
+        model.addAttribute("viewTable", false);
+
         return "institutes/instituteContactCreator";
     }
 
     /**
-     *  Method which can be used to search for a certain Contact.
-     *  Calls the Contact Finder, and uses a searchWord to find a Contact.
-     *  Reloads the Site at the very End.
-     * @param searchWord
-     * @return instituteContactCreator
+     * searches for a Contact to have a relationship with
+     * uses the findContacts method of the ContactFinder class
+     * @param instituteDTO
+     * @return institutes/instituteContactCreator
      */
-    @RequestMapping(value ="/searchContactForInstituteCreator", method = RequestMethod.POST)
-    public String searchContacts(String searchWord) {
+    @RequestMapping(value ="/searchInstituteContact", method = RequestMethod.POST)
+    public String searchInstituteContact(InstituteDTO instituteDTO, Model model) {
+        System.out.println(instituteDTO.getSearchWord());
+        System.out.println(instituteDTO.getInstituteID());
+        String searchWord = instituteDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
-        /*
-        Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
-        if(foundContactsTemp.size()>0){
-            foundContacts = foundContactsTemp;
-            viewTableHistories = true;
-        }
-        else{
-            foundContacts.clear();
-            viewTableHistories = false;
-        }
-        */
-        return "redirect:/instituteContactCreator";
+        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
+        instituteDTO.setFoundInstitutes(foundContactsTemp);
+
+        model.addAttribute("viewTable", true);
+        model.addAttribute("relationshipDTO", instituteDTO);
+        return "institutes/instituteContactCreator";
     }
 
     /**
-     * Selects a Contact for the Institute.
-     * Reloads the page at the End.
-     * @param contact
-     * @return instituteContactCreator
+     * Sets the Contact to have a Relationship with
+     * @return relationshipCreator2
      */
-    @RequestMapping(value = "/chooseContactForInstitute", method = RequestMethod.POST)
-    public String chooseContactForInstitute(Contact contact) {
-        Contact selectedContact = contactRepository.findByContactID(contact.getContactID());
-        boolean exists = false;
-        for(Contact con : chosenContacts){
-            if(con.getContactID().equals(selectedContact.getContactID())){
-                exists = true;
-            }
-        }
-        if(!exists){
-            chosenContacts.add(selectedContact);
-            viewChoosenTable = true;
-        }
-        return "redirect:/instituteContactCreator";
-    }
-
-    /**
-     * Submits the chosen Contacts to the Institute
-     * @return instituteDetails
-     */
-    @RequestMapping(value = "/submitContactsForInstitute", method = RequestMethod.POST)
-    public String submitContactsForInstitute() {
-        InstituteDetailsController.institute.getContacts().addAll(chosenContacts);
-        instituteRepository.save(InstituteDetailsController.institute);
-        resetController();
-        return "redirect:/instituteDetails";
-    }
-
-    /**
-     * Deletes the Contact specified in the HTML page.
-     * Finds the chosen Contact and deletes it.
-     * @param contact
-     * @return
-     */
-    @RequestMapping(value = "/deleteContactsForInstitute", method = RequestMethod.POST)
-    public String deleteChosenContacts(Contact contact) {
-
-        for(Contact con : chosenContacts){
-            if(con.getContactID() == contact.getContactID()){
-                chosenContacts.remove(con);
-            }
-        }
-        if(chosenContacts.size()<1){
-            viewChoosenTable = false;
-        }
-        return "redirect:/instituteContactCreator";
-    }
-
-    /**
-     * Back Button which returns the user to the instituteDetails Site
-     * Also calls the resetsController method, to ensure a blank slate for the next Creation process.
-     * @return contactDetails
-     */
-    @RequestMapping(value = "/backInstituteContactCreator", method = RequestMethod.POST)
-    public String backInstituteContactCreator() {
-        try {
-            resetController();
-        } finally {
-            System.out.println("Nothing to clear");
-        }
-        return "redirect:/instituteDetails";
-    }
-
-    /**
-     * Function which resets the Controller for the next use
-     */
-    public static void resetController(){
-        if(!(foundContacts.size()<1)){
-            foundContacts.clear();
-        }
-        if(!(chosenContacts.size()<1)){
-            chosenContacts.clear();
-        }
-        viewTableHistories = false;
-        viewChoosenTable = false;
+    @RequestMapping(value = "/setInstituteContact", method = RequestMethod.POST)
+    public String setInstituteContact(InstituteDTO instituteDTO) {
+        System.out.println("IDS für die Institute:");
+        System.out.println(instituteDTO.getContactTempID());
+        System.out.println(instituteDTO.getInstituteID());
+        Institute institut = instituteService.findByInstitutesID(instituteDTO.getInstituteID());
+        institut.addInstitutionContacts(contactService.findByContactID(instituteDTO.getContactTempID()));
+        instituteService.saveInstitute(institut);
+        return "redirect:/instituteDetails/"+instituteDTO.getInstituteID();
     }
 }

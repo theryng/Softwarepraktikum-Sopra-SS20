@@ -162,7 +162,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <!--Table for Relationships-->
-                    <table class="table table-striped" th:if="${viewRelationship}">
+                    <table class="table table-striped mb-2" th:if="${viewRelationship}">
                         <tr>
                             <th>Name</th>
                             <th>Art der Beziehung</th>
@@ -212,11 +212,11 @@
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div th:if="${not viewRelationship}"{class="ml-5 mr-5 mt-5">
+                    <div th:if="${not viewRelationship}"{class="mr-5 mt-5 mb-2">
                         Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
-                    <a type="button" th:href="@{/relationshipCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/relationshipCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
                     </a>
                 </div>
             </div>
@@ -244,17 +244,17 @@
                             <td th:text="*{contacthistories.text}"></td>
                             <td>
                                 <!--Button that opens up the editing window-->
-                                <a type="button"th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
+                                <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
                                 </a>
                             </td>
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div class="ml-5 mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
+                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
-                    <a type="button" class="" th:href="@{/contactHistoryCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/contactHistoryCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
                     </a>
 
                 </div>
