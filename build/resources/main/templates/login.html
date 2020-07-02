@@ -5,13 +5,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
     <title>Sopra 2020 Demo Project</title>
 </head>
 
 <!--Main Body of the login site. This is the first site a user will see once he opens this application. A user will also be redirected
     to this site whenever e decides to logout from his account-->
-<body>
-<div class="container">
+<body class="backgroundimage">
+<div class="container centerAlign">
     <form th:action="@{/login}" method="POST" class="form-horizontal">
         <div class="card">
             <div class="card-body">
@@ -37,6 +38,9 @@
                         <label>Password</label>
                         <input type="password"  th:placeholder="'Password'" id="password" name="password" class="form-control"/><br/>
                     </div>
+                </div>
+                <div class="alert alert-secondary" role="alert">
+                    Zum Registrieren wenden Sie sich bitte an Ihren System Administrator
                 </div>
             </div>
             <!--Button to login with the information inside the two input labels-->

@@ -12,7 +12,6 @@ import javax.persistence.Id;
  * distinct themselves.
  *
  * @date 26.06.2020
- * @author
  */
 @Entity
 public class Role {

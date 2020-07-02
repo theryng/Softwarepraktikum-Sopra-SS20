@@ -22,4 +22,11 @@ public class RelationshipService {
     public List<Relationship> findAllRelationships(){
         return relationshipRepository.findAll();
     }
+
+    public Relationship findByRelationshipID(Integer id){
+        return relationshipRepository.findByRelationshipID(id);
+    }
+    public void deleteByRelationshipID(Integer id){
+        relationshipRepository.deleteById(id);
+    }
 }

@@ -2,13 +2,23 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.ContactHistory;
+import de.hohenheim.sopraproject.entity.EditingHistory;
 import de.hohenheim.sopraproject.repository.ContactRepository;
+import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
+import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This controller contains the methods to create a new contact
@@ -23,9 +33,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ContactsController {
 
-    private static Contact viewContactTemp;
     @Autowired
-    private ContactRepository contactRepository;
+    EditingHistoryService editingHistoryService;
+    @Autowired
+    private ContactService contactService;
 
     /**
      * This method gets all the information about a contact
@@ -35,11 +46,19 @@ public class ContactsController {
      * @param model
      * @return contacts
      */
-    private ContactService contactService;
     @RequestMapping(value ="/contacts", method = RequestMethod.GET)
     public String contacts(Model model) {
+        String searchword = "";
+        List<Contact> allContacts = contactService.findAllContacts();
+        boolean showList = false;
+        if(allContacts.size()>0){
+            showList = true;
+        }
+        model.addAttribute("showList", showList);
+        model.addAttribute("allContacts", allContacts);
+        model.addAttribute("searchWord", searchword);
         model.addAttribute("contact", new Contact());
-        model.addAttribute("allContacts", contactRepository.findAll());
+
         return "contacts";
     }
 
@@ -54,38 +73,55 @@ public class ContactsController {
      * @return redirect:/contacts
      */
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
-    public String saveContact(Contact contact){
-        contact.setAddress(new Address(contact.getTempZipCode(), contact.getTempCity(), contact.getTempStreet() , contact.getTempHouseNmbr()));
-        contactRepository.save(contact);
-        return "redirect:/contacts";
+    public String saveContact(@Valid Contact contact, BindingResult result, Model model){
+        if(result.hasErrors()){
+            System.out.println("Fehler");
+
+            model.addAttribute("allContacts", contactService.findAllContacts());
+
+            return "contacts";
+        }
+        else{
+            contactService.saveContact(contact);
+
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            System.out.println(dateFormat.format(date));
+
+            editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
+            return "redirect:/contacts";
+        }
+
+
+
     }
 
     /**
-     * This method finds all Contacts
-     *
-     * This method finds all existing contacts and gives them out to the user
-     *
-     * @param model
-     * @return contacts
+     *  Method which can be used to search for a certain Contact.
+     *  Calls the Contact Finder, and uses a searchWord to find a Contact.
+     *  Reloads the Site at the very End.
+     * @param searchWord
+     * @return contactHistoryCreator1
      */
-    @RequestMapping("/allContacts")
-    public String allContacts(Model model) {
-        model.addAttribute("allContacts", contactRepository.findAll());
+    @PostMapping(value ="/searchContact")
+    public String searchContacts(@RequestBody @ModelAttribute("allContacts") LinkedList<Contact> allContacts, String searchWord, Model model) {
+        ContactFinder findContact = new ContactFinder();
+
+        LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
+
+        allContacts = foundContactsTemp;
+
+        boolean showList = false;
+        if(allContacts.size()>0){
+            showList = true;
+        }
+        model.addAttribute("showList", showList);
+        String searchword = "";
+        model.addAttribute("allContacts", allContacts);
+        model.addAttribute("searchWord", searchword);
+        model.addAttribute("contact", new Contact());
+
         return "contacts";
-    }
-
-    /**
-     * This method shows the details of a contact
-     *
-     * This method opens up the contactDetails page of a specific contact the user wishes to see. Once the user clicks the
-     * button that this method is bound to the window will open and allows him to view the details to this contact.
-     *
-     * @param contactID
-     * @return redirect:/contactDetails
-     */
-    @RequestMapping("/viewContact")
-    public String viewContact(Contact contactID) {
-        ContactDetailsController.contactID = contactID.getContactID();
-        return "redirect:/contactDetails";
     }
 }

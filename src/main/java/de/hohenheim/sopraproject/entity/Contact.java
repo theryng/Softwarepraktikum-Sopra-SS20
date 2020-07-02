@@ -1,9 +1,13 @@
 package de.hohenheim.sopraproject.entity;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,8 +17,10 @@ import java.util.regex.Pattern;
  * and some more attributes. It also has a many to many relationship with events, which means that contacts and events
  * are related to each other with both of their primary keys in a separately table. it also goes with a many to one
  * relationship with the institute. That means that one Contact is related to one (primary) institute. The attribute
- * names are the names of the columns at the database table of the contact.
- * By Mark
+ * names are the names of the columns at the database table of the contact. It also has a many to many relation with
+ * contacthistory. Thus, many Contacts can have many Contacthistories and many Contacts can be added to many
+ * Contacthistories. Contact ID is the primary key.
+ * @Author Mark Wagner
  */
 @Entity
 public class Contact {
@@ -35,21 +41,14 @@ public class Contact {
 
     private String freeText;
 
-    private String dayOfBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dayOfBirth;
 
     @Transient
     private String searchString;
 
     @Embedded
     private Address address;
-    @Transient
-    private String tempZipCode;
-    @Transient
-    private String tempHouseNmbr;
-    @Transient
-    private String tempCity;
-    @Transient
-    private String tempStreet;
 
     private String hobby;
 
@@ -64,7 +63,7 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts", cascade =  CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
@@ -72,7 +71,7 @@ public class Contact {
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
-                   String courseOfStudies, String freeText, int yearOfBirth, int monthOfBirth, int dayOfBirth) {
+                   String courseOfStudies, String freeText, LocalDate date) {
 
         setFirstname(firstname);
         setLastname(lastname);
@@ -80,29 +79,20 @@ public class Contact {
         setEmail(email);
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
-        setDayOfBirth(yearOfBirth, monthOfBirth, dayOfBirth);
+        this.dayOfBirth = date;
     }
 
     public Contact() {
         //empty constructor for Hibernate
     }
 
-    public Date convertStringToDate(final String string){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        try{
-            return format.parse(string);
-        } catch(Exception exception){
-            return null;
-        }
-    }
 
     public Set<ContactHistory> getContactHistory() {
         return contactHistory;
     }
 
     /**
-     * set the contact history of an contact only it is initialized
+     * Sets the contacthistory of a contact only if the contacthistory is initialized. Otherwise it throws an Exception.
      * @param contacthistories
      */
     public void setContacthistories(Set<ContactHistory> contacthistories) {
@@ -121,7 +111,7 @@ public class Contact {
         this.contactID = contactID;
     }
 
-    public void setDayOfBirth(String dayOfBirth) {
+    public void setDayOfBirthDate(LocalDate dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
     }
 
@@ -133,6 +123,18 @@ public class Contact {
         this.ingoingRelationships = ingoingRelationship;
     }
 
+    public Set<Relationship> getOutgoingRelationships() {
+        return outgoingRelationships;
+    }
+
+    public Set<Relationship> getIngoingRelationships() {
+        return ingoingRelationships;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
     public void setEvents(Set<Event> events) {
         this.events = events;
     }
@@ -142,8 +144,8 @@ public class Contact {
     }
 
     /**
-     * Sets the firstname only if it has at least 2 characters an does not contain illegal characters. illegal characters
-     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>
+     * Sets the firstname only if it has at least 2 characters and does not contain illegal characters. Illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>      Throws an Exception if there are illegal arguments.
      * @param firstname string value for the first name of a contact
      */
     public void setFirstname(String firstname) {
@@ -155,11 +157,10 @@ public class Contact {
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
                     "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
-        }else if(matcher.find()  && firstname.length()>1){
+        }else if(matcher.find()){
             this.firstname = firstname;
         }else{
-            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only and has to be greater than " +
-                    "one digit long");
+            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only ");
         }
     }
 
@@ -168,9 +169,9 @@ public class Contact {
     }
 
     /**
-     * Sets the lastname only if it has at least 2 characters an does not contain illegal characters. illegal characters
-     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>
-     * @param lastname string value for the first name of a contact
+     * Sets the lastname only if it has at least 2 characters and does not contain illegal characters. illegal characters
+     * are: 0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>         Throws an Exception if there are illegal arguments.
+     * @param lastname string value for the last name of a contact
      */
     public void setLastname(String lastname) {
         Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ]");
@@ -181,11 +182,10 @@ public class Contact {
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
                     "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]");
-        }else if(matcher.find()  && lastname.length()>1){
+        }else if(matcher.find()){
             this.lastname = lastname;
         }else{
-            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only and has to be greater than " +
-                    "one digit long");
+            throw new IllegalArgumentException("The lastname must contain \"[a-zA-Z]\" only");
         }
     }
 
@@ -202,7 +202,7 @@ public class Contact {
     }
 
     /**
-     * Sets the E-Mail only if there is an "@" character in it otherwise it will throw an IllegalStateException
+     * Sets the E-Mail of a contact only if there is a "@" character. Throws an Exception if there is no "@".
      * @param email
      */
     public void setEmail(String email) {
@@ -229,7 +229,7 @@ public class Contact {
         this.freeText = freeText;
     }
 
-    public String getDayOfBirth() {
+    public LocalDate getDayOfBirth() {
         return dayOfBirth;
     }
 
@@ -252,31 +252,11 @@ public class Contact {
      * @param day
      */
     public void setDayOfBirth(int year, int month, int day) {
+         dayOfBirth = LocalDate.of(year, month, day);
+    }
 
-        String stringOfYear = Integer.toString(year);
-        String stringOfMonth = Integer.toString(month);
-        String stringOfDay = Integer.toString(day);
-
-        if(stringOfMonth.length() == 1){
-            stringOfMonth = "0" + stringOfMonth;
-        }
-
-        if(stringOfDay.length() == 1){
-            stringOfDay = "0" + stringOfDay;
-        }
-
-        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
-            throw new IllegalStateException("Illegal state of year, month or day");
-        }
-            if(stringOfYear.length() == 4  &&
-                stringOfMonth.length() == 2 &&
-                stringOfDay.length() == 2) {
-
-                this.dayOfBirth = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
-
-        } else {
-        throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
-        }
+    public void setDayOfBirth(LocalDate dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
     }
 
     public Address getAddress() {
@@ -299,6 +279,7 @@ public class Contact {
         return linkToHomepage;
     }
 
+
     public void setLinkToHomepage(String linkToHomepage) {
             this.linkToHomepage = linkToHomepage;
     }
@@ -308,7 +289,7 @@ public class Contact {
     }
 
     /**
-     * Sets the institute if it is not null, otherwise it will throw an IllegalStateException
+     * Sets the institute if it is not null.
      * @param institutes
      */
     public void setInstitutes(Set<Institute> institutes) {
@@ -318,41 +299,8 @@ public class Contact {
             throw new IllegalStateException("institute should be initialized");
         }
     }
-
-    public String getTempZipCode() {
-        return tempZipCode;
-    }
-
-    public void setTempZipCode(String tempZipCode) {
-        this.tempZipCode = tempZipCode;
-    }
-
-    public String getTempHouseNmbr() {
-        return tempHouseNmbr;
-    }
-
-    public void setTempHouseNmbr(String tempHouseNmbr) {
-        this.tempHouseNmbr = tempHouseNmbr;
-    }
-
-    public String getTempCity() {
-        return tempCity;
-    }
-
-    public void setTempCity(String tempCity) {
-        this.tempCity = tempCity;
-    }
-
-    public String getTempStreet() {
-        return tempStreet;
-    }
-
-    public void setTempStreet(String tempStreet) {
-        this.tempStreet = tempStreet;
-    }
-
     public String getSearchString(){
-        searchString = firstname + lastname + linkToHomepage;
+        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
         return searchString;
     }
 }

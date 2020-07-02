@@ -17,8 +17,15 @@ public class ContactHistoryService {
         return contacthistoryRepository.save(contacthistory);
     }
 
-    public List<ContactHistory> findAllContacthistory() {
+    public List<ContactHistory> findAllContactHistory() {
         return contacthistoryRepository.findAll();
     }
 
+    public ContactHistory findByContactHistoryID(Integer id) {
+        return contacthistoryRepository.findByContactHistoryID(id);
+    }
+
+    public void deleteByContactHistoryID(Integer id) {
+        contacthistoryRepository.deleteById(id);
+    }
 }

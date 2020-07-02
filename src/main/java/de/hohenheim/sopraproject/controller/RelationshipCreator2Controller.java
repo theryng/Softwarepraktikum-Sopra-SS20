@@ -1,12 +1,16 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.entity.Relationship;
 import de.hohenheim.sopraproject.repository.RelationshipRepository;
+import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Controller for the First Step of the Relationship Creation process
@@ -16,58 +20,68 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class RelationshipCreator2Controller {
 
-    public static Relationship relationshipTemp;
-    private String choosenContact;
     @Autowired
     private RelationshipRepository relationshipRepository;
-    private String ingoingString;
 
+    @Autowired
+    private ContactService contactService;
     /**
      * Main Method of the second part of the Relationship Creator process
      * Also adds necessary attributes
      * @param model
      * @return relationshipCreator2
      */
-    @RequestMapping(value = "/relationshipCreator2", method = RequestMethod.GET)
-    public String relationshipCreatorController(Model model) {
-        choosenContact = relationshipTemp.getContactB().getFirstname() + " " + relationshipTemp.getContactB().getLastname();
-        model.addAttribute("relationship", relationshipTemp);
-        model.addAttribute("choosenContact", choosenContact);
+    @GetMapping("/relationshipCreator2/{contactID}")
+    public String relationshipCreator2Controller(@PathVariable("contactID") Integer contactID, @ModelAttribute("relationshipDTO") RelationshipDTO relationshipDTO , Model model) {
+        System.out.println(relationshipDTO.getContactB());
+        System.out.println(relationshipDTO.getContactA());
+        relationshipDTO.setRelationship(new Relationship());
+        relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
+        relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));
+
+        model.addAttribute("relationshipDTO", relationshipDTO);
+
         return "contacts/relationshipCreator2";
     }
 
     /**
      * Saves the Relationship, as well as creates
      * the Partner Relationship
-     * @param relationship
      * @return contactDetails
      */
     @RequestMapping(value = "/saveRelationship", method = RequestMethod.POST)
-    public String saveRelationship(Relationship relationship){
+    public String saveRelationship( @Valid RelationshipDTO relationshipDTO, BindingResult result){
+        relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
+        relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));
+        Relationship relationship = relationshipDTO.getRelationship();
+        if(result.hasErrors()){
 
-        relationship.setContactA(relationshipTemp.getContactA());
-        relationship.setContactB(relationshipTemp.getContactB());
-        Relationship ingoingRelationship = new Relationship();
-        if(relationship.getIngoingString() == ""){
-            ingoingRelationship.setContactA(relationship.getContactB());
-            ingoingRelationship.setContactB(relationship.getContactA());
-            ingoingRelationship.setTypeOfRelationship(relationship.getTypeOfRelationship());
-            ingoingRelationship.setStringSince(relationship.getSince());
+            return "contact/relationshipCreator2";
         }
         else{
-            ingoingRelationship.setContactA(relationship.getContactB());
-            ingoingRelationship.setContactB(relationship.getContactA());
-            ingoingRelationship.setTypeOfRelationship(relationship.getIngoingString());
-            ingoingRelationship.setStringSince(relationship.getSince());
-        }
-        relationshipRepository.save(relationship);
-        relationshipRepository.save(ingoingRelationship);
-        relationship.setPartnerRelationship(ingoingRelationship.getRelationshipID());
-        ingoingRelationship.setPartnerRelationship(relationship.getRelationshipID());
-        relationshipRepository.save(relationship);
-        relationshipRepository.save(ingoingRelationship);
+            Relationship ingoingRelationship = new Relationship();
+            if(relationship.getIngoingString() == ""){
+                ingoingRelationship.setContactA(relationship.getContactB());
+                ingoingRelationship.setContactB(relationship.getContactA());
+                ingoingRelationship.setTypeOfRelationship(relationship.getTypeOfRelationship());
+                ingoingRelationship.setSince(relationship.getSince());
+            }
+            else{
+                ingoingRelationship.setContactA(relationship.getContactB());
+                ingoingRelationship.setContactB(relationship.getContactA());
+                ingoingRelationship.setTypeOfRelationship(relationship.getIngoingString());
+                ingoingRelationship.setSince(relationship.getSince());
+            }
+            relationshipRepository.save(relationship);
+            relationshipRepository.save(ingoingRelationship);
+            relationship.setPartnerRelationship(ingoingRelationship.getRelationshipID());
+            ingoingRelationship.setPartnerRelationship(relationship.getRelationshipID());
+            relationshipRepository.save(relationship);
+            relationshipRepository.save(ingoingRelationship);
 
-        return "redirect:/contactDetails";
+            return "redirect:/contactDetails/"+relationship.getContactA().getContactID();
+        }
+
     }
 
     /**

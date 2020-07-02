@@ -32,7 +32,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     private InstituteService instituteService;
 
     @Autowired
-    private ContactHistoryService contacthistoryService;
+    private ContactHistoryService contactHistoryService;
 
     @Autowired
     private EventService eventService;
@@ -52,6 +52,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent event){
         logger.info("Initialisiere Datenbank mit Testdaten...");
 
+        //Role data
         Role userRole = new Role("ROLE_USER");
         Role adminRole = new Role("ROLE_ADMIN");
         roleService.saveRole(userRole);
@@ -63,40 +64,54 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
 
+        // User data
         User normalUser1 = new User();
         normalUser1.setUsername("user1");
         normalUser1.setPassword(passwordEncoder.encode("1234"));
         normalUser1.setRoles(userRoles);
+        normalUser1.setFirstName("test");
+        normalUser1.setLastName("test");
         userService.saveUser(normalUser1);
 
         User normalUser2 = new User();
         normalUser2.setUsername("user2");
         normalUser2.setPassword(passwordEncoder.encode("1234"));
         normalUser2.setRoles(userRoles);
+        normalUser2.setFirstName("test");
+        normalUser2.setLastName("test");
         userService.saveUser(normalUser2);
 
         User normalUser3 = new User();
         normalUser3.setUsername("user3");
         normalUser3.setPassword(passwordEncoder.encode("1234"));
         normalUser3.setRoles(userRoles);
+        normalUser3.setFirstName("test");
+        normalUser3.setLastName("test");
         userService.saveUser(normalUser3);
 
         User normalUser4 = new User();
         normalUser4.setUsername("user4");
         normalUser4.setPassword(passwordEncoder.encode("1234"));
         normalUser4.setRoles(userRoles);
+        normalUser4.setFirstName("test");
+        normalUser4.setLastName("test");
         userService.saveUser(normalUser4);
 
         User normalUser5 = new User();
         normalUser5.setUsername("user5");
         normalUser5.setPassword(passwordEncoder.encode("1234"));
         normalUser5.setRoles(userRoles);
+        normalUser5.setFirstName("test");
+        normalUser5.setLastName("test");
         userService.saveUser(normalUser5);
 
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
+        admin.setIsAdmin(true);
+        admin.setFirstName("test");
+        admin.setLastName("test");
         userService.saveUser(admin);
 
         //Example contacts
@@ -370,7 +385,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyOneDates.addContactHistoryContact(julia);
         historyOneDates.setText("Beim Kaffetrinken kennengelernt");
         historyOneDates.setDate(2018, 04, 13);
-        contacthistoryService.saveContacthistory(historyOneDates);
+        contactHistoryService.saveContacthistory(historyOneDates);
 
         ContactHistory historyTwoDates = new ContactHistory();
         historyTwoDates.addContactHistoryContact(alfred);
@@ -378,7 +393,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyTwoDates.addContactHistoryContact(sabine);
         historyTwoDates.setDate(2020, 9, 30);
         historyTwoDates.setText("Beim Teetrinken getroffen");
-        contacthistoryService.saveContacthistory(historyTwoDates);
+        contactHistoryService.saveContacthistory(historyTwoDates);
 
         ContactHistory historyThreeDates = new ContactHistory();
         historyThreeDates.addContactHistoryContact(alex);
@@ -387,7 +402,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyThreeDates.addContactHistoryContact(peter);
         historyThreeDates.setDate(2019, 12, 12);
         historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
-        contacthistoryService.saveContacthistory(historyThreeDates);
+        contactHistoryService.saveContacthistory(historyThreeDates);
 
         ContactHistory historyFourDates = new ContactHistory();
         historyFourDates.addContactHistoryContact(marlene);
@@ -395,7 +410,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyFourDates.addContactHistoryContact(florian);
         historyFourDates.setDate(2019, 07, 27);
         historyFourDates.setText("In der Stadt getroffen");
-        contacthistoryService.saveContacthistory(historyFourDates);
+        contactHistoryService.saveContacthistory(historyFourDates);
 
         Set<ContactHistory> historyOne = new HashSet<>();
         historyOne.add(historyOneDates);
@@ -556,7 +571,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Relationship heirat = new Relationship();
         heirat.setContactA(max);
         heirat.setContactB(anna);
-        heirat.setSince(2010, 01, 30);
+        heirat.setSinceDate(2010, 01, 30);
         heirat.setTypeOfRelationship("Verheiratet");
         relationshipService.saveRelationship(heirat);
     }

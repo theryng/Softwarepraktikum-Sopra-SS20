@@ -1,16 +1,22 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.ContactHistoryDTO;
+import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Relationship;
 import de.hohenheim.sopraproject.repository.ContactHistoryRepository;
 import de.hohenheim.sopraproject.repository.RelationshipRepository;
+import de.hohenheim.sopraproject.service.ContactHistoryService;
+import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 /**
  * Controller for the second Step of the Contact History Creator
@@ -20,10 +26,12 @@ import java.util.Set;
 @Controller
 public class ContactHistoryCreator2Controller {
 
-    public static Set<Contact> choosenContacts;
+    @Autowired
+    private ContactHistoryService contactHistoryService;
 
     @Autowired
-    private ContactHistoryRepository contactHistoryRepository;
+    private ContactService contactService;
+
 
     /**
      * Main Method which opens the site contactHistoryCreator2,
@@ -31,37 +39,52 @@ public class ContactHistoryCreator2Controller {
      * @param model
      * @return contactHistoryCreator2
      */
-    @RequestMapping(value = "/contactHistoryCreator2", method = RequestMethod.GET)
-    public String ContactHistoryCreatorController(Model model) {
-        model.addAttribute("contactHistory", new ContactHistory());
+    @GetMapping("/contactHistoryCreator2/{contactID}")
+    public String ContactHistoryCreatorController(@PathVariable("contactID") Integer contactID, @ModelAttribute("chosenContacts") LinkedList chosenContacts, Model model, @ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO) {
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         System.out.println("In Creator 2");
         return "contacts/contactHistoryCreator2";
     }
 
     /**
      * Save method, saves the ContactHistory in the Database and returns the User to the ContactDetails page
-     * @param contactHistory
+     * @param
      * @return contactDetails
      */
     @RequestMapping(value = "/saveFinalContactHistory", method = RequestMethod.POST)
-    public String saveContactHistory(ContactHistory contactHistory){
-        System.out.println("Speichern");
-        System.out.println(choosenContacts.size());
-        System.out.println(contactHistory.getDate());
-        System.out.println(contactHistory.getText());
-        contactHistory.setContactOfHistory(choosenContacts);
-        contactHistoryRepository.save(contactHistory);
-        choosenContacts.clear();
-        ContactHistoryCreator1Controller.resetController();
-        return "redirect:/contactDetails";
+    public String saveContactHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, BindingResult result){
+        System.out.println("In Saving: "+ contactHistoryDTO.getStringChosenIDs());
+        if(result.hasErrors()){
+            return "contactHistoryCreator2";
+        }
+        else{
+            ContactHistory contactHistory = new ContactHistory();
+
+            contactHistory.setText(contactHistoryDTO.getContactHistory().getText());
+            contactHistory.setDate(contactHistoryDTO.getContactHistory().getDate());
+
+            List<Contact> contacts = generateList(contactHistoryDTO.getStringChosenIDs());
+            for(Contact con : contacts){
+                contactHistory.addContactHistoryContact(con);
+            }
+            contactHistory.addContactHistoryContact(contactService.findByContactID(Integer.valueOf(contactHistoryDTO.getOriginalContactID())));
+
+            contactHistoryService.saveContacthistory(contactHistory);
+            return "redirect:/contactDetails/"+contactHistoryDTO.getOriginalContactID();
+        }
     }
 
-    /**
-     * Return Method, which returns the User to the first part of the Creation process
-     * @return contactHistoryCreator1
-     */
-    @RequestMapping(value = "/backContactHistoryCreator2", method = RequestMethod.POST)
-    public String backContactHistoryCreator2() {
-        return "redirect:/contactHistoryCreator1";
+    public List<Contact> generateList(String list){
+        List<Integer> foundList = new LinkedList<Integer>();
+        String[] stringTemp2  = list.split(" ");
+        for(String string : stringTemp2){
+            foundList.add(Integer.valueOf(string.trim()));
+        }
+
+        List<Contact> foundContacts = new LinkedList<Contact>();
+        for(Integer integer : foundList){
+            foundContacts.add(contactService.findByContactID(integer));
+        }
+        return foundContacts;
     }
 }

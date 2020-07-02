@@ -1,17 +1,25 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.UserDTO;
 import de.hohenheim.sopraproject.entity.Role;
 import de.hohenheim.sopraproject.repository.RoleRepository;
 import de.hohenheim.sopraproject.repository.UserRepository;
 import de.hohenheim.sopraproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.naming.Binding;
+import javax.naming.NameAlreadyBoundException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +44,6 @@ public class RegistrationController {
 
     private final PasswordEncoder passwordEncoder;
 
-    private Boolean admin;
 
     @Autowired
     public RegistrationController(PasswordEncoder passwordEncoder) {
@@ -54,8 +61,7 @@ public class RegistrationController {
      */
     @RequestMapping(value ="/registration", method = RequestMethod.GET)
     public String user(Model model) {
-        admin = false;
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDTO());
         model.addAttribute("allUsers", userRepository.findAll());
         return "registration";
     }
@@ -70,36 +76,48 @@ public class RegistrationController {
      * before submitting. Or else the standard user property will be bound to this account/user. Once the account was created the
      * side will be reloaded to update the table.
      *
-     * @param user
      * @Boolean admin
      * @return registration
      */
 
-    @RequestMapping(value="/registerUser", method = RequestMethod.POST)
-    public String registerUser(User user){
-        admin = user.getIsAdmin();
+    @Secured("ROLE_ADMIN")
+    @PostMapping(value="/registerUser")
+    public String registerUser(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult result){
 
-        if (!StringUtils.isEmpty(user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        boolean admin = userDto.getUser().getIsAdmin();
+
+        if (!StringUtils.isEmpty(userDto.getUser().getPassword())) {
+            userDto.getUser().setPassword(passwordEncoder.encode(userDto.getUser().getPassword()));
         }
 
         List<Role> roles = roleRepository.findAll();
         if(admin){
             for(Role rol : roles){
                 if(rol.getRolename() == "ROLE_ADMIN"){
-                    user.getRoles().add(rol);
+                    userDto.getUser().getRoles().add(rol);
                 }
             }
         }
         else{
             for(Role rol : roles){
                 if(rol.getRolename() == "ROLE_USER"){
-                    user.getRoles().add(rol);
+                    userDto.getUser().getRoles().add(rol);
                 }
             }
         }
 
-        userRepository.save(user);
+        if(userRepository.findByUsername(userDto.getUser().getUsername()) != null){
+            System.out.println("Gleicher Benutzername");
+            return "redirect:/registration";
+        }
+
+
+        if(result.hasErrors()){
+            return "redirect:/registration";
+        }
+
+
+        userRepository.save(userDto.getUser());
         return "redirect:/registration";
     }
 
@@ -122,13 +140,12 @@ public class RegistrationController {
      *
      * This method sets a newly created user accounts properties to admin upon creation
      *
-     * @param isAdmin
      * @return registration
      */
 
     @RequestMapping(value ="/setAdmin", method = RequestMethod.POST)
-    public String setAdmin(Boolean isAdmin){
-        admin = isAdmin;
+    public String setAdmin(UserDTO userDto){
+        boolean admin = userDto.getAdmin();
         return "registration";
     }
 
@@ -136,9 +153,9 @@ public class RegistrationController {
      * This method deletes one user from the database. The deletion will be based on the user id so there wont be any
      * wrong accounts chosen. Once the account was deleted the page will be reloaded.
      *
-     * @param user
      * @return registration
      */
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value="/deleteUser", method = RequestMethod.POST)
     public String deleteUser(User user){
         userRepository.deleteById(user.getUserId());

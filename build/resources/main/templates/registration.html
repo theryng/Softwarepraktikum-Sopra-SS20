@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="">
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -10,131 +10,146 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Registrierung</title>
 </head>
 
-<body>
+<body class="backgroundimage">
 
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
 <!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
-     as well as some input forms to create new user/admin accounts for this application-->
-<div class = "row">
-    <div class = "row">
-        <div class = "col w-25">
-            <!--left side of the body-->
-            <!--Option to create/register a new user for this application. A new user has to have a username, his full name, a password and a role in order to be created-->
-            <h2 class="ml-5">Neuen User hinzufügen</h2>
-            <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" method = "post">
-                <div class="form-group ml-5 mt-2 mr-5">
-                    <div class = "row">
-                        <div class = "col w-25">
-                            First Name: <input type="text" class="form-control" name = "firstName" th:field="*{firstName}">
-                        </div>
-                        <div class = "col w-25">
-                            Last name:<input type="text" class="form-control" name = "lastName" th:field="*{lastName}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col w-25">
-                            <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
-                            form will notify the admin if a he needs to make an input or not-->
-                            Username:<input type="text" class="form-control" name = "username" th:field="*{username}" required>
-                            <div class="valid-feedback">valid.</div>
-                            <div class="invalid-feedback">Please fill in an username.</div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col w-25">
-                            Password:<input type="password" id="password" class="form-control" name = "password" th:field="*{password}" required>
-                            <div class="invalid-feedback">Please fill in a password.</div>
-                        </div>
-                        <!--The confirmation of the password. It has to be the exact same String or else the submitting progress will fail. A small speechbubble will show up
-                        informing the admin that the input does not overlign with the password he typed in earlier-->
-                        <div class="col w-25">
-                            Confirm Password: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
-                            <div class="invalid-feedback">Please confirm your password.</div>
-                        </div>
-                    </div>
-                    <!--These radio type inputs gives the admin the choice of selecting a role for the new user. There are two roles to choose from: admin and user.
-                    Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
-                    <div>
-                        <label for="adminCheckBox" th:text="'User ist ein Admin:'"></label>
-                        <input type="checkbox" id="adminCheckBox" th:field="*{isAdmin}" />
-                    </div>
-                    <!--Small button to submit the creation of the new user-->
-                    <button name="submit" class="btn btn-primary mt-3" type="submit" >User hinzufügen</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!--A table to view all the created user and their account information. This information consists of their full name, username, password and role. Whenever a new User is created
-    the table will automatically update itself. Adding the new user to the table. It also provides an option of deleting existing users by the admin-->
-    <div class = "col w-25">
-    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">User/Mitarbeiter der Anwendung</h3>
-    <table class="table table-striped">
-        <thead>
-        <th>UserId</th>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Role</th>
-        <th>User entfernen</th>
-        </thead>
-        <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
-        <tbody style="max-width: available ;overflow-x: scroll">
-        <tr th:each="users : ${allUsers}">
-            <td th:text="${users.userId}"></td>
-            <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
-            <td th:text="${users.username}"></td>
-            <td th:text="${users.password}"></td>
-            <td th:text="${users.roles}"></td>
+     as well as a button to open up a modal which allows te admin to create more users for this application-->
+<div class = "container-fluid ml-1000 mr-1000">
 
-            <td>
-                <!--Modal trigger Button-->
-                <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-                User löschen
-                    <!--The users in the table will each have a corresponding delete button next to their information. Pressing it will delete this account and removes
-                    the user from the table-->
-                </button>
-                <!-- Modal -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">User löschen</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Mitarbeiter/User der Anwendung</h3>
+    <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" class="was-validated" method = "post">
+        <div class="form-group ml-5 mt-2 mr-5">
+            <!--Button to open up the modal to create a new user-->
+            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                Neuen User hinzufügen
+            </button>
+            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="submitModalLabel">User Registrierung</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                                <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
                             </div>
-
-                            <div class="modal-body">
-                                Sind sie sicher das Sie diesen User löschen möchten?
+                        </div>
+                        <!--Inputs for a user in a small Modal once the button: Neuen User hinzufügen is pushed-->
+                        <div class="modal-body">
+                            <div class = "row">
+                                <div class = "col w-25">
+                                    Vorname: <input type="text" class="form-control" name = "firstName" th:field="*{user.firstName}">
+                                </div>
+                                <div class = "col w-25">
+                                    Nachname:<input type="text" class="form-control" name = "lastName" th:field="*{user.lastName}">
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col w-25">
+                                    <!--Unlike the first and last name of the user, the username has to be mentioned. If not the user wont be created after submitting. A small message under the
+                                     form will notify the admin if a he needs to make an input or not. Usernames have to be at least 4 letters long and are not allowed to contain a whitespace-->
+                                    Username:<input type="text" class="form-control" id="username" name="username" pattern="[^''][A-Za-z0-9]{3,}" th:field="*{user.username}" required>
+                                    <div class="valid-feedback">valid</div>
+                                    <div class="invalid-feedback">Please fill in an username.</div>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col w-25">
+                                    <!--Input to create a password for the new user. The requirements for it have to be met in order to receive a valid feedback. The requirements aer state inside the creation modal as well and can be looked up-->
+                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{user.password}" required>
+                                    <div class="valid-feedback">valid password</div>
+                                    <div class="invalid-feedback">Please fill in a correct password.</div>
+                                </div>
+                                <!--The confirmation of the password. It has to be the exact same String or else the submitting progress will fail. A small speechbubble will show up
+                                informing the admin that the input does not overlign with the password he typed in earlier-->
+                                <div class="col w-25">
+                                    Passwort bestätigen: <input type="password" id="confirm_Password" class="form-control" name="ConfirmPassword" required>
+                                    <div class="invalid-feedback">Please confirm your password.</div>
+                                </div>
+                            </div>
+                            <!--This checkbox input gives the admin the choice of selecting a adminrole for the user.
+                            Only the admin has access to the user creation and specific option of this application while a normal user can only work on contacts, events and institutions-->
+                            <div>
+                                <label for="adminCheckBox" th:text="'User ist ein Admin:'"></label>
+                                <input type="checkbox" id="adminCheckBox" th:field="*{user.isAdmin}" />
+                            </div>
+                            <!--Small button to submit the creation of the new user as well as a dismiss button "Abbrechen" if the admin changes its mind and doesnt want to create a new user-->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-
-                                <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
-                                    <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
-
-                                    <button type="submit" class="btn btn-danger ml-3">Bestätigen</button>
-                                </form>
+                                <button type="submit" class="btn btn-primary">User speichern</button>
+                            </div>
+                            <!--Information text for the admin. It shows the requirements in order to create a valid password.-->
+                            <div id="message">
+                                <h5>Das Passwort muss folgendes enthalten:</h5>
+                                <ul>
+                                <li id="letter" class="invalid">Einen <b>Kleinbuchstaben</b></li>
+                                <li id="number" class="invalid">Eine <b>Zahl</b></li>
+                                <li id="length" class="invalid">Mindestens <b>4 Zeichen</b></li>
+                                </ul>
+                            </div>
+                            <div id="usernameMessage">
+                                <h5>Der Username hat folgende Richtlinien:</h5>
+                                <ul>
+                                    <li id="userLength" class="invalid">Mindestens <b>3 Zeichen</b></li>
+                                    <li id="whiteSpace" class="invalid"><b>Keine</b> Leerzeichen</li>
+                                    <li>Accounts mit bereits existierenden Usernames werden nicht gespeichert!!</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </form>
+    <!--A table to view all the created user and their account information. This information consists of their full name, username, password and role. Whenever a new User is created
+    the table will automatically update itself. Adding the new user to the table. It also provides an option of deleting existing users by the admin-->
+    <div class = "col w-60">
+        <table class="table table-striped">
+            <thead>
+            <th>UserId</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Rolle</th>
+            <th>Funktionen</th>
+            </thead>
+            <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
+            <tbody style="max-width: available ;overflow-x: scroll">
+            <tr th:each="users : ${allUsers}">
+                <td th:text="${users.userId}"></td>
+                <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
+                <td th:text="${users.username}"></td>
+                <td>
+                    <span th:if="${users.isAdmin == true}">Administrator</span>
+                    <span th:unless="${users.isAdmin == true}">Mitarbeiter</span>
+                </td>
+                <td>
+                    <form ACTION="#" th:action="@{/deleteUser}" th:object="${user}" method="post">
+                        <input type="hidden" th:value="${users.userId}" th:name ="userId"/>
+
+                        <span th:if="${users.isAdmin == true}"></span>
+                        <span th:unless="${users.isAdmin == true}">
+                            <button type="submit" class="btn" style="border-radius: 3px" title="User löschen">
+                        <i align="center" class="fa fa-trash" style="font-size:36px"></i>
+                        </button>
+                        </span>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
-
-
-
-
 
 <script>
     /**
@@ -159,6 +174,132 @@
 
     password.onchange = validatePassword;
     confirm_Password.onkeyup = validatePassword;
+
+
+    //Variables needed for the password requirements; Code used based on https://www.w3schools.com/howto/howto_js_password_validation.asp
+    var firstInput = document.getElementById("password");
+    var confirmInput = document.getElementById("confirm_Password");
+    var letter = document.getElementById("letter");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+
+    /**
+     * The display block will show up once during the input
+     *
+     * The block displaying the  password requirements will pop-up once the admin clicks inside the input space
+     */
+    firstInput.onfocus = function() {
+        document.getElementById("message").style.display = "block";
+    }
+
+    confirmInput.onfocus = function(){
+        document.getElementById("message").style.display = "block";
+    }
+
+    /**
+     * The display block vanishes after input
+     *
+     * The display block closes itself once the admin finishes his input and clicks on a different space than the input of said password
+     */
+    firstInput.onblur = function() {
+        document.getElementById("message").style.display = "none";
+    }
+
+    confirmInput.onblur = function(){
+        document.getElementById("message").style.display = "none";
+    }
+
+    /**
+     * Validation process of all the checked attributes
+     *
+     * validation of all the checked attributes for the password. If one of the requirements doesnt match the validation will be set to invalid until
+     * the user makes the proper adjustments
+     */
+    firstInput.onkeyup = function() {
+        // Validation the lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(firstInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validation of used numbers
+        var numbers = /[0-9]/g;
+        if(firstInput.value.match(numbers)) {
+            number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validation of the password length
+        if(firstInput.value.length >= 4) { //has to be 4 letters or more
+            length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+
+
+
+    //Username validation variables
+    var userInput = document.getElementById("username");
+    var whiteSpace = document.getElementById("whiteSpace");
+
+    /**
+     * The display block will show up once during the input
+     *
+     * The block displaying the username requirements will pop-up once the admin clicks inside the input space
+     */
+    userInput.onfocus = function(){
+        document.getElementById("usernameMessage").style.display = "block";
+    }
+
+    /**
+     * The display block vanishes after input
+     *
+     * The display block closes itself once the admin finishes his input and clicks on a different space than the input of said username
+     */
+    userInput.onblur = function(){
+        document.getElementById("usernameMessage").style.display = "none";
+    }
+
+
+
+    /**
+     * Validation process of all the checked attributes
+     *
+     * validation of all the checked attributes for the correct username. If one of the requirements doesnt match the validation will be set to invalid until
+     * the user makes the proper adjustments
+     */
+    userInput.onkeyup = function() {
+        var whiteSpace = /^\S/;
+        if(userInput.value.match(whiteSpace)) {
+            number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        if(userInput.value.length >= 4) { //has to be 4 letters or more
+            length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+
+
+
+
 </script>
 
 

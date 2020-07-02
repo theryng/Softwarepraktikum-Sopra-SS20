@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Kontakte</title>
 </head>
 
-<body>
+<body class="backgroundimage">
 
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 
@@ -25,7 +27,10 @@
 
                 <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
                 <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
-                    <div class="form-group ml-5 mt-2 mr-5">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                        Bei der Speicherung des Kontakts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+                    </div>
+                    <div class="form-group mt-2 mr-5">
                         <!-- Submit Button -->
                         <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
                             Neuen Kontakt hinzufügen
@@ -61,7 +66,6 @@
 
                                         E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}" required/>
                                         <div class="valid-feedback">valid</div>
-                                        <div class="invalid-feedback">Bitte geben sie eine E-Mail an</div></br></br>
 
                                         Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
 
@@ -75,16 +79,19 @@
 
                                         <div class = "row">
                                             <div class = "col">
-                                                Stadt:<input type="text" class="form-control" name = "tempCity" th:field="*{tempCity}"/>
+                                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+
                                             </div>
                                             <div class = "col">
-                                                Straße:<input type="text" class="form-control" name = "tempStreet" th:field="*{tempStreet}"/>
+                                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                                             </div>
                                             <div class = "col">
-                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr" th:field="*{tempHouseNmbr}"/>
+                                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                                                  title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                             </div>
                                             <div class = "col">
-                                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{tempZipCode}"/>
+                                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -98,36 +105,52 @@
                         </div>
                     </div>
                 </form>
-
                 <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
-                    the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
-                    Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
-                    will open up an editing window where the user can change the stored information or delete this specific contact altogether-->
-                <table class="table table-striped">
-                <tr>
-                    <th>Name</th>
-                    <th>Studium</th>
-                    <th>Geburtsdatum</th>
-                    <th>E-Mail</th>
-                    <th>Funktionen</th>
-                </tr>
-                <tr th:each="contact : ${allContacts}">
-                    <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
-                    <td th:text="${contact.courseOfStudies}"></td>
-                    <td th:text="${contact.dayOfBirth}"></td>
-                    <td th:text="${contact.email}"></td>
-                    <td>
-                        <form ACTION="#" th:action="@{/viewContact}" th:object="${contact}">
-                            <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                            <!--Button that opens up the editing window-->
-                            <button type="submit" class="btn btn-secondary">Kontakt einsehen </button>
-                        </form>
-                    </td>
-                </tr>
+                                    the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
+                                    Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+                                    will open up an editing window where the user can change the stored information or delete this specific contact altogether-->
 
+                <!-- Search Button, to search for a certain Contact to have a Relationship with -->
+                <form class="mt-2" ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
+                    <!-- Search form -->
+                    <div class="md-form active-cyan active-cyan-2 mb-3">
+                        <div class="row">
+                            <div class = "col-10">
+                                <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                                       title="Suche nach Vorname, Nachname und E-Mail möglich">
+                            </div>
+                            <div class = "col-2 justify-content-end">
+                                <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </form>
+                <!-- Table with the Possible Results -->
+                <table class="table table-striped mt-3 mb-5" th:if="${showList}">
+                    <tr>
+                        <th>Name</th>
+                        <th>Studium</th>
+                        <th>Geburtsdatum</th>
+                        <th>E-Mail</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="contact : ${allContacts}">
+                        <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
+                        <td th:text="${contact.courseOfStudies}"></td>
+                        <td th:text="${contact.dayOfBirth}"></td>
+                        <td th:text="${contact.email}"></td>
+                        <td>
+                            <!--Button that opens up the editing window-->
+                            <a type="button" th:href="@{/contactDetails/{contactId}(contactId=${contact.getContactID()})}" method="get">
+                                <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                            </a>
+                        </td>
+                    </tr>
                 </table>
         </div>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
