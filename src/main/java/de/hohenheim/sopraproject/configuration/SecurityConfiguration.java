@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -43,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // definiere alle URLs die nur für eine bestimmte Rolle zugänglich sind
                 // Achtung: Spring Security fügt automatisch das Prefix "ROLE_" für die Überprüfung ein. Daher verwenden wir
                 // hier nicht "ROLE_ADMIN", wie bspw. im TestDataLoader angegeben.
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin", "/registration/**").hasRole("ADMIN")
                 // alle weiteren Requests erfordern Authentifizierung
                 .anyRequest().authenticated()
                 // füge CSRF token ein, welches evtl. für AJAX-requests benötigt wird
@@ -57,7 +58,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // jeder kann sich ausloggen über den simplen /logout request ausloggen
                 .and().logout().permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout");
+                .logoutSuccessUrl("/login?logout")
+                .and().exceptionHandling().accessDeniedPage("/accessdenied");
 
         // Deaktiviert header security. Ermöglicht Nutzung der H2 Console.
         http.headers().frameOptions().sameOrigin().disable();

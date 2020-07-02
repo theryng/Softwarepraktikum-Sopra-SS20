@@ -1,11 +1,13 @@
 package de.hohenheim.sopraproject.entity;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +41,8 @@ public class Contact {
 
     private String freeText;
 
-    private String dayOfBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dayOfBirth;
 
     @Transient
     private String searchString;
@@ -60,7 +63,7 @@ public class Contact {
     @ManyToMany(mappedBy = "contacts", cascade =  CascadeType.ALL)
     private Set<Event> events = new HashSet<>();
 
-    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "contacts", cascade = CascadeType.ALL)
     private Set<Institute> institutes = new HashSet<Institute>();
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
@@ -68,7 +71,7 @@ public class Contact {
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
-                   String courseOfStudies, String freeText, int yearOfBirth, int monthOfBirth, int dayOfBirth) {
+                   String courseOfStudies, String freeText, LocalDate date) {
 
         setFirstname(firstname);
         setLastname(lastname);
@@ -76,22 +79,13 @@ public class Contact {
         setEmail(email);
         this.courseOfStudies = courseOfStudies;
         this.freeText = freeText;
-        setDayOfBirthDate(yearOfBirth, monthOfBirth, dayOfBirth);
+        this.dayOfBirth = date;
     }
 
     public Contact() {
         //empty constructor for Hibernate
     }
 
-    public Date convertStringToDate(final String string){
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        try{
-            return format.parse(string);
-        } catch(Exception exception){
-            return null;
-        }
-    }
 
     public Set<ContactHistory> getContactHistory() {
         return contactHistory;
@@ -117,7 +111,7 @@ public class Contact {
         this.contactID = contactID;
     }
 
-    public void setDayOfBirthDate(String dayOfBirth) {
+    public void setDayOfBirthDate(LocalDate dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
     }
 
@@ -127,6 +121,18 @@ public class Contact {
 
     public void setIngoingRelationship(Set<Relationship> ingoingRelationship) {
         this.ingoingRelationships = ingoingRelationship;
+    }
+
+    public Set<Relationship> getOutgoingRelationships() {
+        return outgoingRelationships;
+    }
+
+    public Set<Relationship> getIngoingRelationships() {
+        return ingoingRelationships;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
     }
 
     public void setEvents(Set<Event> events) {
@@ -223,7 +229,7 @@ public class Contact {
         this.freeText = freeText;
     }
 
-    public String getDayOfBirth() {
+    public LocalDate getDayOfBirth() {
         return dayOfBirth;
     }
 
@@ -245,36 +251,14 @@ public class Contact {
      * @param month
      * @param day
      */
-    public void setDayOfBirthDate(int year, int month, int day) {
-
-        String stringOfYear = Integer.toString(year);
-        String stringOfMonth = Integer.toString(month);
-        String stringOfDay = Integer.toString(day);
-
-        if(stringOfMonth.length() == 1){
-            stringOfMonth = "0" + stringOfMonth;
-        }
-
-        if(stringOfDay.length() == 1){
-            stringOfDay = "0" + stringOfDay;
-        }
-
-        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
-            throw new IllegalStateException("Illegal state of year, month or day");
-        }
-            if(stringOfYear.length() == 4  &&
-                stringOfMonth.length() == 2 &&
-                stringOfDay.length() == 2) {
-
-                this.dayOfBirth = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
-
-        } else {
-        throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
-        }
+    public void setDayOfBirth(int year, int month, int day) {
+         dayOfBirth = LocalDate.of(year, month, day);
     }
-    public void setDayOfBirth(String dayOfBirth) {
+
+    public void setDayOfBirth(LocalDate dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
     }
+
     public Address getAddress() {
         return address;
     }

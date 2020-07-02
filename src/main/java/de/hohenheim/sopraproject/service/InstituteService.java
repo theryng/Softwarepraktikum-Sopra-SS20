@@ -20,4 +20,12 @@ public class InstituteService {
     public List<Institute> findAllInstitutes() {
         return instituteRepository.findAll();
     }
+
+    public Institute findByInstitutesID(Integer id) {
+        return instituteRepository.findByInstituteID(id);
+    }
+
+    public void deleteByInstituteID(Integer id) {
+        instituteRepository.deleteById(id);
+    }
 }

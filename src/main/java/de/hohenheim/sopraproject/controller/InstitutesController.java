@@ -1,11 +1,13 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.Institute;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,20 +25,17 @@ import java.util.Set;
 @Controller
 public class InstitutesController {
 
-    private static Institute viewInstituteTemp;
+
     @Autowired
-    private InstituteRepository instituteRepository;
-    private List<Institute> allInstitutes = new LinkedList<>();
-    private Set<Institute> foundInstitutes = new HashSet<>();
-    public boolean hasError = false;
-    private String searchWord;
+    private InstituteService instituteService;
 
     @RequestMapping(value = "/institutes", method = RequestMethod.GET)
     public String institutes(Model model) {
-        allInstitutes = instituteRepository.findAll();
-        model.addAttribute("allInstitutes", allInstitutes);
-        model.addAttribute("hasError", hasError);
-        model.addAttribute("institute", new Institute());
+        List<Institute> allInstitutes = instituteService.findAllInstitutes();
+        InstituteDTO instituteDTO = new InstituteDTO();
+        instituteDTO.setAllInstitutes(allInstitutes);
+        instituteDTO.setViewInstituteTemp(new Institute());
+        model.addAttribute("instituteDTO", instituteDTO);
         return "institutes";
     }
 
@@ -46,18 +45,16 @@ public class InstitutesController {
      * This method saves a newly created institute to the database. Once the new institute was saved to the database the page will
      * be reloaded and the table will be updated. The new institute will now show up on the page institutes.
      *
-     * @param institute
+     * @param
      * @return redirect:/institutes
      */
     @RequestMapping(value="/saveInstitute", method = RequestMethod.POST)
-    public String saveInstitute(@Valid Institute institute, BindingResult result){
+    public String saveInstitute(@Valid InstituteDTO instituteDTO, BindingResult result){
         if(result.hasErrors()){
             System.out.println("Fehler");
-            hasError = true;
         }
         else{
-            hasError = false;
-            instituteRepository.save(institute);
+            instituteService.saveInstitute(instituteDTO.getViewInstituteTemp());
         }
         return "redirect:/institutes";
     }
@@ -72,7 +69,7 @@ public class InstitutesController {
      */
     @RequestMapping("/allInstitutes")
     public String allInstitutes(Model model) {
-        model.addAttribute("allInstitutes", instituteRepository.findAll());
+        model.addAttribute("allInstitutes", instituteService.findAllInstitutes());
         return "institutes";
     }
 
