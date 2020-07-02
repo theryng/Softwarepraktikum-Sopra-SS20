@@ -1,37 +1,44 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.entity.EditingHistory;
 import de.hohenheim.sopraproject.entity.Project;
 import de.hohenheim.sopraproject.repository.ProjectRepository;
+import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
+import de.hohenheim.sopraproject.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class ProjectController {
 
-    private static Project viewProjectsTemp;
+
     @Autowired
-    private ProjectRepository projectRepository;
-    private List<Project> allProjects = new LinkedList<>();
-    private Set<Project> foundProjects = new HashSet<>();
-    public boolean hasError = false;
-    private String searchWord;
+    EditingHistoryService editingHistoryService;
+    @Autowired
+    private ProjectService projectService;
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
-    public String institutes(Model model) {
-        allProjects = projectRepository.findAll();
+    public String projects(Model model) {
+        String searchword = "";
+        List<Project> allProjects = projectService.findAllProjects();
+        boolean showList = false;
+        if(allProjects.size()>0){
+            showList = true;
+        }
+        model.addAttribute("showProject", showList);
         model.addAttribute("allProjects", allProjects);
-        model.addAttribute("hasError", hasError);
+        model.addAttribute("searchWord", searchword);
         model.addAttribute("project", new Project());
+
         return "projects";
     }
 
@@ -45,16 +52,20 @@ public class ProjectController {
      * @return redirect:/projects
      */
     @RequestMapping(value="/saveProject", method = RequestMethod.POST)
-    public String saveProject(@Valid Project project, BindingResult result){
+    public String saveProject(@Valid Project project, BindingResult result, Model model){
         if(result.hasErrors()){
             System.out.println("Fehler");
-            hasError = true;
+
+            model.addAttribute("allProjects", projectService.findAllProjects());
+
+            return "projects";
         }
         else{
-            hasError = false;
-            projectRepository.save(project);
+
+            projectService.saveProject(project);
+
+            return "redirect:/projects";
         }
-        return "redirect:/projects";
     }
 
     /**
@@ -67,7 +78,7 @@ public class ProjectController {
      */
     @RequestMapping("/allProject")
     public String allProject(Model model) {
-        model.addAttribute("allProjects", projectRepository.findAll());
+        model.addAttribute("allProjects", projectService.findAllProjects());
         return "projects";
     }
 
@@ -80,19 +91,35 @@ public class ProjectController {
      * @param project
      * @return redirect:/projectDetails
      */
-//    @RequestMapping("/viewProject")
-//    public String viewProject(Project project) {
-//        ProjectDetailsController.projectID = project.getProjectID();
-//        return "redirect:/projectDetails";
-//    }
+    @RequestMapping("/viewProject")
+    public String viewProject(Project project, Integer projectID) {
+        projectID = project.getProjectID();
+        return "redirect:/projectDetails";
+    }
 
     /**
      * this method search for a project
      * @param searchWord
      * @return "redirect:/projects"
      */
-    @RequestMapping(value ="/searchProject", method = RequestMethod.POST)
-    public String searchProjects(String searchWord) {
-        return "redirect:/projects";
+    @PostMapping(value ="/searchProject")
+    public String searchProjects(@RequestBody @ModelAttribute("allProjects") LinkedList<Project> allProjects, String searchWord, Model model) {
+//        ProjectFinder findProject = new ProjectFinder();
+//
+//        LinkedList<Project> foundProjectsTemp = findProject.findProjects(searchWord, contactService.findAllProjects());
+//
+//        allProjects = foundProjectsTemp;
+//
+//        boolean showList = false;
+//        if(allProjects.size()>0){
+//            showList = true;
+//        }
+//        model.addAttribute("showList", showList);
+//        String searchword = "";
+//        model.addAttribute("searchWord", searchword);
+//        model.addAttribute("project", new Project());
+
+
+        return "projects";
     }
 }

@@ -92,9 +92,6 @@ public class ContactsController {
             editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
             return "redirect:/contacts";
         }
-
-
-
     }
 
     /**

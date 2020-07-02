@@ -6,6 +6,8 @@ import de.hohenheim.sopraproject.entity.Project;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ProjectRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,18 +25,18 @@ import java.util.Set;
 @Controller
 public class ProjectContactCreatorController {
 
-    private Project project;
-    public static int projectID;
-    private ContactHistory contactHistoryTemp;
+//    private Project project;
+//    public static int projectID;
+//    private ContactHistory contactHistoryTemp;
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectService projectService;
     @Autowired
-    private ContactRepository contactRepository;
-    private String searchWord;
-    private static Set<Contact> foundContacts = new HashSet<>();
-    private static Set<Contact> chosenContacts = new HashSet<>();
-    private static boolean viewTableHistories;
-    private static boolean viewChoosenTable;
+    private ContactService contactService;
+//    private String searchWord;
+//    private static List<Contact> foundContacts = new LinkedList<>();
+//    private static List<Contact> chosenContacts = new LinkedList<>();
+//    private static boolean viewTableHistories;
+//    private static boolean viewChoosenTable;
 
     /**
      * Main Method of the project contact creator.
@@ -41,10 +45,15 @@ public class ProjectContactCreatorController {
      * @return projectContactCreator
      */
     @RequestMapping(value = "/projectContactCreator", method = RequestMethod.GET)
-    public String projectContactCreator(Model model) {
-        project = projectRepository.findByProjectID(projectID);
-        contactHistoryTemp = new ContactHistory();
-        contactHistoryTemp.setContactOfHistory(foundContacts);
+    public String projectContactCreator(Model model, Integer projectID, List<Contact> foundContacts, List<Contact> chosenContacts) {
+        Project project = projectService.findByProjectID(projectID);
+        ContactHistory contactHistoryTemp = new ContactHistory();
+        //contactHistoryTemp.setContactOfHistory(foundContacts);
+
+        String searchWord = "";
+        boolean viewTableHistories = true;
+        boolean viewChoosenTable = true;
+
         model.addAttribute("foundContacts", contactHistoryTemp);
         model.addAttribute("chosenContacts", chosenContacts);
         model.addAttribute("viewTableHistories", viewTableHistories);
@@ -53,6 +62,7 @@ public class ProjectContactCreatorController {
             model.addAttribute("allContacts", foundContacts);
         }
         else{
+
             model.addAttribute("allContacts", new HashSet<Contact>());
         }
         model.addAttribute("searchWord", searchWord);
@@ -67,9 +77,12 @@ public class ProjectContactCreatorController {
      * @return projectContactCreator
      */
     @RequestMapping(value ="/searchContactForProjectCreator", method = RequestMethod.POST)
-    public String searchContacts(String searchWord) {
+    public String searchContacts(String searchWord, List<Contact> foundContacts) {
         ContactFinder findContact = new ContactFinder();
-        Set<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactRepository.findAll());
+        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
+
+        boolean viewTableHistories;
+
         if(foundContactsTemp.size()>0){
             foundContacts = foundContactsTemp;
             viewTableHistories = true;
@@ -88,9 +101,11 @@ public class ProjectContactCreatorController {
      * @return projectContactCreator
      */
     @RequestMapping(value = "/chooseContactForProject", method = RequestMethod.POST)
-    public String chooseContactForProject(Contact contact) {
-        Contact selectedContact = contactRepository.findByContactID(contact.getContactID());
+    public String chooseContactForProject(Contact contact, List<Contact> chosenContacts) {
+        Contact selectedContact = contactService.findByContactID(contact.getContactID());
         boolean exists = false;
+        boolean viewChoosenTable;
+
         for(Contact con : chosenContacts){
             if(con.getContactID().equals(selectedContact.getContactID())){
                 exists = true;
@@ -108,10 +123,10 @@ public class ProjectContactCreatorController {
      * @return projectDetails
      */
     @RequestMapping(value = "/submitContactsForProject", method = RequestMethod.POST)
-    public String submitContactsForProject() {
-        ProjectDetailsController.project.getContacts().addAll(chosenContacts);
-        projectRepository.save(ProjectDetailsController.project);
-        resetController();
+    public String submitContactsForProject(Project project, List<Contact> chosenContacts, List<Contact> foundContacts) {
+        project.getContacts().addAll(chosenContacts);
+        projectService.saveProject(project);
+        resetController(foundContacts, chosenContacts);
         return "redirect:/projectDetails";
     }
 
@@ -122,7 +137,9 @@ public class ProjectContactCreatorController {
      * @return projectContactCreator
      */
     @RequestMapping(value = "/deleteContactsForProject", method = RequestMethod.POST)
-    public String deleteChosenContacts(Contact contact) {
+    public String deleteChosenContacts(Contact contact, List<Contact> chosenContacts) {
+
+        boolean viewChoosenTable;
 
         for(Contact con : chosenContacts){
             if(con.getContactID() == contact.getContactID()){
@@ -141,9 +158,9 @@ public class ProjectContactCreatorController {
      * @return projectDetails
      */
     @RequestMapping(value = "/backProjectContactCreator", method = RequestMethod.POST)
-    public String backProjectContactCreator() {
+    public String backProjectContactCreator(List<Contact> foundContacts, List<Contact> chosenContacts) {
         try {
-            resetController();
+            resetController(foundContacts, chosenContacts);
         } finally {
             System.out.println("Nothing to clear");
         }
@@ -153,7 +170,10 @@ public class ProjectContactCreatorController {
     /**
      * Function which resets the Controller for the next use
      */
-    public static void resetController(){
+    public static void resetController(List<Contact> foundContacts, List<Contact> chosenContacts){
+        boolean viewTableHistories;
+        boolean viewChoosenTable;
+
         if(!(foundContacts.size()<1)){
             foundContacts.clear();
         }

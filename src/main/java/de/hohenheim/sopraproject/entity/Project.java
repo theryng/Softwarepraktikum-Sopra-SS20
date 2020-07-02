@@ -1,9 +1,12 @@
 package de.hohenheim.sopraproject.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +28,8 @@ public class Project {
     private Integer projectID;
     private String name;
     private String description;
-    private String since;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate since;
     @ManyToMany
     private Set<Contact> projectContacts = new HashSet<>();
     @ManyToMany
@@ -40,12 +44,12 @@ public class Project {
      * @param projectContacts
      * @param institutes
      */
-    public Project(Integer projectID, String name, String description, String since, Set<Contact> projectContacts,
-                   Set<Institute> institutes, int year, int month, int day) {
+    public Project(Integer projectID, String name, String description, Set<Contact> projectContacts,
+                   Set<Institute> institutes, LocalDate since) {
         this.projectID = projectID;
         this.name = name;
         this.description = description;
-        setSince(year, month, day);
+        this.since = since;
         this.projectContacts = projectContacts;
         this.projectInstitutes = institutes;
     }
@@ -78,45 +82,24 @@ public class Project {
         this.description = description;
     }
 
-    public String getSince() {
+    public LocalDate getSince() {
         return since;
     }
 
-    /**
-     * Sets the Date of birth only if it has this format: yy-MM-dd. the method takes three int values. The method will
-     * check if the values of month and day have only one int value. if so, there will be automatically a "0" added to
-     * ensure the format rule. The method checks also if 0 < day < 31, 0 < month < 12 and year > 0. If the input does not
-     * require the formatting rules, an ISE will be thrown
-     *
-     * @param year
-     * @param month
-     * @param day
-     */
     public void setSince(int year, int month, int day) {
-        String stringOfYear = Integer.toString(year);
-        String stringOfMonth = Integer.toString(month);
-        String stringOfDay = Integer.toString(day);
+        this.since = LocalDate.of(year, month, day);
+    }
 
-        if(stringOfMonth.length() == 1){
-            stringOfMonth = "0" + stringOfMonth;
-        }
+    public void setSince(LocalDate date) {
+        this.since = date;
+    }
 
-        if(stringOfDay.length() == 1){
-            stringOfDay = "0" + stringOfDay;
-        }
+    public Set<Contact> getProjectContacts() {
+        return projectContacts;
+    }
 
-        if(day > 31 || day < 1 || month > 12 || month < 1 || year < 0){
-            throw new IllegalStateException("Illegal state of year, month or day");
-        }
-        if(stringOfYear.length() == 4  &&
-                stringOfMonth.length() == 2 &&
-                stringOfDay.length() == 2) {
-
-            this.since = stringOfYear + "-" + stringOfMonth + "-" + stringOfDay;
-
-        } else {
-            throw new IllegalStateException("Date has to be in this format: yyyy-MM-dd");
-        }
+    public void setProjectContacts(Set<Contact> projectContacts) {
+        this.projectContacts = projectContacts;
     }
 
     public Set<Contact> getContacts() {

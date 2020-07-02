@@ -4,6 +4,7 @@ import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.Project;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ProjectRepository;
+import de.hohenheim.sopraproject.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,24 +22,16 @@ import java.util.Set;
  * It helps with various method to save new Projects, delete existing ones, open up the ProjectContactCreator.
  *
  * @date 01.07.2020
- * @author Mark Wagner but oriented by work of Lukas Januschke
+ * @author Mark Wagner
  */
 @Controller
 public class ProjectDetailsController {
 
-    public static Integer projectID;
+    @Autowired
+    private ProjectService projectService;
 
     @Autowired
-    private ProjectRepository projectRepository;
-
-    @Autowired
-    private ContactRepository contactRepository;
-
-    public static Project project;
-
-
-    private boolean existingContacts = false;
-    public boolean hasError = false;
+    private ContactRepository contactService;
 
     /**
      * Main method for Viewing of project details Site, adds necessary attributes
@@ -46,16 +39,33 @@ public class ProjectDetailsController {
      * @return projectDetails
      */
     @RequestMapping(value = "/projectDetails", method = RequestMethod.GET)
-    public String projectDetails(Model model) {
-        project = projectRepository.findByProjectID(projectID);
-        checkTables(project);
+    public String projectDetails(Integer projectID, Model model, BindingResult result) {
+        System.out.println("testing" + projectID);
+        Project project = projectService.findByProjectID(projectID);
+
+        if(result.hasErrors()) {
+            System.out.println("Fehler");
+
+            model.addAttribute("allProjects", projectService.findAllProjects());
+
+            return "redirect:/projectDetails";
+        }
+
+        String searchWord = "";
+        model.addAttribute("hasEror", result);
         model.addAttribute("project", project);
-        model.addAttribute("hasError", hasError);
         model.addAttribute("projects", new Project());
-        model.addAttribute("existingContacts", existingContacts);
+        model.addAttribute("searchWord", searchWord);
         model.addAttribute("tempContact", new Contact());
 
-        hasError = false;
+        project = projectService.findByProjectID(projectID);
+        checkTables(project);
+
+
+        model.addAttribute("project", project);
+        model.addAttribute("projects", new Project());
+        model.addAttribute("tempContact", new Contact());
+
         return "projects/projectDetails";
     }
 
@@ -70,17 +80,18 @@ public class ProjectDetailsController {
      * @return redirect:/projectDetails
      */
     @RequestMapping(value = "/savingProjects", method = RequestMethod.POST)
-    public String savingProjects(@Valid Project project, BindingResult result) {
+    public String savingProjects(@Valid Project project, BindingResult result, Model model) {
         if(result.hasErrors()){
-            hasError = true;
+            System.out.println("Fehler");
+
+            model.addAttribute("allProjects", projectService.findAllProjects());
+
             return "redirect:/projectDetails";
         }
         else{
-            hasError = false;
-            project.setProjectID(projectID);
-            if(!projectRepository.findByProjectID(project.getProjectID()).equals(project)){
-                projectRepository.save(project);
-            }
+
+            projectService.saveProject(project);
+
             return "redirect:/projectDetails";
         }
     }
@@ -97,7 +108,7 @@ public class ProjectDetailsController {
 
     @RequestMapping(value = "/deleteProject", method = RequestMethod.POST)
     public String deleteProject(Project project) {
-        projectRepository.deleteById(project.getProjectID());
+        projectService.deleteByProjectID(project.getProjectID());
         return "redirect:/projects";
     }
 
@@ -111,7 +122,6 @@ public class ProjectDetailsController {
      */
     @RequestMapping(value = "/backProjectDetails", method = RequestMethod.POST)
     public String backProjectDetails() {
-        projectID = null;
         return "redirect:/projects";
     }
 
@@ -121,7 +131,7 @@ public class ProjectDetailsController {
      * @return redirect:/projectDetails
      */
     @RequestMapping(value = "/deleteContactFromProject", method = RequestMethod.POST)
-    public String deleteContactFromProject(Contact contact) {
+    public String deleteContactFromProject(Contact contact, Project project) {
         System.out.println(contact.getContactID());
         Contact contactTemp = new Contact();
         Set<Contact> contactProject = project.getContacts();
@@ -135,7 +145,7 @@ public class ProjectDetailsController {
                 project.setContacts(new HashSet<>());
                 contactProject.remove(contactTemp);
                 project.setContacts(contactProject);
-                projectRepository.save(project);
+                projectService.saveProject(project);
                 return "redirect:/projectDetails";
             }
             else{
@@ -153,8 +163,8 @@ public class ProjectDetailsController {
      * @return redirect:/projectContactCreator
      */
     @RequestMapping(value ="/addContactsToProject", method = RequestMethod.POST)
-    public String addContactsToProject(Project project) {
-        ProjectContactCreatorController.projectID = project.getProjectID();
+    public String addContactsToProject(Project project, Integer projectID) {
+        projectID = project.getProjectID();
         return "redirect:/projectContactCreator";
     }
 
@@ -167,6 +177,7 @@ public class ProjectDetailsController {
      * @param project
      */
     private void checkTables(Project project){
+        boolean existingContacts = false;
         if(project.getContacts().size()>0){
             existingContacts = true;
         }
@@ -175,3 +186,5 @@ public class ProjectDetailsController {
         }
     }
 }
+
+

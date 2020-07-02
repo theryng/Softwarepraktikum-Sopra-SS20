@@ -9,6 +9,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -587,8 +588,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         relationshipService.saveRelationship(heirat);
 
         Project covid = new Project();
-        covid.setName("Corona tracking app");
-        covid.setDescription("Entwickeln einer Corona tranking App to flatten the curve");
+        covid.setName("Corona tracking App");
+        covid.setDescription("Entwickeln einer Corona tracking App to flatten the curve");
         covid.setSince(2020, 04, 20);
         covid.addProjectContact(max);
         covid.addProjectContact(jana);
