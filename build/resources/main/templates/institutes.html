@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Institute</title>
 </head>
-<body>
+<body class="backgroundimage">
 <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
 
 <header th:insert="fragments/htmlHead.html :: header"> </header>
@@ -25,7 +27,7 @@
     <div class="alert alert-danger" role="alert" th:if="${hasError}">
         Bei der Speicherung des Institutes ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
     </div>
-    <form action = "#" th:action = "@{/saveInstitute}" th:object ="${institute}" class="was-validated" method = post>
+    <form action = "#" th:action = "@{/saveInstitute}" th:object ="${instituteDTO}" class="was-validated" method = post>
         <div class="form-group mt-2 mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
@@ -45,28 +47,28 @@
                         <div class="modal-body">
                             Name: <input type="text" class="form-control" name = "name"
                                          title="Ein Name darf keinerlei Sonderzeichen enthalten"
-                                         th:field="*{name}" required>
+                                         th:field="*{viewInstituteTemp.name}" required>
                                     <div class="valid-feedback">valid</div>
                                     <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}" required/></br>
+                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{viewInstituteTemp.linkToHomepage}" required/></br>
 
-                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{email}" required/></br>
+                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{viewInstituteTemp.email}" required/></br>
 
                             <div class = "row">
                                 <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{viewInstituteTemp.address.city}" required/>
 
                                 </div>
                                 <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{viewInstituteTemp.address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{address.houseNumber}"
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{viewInstituteTemp.address.houseNumber}"
                                                       title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
-                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{viewInstituteTemp.address.zipCode}"
                                                         pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                                 </div>
                             </div>
@@ -89,18 +91,17 @@
             <th>Name</th>
             <th>Link zur Homepage</th>
             <th>Adresse</th>
-            <th>Funktionen</th>
+            <th></th>
         </tr>
-        <tr th:each="institute : ${allInstitutes}">
+        <tr th:each="institute : ${instituteDTO.getAllInstitutes()}">
             <td th:text="${institute.name}"></td>
             <td th:text="${institute.linkToHomepage}" th:href="${institute.linkToHomepage}"></td>
             <td th:text="${institute.address.street} + ' ' + ${institute.address.houseNumber} + ', ' + ${institute.address.zipCode} + ' ' + ${institute.address.city}"></td>
             <td>
-                <form ACTION="#" th:action="@{/viewInstitute}" th:object="${institute}">
-                    <input type="hidden" th:value="${institute.instituteID}" th:name ="instituteID" />
-                    <!--Button that opens up the editing window-->
-                    <button type="submit" class="btn btn-secondary">Institut einsehen </button>
-                </form>
+                <!--Button that opens up the editing window-->
+                <a type="button" th:href="@{/instituteDetails/{instituteId}(instituteId=${institute.getInstituteID()})}" method="get">
+                    <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                </a>
             </td>
         </tr>
     </table>
