@@ -1,13 +1,14 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.entity.Relationship;
 import de.hohenheim.sopraproject.repository.RelationshipRepository;
+import de.hohenheim.sopraproject.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -19,47 +20,45 @@ import javax.validation.Valid;
 @Controller
 public class RelationshipCreator2Controller {
 
-    public static Relationship relationshipTemp;
-    private String choosenContact;
     @Autowired
     private RelationshipRepository relationshipRepository;
-    private String ingoingString;
-    public boolean hasError = false;
 
+    @Autowired
+    private ContactService contactService;
     /**
      * Main Method of the second part of the Relationship Creator process
      * Also adds necessary attributes
      * @param model
      * @return relationshipCreator2
      */
-    @RequestMapping(value = "/relationshipCreator2", method = RequestMethod.GET)
-    public String relationshipCreatorController(Model model) {
-        choosenContact = relationshipTemp.getContactB().getFirstname() + " " + relationshipTemp.getContactB().getLastname();
-        model.addAttribute("hasError", hasError);
-        model.addAttribute("relationship", relationshipTemp);
-        model.addAttribute("choosenContact", choosenContact);
-        hasError = false;
+    @GetMapping("/relationshipCreator2/{contactID}")
+    public String relationshipCreator2Controller(@PathVariable("contactID") Integer contactID, @ModelAttribute("relationshipDTO") RelationshipDTO relationshipDTO , Model model) {
+        System.out.println(relationshipDTO.getContactB());
+        System.out.println(relationshipDTO.getContactA());
+        relationshipDTO.setRelationship(new Relationship());
+        relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
+        relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));
+
+        model.addAttribute("relationshipDTO", relationshipDTO);
+
         return "contacts/relationshipCreator2";
     }
 
     /**
      * Saves the Relationship, as well as creates
      * the Partner Relationship
-     * @param relationship
      * @return contactDetails
      */
     @RequestMapping(value = "/saveRelationship", method = RequestMethod.POST)
-    public String saveRelationship(@Valid Relationship relationship, BindingResult result){
-        System.out.println(relationship.getSince());
+    public String saveRelationship( @Valid RelationshipDTO relationshipDTO, BindingResult result){
+        relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
+        relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));
+        Relationship relationship = relationshipDTO.getRelationship();
         if(result.hasErrors()){
-            hasError = true;
 
-            return "redirect:/relationshipCreator2";
+            return "contact/relationshipCreator2";
         }
         else{
-            hasError = false;
-            relationship.setContactA(relationshipTemp.getContactA());
-            relationship.setContactB(relationshipTemp.getContactB());
             Relationship ingoingRelationship = new Relationship();
             if(relationship.getIngoingString() == ""){
                 ingoingRelationship.setContactA(relationship.getContactB());
@@ -80,7 +79,7 @@ public class RelationshipCreator2Controller {
             relationshipRepository.save(relationship);
             relationshipRepository.save(ingoingRelationship);
 
-            return "redirect:/contactDetails";
+            return "redirect:/contactDetails/"+relationship.getContactA().getContactID();
         }
 
     }

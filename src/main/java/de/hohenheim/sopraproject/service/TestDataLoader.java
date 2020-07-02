@@ -125,7 +125,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         julia.setEmail("juliaM@yahoo.de");
         julia.setCourseOfStudies("BWL");
         julia.setFreeText("Julia arbeitet 2 mal in der Woche ehrenamtlich im Altersheim (Stand: 01.02.2019");
-        julia.setDayOfBirthDate(1977, 2, 12);
+        julia.setDayOfBirth(1977, 2, 12);
         julia.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "2"));
         julia.setHobby("Macht gerne Ballet");
         julia.setLinkToHomepage("");
@@ -141,7 +141,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         anna.setEmail("annaM@gmail.com");
         anna.setCourseOfStudies("International Business");
         anna.setFreeText("");
-        anna.setDayOfBirthDate(1989, 11, 8);
+        anna.setDayOfBirth(1989, 11, 8);
         anna.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "3"));
         anna.setHobby("Lesen");
         anna.setLinkToHomepage("");
@@ -154,7 +154,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         max.setEmail("maxM@yahoo.de");
         max.setCourseOfStudies("Wirtschaftsinformatik");
         max.setFreeText("Semestersprecher des fünften Bachelor Semesters in SS99 ");
-        max.setDayOfBirthDate(1986, 1, 01);
+        max.setDayOfBirth(1986, 1, 01);
         max.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "1"));
         max.setHobby("Kickboxen");
         max.setLinkToHomepage("https://de.wikipedia.org/wiki/Mustermann");
@@ -167,20 +167,20 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jose.setEmail("joseR@gmail.com");
         jose.setCourseOfStudies("Philosophie");
         jose.setFreeText("José ist in 2019 nach Deutschland gekommen. Er studierte 4 Semester lang Philosophie in Chile");
-        jose.setDayOfBirthDate(1998, 10, 10);
+        jose.setDayOfBirth(1998, 10, 10);
         jose.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "4"));
         jose.setHobby("Schreibt gerne Fabeln");
         jose.setLinkToHomepage("");
         contactService.saveContact(jose);
 
         Contact luisa = new Contact();
-        luisa.setFirstname("Luisa");
-        luisa.setLastname("Mayer");
+        luisa.setFirstname("Luisa-müller");
+        luisa.setLastname("Mayer-Übler");
         luisa.setOccupation("Doktorantin");
         luisa.setEmail("luisaM@yahoo.de");
         luisa.setCourseOfStudies("Chemie");
         luisa.setFreeText("Promovierte 2020 im Gebiet der organischen Chemie");
-        luisa.setDayOfBirthDate(1992, 5, 13);
+        luisa.setDayOfBirth(1992, 5, 13);
         luisa.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "5"));
         luisa.setHobby("");
         luisa.setLinkToHomepage("");
@@ -193,7 +193,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         paulina.setEmail("PaulinaJ@gmail.com");
         paulina.setCourseOfStudies("Chemie");
         paulina.setFreeText("");
-        paulina.setDayOfBirthDate(1989, 9, 30);
+        paulina.setDayOfBirth(1989, 9, 30);
         paulina.setAddress(new Address("12345", "Musterstadt", "Hans-Otto-Rüdiger-Straße", "6"));
         paulina.setHobby("Sumo Ringen");
         paulina.setLinkToHomepage("");
@@ -206,7 +206,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         peter.setEmail("PeterL@gmail.com");
         peter.setCourseOfStudies("Chemie");
         peter.setFreeText("");
-        peter.setDayOfBirthDate(2001, 9, 28);
+        peter.setDayOfBirth(2001, 9, 28);
         peter.setAddress(new Address("1234", "Muster-Stadt", "Sigmaringerstraße", "154/1"));
         peter.setHobby("");
         peter.setLinkToHomepage("");
@@ -219,7 +219,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jonas.setEmail("JonasH@yahoo.de");
         jonas.setCourseOfStudies("Informatik");
         jonas.setFreeText("Forschungsbereiche: Informationstechnologie");
-        jonas.setDayOfBirthDate(1996, 1, 1);
+        jonas.setDayOfBirth(1996, 1, 1);
         jonas.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "8"));
         jonas.setHobby("");
         jonas.setLinkToHomepage("");
@@ -232,7 +232,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         florian.setEmail("FlorianW@gmail.com");
         florian.setCourseOfStudies("Informatik");
         florian.setFreeText("");
-        florian.setDayOfBirthDate( 1991, 6, 6);
+        florian.setDayOfBirth( 1991, 6, 6);
         florian.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "9"));
         florian.setHobby("karate");
         florian.setLinkToHomepage("");
@@ -245,7 +245,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sabine.setEmail("SabineM@gmail.com");
         sabine.setCourseOfStudies("Informatik");
         sabine.setFreeText("");
-        sabine.setDayOfBirthDate(1985, 1, 9);
+        sabine.setDayOfBirth(1985, 1, 9);
         sabine.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "10"));
         sabine.setHobby("Turnt gerne in ihrer Freizeit");
         sabine.setLinkToHomepage("");
@@ -258,7 +258,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         jana.setEmail("JanaM@yahoo.de");
         jana.setCourseOfStudies("Informatik");
         jana.setFreeText("");
-        jana.setDayOfBirthDate(1966, 11, 19);
+        jana.setDayOfBirth(1966, 11, 19);
         jana.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "11"));
         jana.setHobby("Schwimmen");
         jana.setLinkToHomepage("");
@@ -271,7 +271,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         tristan.setEmail("TristanM@yahoo.de");
         tristan.setCourseOfStudies("Informatik");
         tristan.setFreeText("Forschungsgebiet: Simulationswissenschaft");
-        tristan.setDayOfBirthDate(1996, 8, 28);
+        tristan.setDayOfBirth(1996, 8, 28);
         tristan.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "12"));
         tristan.setHobby("Entwickelt gerne spiele Apps für Android");
         tristan.setLinkToHomepage("");
@@ -284,7 +284,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         alfred.setEmail("AlfredS@gmail.com");
         alfred.setCourseOfStudies("Informatik");
         alfred.setFreeText("");
-        alfred.setDayOfBirthDate(1957, 3, 3);
+        alfred.setDayOfBirth(1957, 3, 3);
         alfred.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "13"));
         alfred.setHobby("");
         alfred.setLinkToHomepage("");
@@ -297,7 +297,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         aleyna.setEmail("AleynaT@yahoo.de");
         aleyna.setCourseOfStudies("Informatik");
         aleyna.setFreeText("");
-        aleyna.setDayOfBirthDate(1992, 1, 01);
+        aleyna.setDayOfBirth(1992, 1, 01);
         aleyna.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "14"));
         aleyna.setHobby("Reiten");
         aleyna.setLinkToHomepage("");
@@ -310,7 +310,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         milan.setEmail("MilanR@yahoo.de");
         milan.setCourseOfStudies("Informatik");
         milan.setFreeText("");
-        milan.setDayOfBirthDate(1980, 9, 10);
+        milan.setDayOfBirth(1980, 9, 10);
         milan.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "15"));
         milan.setHobby("");
         milan.setLinkToHomepage("");
@@ -323,7 +323,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         maxW.setEmail("MaxW@gmx.com");
         maxW.setCourseOfStudies("Philosophie");
         maxW.setFreeText("");
-        maxW.setDayOfBirthDate(1979, 7, 7);
+        maxW.setDayOfBirth(1979, 7, 7);
         maxW.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "16"));
         maxW.setHobby("Joggen");
         maxW.setLinkToHomepage("");
@@ -336,7 +336,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         alex.setEmail("AlexJ@yahoo.de");
         alex.setCourseOfStudies("Philosophie");
         alex.setFreeText("");
-        alex.setDayOfBirthDate(1990, 5, 7);
+        alex.setDayOfBirth(1990, 5, 7);
         alex.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "17"));
         alex.setHobby("Sammelt Briefmarken");
         alex.setLinkToHomepage("");
@@ -349,7 +349,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         min.setEmail("MinL@yahoo.de");
         min.setCourseOfStudies("Philosophie");
         min.setFreeText("");
-        min.setDayOfBirthDate(1976, 9, 8);
+        min.setDayOfBirth(1976, 9, 8);
         min.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "18"));
         min.setHobby("");
         min.setLinkToHomepage("");
@@ -362,7 +362,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sofia.setEmail("SofiaH@gmx.com");
         sofia.setCourseOfStudies("Philosophie");
         sofia.setFreeText("");
-        sofia.setDayOfBirthDate(1993, 1, 1);
+        sofia.setDayOfBirth(1993, 1, 1);
         sofia.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "19"));
         sofia.setHobby("Geht in ihrer Freizeit ins Fitnessstudio");
         sofia.setLinkToHomepage("");
@@ -375,7 +375,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         marlene.setEmail("MarleneH@gmx.com");
         marlene.setCourseOfStudies("Philosophie");
         marlene.setFreeText("");
-        marlene.setDayOfBirthDate(1995, 10, 1);
+        marlene.setDayOfBirth(1995, 10, 1);
         marlene.setAddress(new Address("12345", "Musterstadt", "Musterstraße", "20"));
         marlene.setHobby("Spielt gerne Geige");
         marlene.setLinkToHomepage("");

@@ -1,20 +1,21 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.ContactDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Relationship;
-import de.hohenheim.sopraproject.repository.ContactRepository;
-import de.hohenheim.sopraproject.repository.ContactHistoryRepository;
-import de.hohenheim.sopraproject.repository.RelationshipRepository;
+import de.hohenheim.sopraproject.service.ContactHistoryService;
+import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.RelationshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,51 +30,33 @@ import java.util.Set;
 @Controller
 public class ContactDetailsController {
 
-    public static Integer contactID;
 
     @Autowired
-    private ContactRepository contactRepository;
+    private ContactService contactService;
 
     @Autowired
-    private ContactHistoryRepository contacthistoryRepository;
+    private ContactHistoryService contactHistoryService;
 
     @Autowired
-    private RelationshipRepository relationshipRepository;
-
-    private String searchWord;
-
-    private Set<Contact> foundContacts = new HashSet<>();
-
-    private Contact contactB;
-
-    private boolean existingRelationships = false;
-    private boolean existingContactHistories = false;
-    public boolean hasError = false;
+    private RelationshipService relationshipService;
 
     /**
      * Main method for Viewing of Contact Details Site, adds necessary Attributes
      * @param model
      * @return contactDetails
      */
-    @RequestMapping(value = "/contactDetails", method = RequestMethod.GET)
-    public String contactDetails(Model model) {
-        Contact contact = contactRepository.findByContactID(contactID);
-        checkTables(contact);
-        model.addAttribute("hasError", hasError);
+    @GetMapping("/contactDetails/{contactID}")
+    public String contactDetails(@PathVariable("contactID") Integer contactID, Model model) {
+        System.out.println("Testing the stuff " + contactID);
+        Contact contact = contactService.findByContactID(contactID);
+
+        String searchWord = "";
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());
-        model.addAttribute("existingRelationships", existingRelationships);
-        model.addAttribute("existingContactHistories", existingContactHistories);
-
-        if(foundContacts.size()>0){
-            model.addAttribute("allContacts", foundContacts);
-        }
-        else{
-            model.addAttribute("allContacts", new HashSet<Contact>());
-        }
+        model.addAttribute("viewContactHistory", checkContactHistoryList(contact.getContactHistory()));
+        model.addAttribute("viewRelationship", checkRelationshipList(contact.getOutgoingRelationships()));
         model.addAttribute("searchWord", searchWord);
-        hasError = false;
         return "contacts/contactDetails";
     }
 
@@ -87,19 +70,18 @@ public class ContactDetailsController {
      * @param contact
      * @return redirect:/contacts
      */
-    @RequestMapping(value = "/savingContact", method = RequestMethod.POST)
-    public String contactDetails(@Valid Contact contact, BindingResult result) {
+    @PostMapping("/savingContact")
+    public String contactDetails(@ModelAttribute("contact") @Valid Contact contact, BindingResult result) {
+        System.out.println(contact.getContactID());
         if(result.hasErrors()){
-            hasError = true;
-            return "redirect:/contactDetails";
+            return "contactDetails";
         }
         else{
-            hasError = false;
-            contact.setContactID(contactID);
-            if(!contactRepository.findByContactID(contact.getContactID()).equals(contact)){
-                contactRepository.save(contact);
+            contact.setContactID(contact.getContactID());
+            if(!contactService.findByContactID(contact.getContactID()).equals(contact.getContactID())){
+                contactService.saveContact(contact);
             }
-            return "redirect:/contacts";
+            return "redirect:/contactDetails/"+contact.getContactID();
         }
     }
 
@@ -115,23 +97,8 @@ public class ContactDetailsController {
 
     @RequestMapping(value = "/deleteContact", method = RequestMethod.POST)
     public String deleteDetails(Contact contact) {
-        contactRepository.deleteById(contact.getContactID());
+        contactService.deleteByContactID(contact.getContactID());
         return "redirect:/contacts";
-    }
-
-    /**
-     * This method opens up the contactHistory editor
-     *
-     * This method opens up the editor for the corresponding contactHistory on a specific contact. It is bound to a button
-     * specifically used for this method. The user will be redirected to the contact history editor once he clicks on that button
-     *
-     * @param viewedHistory
-     * @return redirect:/contactHistoryEditor
-     */
-    @RequestMapping("/openEditContactHistory")
-    public String editContactHistory(ContactHistory viewedHistory) {
-        ContactHistoryEditorController.contactHistory = contacthistoryRepository.findByContactHistoryID(viewedHistory.getContactHistoryID());
-        return "redirect:/contactHistoryEditor";
     }
 
     /**
@@ -142,37 +109,11 @@ public class ContactDetailsController {
      * @return redirect:/contactHistoryCreator1
      */
     @RequestMapping(value ="/createNewContactHistory", method = RequestMethod.POST)
-    public String createNewContactHistory(Contact contact) {
-        ContactHistoryCreator1Controller.originalContact = contactRepository.findByContactID(contact.getContactID());
+    public String createNewContactHistory(Contact contact,@ModelAttribute("mapping1Form") final Model model, final RedirectAttributes redirectAttributes) {
+
         return "redirect:/contactHistoryCreator1";
     }
 
-    /**
-     *This method chooses a specific contact
-     *
-     * @param contact
-     * @return
-     */
-    @RequestMapping(value ="/chooseContact", method = RequestMethod.POST)
-    public String chooseContact(Contact contact) {
-        contactB = contactRepository.findByContactID(contact.getContactID());
-        return "/chooseContact";
-    }
-
-    /**
-     * This method creates a new relationship between contacts
-     *
-     * This method creates a new relationship between two already existing contacts. Once the relationship is created the
-     * page will be reloaded to update both contacts with this new relationship entry.
-     *
-     * @param contact
-     * @return redirect:/relationshipCreator1
-     */
-    @RequestMapping(value ="/createNewRelationship", method = RequestMethod.POST)
-    public String createNewRelationship(Contact contact) {
-        RelationshipCreator1Controller.contactA = contactRepository.findByContactID(contact.getContactID());
-        return "redirect:/relationshipCreator1";
-    }
 
     /**
      * This method deletes an outgoing relationship
@@ -185,13 +126,15 @@ public class ContactDetailsController {
      */
     @RequestMapping(value = "/deleteOutgoingRelationship", method = RequestMethod.POST)
     public String contactDetails(Relationship relationship) {
-        Relationship choosenRelationship = relationshipRepository.findByRelationshipID(relationship.getRelationshipID());
+
+        Relationship choosenRelationship = relationshipService.findByRelationshipID(relationship.getRelationshipID());
+        Integer id = choosenRelationship.getContactA().getContactID();
         if(!(choosenRelationship.getPartnerRelationship()==0)){
-            relationshipRepository.deleteById(choosenRelationship.getPartnerRelationship());
+            relationshipService.deleteByRelationshipID(choosenRelationship.getPartnerRelationship());
         }
 
-        relationshipRepository.deleteById(relationship.getRelationshipID());
-        return "redirect:/contactDetails";
+        relationshipService.deleteByRelationshipID(relationship.getRelationshipID());
+        return "redirect:/contactDetails/"+id;
     }
 
     /**
@@ -204,30 +147,20 @@ public class ContactDetailsController {
      */
     @RequestMapping(value = "/backContactDetails", method = RequestMethod.POST)
     public String backContactDetails() {
-        contactID = null;
         return "redirect:/contacts";
     }
 
-    /**
-     * This method checks the existing relationships and the contactHistory
-     *
-     * This method checks if a contact has a existing relationship and a contactHistory. If the count for each of them is higher
-     * than 0 it will return the boolean true
-     *
-     * @param contact
-     */
-    private void checkTables(Contact contact){
-        if(contact.outgoingRelationships.size()>0){
-            existingRelationships = true;
+    private boolean checkContactHistoryList(Set<ContactHistory> list){
+        if(list.size()>0){
+            return true;
         }
-        else{
-            existingRelationships = false;
+        return false;
+    }
+
+    private boolean checkRelationshipList(Set<Relationship> list){
+        if(list.size()>0){
+            return true;
         }
-        if(contact.getContactHistory().size()>0){
-            existingContactHistories = true;
-        }
-        else{
-            existingContactHistories = false;
-        }
+        return false;
     }
 }

@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Kontakte</title>
 </head>
 
-<body>
+<body class="backgroundimage">
 
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 
@@ -24,10 +26,10 @@
             <div class = "container-fluid ml-1000 mr-1000">
 
                 <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
-                <div class="alert alert-danger" role="alert" th:if="${hasError}">
-                    Bei der Speicherung des Kontakts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
-                </div>
                 <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                        Bei der Speicherung des Kontakts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+                    </div>
                     <div class="form-group mt-2 mr-5">
                         <!-- Submit Button -->
                         <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
@@ -127,13 +129,13 @@
 
                 </form>
                 <!-- Table with the Possible Results -->
-                <table class="table table-striped mt-3 mb-5">
+                <table class="table table-striped mt-3 mb-5" th:if="${showList}">
                     <tr>
                         <th>Name</th>
                         <th>Studium</th>
                         <th>Geburtsdatum</th>
                         <th>E-Mail</th>
-                        <th>Funktionen</th>
+                        <th></th>
                     </tr>
                     <tr th:each="contact : ${allContacts}">
                         <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
@@ -141,11 +143,10 @@
                         <td th:text="${contact.dayOfBirth}"></td>
                         <td th:text="${contact.email}"></td>
                         <td>
-                            <form ACTION="#" th:action="@{/viewContact}" th:object="${contact}">
-                                <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
-                                <!--Button that opens up the editing window-->
-                                <button type="submit" class="btn btn-secondary">Kontakt einsehen </button>
-                            </form>
+                            <!--Button that opens up the editing window-->
+                            <a type="button" th:href="@{/contactDetails/{contactId}(contactId=${contact.getContactID()})}" method="get">
+                                <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                            </a>
                         </td>
                     </tr>
                 </table>

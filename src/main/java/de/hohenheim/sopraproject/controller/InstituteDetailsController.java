@@ -8,10 +8,13 @@ import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ContactHistoryRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.repository.RelationshipRepository;
+import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,10 +36,10 @@ public class InstituteDetailsController {
     public static Integer instituteID;
 
     @Autowired
-    private InstituteRepository instituteRepository;
+    private InstituteService instituteService;
 
     @Autowired
-    private ContactRepository contactRepository;
+    private ContactService contactService;
 
     public static Institute institute;
 
@@ -49,17 +52,15 @@ public class InstituteDetailsController {
      * @param model
      * @return instituteDetails
      */
-    @RequestMapping(value = "/instituteDetails", method = RequestMethod.GET)
-    public String instituteDetails(Model model) {
-        institute = instituteRepository.findByInstituteID(instituteID);
-        checkTables(institute);
-        model.addAttribute("institute", institute);
-        model.addAttribute("hasError", hasError);
-        model.addAttribute("institutes", new Institute());
-        model.addAttribute("existingContacts", existingContacts);
-        model.addAttribute("tempContact", new Contact());
+    @RequestMapping(value = "/instituteDetails/{instituteID}", method = RequestMethod.GET)
+    public String instituteDetails(@PathVariable("instituteID") Integer instituteID, Model model) {
+        System.out.println("Testing the stuff " + instituteID);
+        Institute institute = instituteService.findByInstitutesID(instituteID);
 
-        hasError = false;
+        String searchWord = "";
+        model.addAttribute("institute", institute);
+        model.addAttribute("tempContact", new Contact());
+        model.addAttribute("searchWord", searchWord);
         return "institutes/instituteDetails";
     }
 
@@ -82,8 +83,8 @@ public class InstituteDetailsController {
         else{
             hasError = false;
             institute.setInstituteID(instituteID);
-            if(!instituteRepository.findByInstituteID(institute.getInstituteID()).equals(institute)){
-                instituteRepository.save(institute);
+            if(!instituteService.findByInstitutesID(institute.getInstituteID()).equals(institute)){
+                instituteService.saveInstitute(institute);
             }
             return "redirect:/instituteDetails";
         }
@@ -101,7 +102,7 @@ public class InstituteDetailsController {
 
     @RequestMapping(value = "/deleteInstitute", method = RequestMethod.POST)
     public String deleteInstitute(Institute institute) {
-        instituteRepository.deleteById(institute.getInstituteID());
+        instituteService.deleteByInstituteID(institute.getInstituteID());
         return "redirect:/institutes";
     }
 
@@ -139,7 +140,7 @@ public class InstituteDetailsController {
                 institute.setContacts(new HashSet<>());
                 contactInstitute.remove(contactTemp);
                 institute.setContacts(contactInstitute);
-                instituteRepository.save(institute);
+                instituteService.saveInstitute(institute);
                 return "redirect:/instituteDetails";
             }
             else{
