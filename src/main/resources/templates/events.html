@@ -84,7 +84,7 @@
         will open up an editing window where the user can change the stored information or delete this specific institute altogether-->
     <table class="table table-striped mt-3">
         <tr>
-            <th>Name</th>
+            <th>Eventname</th>
             <th>Datum</th>
             <th>Adresse</th>
             <th>Freier Text</th>
@@ -94,6 +94,7 @@
             <td th:text="${event.eventName}"></td>
             <td th:text="${event.date}"></td>
             <td th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></td>
+            <td th:text="${event.text}"></td>
             <td>
                 <form ACTION="#" th:action="@{/viewEvent}" th:object="${event}">
                     <input type="hidden" th:value="${event.eventId}" th:name ="eventId" />
