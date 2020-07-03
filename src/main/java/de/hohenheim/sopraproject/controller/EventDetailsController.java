@@ -31,7 +31,7 @@ public class EventDetailsController {
         EventDTO eventDTO = new EventDTO();
         Event event = eventService.findByEventID(eventID);
         eventDTO.setEvent(event);
-        eventDTO.setEventID(eventDTO.getEvent().getEventID());
+        eventDTO.setEventID(event.getEventID());
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("viewTable", checkTables(event));
         return "events/eventDetails";
@@ -50,6 +50,7 @@ public class EventDetailsController {
     @RequestMapping(value = "/savingEvent", method = RequestMethod.POST)
     public String savingEvent(@Valid EventDTO eventDTO, BindingResult result, Model model) {
         if(result.hasErrors()){
+            model.addAttribute("eventDTO", eventDTO);
             return "events/eventDetails";
         }
         else{
@@ -65,8 +66,9 @@ public class EventDetailsController {
     }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
-    public String deleteEvent(EventDTO eventDTO) {
+    public String deleteEvent(EventDTO eventDTO, Model model) {
         eventService.deleteByEventID(eventDTO.getEventID());
+        model.addAttribute("eventDTO", eventDTO);
         return "redirect:/events";
     }
 
