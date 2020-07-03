@@ -262,6 +262,35 @@
         </div>
 
 
+        <!-- Third Accordion Element for Viewing of Contact Histories-->
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <h3 class = "text-dark">Tags</h3>
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                        <a th:each="tag : ${contact.tags}">
+                            <a type="button" class="btn btn-secondary" th:href="@{/deleteContactTag/{tagId}/{contactId}(tagId= ${tag.getTagsID()}, contactId=${contact.getContactID()})}" th:text="${tag.name}">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </a>
+                    <!-- If Statement if no Relationship is available -->
+                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
+                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
+                    </div>
+                    <!-- Button to Start Creation of new Contact History -->
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 

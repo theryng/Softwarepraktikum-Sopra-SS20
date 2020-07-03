@@ -1,9 +1,10 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.contacts;
 
 import de.hohenheim.sopraproject.dto.ContactDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Relationship;
+import de.hohenheim.sopraproject.entity.Tags;
 import de.hohenheim.sopraproject.service.ContactHistoryService;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.RelationshipService;
@@ -49,7 +50,7 @@ public class ContactDetailsController {
     public String contactDetails(@PathVariable("contactID") Integer contactID, Model model) {
         System.out.println("Testing the stuff " + contactID);
         Contact contact = contactService.findByContactID(contactID);
-
+        System.out.println("Anzahl Tags: " + contact.getTags().size());
         String searchWord = "";
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
@@ -137,6 +138,18 @@ public class ContactDetailsController {
         return "redirect:/contactDetails/"+id;
     }
 
+    @GetMapping("/deleteContactTag/{tagID}/{contactID}")
+    public String deleteContactTag(@PathVariable("tagID") Integer tagID, @PathVariable("contactID") Integer contactID) {
+        List<Tags> tags = contactService.findByContactID(contactID).getTags();
+        System.out.println("Number of Tags" + tags.size());
+        for(Tags tag : tags){
+            if(tag.getTagsID() == tagID){
+                tags.remove(tag);
+            }
+        }
+
+        return "contactDetails/"+contactID;
+    }
     /**
      * This method exits the contactDetails
      *

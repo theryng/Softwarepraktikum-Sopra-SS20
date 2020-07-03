@@ -574,5 +574,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         heirat.setSinceDate(2010, 01, 30);
         heirat.setTypeOfRelationship("Verheiratet");
         relationshipService.saveRelationship(heirat);
+
+        Tags tag1 = new Tags();
+        tag1.setName("Entwickler");
+
     }
 }

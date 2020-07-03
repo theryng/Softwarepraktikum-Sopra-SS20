@@ -1,14 +1,13 @@
 package de.hohenheim.sopraproject.controller;
 
-import de.hohenheim.sopraproject.entity.Address;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
-import de.hohenheim.sopraproject.entity.EditingHistory;
+import de.hohenheim.sopraproject.dto.TagsDTO;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.EditingHistoryService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,12 +30,13 @@ import java.util.*;
  * @author Lukas Januschke
  */
 @Controller
-public class ContactsController {
-
+public class TagsController {
+    @Autowired
+    ContactService contactService;
     @Autowired
     EditingHistoryService editingHistoryService;
     @Autowired
-    private ContactService contactService;
+    private TagsService tagsService;
 
     /**
      * This method gets all the information about a contact
@@ -46,20 +46,22 @@ public class ContactsController {
      * @param model
      * @return contacts
      */
-    @RequestMapping(value ="/contacts", method = RequestMethod.GET)
-    public String contacts(Model model) {
+    @GetMapping("/tags/{objectType}/{id}")
+    public String tags(@PathVariable("objectType") String objectType, @PathVariable("id") String id, Model model) {
         String searchword = "";
-        List<Contact> allContacts = contactService.findAllContacts();
+        List<Tags> allTags = tagsService.findAllTags();
         boolean showList = false;
-        if(allContacts.size()>0){
+        if(allTags.size()>0){
             showList = true;
         }
+        TagsDTO tagsDTO = new TagsDTO();
+        tagsDTO.setOriginalID(id);
+        tagsDTO.setType(objectType);
+        model.addAttribute("tagsDTO", tagsDTO);
         model.addAttribute("showList", showList);
-        model.addAttribute("allContacts", allContacts);
-        model.addAttribute("searchWord", searchword);
-        model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", allTags);
 
-        return "contacts";
+        return "tags/tags";
     }
 
     /**
@@ -69,31 +71,26 @@ public class ContactsController {
      * Street and houseNumber to one single attribute called address. Once the new contact was saved to the database the page will
      * be reloaded and the table will be updated. The new contact will no show up on the page contacts.
      *
-     * @param contact
+     * @param tagsDTO
      * @return redirect:/contacts
      */
-    @RequestMapping(value="/saveContact", method = RequestMethod.POST)
-    public String saveContact(@Valid Contact contact, BindingResult result, Model model){
+    @RequestMapping(value="/saveTag", method = RequestMethod.POST)
+    public String saveContact(@Valid TagsDTO tagsDTO, BindingResult result, Model model){
         if(result.hasErrors()){
             System.out.println("Fehler");
 
-            model.addAttribute("allContacts", contactService.findAllContacts());
+            model.addAttribute("allTags", tagsService.findAllTags());
 
-            return "contacts";
         }
         else{
-            contactService.saveContact(contact);
+            tagsService.saveTags(tagsDTO.getTag());
+            model.addAttribute("allTags", tagsService.findAllTags());
 
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            System.out.println(dateFormat.format(date));
-
-            editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
-            return "redirect:/contacts";
         }
+        model.addAttribute("tagsDTO", tagsDTO);
+        model.addAttribute("showList", true);
 
-
+        return "tags/tags";
 
     }
 
@@ -101,27 +98,43 @@ public class ContactsController {
      *  Method which can be used to search for a certain Contact.
      *  Calls the Contact Finder, and uses a searchWord to find a Contact.
      *  Reloads the Site at the very End.
-     * @param searchWord
+     * @param
      * @return contactHistoryCreator1
      */
-    @PostMapping(value ="/searchContact")
-    public String searchContacts(@RequestBody @ModelAttribute("allContacts") LinkedList<Contact> allContacts, String searchWord, Model model) {
+    @PostMapping(value ="/searchTag")
+    public String searchContacts(TagsDTO tagsDTO, Model model) {
         ContactFinder findContact = new ContactFinder();
 
-        LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
-
-        allContacts = foundContactsTemp;
+        LinkedList<Tags> foundTagsTemp = findContact.findTags(tagsDTO.getSearchWord(), tagsService.findAllTags());
 
         boolean showList = false;
-        if(allContacts.size()>0){
+        if(foundTagsTemp.size()>0){
             showList = true;
         }
         model.addAttribute("showList", showList);
-        String searchword = "";
-        model.addAttribute("allContacts", allContacts);
-        model.addAttribute("searchWord", searchword);
-        model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", foundTagsTemp);
+        model.addAttribute("tagsDTO", tagsDTO);
 
-        return "contacts";
+        return "tags/tags";
+    }
+
+    @PostMapping(value ="/setTag")
+    public String setTag(TagsDTO tagsDTO, Model model) {
+        System.out.println("setting tag");
+        System.out.println(tagsDTO.getType());
+        String objectType = tagsDTO.getType();
+        Integer id = Integer.valueOf(tagsDTO.getOriginalID());
+        if(objectType.equals("contact")){
+            System.out.println("Type Contact");
+            Contact contact = contactService.findByContactID(id);
+            Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+            tag.getContacts().add(contact);
+            tagsService.saveTags(tag);
+            contactService.saveContact(contact);
+            return "redirect:/contactDetails/"+tagsDTO.getOriginalID();
+        }
+        System.out.println("Fehler im Setten");
+        //TBD IF For other Types like Insitute/Events etc.
+        return null;
     }
 }
