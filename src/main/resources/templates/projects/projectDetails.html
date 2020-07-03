@@ -13,7 +13,7 @@
     <title>Projekt Details</title>
 </head>
 
-<body>
+<body class="backgroundimage">
 
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
@@ -23,9 +23,8 @@
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Projekt Informationen</h1>
     <div class="row ml-1">
-        <form ACTION="#" th:action="@{/backProjectDetails}" method="post">
-            <button type="submit" class="btn btn-secondary">Zurück</button>
-        </form>
+        <a type="button" class="btn btn-secondary" th:href="@{/projects}" method="get" th:text="'zurück'">
+        </a>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
@@ -48,8 +47,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <form ACTION="#" th:action="@{/deleteProject}" th:object="${project}" method="post">
-                            <input type="hidden" th:value="${project.projectID}" th:name ="projectID" />
+                        <form ACTION="#" th:action="@{/deleteProject}" th:object="${projectDTO}" method="post">
+                            <input type="hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
 
                             <button type="submit" class="btn btn-danger ml-3">Projekt löschen</button>
                         </form>
@@ -74,22 +73,22 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${project}" th:action="@{/savingProject}" method="post">
+                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${projectDTO}" th:action="@{/savingProject}" method="post">
                         <!-- Input and View Field for the Contact Details-->
-                       <!-- <div class="alert alert-danger" role="alert" th:if="${hasError}">
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
-                        </div>-->
+                        </div>
                         <!--Viewing and Editing general Informations of the Project-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
                                          pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
-                                         th:field="*{name}" required>
+                                         th:field="*{project.name}" required>
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Kurzbeschreibung:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{description}" required/></br>
+                            Kurzbeschreibung:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{project.description}" required/></br>
 
-                            Seit:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{since}" required/></br>
+                            Seit:<input type="date" class="form-control" name = "since" th:field="*{project.since}" required/></br>
                         </div>
 
                         <!-- Button trigger modal -->
@@ -135,35 +134,32 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <!--Table for Relationships-->
-                    <table class="table table-striped" th:if="${existingContacts}">
+                    <table class="table table-striped" th:if="${viewTable}">
                         <tr>
                             <th>Name</th>
                             <th>Studium</th>
                             <th>Homepage</th>
                             <th>Funktionen</th>
                         </tr>
-                        <tr th:each="contact : ${project.contacts}">
+                        <tr th:each="contact : ${projectDTO.project.contacts}">
                             <td th:text="${contact.firstname + ' ' + contact.lastname}"></td>
                             <td th:text="${contact.courseOfStudies}"></td>
                             <td th:text="${contact.linkToHomepage}"></td>
                             <td>
-                                <form ACTION="#" th:action="@{/deleteContactFromProject}" th:object="${tempContact}" method="post">
-                                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
+                                <form ACTION="#" th:action="@{/deleteContactFromProject}" th:object="${projectDTO}" method="post">
+                                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <button type="submit" class="btn btn-danger">Person entfernen </button>
                                 </form>
                             </td>
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div th:if="${not existingContacts}" class="ml-5 mr-5 mt-5">
+                    <div class="ml-5 mr-5 mt-5" th:if="${not viewTable}">
                         Projekt besitzt keine Personen, neue Person zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
-                    <form class="ml-5 mr-5 mt-5" ACTION="#" th:action="@{/addContactsToProject}" th:object="${projects}" method="post">
-                        <input type="hidden" th:value="${project.projectID}" th:name ="projectID" />
-                        <button type="submit" class="btn btn-secondary"> Person zuordnen </button>
-                    </form>
-
+                    <a type="button" class="btn btn-primary" th:href="@{/projectContactCreator/{projectID}(projectID=${projectDTO.getProjectID()})}">
+                    </a>
 
                 </div>
             </div>
