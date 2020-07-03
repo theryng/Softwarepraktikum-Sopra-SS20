@@ -34,7 +34,7 @@ public class InstitutesController {
         List<Institute> allInstitutes = instituteService.findAllInstitutes();
         InstituteDTO instituteDTO = new InstituteDTO();
         instituteDTO.setAllInstitutes(allInstitutes);
-        instituteDTO.setViewInstituteTemp(new Institute());
+        instituteDTO.setInstitute(new Institute());
         model.addAttribute("instituteDTO", instituteDTO);
         return "institutes";
     }
@@ -54,7 +54,7 @@ public class InstitutesController {
             System.out.println("Fehler");
         }
         else{
-            instituteService.saveInstitute(instituteDTO.getViewInstituteTemp());
+            instituteService.saveInstitute(instituteDTO.getInstitute());
         }
         return "redirect:/institutes";
     }
@@ -73,20 +73,7 @@ public class InstitutesController {
         return "institutes";
     }
 
-    /**
-     * This method shows the details of a institute
-     *
-     * This method opens up the instituteDetails page of a specific institute the user wishes to see. Once the user clicks the
-     * button that this method is bound to the window will open and allows him to view the details to this institute.
-     *
-     * @param institute
-     * @return redirect:/instituteDetails
-     */
-    @RequestMapping("/viewInstitute")
-    public String viewInstitute(Institute institute) {
-        InstituteDetailsController.instituteID = institute.getInstituteID();
-        return "redirect:/instituteDetails";
-    }
+
     /**
      *  Method which can be used to search for a certain Institute.
      *  Calls the Contact Finder, and uses a searchWord to find a Institute.

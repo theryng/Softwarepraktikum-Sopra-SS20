@@ -47,28 +47,28 @@
                         <div class="modal-body">
                             Name: <input type="text" class="form-control" name = "name"
                                          title="Ein Name darf keinerlei Sonderzeichen enthalten"
-                                         th:field="*{viewInstituteTemp.name}" required>
+                                         th:field="*{institute.name}" required>
                                     <div class="valid-feedback">valid</div>
                                     <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{viewInstituteTemp.linkToHomepage}" required/></br>
+                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{institute.linkToHomepage}" required/></br>
 
-                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{viewInstituteTemp.email}" required/></br>
+                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{institute.email}" required/></br>
 
                             <div class = "row">
                                 <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{viewInstituteTemp.address.city}" required/>
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{institute.address.city}" required/>
 
                                 </div>
                                 <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{viewInstituteTemp.address.street}" required/>
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{institute.address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{viewInstituteTemp.address.houseNumber}"
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{institute.address.houseNumber}"
                                                       title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
-                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{viewInstituteTemp.address.zipCode}"
+                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{institute.address.zipCode}"
                                                         pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                                 </div>
                             </div>
