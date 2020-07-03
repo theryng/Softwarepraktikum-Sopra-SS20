@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
-    <title>Events</title>
+    <title>Event Details</title>
 </head>
 <body class="backgroundimage">
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
@@ -19,11 +19,10 @@
 <div class="container-fluid mt-5" style="background-image: url('Hintergrundbild.jpg')">
 
     <!-- Main Body of the EventDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
-    <h1 class="ml-1"> Eventinformationen</h1>
+    <h1 class="ml-1"> Event-Informationen</h1>
     <div class="row ml-1">
-        <form ACTION="#" th:action="@{/backEventDetails}" method="post">
-            <button type="submit" class="btn btn-secondary">Zurück</button>
-        </form>
+        <a type="button" class="btn btn-secondary" th:href="@{/events}" method="get" th:text="'Zurück'">
+        </a>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
@@ -35,19 +34,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Beziehung Löschen</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Event Löschen</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Sind sie sicher das Sie dieses Event löschen möchten?
+                        Sind sie sicher, dass Sie dieses Event löschen möchten?
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <form ACTION="#" th:action="@{/deleteEvent}" th:object="${event}" method="post">
-                            <input type="hidden" th:value="${event.eventID}" th:name ="eventID" />
+                        <form ACTION="#" th:action="@{/deleteEvent}" th:object="${eventDTO}" method="post">
+                            <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
 
                             <button type="submit" class="btn btn-danger ml-3">Event löschen</button>
                         </form>
@@ -72,40 +71,42 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${event}" th:action="@{/savingEvent}" method="post">
-                        <!-- Input and View Field for the Contact Details-->
-                        <input type="hidden" th:field="*{eventID}"/>
-                        <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
-                            <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
-                        </div>-->
+                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${eventDTO}" th:action="@{/savingEvent}" method="post">
+                        <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
+                        <!-- Input and View Field for the Event Details-->
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                            Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
+                        </div>
+
+                        <!-- Viewing and Editing general informations of the event-->
                         <div class="row">
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Eventname: <input type="text" class="form-control" name = "eventname"  th:field="*{eventname}" required/> </br>
+                                        Eventname: <input type="text" class="form-control" name = "eventname"  th:field="*{event.eventname}" required/> </br>
                                     </div>
                                 </div>
                             </div>
                             <div class = "col">
-                                Datum:<input type="date" id="start" class="form-control" name="date" th:value = "*{date}" th:field="*{date}"></br>
-                                Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
+                                Datum:<input type="date" id="start" class="form-control" name="date" th:value = "*{date}" th:field="*{event.date}"></br>
+                                Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{event.text}"/></br>
                             </div>
                         </div>
 
                         <div class = "row">
                             <div class = "col">
-                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{event.address.city}" required/>
 
                             </div>
                             <div class = "col">
-                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{event.address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{event.address.houseNumber}"
                                                   title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
-                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{event.address.zipCode}"
                                                     pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                             </div>
                         </div>
@@ -140,76 +141,53 @@
                 </div>
             </div>
         </div>
-        <!-- Second Accordion Element for Contacts
+
+        <!-- Second Accordion Element for Relationships-->
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <h3 class = "text-dark">Kontakte</h3>
+                        <h3>Teilnehmer</h3>
                     </button>
                 </h2>
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
-                    Table for Relationships
-                    <table class="table table-striped" th:if="${viewContact}">
+                    <!--Table for Relationships-->
+                    <table class="table table-striped" th:if="${viewTable}">
                         <tr>
                             <th>Name</th>
-                            <th>Art der Beziehung</th>
-                            <th>Mit</th>
-                            <th>Seit</th>
+                            <th>Studium</th>
+                            <th>Homepage</th>
                             <th>Funktionen</th>
                         </tr>
-                        <tr th:each="relationship : ${contact.outgoingRelationships}">
-                            <td th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></td>
-                            <td th:text="${relationship.typeOfRelationship}"></td>
-                            <td th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></td>
-                            <td th:text="${relationship.since}"></td>
+                        <tr th:each="contact : ${eventDTO.event.contacts}">
+                            <td th:text="${contact.firstname + ' ' + contact.lastname}"></td>
+                            <td th:text="${contact.courseOfStudies}"></td>
+                            <td th:text="${contact.linkToHomepage}"></td>
                             <td>
-
-                                 Button for Deletion of Relationship
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#relationshipModal">
-                                    Beziehung Löschen
-                                </button>
-
-                                 Modal for Deletion of Relationships
-                                <div class="modal fade" id="relationshipModal" tabindex="-1" role="dialog" aria-labelledby="relationshipModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="relationshipModalLabel">Beziehung Löschen</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Sind sie sicher das Sie diese Beziehung löschen möchten?
-                                                <div class="mt-2 text-muted"> Hinweis: Die Gegenrichtung wird ebenfalls entfernt</div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                                                 Button for Deletion of Relationship
-                                                <form ACTION="#" th:action="@{/deleteOutgoingRelationship}" th:object="${relationship}" method="post">
-                                                    <input type="hidden" th:value="${relationship.relationshipID}" th:name ="relationshipID" />
-                                                    <button type="submit" class="btn btn-danger">Beziehung löschen </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                <form ACTION="#" th:action="@{/deleteContactFromEvent}" th:object="${eventDTO}" method="post">
+                                    <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
+                                    <input type="hidden" th:value="${eventDTO.instituteID}" th:name ="eventID" />
+                                    <button type="submit" class="btn btn-danger">Teilnehmer entfernen </button>
+                                </form>
                             </td>
                         </tr>
                     </table>
-                     If Statement if no Relationship is available
-                    <div th:if="${not viewRelationship}"{class="ml-5 mr-5 mt-5">
-                        Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
+                    <!-- If Statement if no Relationship is available -->
+                    <div class="ml-5 mr-5 mt-5" th:if="${not viewTable}">
+                        Event hat keine Teilnehmer, neuen Teilnehmer zuordnen?
                     </div>
-                     Button to Start Creation of new Relationship
-                    <a type="button" th:href="@{/relationshipCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <!-- Button to Start Creation of new Relationship -->
+                    <!-- Button to enable the adding of other Contacts -->
+                    <a type="button" class="btn btn-primary" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
                     </a>
+
                 </div>
-            </div> -->
+            </div>
+        </div>
+
+
         </div>
 
 

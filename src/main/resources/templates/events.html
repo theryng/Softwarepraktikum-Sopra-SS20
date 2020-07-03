@@ -10,10 +10,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
+
     <title>Events</title>
 
 </head>
-<body>
+<body class="backgroundimage">
 <!--Obere Leiste für Einstsellungen, den Logout und den Profillink-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
@@ -23,7 +26,7 @@
     <div class="alert alert-danger" role="alert" th:if="${hasError}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
     </div>
-    <form action = "#" th:action = "@{/saveEvent}" th:object ="${event}" class="was-validated" method = post>
+    <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
         <div class="form-group mt-2 mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
@@ -41,30 +44,28 @@
                         </div>
                         <!--Inputs for an Event in a small Modal once the button: Neues Event hinzufügen is pushed-->
                         <div class="modal-body">
-                            Name: <input type="text" class="form-control" name = "eventName"
+                            Name: <input type="text" class="form-control" name = "name"
                                          title="Ein Name darf keinerlei Sonderzeichen enthalten"
-                                         th:field="*{eventName}" required>
+                                         th:field="*{event.eventName}" required>
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Datum:<input type="date" id="start" class="form-control" name="date" th:field="*{date}"></br>
-
-                            E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}" required/></br>
+                            Datum:<input type="date" id="start" class="form-control" name="date" th:field="*{event.date}"></br>
 
                             <div class = "row">
                                 <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{event.address.city}" required/>
 
                                 </div>
                                 <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{event.address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{address.houseNumber}"
+                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr"  th:field="*{event.address.houseNumber}"
                                                       title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
-                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
+                                    Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{event.address.zipCode}"
                                                         pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                                 </div>
                             </div>
@@ -90,14 +91,14 @@
             <th>Freier Text</th>
             <th>Funktionen</th>
         </tr>
-        <tr th:each="event : ${allEvents}">
+        <tr th:each="event : ${eventDTO.getAllEvents()}">
             <td th:text="${event.eventName}"></td>
             <td th:text="${event.date}"></td>
             <td th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></td>
             <td th:text="${event.text}"></td>
             <td>
                 <form ACTION="#" th:action="@{/viewEvent}" th:object="${event}">
-                    <input type="hidden" th:value="${event.eventId}" th:name ="eventId" />
+                    <input type="hidden" th:value="${event.eventID}" th:name ="eventID" />
                     <!--Button that opens up the editing window-->
                     <button type="submit" class="btn btn-secondary">Event einsehen </button>
                 </form>

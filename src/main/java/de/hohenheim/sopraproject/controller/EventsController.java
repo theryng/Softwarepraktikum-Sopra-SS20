@@ -1,5 +1,7 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.EventDTO;
+import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.EditingHistory;
 import de.hohenheim.sopraproject.entity.Event;
@@ -28,55 +30,39 @@ public class EventsController {
 
     @RequestMapping(value ="/events", method = RequestMethod.GET)
     public String events(Model model) {
-        String searchword = "";
         List<Event> allEvents = eventService.findAllEvents();
-        boolean showList = false;
-        if(allEvents.size()>0){
-            showList = true;
-        }
-        model.addAttribute("showList", showList);
-        model.addAttribute("allEvents", allEvents);
-        model.addAttribute("searchWord", searchword);
-        model.addAttribute("event", new Event());
-
-        return "event";
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.setAllEvents(allEvents);
+        eventDTO.setEvent(new Event());
+        model.addAttribute("eventDTO", eventDTO);
+        return "events";
     }
 
 
     @RequestMapping(value="/saveEvent", method = RequestMethod.POST)
-    public String saveEvent(@Valid Event event, BindingResult result, Model model){
-        if(result.hasErrors()){
+    public String saveEvent(@Valid EventDTO eventDTO, BindingResult result){
+        if(result.hasErrors()) {
             System.out.println("Fehler");
-
-            model.addAttribute("allEvents", eventService.findAllEvents());
-
-            return "events";
         }
-        else{
-            eventService.saveEvent(event);
+        else {
 
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            System.out.println(dateFormat.format(date));
-
-           // editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
-            return "redirect:/events";
+            eventService.saveEvent(eventDTO.getEvent());
+        }
+            return "recirect:/events";
         }
 
-
-
-    }
 
     @RequestMapping(value ="/searchEvent", method = RequestMethod.POST)
     public String searchEvents(String searchWord) {
 
         return "redirect:/events";
     }
-    @RequestMapping("/viewEvent")
-    public String viewEvent(Event event) {
-        EventDetailsController.eventID = event.getEventId();
-        return "redirect:/eventDetails";
+
+
+    @RequestMapping("/allEvents")
+    public String allEvents(Model model) {
+        model.addAttribute("allEvents", eventService.findAllEvents());
+        return "institutes";
     }
 
 }

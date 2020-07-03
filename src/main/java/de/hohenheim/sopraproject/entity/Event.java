@@ -2,7 +2,6 @@
 package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -17,7 +16,7 @@ public class Event {
 
     @Id
     @GeneratedValue
-    private Integer eventId;
+    private Integer eventID;
 
     private String date ;
 
@@ -40,7 +39,7 @@ public class Event {
      * programming which were made in the special setter methods has its validity, even if the attributes are called in
      * the constructor. This ensures that only attributes are set to the constructor which requires the conditions.
      * This is only for necessary for attributes with expanded setter.
-     * @param eventId
+     * @param eventID
      * @param date
      * @param address
      * @param eventName
@@ -51,9 +50,9 @@ public class Event {
      * @param day
      * @param contacts
      */
-    public Event(Integer eventId, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
+    public Event(Integer eventID, String date, Address address, String eventName, String text, Set<Contact> contactsEvent,
                  int year, int month, int day, Set<Contact> contacts) {
-        this.eventId = eventId;
+        this.eventID = eventID;
         setDate(year,month, day);
         this.address = address;
         this.eventName = eventName;
@@ -69,12 +68,12 @@ public class Event {
         this.contacts = contacts;
     }
 
-    public Integer getEventid() {
-        return eventId;
+    public Integer getEventId() {
+        return eventID;
     }
 
-    public void setEventid(Integer eventid) {
-        this.eventId = eventid;
+    public void setEventId(Integer eventID) {
+        this.eventID = eventID;
     }
 
     public String getDate() {
@@ -135,12 +134,12 @@ public class Event {
         this.text = text;
     }
 
-    public Integer getEventId() {
-        return eventId;
+    public Integer getEventID() {
+        return eventID;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+    public void setEventID(Integer eventID) {
+        this.eventID = eventID;
     }
 
     public Address getAddress() {

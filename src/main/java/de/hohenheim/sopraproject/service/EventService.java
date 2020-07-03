@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class EventService {
@@ -19,8 +19,7 @@ public class EventService {
     }
 
 
-
-    public void deleteByEventId(Integer id){
+    public void deleteByEventID(Integer id){
         eventRepository.deleteById(id);
     }
 
@@ -29,8 +28,8 @@ public class EventService {
     }
 
 
-    public Optional<Event> findByEventId(Integer id){
-      return eventRepository.findById(id);
+    public Event findByEventID(Integer id){
+     return  eventRepository.findByEventID(id);
    }
 
 }
