@@ -54,6 +54,9 @@ public class Contact {
 
     private String linkToHomepage;
 
+    @ManyToMany(mappedBy = "projectContacts")
+    private Set<Project> projects = new HashSet<>();
+
     @OneToMany(mappedBy = "contactA", cascade = CascadeType.ALL)
     public Set<Relationship> outgoingRelationships = new HashSet<>();
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Mark Wagner">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <title>Neue Kontakthistorie</title>
+
+</head>
+<body class="backgroundimage">
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
+<header th:insert="fragments/htmlHead.html :: header"> </header>
+
+<div class = "container-fluid mit-5">
+
+   <!--Main Body, with Heading and Progressbar -->
+    <div class="mr-5 ml-5 mt-3">
+        <h1>Erstellen einer neuen Beziehung</h1>
+    </div>
+    <div class="progress mr-5 ml-5 mt-3">
+        <div class="progress-bar" role="progressbar" aria-valuenow="70"
+             aria-valuemin="0" aria-valuemax="100" style="width:00%">
+            <span class="sr-only">00% Complete</span>
+        </div>
+    </div>
+    <div class="mr-5 ml-5 mt-3">
+        <!-- Back button to return to contactDetails -->
+        <a type="button" class="btn btn-secondary" th:href="@{/projectDetails/{ID}(ID=${projectDTO.getProjectID()})}" method="get" th:text="'zurück'">
+        </a>
+
+        <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
+        <!--Search button, to search for a certain contact to have a relationship with-->
+        <from class="mt-2" ACTION="#" th:action="@{/searchProjectContact}" th:object ="${projectDTO}" method="post">
+            <input th:value="${projectDTO.searchWord}" th:name="searchWord" />
+            <input type="hidden" th:value="${projectDTO.projectID}" th:name="projectID" />
+            <button type="submit" class="btn btn-danger ml-2">Suchen</button>
+        </from>
+        <!-- Table with the possible results -->
+        <tr th:if="${viewTable}" class="table table-striped mt-3">
+            <tr>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Email</th>
+                <th>Funktion</th>
+            </tr>
+            <tr th:each="contacts : ${projectDTO.foundProjects}">
+                <td th:text="${contacts.firstname}"></td>
+                <td th:text="${contacts.lastname}"></td>
+                <td th:text="${contacts.email}"></td>
+                <td>
+                    <!-- Button which selects the contact you have a relationship with -->
+                    <from ACTION="#" th:action="@{/setProjectContact}" th:object="${projectDTO}" method="post">
+                        <input type="hidden" th:value="${contacts.getContactID()}" th:name="contactTempID" />
+                        <input type="hidden" th:value="${projectDTO.projectID}" th:name="projectID" />
+                        <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                    </from>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</body>
+</html>
