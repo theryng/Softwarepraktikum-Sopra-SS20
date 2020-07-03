@@ -1,5 +1,7 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.dto.ContactHistoryDTO;
+import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Institute;
@@ -8,6 +10,7 @@ import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ContactHistoryRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.repository.RelationshipRepository;
+import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,7 +38,7 @@ import java.util.Set;
 @Controller
 public class InstituteDetailsController {
 
-    public static Integer instituteID;
+
 
     @Autowired
     private InstituteService instituteService;
@@ -41,11 +46,7 @@ public class InstituteDetailsController {
     @Autowired
     private ContactService contactService;
 
-    public static Institute institute;
 
-
-    private boolean existingContacts = false;
-    public boolean hasError = false;
 
     /**
      * Main method for Viewing of Institute Details Site, adds necessary Attributes
@@ -55,12 +56,12 @@ public class InstituteDetailsController {
     @RequestMapping(value = "/instituteDetails/{instituteID}", method = RequestMethod.GET)
     public String instituteDetails(@PathVariable("instituteID") Integer instituteID, Model model) {
         System.out.println("Testing the stuff " + instituteID);
+        InstituteDTO instituteDTO = new InstituteDTO();
         Institute institute = instituteService.findByInstitutesID(instituteID);
-
-        String searchWord = "";
-        model.addAttribute("institute", institute);
-        model.addAttribute("tempContact", new Contact());
-        model.addAttribute("searchWord", searchWord);
+        instituteDTO.setInstitute(institute);
+        instituteDTO.setInstituteID(instituteDTO.getInstitute().getInstituteID());
+        model.addAttribute("instituteDTO", instituteDTO);
+        model.addAttribute("viewTable", checkTables(institute));
         return "institutes/instituteDetails";
     }
 
@@ -71,110 +72,52 @@ public class InstituteDetailsController {
      * existing institute. As long thats not the case a new institute will be saved to the database. Once the institute is saved
      * the page will be reloaded to update the table with the new given information/attributes.
      *
-     * @param institute
+     * @param instituteDTO
      * @return redirect:/institutes
      */
     @RequestMapping(value = "/savingInstitute", method = RequestMethod.POST)
-    public String savingInstitute(@Valid Institute institute, BindingResult result) {
+    public String savingInstitute(@Valid InstituteDTO instituteDTO, BindingResult result, Model model) {
         if(result.hasErrors()){
-            hasError = true;
-            return "redirect:/instituteDetails";
+            return "institutes/instituteDetails";
         }
         else{
-            hasError = false;
-            institute.setInstituteID(instituteID);
+            Institute institute = instituteDTO.getInstitute();
+            institute.setInstituteID(instituteDTO.getInstituteID());
             if(!instituteService.findByInstitutesID(institute.getInstituteID()).equals(institute)){
                 instituteService.saveInstitute(institute);
             }
-            return "redirect:/instituteDetails";
+            instituteDTO.setInstitute(institute);
+            model.addAttribute("instituteDTO", instituteDTO);
+            return "institutes/instituteDetails";
         }
     }
-
-    /**
-     * This method deletes an existing institute inside the database
-     *
-     * An existing institute will be deleted. The corresponding contactID will also be deleted so new contacts can get this
-     * ID in the future. Once the institute is deleted the page will be reloaded to update the contact table.
-     *
-     * @param institute
-     * @return redirect:/institutes
-     */
 
     @RequestMapping(value = "/deleteInstitute", method = RequestMethod.POST)
-    public String deleteInstitute(Institute institute) {
-        instituteService.deleteByInstituteID(institute.getInstituteID());
+    public String deleteInstitute(InstituteDTO instituteDTO) {
+        instituteService.deleteByInstituteID(instituteDTO.getInstituteID());
         return "redirect:/institutes";
     }
 
-    /**
-     * This method exits the instituteDetails
-     *
-     * This method exits the instituteDetails page by clicking on a corresponding button bounded with this method. Once clicked
-     * the page will be redirected to the institute page.
-     *
-     * @return redirect:/institutes
-     */
-    @RequestMapping(value = "/backInstituteDetails", method = RequestMethod.POST)
-    public String backInstituteDetails() {
-        instituteID = null;
-        return "redirect:/institutes";
-    }
-
-    /**
-     * This method removes the chosen Contact from the Contacts of the Institute
-     *
-     * @return redirect:/institutes
-     */
     @RequestMapping(value = "/deleteContactFromInstitute", method = RequestMethod.POST)
-    public String deleteContactFromInstitute(Contact contact) {
-        System.out.println(contact.getContactID());
-        Contact contactTemp = new Contact();
-        Set<Contact> contactInstitute = institute.getContacts();
-        System.out.println(contactInstitute.size());
-        boolean exists = false;
-        for(Contact con : contactInstitute){
-            System.out.println(con.getContactID());
-            if(con.getContactID() == (contact.getContactID())){
-                exists = true;
-                contactTemp = con;
-                institute.setContacts(new HashSet<>());
-                contactInstitute.remove(contactTemp);
-                institute.setContacts(contactInstitute);
-                instituteService.saveInstitute(institute);
-                return "redirect:/instituteDetails";
-            }
-            else{
-                exists = false;
-            }
-        }
+    public String deleteContactFromInstitute(InstituteDTO instituteDTO, Model model) {
+        Institute institute = instituteService.findByInstitutesID(instituteDTO.getInstituteID());
+        Set<Contact> contacts = institute.getContacts();
+        System.out.println(contacts.size());
+        Contact deleteContact = contactService.findByContactID(instituteDTO.getContactTempID());
+        contacts.remove(deleteContact);
+        System.out.println(contacts.size());
+        institute.setContacts(contacts);
+        instituteService.saveInstitute(institute);
+        instituteDTO.setInstitute(institute);
+        model.addAttribute("instituteDTO", instituteDTO);
+        model.addAttribute("viewTable", checkTables(institute));
+        return "institutes/instituteDetails";
+    }
 
-        System.out.println(contactInstitute.size());
-        return "redirect:/instituteDetails";
-    }
-    /**
-     * This method deletes the chosen Contact from the Contacts of the Institute
-     * @param institute
-     * @return redirect:/institutes
-     */
-    @RequestMapping(value ="/addContactsToInstitute", method = RequestMethod.POST)
-    public String addContactsToInstitute(Institute institute) {
-        InstituteContactCreatorController.insituteID = institute.getInstituteID();
-        return "redirect:/instituteContactCreator";
-    }
-    /**
-     * This method checks whether there are tables to display
-     *
-     * This method checks whether the institute has an existing contact. If the count for each of them is higher
-     * than 0 it will return the boolean true
-     *
-     * @param institute
-     */
-    private void checkTables(Institute institute){
+    private boolean checkTables(Institute institute){
         if(institute.getContacts().size()>0){
-            existingContacts = true;
+            return true;
         }
-        else{
-            existingContacts = false;
-        }
+        return false;
     }
 }
