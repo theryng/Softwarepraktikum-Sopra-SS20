@@ -468,7 +468,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         //example events
         Event picknick = new Event();
-        picknick.setDate(2020, 06, 06);
+        picknick.setDate(2020, 06, 01);
         picknick.setEventName("Picknick");
         picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));

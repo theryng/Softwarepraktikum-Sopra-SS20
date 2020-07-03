@@ -29,15 +29,15 @@
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
         <div class="form-group mt-2 mr-5">
             <!-- Submit Button -->
-            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#eventSubmitModal">
                 Neues Event hinzufügen
             </button>
             <!-- Modal for Submit Button -->
-            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+            <div class="modal fade" id="eventSubmitModal" tabindex="-1" role="dialog" aria-labelledby="eventSubmitModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="submitModalLabel">Event speichern</h5>
+                            <h5 class="modal-title" id="eventSubmitModalLabel">Event speichern</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -50,7 +50,8 @@
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Datum:<input type="date" id="start" class="form-control" name="date" th:field="*{event.date}"></br>
+                            Datum:<input type="date" id="start" class="form-control" name="date" th:field="*{event.date}">
+                            Freier Text: <input type="text" id="text" class="form-control" name="date" th:field="*{event.text}"><br>
 
                             <div class = "row">
                                 <div class = "col">
@@ -97,11 +98,11 @@
             <td th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></td>
             <td th:text="${event.text}"></td>
             <td>
-                <form ACTION="#" th:action="@{/viewEvent}" th:object="${event}">
-                    <input type="hidden" th:value="${event.eventID}" th:name ="eventID" />
-                    <!--Button that opens up the editing window-->
-                    <button type="submit" class="btn btn-secondary">Event einsehen </button>
-                </form>
+
+                <a type="button" th:href="@{/eventDetails/{eventID}(eventID=${event.getEventID()})}" method="get">
+                    <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                </a>
+
             </td>
         </tr>
     </table>
@@ -140,10 +141,11 @@ a free text about an event. Each event has a button at the end of its row, which
     </table>
 -->
 </div>
-
-
-
-
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </body>
 </html>

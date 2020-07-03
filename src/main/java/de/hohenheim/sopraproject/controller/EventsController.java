@@ -48,7 +48,7 @@ public class EventsController {
 
             eventService.saveEvent(eventDTO.getEvent());
         }
-            return "recirect:/events";
+            return "redirect:/events";
         }
 
 
@@ -62,7 +62,7 @@ public class EventsController {
     @RequestMapping("/allEvents")
     public String allEvents(Model model) {
         model.addAttribute("allEvents", eventService.findAllEvents());
-        return "institutes";
+        return "events";
     }
 
 }

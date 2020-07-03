@@ -25,7 +25,7 @@ public class EventDetailsController {
     @Autowired
     private ContactService contactService;
 
-    @RequestMapping(value = "/eventDetails/{eventID}", method = RequestMethod.GET)
+    @GetMapping(value = "/eventDetails/{eventID}")
     public String eventDetails(@PathVariable("eventID") Integer eventID, Model model) {
         System.out.println("Testing the stuff " + eventID);
         EventDTO eventDTO = new EventDTO();
@@ -58,7 +58,7 @@ public class EventDetailsController {
             if(!eventService.findByEventID(event.getEventID()).equals(event)){
                 eventService.saveEvent(event);
             }
-            eventDTO.setEvent(event);
+           eventDTO.setEvent(event);
             model.addAttribute("eventDTO", eventDTO);
             return "events/eventDetails";
         }
