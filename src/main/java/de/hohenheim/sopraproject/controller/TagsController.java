@@ -47,7 +47,7 @@ public class TagsController {
      * @return contacts
      */
     @GetMapping("/tags/{objectType}/{id}")
-    public String tags(@PathVariable("objectType") String objectType, @PathVariable("id") String id, Model model) {
+    public String tags(@PathVariable("objectType") String objectType, @PathVariable("id") int id, Model model) {
         String searchword = "";
         List<Tags> allTags = tagsService.findAllTags();
         boolean showList = false;

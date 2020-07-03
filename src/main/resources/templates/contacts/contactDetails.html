@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
     <title>Kontakte</title>
 </head>
 
@@ -243,6 +244,7 @@
                             <td th:text="${contacthistories.date}"></td>
                             <td th:text="*{contacthistories.text}"></td>
                             <td>
+
                                 <!--Button that opens up the editing window-->
                                 <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
                                 </a>
@@ -274,9 +276,15 @@
             <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                 <div class="card-body">
                         <a th:each="tag : ${contact.tags}">
-                            <a type="button" class="btn btn-secondary" th:href="@{/deleteContactTag/{tagId}/{contactId}(tagId= ${tag.getTagsID()}, contactId=${contact.getContactID()})}" th:text="${tag.name}">
-                                <i class="fas fa-times"></i>
-                            </a>
+
+                            <form ACTION="#" th:action="@{/deleteContactTag}" th:object="${tagDTO}" method="get">
+                                <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
+                                <input type="hidden" th:field="${tagDTO.originalID}" />
+                                <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                    <a class="mr-2" th:text="${tag.name}"></a>
+                                    <i class="fas fa-times icon-large" ></i> </button>
+                            </form>
+
                         </a>
                     <!-- If Statement if no Relationship is available -->
                     <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >

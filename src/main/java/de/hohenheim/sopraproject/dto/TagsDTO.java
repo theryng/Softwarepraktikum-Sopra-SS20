@@ -5,8 +5,8 @@ import de.hohenheim.sopraproject.entity.Tags;
 public class TagsDTO {
     private Tags tag = new Tags();
     private String type;
-    private String originalID;
-    private String tagID;
+    private int originalID;
+    private int tagID;
     private String searchWord;
 
     public TagsDTO() {
@@ -28,19 +28,19 @@ public class TagsDTO {
         this.type = type;
     }
 
-    public String getOriginalID() {
+    public int getOriginalID() {
         return originalID;
     }
 
-    public void setOriginalID(String originalID) {
+    public void setOriginalID(int originalID) {
         this.originalID = originalID;
     }
 
-    public String getTagID() {
+    public int getTagID() {
         return tagID;
     }
 
-    public void setTagID(String tagID) {
+    public void setTagID(int tagID) {
         this.tagID = tagID;
     }
 

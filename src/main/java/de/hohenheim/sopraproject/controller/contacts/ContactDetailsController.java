@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.controller.contacts;
 
 import de.hohenheim.sopraproject.dto.ContactDTO;
+import de.hohenheim.sopraproject.dto.TagsDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Relationship;
@@ -8,6 +9,7 @@ import de.hohenheim.sopraproject.entity.Tags;
 import de.hohenheim.sopraproject.service.ContactHistoryService;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.RelationshipService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +38,9 @@ public class ContactDetailsController {
     private ContactService contactService;
 
     @Autowired
+    private TagsService tagsService;
+
+    @Autowired
     private ContactHistoryService contactHistoryService;
 
     @Autowired
@@ -52,12 +57,15 @@ public class ContactDetailsController {
         Contact contact = contactService.findByContactID(contactID);
         System.out.println("Anzahl Tags: " + contact.getTags().size());
         String searchWord = "";
+        TagsDTO tagsDTO = new TagsDTO();
+        tagsDTO.setOriginalID(contactID);
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());
         model.addAttribute("viewContactHistory", checkContactHistoryList(contact.getContactHistory()));
         model.addAttribute("viewRelationship", checkRelationshipList(contact.getOutgoingRelationships()));
         model.addAttribute("searchWord", searchWord);
+        model.addAttribute("tagDTO", tagsDTO);
         return "contacts/contactDetails";
     }
 
@@ -138,17 +146,28 @@ public class ContactDetailsController {
         return "redirect:/contactDetails/"+id;
     }
 
-    @GetMapping("/deleteContactTag/{tagID}/{contactID}")
-    public String deleteContactTag(@PathVariable("tagID") Integer tagID, @PathVariable("contactID") Integer contactID) {
-        List<Tags> tags = contactService.findByContactID(contactID).getTags();
-        System.out.println("Number of Tags" + tags.size());
+    @GetMapping("/deleteContactTag")
+    public String deleteContactTag(TagsDTO tagsDTO) {
+        List<Tags> tags = contactService.findByContactID(tagsDTO.getOriginalID()).getTags();
+        System.out.println("Number of Tags 1" + tags.size());
+        Tags removeTag = new Tags();
         for(Tags tag : tags){
-            if(tag.getTagsID() == tagID){
-                tags.remove(tag);
+            if(tag.getTagsID() == tagsDTO.getTagID()){
+                    System.out.println("remove");
+                    removeTag = tag;
             }
         }
+        tags.remove(removeTag);
 
-        return "contactDetails/"+contactID;
+        System.out.println("Number of Tags 2" + tags.size());
+        Contact contact = contactService.findByContactID(tagsDTO.getOriginalID());
+        contact.setTags(tags);
+        System.out.println(contact.getTags().size());
+        contactService.saveContact(contact);
+        Tags tag = tagsService.findByTagID(removeTag.getTagsID());
+        tag.getContacts().remove(contact);
+        tagsService.saveTags(tag);
+        return "redirect:/contactDetails/"+contact.getContactID();
     }
     /**
      * This method exits the contactDetails
