@@ -23,10 +23,10 @@
 <div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
 
     <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Events in der Datenbank</h3>
-    <div class="alert alert-danger" role="alert" th:if="${hasError}">
-        Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
-    </div>
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
+    <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+        Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+</div>
         <div class="form-group mt-2 mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#eventSubmitModal">
@@ -140,7 +140,7 @@ a free text about an event. Each event has a button at the end of its row, which
         </tr>
     </table>
 -->
-</div>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

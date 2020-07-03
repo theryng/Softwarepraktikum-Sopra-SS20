@@ -40,9 +40,13 @@ public class EventsController {
 
 
     @RequestMapping(value="/saveEvent", method = RequestMethod.POST)
-    public String saveEvent(@Valid EventDTO eventDTO, BindingResult result){
+    public String saveEvent(@Valid EventDTO eventDTO, BindingResult result, Model model){
         if(result.hasErrors()) {
             System.out.println("Fehler");
+            model.addAttribute("allEvents", eventService.findAllEvents());
+
+            return "events";
+
         }
         else {
 
