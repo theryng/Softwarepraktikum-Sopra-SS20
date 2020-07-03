@@ -74,7 +74,8 @@
 }
 .backgroundimage{
     background-image: url("Hintergrundbild.jpg");
-
+    background-position: right top;
+    background-attachment: fixed;
     /* Full height */
     height: 100%;
     align-content: center;
