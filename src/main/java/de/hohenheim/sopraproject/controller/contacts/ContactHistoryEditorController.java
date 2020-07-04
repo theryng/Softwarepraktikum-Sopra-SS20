@@ -1,4 +1,4 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.contacts;
 
 import de.hohenheim.sopraproject.dto.ContactHistoryDTO;
 import de.hohenheim.sopraproject.entity.Contact;
