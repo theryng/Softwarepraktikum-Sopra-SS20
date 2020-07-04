@@ -78,7 +78,7 @@
         <tr th:each="project : ${projectDTO.getAllProjects()}">
             <td th:text="${project.name}"></td>
             <td th:text="${project.description}" th:href="${project.description}"></td>
-            <td th:date="${project.since}"></td>
+            <td th:text="${project.since}"></td>
             <td>
                 <!--Button that opens up the editing window-->
                 <a type="button" th:href="@{/projectDetails/{projectId}(projectId=${project.getProjectID()})}" method="get">

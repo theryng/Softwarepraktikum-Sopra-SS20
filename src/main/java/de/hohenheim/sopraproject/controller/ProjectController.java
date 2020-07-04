@@ -55,6 +55,7 @@ public class ProjectController {
         }
         else{
             projectService.saveProject(projectDTO.getProject());
+
         }
         return "redirect:/projects";
     }

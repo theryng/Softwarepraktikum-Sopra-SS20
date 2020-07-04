@@ -22,8 +22,6 @@ import java.util.List;
 
 /**
  * Controller for the First Step of the Relationship Creation process
- * @date 26.06.2020
- * @author Lukas Januschke
  */
 @Controller
 public class ProjectContactCreatorController {
