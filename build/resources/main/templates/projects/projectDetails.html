@@ -73,7 +73,7 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${projectDTO}" th:action="@{/savingproject}" method="post">
+                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${projectDTO}" th:action="@{/savingProject}" method="post">
 
                         <input type="hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
                         <!-- Input and View Field for the Contact Details-->
