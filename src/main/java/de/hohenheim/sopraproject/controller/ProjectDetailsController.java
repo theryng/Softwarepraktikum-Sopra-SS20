@@ -17,15 +17,15 @@ import javax.validation.Valid;
 import java.util.Set;
 
 /**
- * This controller is used to handle all methods revolving around the html page projectDetails
+ * This controller is used to handle all methods revolving around the html page ProjectDetails
  *
- * It helps with various method to save new Projects, delete existing ones, open up the ProjectContactCreator.
+ * It helps with various method to save new projects, delete existing ones, open up the ProjectContactCreator.
  *
- * @date 01.07.2020
- * @author Mark Wagner (orientated by work of Lukas Januschke)
  */
 @Controller
 public class ProjectDetailsController {
+
+
 
     @Autowired
     private ProjectService projectService;
@@ -107,7 +107,4 @@ public class ProjectDetailsController {
         }
         return false;
     }
-
 }
-
-

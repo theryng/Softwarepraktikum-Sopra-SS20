@@ -37,7 +37,7 @@ public class Institute {
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "institutes")
     private Set<Project> projects = new HashSet<>();
 
     public Institute(){

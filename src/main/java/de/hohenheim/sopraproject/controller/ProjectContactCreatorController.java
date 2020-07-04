@@ -1,11 +1,10 @@
 package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.dto.ProjectDTO;
+import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
 import de.hohenheim.sopraproject.entity.Project;
-import de.hohenheim.sopraproject.repository.ContactRepository;
-import de.hohenheim.sopraproject.repository.ProjectRepository;
+import de.hohenheim.sopraproject.entity.Relationship;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.ProjectService;
@@ -16,14 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
- * Controller to add contacts from the database to a project
+ * Controller for the First Step of the Relationship Creation process
+ * @date 26.06.2020
+ * @author Lukas Januschke
  */
 @Controller
 public class ProjectContactCreatorController {
@@ -79,9 +79,8 @@ public class ProjectContactCreatorController {
         System.out.println(projectDTO.getContactTempID());
         System.out.println(projectDTO.getProjectID());
         Project project = projectService.findByProjectID(projectDTO.getProjectID());
-        project.addProjectContact(contactService.findByContactID(projectDTO.getContactTempID()));
+        project.addProjectContacts(contactService.findByContactID(projectDTO.getContactTempID()));
         projectService.saveProject(project);
         return "redirect:/projectDetails/"+projectDTO.getProjectID();
     }
-
 }

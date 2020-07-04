@@ -1,6 +1,5 @@
 package de.hohenheim.sopraproject.service;
 
-import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.Project;
 import de.hohenheim.sopraproject.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,12 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Project findByProjectID(Integer id){
+    public Project findByProjectID(Integer id) {
         return projectRepository.findByProjectID(id);
     }
 
-    public void deleteByProjectID(Integer id){
+    public void deleteByProjectID(Integer id) {
         projectRepository.deleteById(id);
     }
 }
+

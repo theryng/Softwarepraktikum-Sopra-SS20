@@ -3,21 +3,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="author" content="Mark Wagner">
+    <meta name="author" content="Lukas Januschke">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
-    <title>Neue Kontakthistorie</title>
-
+    <title>Neue Beziehung</title>
 </head>
 <body class="backgroundimage">
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<div class = "container-fluid mit-5">
+<div class="container-fluid mt-5">
 
-   <!--Main Body, with Heading and Progressbar -->
+    <!-- Main Body, with Heading and Progressbar -->
     <div class="mr-5 ml-5 mt-3">
         <h1>Erstellen einer neuen Beziehung</h1>
     </div>
@@ -29,18 +28,18 @@
     </div>
     <div class="mr-5 ml-5 mt-3">
         <!-- Back button to return to contactDetails -->
-        <a type="button" class="btn btn-secondary" th:href="@{/projectDetails/{ID}(ID=${projectDTO.getProjectID()})}" method="get" th:text="'zurück'">
+        <a type="button" class="btn btn-secondary" th:href="@{/projectDetails/{ID}(ID=${projectDTO.getProjectID()})}" method="get" th:text="'Zurück'">
         </a>
 
         <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
-        <!--Search button, to search for a certain contact to have a relationship with-->
-        <from class="mt-2" ACTION="#" th:action="@{/searchProjectContact}" th:object ="${projectDTO}" method="post">
-            <input th:value="${projectDTO.searchWord}" th:name="searchWord" />
-            <input type="hidden" th:value="${projectDTO.projectID}" th:name="projectID" />
-            <button type="submit" class="btn btn-danger ml-2">Suchen</button>
-        </from>
-        <!-- Table with the possible results -->
-        <tr th:if="${viewTable}" class="table table-striped mt-3">
+        <!-- Search Button, to search for a certain Contact to have a Relationship with -->
+        <form class="mt-2" ACTION="#" th:action="@{/searchProjectContact}" th:object="${projectDTO}" method="post">
+            <input th:value="${projectDTO.searchWord}" th:name ="searchWord" />
+            <input type = "hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
+            <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+        </form>
+        <!-- Table with the Possible Results -->
+        <table th:if="${viewTable}" class="table table-striped mt-3">
             <tr>
                 <th>Vorname</th>
                 <th>Nachname</th>
@@ -52,17 +51,18 @@
                 <td th:text="${contacts.lastname}"></td>
                 <td th:text="${contacts.email}"></td>
                 <td>
-                    <!-- Button which selects the contact you have a relationship with -->
-                    <from ACTION="#" th:action="@{/setProjectContact}" th:object="${projectDTO}" method="post">
-                        <input type="hidden" th:value="${contacts.getContactID()}" th:name="contactTempID" />
-                        <input type="hidden" th:value="${projectDTO.projectID}" th:name="projectID" />
+                    <!-- Button which selects the Contact you have a relationship with -->
+                    <form ACTION="#" th:action="@{/setProjectContact}" th:object="${projectDTO}" method="post">
+                        <input type="hidden" th:value="${contacts.getContactID()}" th:name ="contactTempID" />
+                        <input type = "hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
                         <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
-                    </from>
+                    </form>
                 </td>
             </tr>
         </table>
     </div>
 </div>
+
 
 
 <!-- Optional JavaScript -->

@@ -23,7 +23,7 @@
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Projekt Informationen</h1>
     <div class="row ml-1">
-        <a type="button" class="btn btn-secondary" th:href="@{/projects}" method="get" th:text="'zurück'">
+        <a type="button" class="btn btn-secondary" th:href="@{/projects}" method="get" th:text="'Zurück'">
         </a>
 
         <!-- Button trigger modal -->
@@ -36,7 +36,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Projekt löschen</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Institut löschen</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -66,19 +66,22 @@
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h3>Allgemeine Informationen</h3>
+                        <h3>Allgemeine Kontaktinformationen</h3>
                     </button>
                 </h1>
             </div>
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${projectDTO}" th:action="@{/savingProject}" method="post">
+                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${projectDTO}" th:action="@{/savingproject}" method="post">
+
+                        <input type="hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
                         <!-- Input and View Field for the Contact Details-->
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
                         </div>
-                        <!--Viewing and Editing general Informations of the Project-->
+
+                        <!--Viewing and Editing general Informations of the project-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
                                          pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
@@ -86,7 +89,7 @@
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Kurzbeschreibung:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{project.description}" required/></br>
+                            Beschreibung:<input type="text" class="form-control" name = "description" th:field="*{project.description}" required/></br>
 
                             Seit:<input type="date" class="form-control" name = "since" th:field="*{project.since}" required/></br>
                         </div>
@@ -127,7 +130,7 @@
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <h3>Personen</h3>
+                        <h3>Mitarbeiter</h3>
                     </button>
                 </h2>
             </div>
@@ -148,17 +151,19 @@
                             <td>
                                 <form ACTION="#" th:action="@{/deleteContactFromProject}" th:object="${projectDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
-                                    <button type="submit" class="btn btn-danger">Person entfernen </button>
+                                    <input type="hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
+                                    <button type="submit" class="btn btn-danger">Mitarbeiter entfernen </button>
                                 </form>
                             </td>
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
                     <div class="ml-5 mr-5 mt-5" th:if="${not viewTable}">
-                        Projekt besitzt keine Personen, neue Person zuordnen?
+                        Projekt besitzt keine Mitarbeiter, neuen Mitarbeiter zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
-                    <a type="button" class="btn btn-primary" th:href="@{/projectContactCreator/{projectID}(projectID=${projectDTO.getProjectID()})}">
+                    <!-- Button to enable the adding of other Contacts -->
+                    <a type="button" class="btn btn-primary" th:href="@{/projectContactCreator/{projectID}(projectID=${projectDTO.getProjectID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
                     </a>
 
                 </div>
@@ -175,4 +180,3 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
-</html>

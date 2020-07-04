@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProjectDTO {
-
     private Project project = new Project();
     private List<Project> allProjects = new LinkedList<>();
     private List<Contact> foundProjects = new LinkedList<>();
@@ -20,14 +19,6 @@ public class ProjectDTO {
     public ProjectDTO() {
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
     public List<Project> getAllProjects() {
         return allProjects;
     }
@@ -36,28 +27,19 @@ public class ProjectDTO {
         this.allProjects = allProjects;
     }
 
-    public List<Contact> getFoundProjects() {
-        return foundProjects;
+    public Integer getContactTempID() {
+        return contactTempID;
+    }
+    public void setContactTempID(Integer contactTempID) {
+        this.contactTempID = contactTempID;
     }
 
-    public void setFoundProjects(List<Contact> foundProjects) {
-        this.foundProjects = foundProjects;
+    public Project getProject() {
+        return project;
     }
 
-    public List<Contact> getChosenProjects() {
-        return chosenProjects;
-    }
-
-    public void setChosenProjects(List<Contact> chosenProjects) {
-        this.chosenProjects = chosenProjects;
-    }
-
-    public String getSearchWord() {
-        return searchWord;
-    }
-
-    public void setSearchWord(String searchWord) {
-        this.searchWord = searchWord;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Integer getProjectID() {
@@ -68,6 +50,23 @@ public class ProjectDTO {
         this.projectID = projectID;
     }
 
+
+    public List<Contact> getFoundProjects() {
+        return foundProjects;
+    }
+
+    public void setFoundProjects(List<Contact> foundProjects) {
+        this.foundProjects = foundProjects;
+    }
+
+    public String getSearchWord() {
+        return searchWord;
+    }
+
+    public void setSearchWord(String searchWord) {
+        this.searchWord = searchWord;
+    }
+
     public Contact getContact() {
         return contact;
     }
@@ -76,11 +75,12 @@ public class ProjectDTO {
         this.contact = contact;
     }
 
-    public Integer getContactTempID() {
-        return contactTempID;
+    public List<Contact> getChosenProjects() {
+        return chosenProjects;
     }
 
-    public void setContactTempID(Integer contactTempID) {
-        this.contactTempID = contactTempID;
+    public void setChosenProjects(List<Contact> chosenProjects) {
+        this.chosenProjects = chosenProjects;
     }
 }
+

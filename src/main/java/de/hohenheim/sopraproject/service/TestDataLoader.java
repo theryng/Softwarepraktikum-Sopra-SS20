@@ -591,8 +591,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         covid.setName("Corona tracking App");
         covid.setDescription("Entwickeln einer Corona tracking App to flatten the curve");
         covid.setSince(2020, 04, 20);
-        covid.addProjectContact(max);
-        covid.addProjectContact(jana);
+        covid.addProjectContacts(max);
+        covid.addProjectContacts(jana);
         covid.addProjectInstitutes(sap);
         projectService.saveProject(covid);
     }
