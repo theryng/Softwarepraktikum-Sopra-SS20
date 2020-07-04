@@ -39,6 +39,7 @@ public class UserDetailsController {
         }
         else{
             User user = userDto.getUser();
+            System.out.println("username "+userDto.getUsername());
             userDto.setUsername(userDto.getUsername());
             if(!userService.getUserByUsername(user.getUsername()).equals(user)){
                 userService.saveUser(user);
