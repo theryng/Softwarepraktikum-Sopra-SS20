@@ -73,7 +73,10 @@ public class EventContactCreatorController {
         System.out.println(eventDTO.getContactTempID());
         System.out.println(eventDTO.getEventID());
         Event event = eventService.findByEventID(eventDTO.getEventID());
+        System.out.println("Größen Liste");
+        System.out.println(event.getContacts().size());
         event.addEventContact(contactService.findByContactID(eventDTO.getContactTempID()));
+        System.out.println(event.getContacts().size());
         eventService.saveEvent(event);
         return "redirect:/eventDetails/"+eventDTO.getEventID();
     }

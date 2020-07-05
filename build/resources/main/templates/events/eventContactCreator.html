@@ -27,7 +27,7 @@
     </div>
     <div class="mr-5 ml-5 mt-3">
         <!-- Back button to return to contactDetails -->
-        <a type="button" class="btn btn-secondary" th:href="@{/eventDetails/{ID}(ID=${eventDTO.getEventId()})}" method="get" th:text="'Zurück'">
+        <a type="button" class="btn btn-secondary" th:href="@{/eventDetails/{ID}(ID=${eventDTO.getEventID()})}" method="get" th:text="'Zurück'">
         </a>
 
         <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
@@ -45,7 +45,7 @@
                 <th>Email</th>
                 <th>Funktion</th>
             </tr>
-            <tr th:each="contacts : ${instituteDTO.foundInstitutes}">
+            <tr th:each="contacts : ${eventDTO.foundEvents}">
                 <td th:text="${contacts.firstname}"></td>
                 <td th:text="${contacts.lastname}"></td>
                 <td th:text="${contacts.email}"></td>
@@ -53,7 +53,7 @@
                     <!-- Button which selects the Contact you have a relationship with -->
                     <form ACTION="#" th:action="@{/setEventContact}" th:object="${eventDTO}" method="post">
                         <input type="hidden" th:value="${contacts.getContactID()}" th:name ="contactTempID" />
-                        <input type = "hidden" th:value="${eventDTO.instituteID}" th:name ="eventID" />
+                        <input type = "hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
                         <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
                     </form>
                 </td>

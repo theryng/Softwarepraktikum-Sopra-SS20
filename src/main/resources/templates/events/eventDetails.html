@@ -16,7 +16,7 @@
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<div class="container-fluid mt-5" style="background-image: url('Hintergrundbild.jpg')">
+<div class="container-fluid mt-5">
 
     <!-- Main Body of the EventDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Event-Informationen</h1>
@@ -71,8 +71,8 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${eventDTO}" th:action="@{/savingEvent}" method="post">
-                        <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
+                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${event}" th:action="@{/savingEvent}" method="post">
+                        <input type="hidden" th:value="${event.eventID}" th:name ="eventID" />
                         <!-- Input and View Field for the Event Details-->
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             Bitte überprüfen Sie Ihre Änderungen, da diese Fehlerhaft sind.
@@ -83,30 +83,30 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Eventname: <input type="text" class="form-control" name = "eventName"  th:field="*{event.eventName}" required/> </br>
+                                        Eventname: <input type="text" class="form-control" name = "eventName"  th:field="*{eventName}" required/> </br>
                                     </div>
                                 </div>
                             </div>
                             <div class = "col">
-                                Datum:<input type="date" id="start" class="form-control" name="date"  th:field="*{event.date}"></br>
-                                Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{event.text}"/></br>
+                                Datum:<input type="date" id="start" class="form-control" name="date"  th:field="*{date}"></br>
+                                Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
                             </div>
                         </div>
 
                         <div class = "row">
                             <div class = "col">
-                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{event.address.city}" required/>
+                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
 
                             </div>
                             <div class = "col">
-                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{event.address.street}" required/>
+                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{event.address.houseNumber}"
+                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
                                                   title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
-                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{event.address.zipCode}"
+                                Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
                                                     pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                             <th>Homepage</th>
                             <th>Funktionen</th>
                         </tr>
-                        <tr th:each="contact : ${eventDTO.event.contacts}">
+                        <tr th:each="contact : ${allContacts}">
                             <td th:text="${contact.firstname + ' ' + contact.lastname}"></td>
                             <td th:text="${contact.courseOfStudies}"></td>
                             <td th:text="${contact.linkToHomepage}"></td>
@@ -190,8 +190,6 @@
 
         </div>
 
-
-    </div>
 </div>
 
 

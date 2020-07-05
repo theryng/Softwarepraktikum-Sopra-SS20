@@ -35,10 +35,13 @@ public class EventDetailsController {
         System.out.println("Testing the stuff " + eventID);
         EventDTO eventDTO = new EventDTO();
         Event event = eventService.findByEventID(eventID);
+        System.out.println(event.getContacts().size());
         eventDTO.setEvent(event);
         eventDTO.setEventID(event.getEventID());
+        model.addAttribute("allContacts", event.getContacts());
         model.addAttribute("eventDTO", eventDTO);
-        model.addAttribute("viewTable", checkTables(event));
+        model.addAttribute("event", event);
+        model.addAttribute("viewTable", true);
         return "events/eventDetails";
     }
 
@@ -53,20 +56,33 @@ public class EventDetailsController {
      * @return redirect:/institutes
      */
     @RequestMapping(value = "/savingEvent", method = RequestMethod.POST)
-    public String savingEvent(@Valid EventDTO eventDTO, BindingResult result, Model model) {
+    public String savingEvent(@Valid Event event, BindingResult result, Model model) {
         if(result.hasErrors()){
+            model.addAttribute("event", event);
+            EventDTO eventDTO = new EventDTO();
+            Event tempEvent = eventService.findByEventID(event.getEventID());
+            tempEvent.setAddress(event.getAddress());
+            tempEvent.setDate(event.getDate());
+            tempEvent.setEventName(event.getEventName());
+            tempEvent.setText(event.getText());
+            eventDTO.setEvent(tempEvent);
+            eventDTO.setEventID(event.getEventID());
+            model.addAttribute("allContacts", tempEvent.getContacts());
             model.addAttribute("eventDTO", eventDTO);
+            model.addAttribute("event", tempEvent);
+            model.addAttribute("viewTable", true);
             return "events/eventDetails";
         }
         else{
-            Event event =eventDTO.getEvent();
-            event.setEventID(eventDTO.getEventID());
             if(!eventService.findByEventID(event.getEventID()).equals(event)){
-                eventService.saveEvent(event);
+                Event tempEvent = eventService.findByEventID(event.getEventID());
+                tempEvent.setAddress(event.getAddress());
+                tempEvent.setDate(event.getDate());
+                tempEvent.setEventName(event.getEventName());
+                tempEvent.setText(event.getText());
+                eventService.saveEvent(tempEvent);
             }
-           eventDTO.setEvent(event);
-            model.addAttribute("eventDTO", eventDTO);
-            return "events/eventDetails";
+            return "redirect:/eventDetails/"+event.getEventID();
         }
     }
 
@@ -90,7 +106,7 @@ public class EventDetailsController {
         eventDTO.setEvent(event);
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("viewTable", checkTables(event));
-        return "events/eventDetails";
+        return "redirect:/eventDetails/"+eventDTO.getEventID();
     }
 
 

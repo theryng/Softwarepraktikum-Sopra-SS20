@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EventDTO {
 
-    private Event event = new Event();
+    public Event event = new Event();
     private List<Event> allEvents = new LinkedList<>();
     private List<Contact> foundEvents = new LinkedList<>();
     private List<Contact> chosenEvents = new LinkedList<>();
