@@ -46,7 +46,7 @@ public class ProjectDetailsController {
         ProjectDTO projectDTO = new ProjectDTO();
         Project project = projectService.findByProjectID(projectID);
         projectDTO.setProject(project);
-        projectDTO.setProjectID(projectDTO.getProject().getProjectID());
+        projectDTO.setProjectID(projectID);
         model.addAttribute("projectDTO", projectDTO);
         model.addAttribute("viewTable", checkTables(project));
         return "projects/projectDetails";
@@ -64,18 +64,18 @@ public class ProjectDetailsController {
      */
     @RequestMapping(value = "/savingProject", method = RequestMethod.POST)
     public String savingProject(@Valid ProjectDTO projectDTO, BindingResult result, Model model) {
+        Project project = projectDTO.getProject();
+        project.setProjectID(projectDTO.getProjectID());
         if(result.hasErrors()){
-            return "projects/projectDetails";
+            return "redirect:/projectDetails/"+project.getProjectID();
         }
         else{
-            Project project = projectDTO.getProject();
-            project.setProjectID(projectDTO.getProjectID());
             if(!projectService.findByProjectID(project.getProjectID()).equals(project)){
                 projectService.saveProject(project);
             }
             projectDTO.setProject(project);
             model.addAttribute("projectDTO", projectDTO);
-            return "projects/projectDetails";
+            return "redirect:/projectDetails/"+project.getProjectID();
         }
     }
 
