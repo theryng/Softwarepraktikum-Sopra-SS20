@@ -1,8 +1,6 @@
 package de.hohenheim.sopraproject.controller;
 
-import de.hohenheim.sopraproject.dto.UserDTO;
 import de.hohenheim.sopraproject.entity.User;
-import de.hohenheim.sopraproject.repository.RoleRepository;
 import de.hohenheim.sopraproject.repository.UserRepository;
 import de.hohenheim.sopraproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class UserDetailsController {
@@ -22,13 +19,17 @@ public class UserDetailsController {
     @Autowired
     private UserService userService;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/userDetails/{username}")
-    public String userDetails(@PathVariable("username") Integer userId, Model model) {
+    public UserDetailsController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @GetMapping("/userDetails/{userId}")
+    public String userDetails(@PathVariable("userId") Integer userId, Model model) {
         System.out.println("Testing the stuff2 " + userId);
         User user = userService.getUserById(userId);
 
@@ -38,23 +39,26 @@ public class UserDetailsController {
 
     @PostMapping("/overrideUser")
     public String userDetails(@ModelAttribute("user") @Valid User user, BindingResult result) {
-        System.out.println(user.getPassword());
 
         if(result.hasErrors()){
             return "/userDetails";
         }
         user.setUsername(user.getUsername());
 
-        //Overwrite old password
-       // if (!StringUtils.isEmpty(user.getPassword())) {
-         //  user.setPassword(passwordEncoder.encode(user.getPassword()));
-        //}
 
-        //Check if username already exists. If so userDetails wont be overwritten
-        if(userRepository.findByUsername(user.getUsername()) != null){
-            result.hasErrors();
-            return "redirect:/registration";
+        //encodes new Password and binds it to account
+        if (!StringUtils.isEmpty(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+
+         //wenn username geändert wird -> Password gelöscht
+        //Check if username already exists. If so userDetails wont be overwritten
+        if(userRepository.findByUsername(user.getUsername()) != null && userRepository.findByUserId(user.getUserId()) == null){
+                result.hasErrors();
+                System.out.println("Nichts gespeichert");
+                return "redirect:/registration";
+            }
+
 
         //New userData will be saved
         if(!userService.getUserById(user.getUserId()).equals(user.getUserId())){

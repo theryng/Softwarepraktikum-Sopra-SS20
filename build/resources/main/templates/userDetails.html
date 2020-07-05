@@ -54,18 +54,19 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/> </br>
+                                        Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/></br>
                                         <div class="invalid-feedback">Please fill in a Name</div>
                                     </div>
                                 </div>
-                                Passwort:<input type="text" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}"/></br>
-                                <div class="invalid-feedback">Please fill in a correct password.</div>
-                                neues Passwort bestätigen:<input type="password" class="form-control" name ="confirmNewPassword"/></br>
+                                alte/neue Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required/>
+                                <div class="invalid-feedback">Bitte geben sie das aktuelle oder neue Passwort an.</div>
+                                Passwort bestätigen:<input type="password" id="confirmPassword" class="form-control" name ="confirmNewPassword" required/>
+                                <div class="invalid-feedback">Bitte bestätigen sie ihre Eingabe</div>
                             </div>
                             <div class = "col">
-                                Nachname:<input type="text" class="form-control" name = "lastname"  th:field="*{lastName}" required/></br>
+                                Nachname:<input type="text" class="form-control" name ="lastname"  th:field="*{lastName}" required/></br>
                                 <div class="invalid-feedback">Please fill in a Name</div>
-                                Username:<input type="text" id="start" class="form-control" name="username" th:field="*{username}" required></br>
+                                Username:<input type="text" id="username" class="form-control" name="username" th:field="*{username}" required></br>
                                 <div class="invalid-feedback">Please fill in a unique Username</div>
                                 Rolle: </br> <span th:if="${user.isAdmin == true}">Administrator</span>
                                 <span th:unless="${user.isAdmin == true}">Mitarbeiter</span></br>
@@ -103,6 +104,61 @@
     </div>
 </div>
 
+<script>
+    var password = document.getElementById("password")
+        , confirmPassword = document.getElementById("confirmPassword");
+
+    function validatePassword(){
+        if(password.value != confirmPassword.value) {
+            confirmPassword.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirmPassword.setCustomValidity(''); //no special messages if the passwords match
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirmPassword.onkeyup = validatePassword;
+
+
+
+    //Variables needed for the password requirements; Code used based on https://www.w3schools.com/howto/howto_js_password_validation.asp
+    var firstInput = document.getElementById("password");
+    var confirmInput = document.getElementById("confirmPassword");
+    var letter = document.getElementById("letter");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+
+    firstInput.onkeyup = function() {
+        // Validation the lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(firstInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validation of used numbers
+        var numbers = /[0-9]/g;
+        if(firstInput.value.match(numbers)) {
+            number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validation of the password length
+        if(firstInput.value.length >= 4) { //has to be 4 letters or more
+            length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+</script>
 
 
 
