@@ -37,39 +37,40 @@
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h3 class = "text-dark">Allgemeine Information des Mitarbeiters</h3>
+                        <h3 class = "text-dark">Information des Mitarbeiters anpassen</h3>
                     </button>
                 </h1>
             </div>
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    <form class="form-horizontal" id="multiCollapseExample1" th:object="${user}" th:action="@{/overrideUser}" method="post">
+                    <form class="form-horizontal was-validated" id="multiCollapseExample1" th:object="${user}" th:action="@{/overrideUser}" method="post">
                         <!-- Input and View Field for the Contact Details-->
                         <input type="hidden" th:field="*{userId}"/>
-                        <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
-                        </div>-->
+                        </div>
                         <div class="row">
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
                                         Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/> </br>
-                                    </div>
-                                    <div class = "col w-25">
-                                        Nachname:<input type="text" class="form-control" name = "lastname"  th:field="*{lastName}" required/></br>
+                                        <div class="invalid-feedback">Please fill in a Name</div>
                                     </div>
                                 </div>
-                                Passwort:<input type="text" class="form-control" name = "oldPassword"  th:field="*{password}" /></br>
-                                Rolle: <span th:if="${user.isAdmin == true}">Administrator</span>
-                                       <span th:unless="${user.isAdmin == true}">Mitarbeiter</span></br>
+                                Passwort:<input type="text" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}"/></br>
+                                <div class="invalid-feedback">Please fill in a correct password.</div>
+                                neues Passwort bestätigen:<input type="password" class="form-control" name ="confirmNewPassword"/></br>
                             </div>
                             <div class = "col">
-                                Username:<input type="text" id="start" class="form-control" name="username" th:field="*{username}"></br>
-                                neues Passwort bestätigen:<input type="password" class="form-control" name = "confirmNewPassword"/></br>
+                                Nachname:<input type="text" class="form-control" name = "lastname"  th:field="*{lastName}" required/></br>
+                                <div class="invalid-feedback">Please fill in a Name</div>
+                                Username:<input type="text" id="start" class="form-control" name="username" th:field="*{username}" required></br>
+                                <div class="invalid-feedback">Please fill in a unique Username</div>
+                                Rolle: </br> <span th:if="${user.isAdmin == true}">Administrator</span>
+                                <span th:unless="${user.isAdmin == true}">Mitarbeiter</span></br>
                             </div>
                         </div>
-
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
                             Änderungen speichern
@@ -96,22 +97,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            <!-- Second Accordion Element for Relationships-->
-            <div class="card">
-                <div class="card-header" id="headingTwo">
-                    <h3 class="mb-0">
-                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <h3 class = "text-dark"> Username anpassen</h3>
-                        </button>
-                    </h3>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-
-                    </div>
                 </div>
             </div>
         </div>

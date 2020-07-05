@@ -67,7 +67,7 @@
                             <div class="row">
                                 <div class="col w-25">
                                     <!--Input to create a password for the new user. The requirements for it have to be met in order to receive a valid feedback. The requirements aer state inside the creation modal as well and can be looked up-->
-                                    Passwort:<input type="password" id="password" class="form-control" name = "password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{user.password}" required>
+                                    Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{user.password}" required>
                                     <div class="valid-feedback">valid password</div>
                                     <div class="invalid-feedback">Please fill in a correct password.</div>
                                 </div>
@@ -121,8 +121,8 @@
             <th>Name</th>
             <th>Username</th>
             <th>Rolle</th>
-            <th>bearbeiten</th>
-            <th>löschen</th>
+            <th></th>
+            <th></th>
             </thead>
             <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
             <tbody style="max-width: available ;overflow-x: scroll">
@@ -136,7 +136,7 @@
                 </td>
                 <td>
                     <!--Button that opens up the editing window-->
-                    <a type="button" th:href="@{/userDetails/{username}(username=${users.getUsername()})}" method="get">
+                    <a type="button" th:href="@{/userDetails/{userId}(userId=${users.getUserId()})}" method="get" title="User bearbeiten">
                         <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
                     </a>
                 </td>

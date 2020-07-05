@@ -2,15 +2,19 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.dto.UserDTO;
 import de.hohenheim.sopraproject.entity.User;
+import de.hohenheim.sopraproject.repository.RoleRepository;
+import de.hohenheim.sopraproject.repository.UserRepository;
 import de.hohenheim.sopraproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UserDetailsController {
@@ -20,34 +24,44 @@ public class UserDetailsController {
 
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/userDetails/{username}")
-    public String userDetails(@PathVariable("username") String username, Model model) {
-        System.out.println("Testing the stuff2 " + username);
-        User user = userService.getUserByUsername(username);
+    public String userDetails(@PathVariable("username") Integer userId, Model model) {
+        System.out.println("Testing the stuff2 " + userId);
+        User user = userService.getUserById(userId);
 
         model.addAttribute("user", user);
         return "userDetails";
     }
 
     @PostMapping("/overrideUser")
-    public String userDetails(@Valid UserDTO userDto, BindingResult result,Model model) {
-        System.out.println(userDto.getUsername());
+    public String userDetails(@ModelAttribute("user") @Valid User user, BindingResult result) {
+        System.out.println(user.getPassword());
+
         if(result.hasErrors()){
-            model.addAttribute("userDto",userDto);
-            return "userDetails";
+            return "/userDetails";
         }
-        else{
-            User user = userDto.getUser();
-            userDto.setUsername(userDto.getUsername());
-            if(!userService.getUserByUsername(user.getUsername()).equals(user)){
+        user.setUsername(user.getUsername());
+
+        //Overwrite old password
+       // if (!StringUtils.isEmpty(user.getPassword())) {
+         //  user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //}
+
+        //Check if username already exists. If so userDetails wont be overwritten
+        if(userRepository.findByUsername(user.getUsername()) != null){
+            result.hasErrors();
+            return "redirect:/registration";
+        }
+
+        //New userData will be saved
+        if(!userService.getUserById(user.getUserId()).equals(user.getUserId())){
                 userService.saveUser(user);
-            }
-            userDto.setUser(user);
-            model.addAttribute("userDto",userDto);
-            return "redirect:/userDetails/"+userDto.getUsername();
         }
-    }
+        return "redirect:/registration";
+        }
 
 
     @PostMapping(value = "/backUserDetails")
