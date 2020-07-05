@@ -1,6 +1,8 @@
 package de.hohenheim.sopraproject.controller;
 
+import de.hohenheim.sopraproject.entity.Role;
 import de.hohenheim.sopraproject.entity.User;
+import de.hohenheim.sopraproject.repository.RoleRepository;
 import de.hohenheim.sopraproject.repository.UserRepository;
 import de.hohenheim.sopraproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class UserDetailsController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -39,10 +45,15 @@ public class UserDetailsController {
 
     @PostMapping("/overrideUser")
     public String userDetails(@ModelAttribute("user") @Valid User user, BindingResult result) {
+        System.out.println(user.getPassword());
+
+
 
         if(result.hasErrors()){
             return "/userDetails";
         }
+
+
         user.setUsername(user.getUsername());
 
 
@@ -50,6 +61,8 @@ public class UserDetailsController {
         if (!StringUtils.isEmpty(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+
+
 
          //wenn username geändert wird -> Password gelöscht
         //Check if username already exists. If so userDetails wont be overwritten
