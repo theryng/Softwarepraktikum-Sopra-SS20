@@ -139,7 +139,11 @@ public class Contact {
     }
 
     public void setEvents(Set<Event> events) {
-        this.events = events;
+        if(events != null) {
+            this.events = events;
+        } else{
+            throw new IllegalStateException("event should be initialized");
+        }
     }
 
     public String getFirstname() {

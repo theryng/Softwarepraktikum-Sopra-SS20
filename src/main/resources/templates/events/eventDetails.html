@@ -46,7 +46,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                         <form ACTION="#" th:action="@{/deleteEvent}" th:object="${eventDTO}" method="post">
-                            <input type="hidden" th:field="${eventDTO.eventID}"/>
+                            <input type="hidden" th:field="${eventDTO.eventID}" th:name ="eventID"/>
 
                             <button type="submit" class="btn btn-danger ml-3">Event löschen</button>
                         </form>
@@ -168,7 +168,7 @@
                             <td>
                                 <form ACTION="#" th:action="@{/deleteContactFromEvent}" th:object="${eventDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
-                                    <input type="hidden" th:value="${eventDTO.instituteID}" th:name ="eventID" />
+                                    <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
                                     <button type="submit" class="btn btn-danger">Teilnehmer entfernen </button>
                                 </form>
                             </td>

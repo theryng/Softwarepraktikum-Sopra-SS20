@@ -18,6 +18,7 @@ public class EventDTO {
     public Integer contactTempID;
 
     public EventDTO() {
+
     }
 
 

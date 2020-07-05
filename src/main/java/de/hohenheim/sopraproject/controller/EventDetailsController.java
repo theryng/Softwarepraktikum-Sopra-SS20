@@ -3,6 +3,7 @@ package de.hohenheim.sopraproject.controller;
 import de.hohenheim.sopraproject.dto.EventDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.Event;
+import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -24,6 +26,9 @@ public class EventDetailsController {
 
     @Autowired
     private ContactService contactService;
+
+    @Autowired
+    private ContactRepository contactRepository;
 
     @GetMapping(value = "/eventDetails/{eventID}")
     public String eventDetails(@PathVariable("eventID") Integer eventID, Model model) {
@@ -87,6 +92,7 @@ public class EventDetailsController {
         model.addAttribute("viewTable", checkTables(event));
         return "events/eventDetails";
     }
+
 
     private boolean checkTables(Event event){
         if(event.getContacts().size()>0){
