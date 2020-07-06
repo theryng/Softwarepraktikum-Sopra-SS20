@@ -1,0 +1,121 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
+    <title>Tags</title>
+</head>
+
+<body class="backgroundimage">
+
+<!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
+
+<header th:insert="fragments/htmlHead.html :: header"> </header>
+
+<!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
+     the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
+<div class = "container-fluid ml-1000 mr-1000">
+
+    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Tags</h3>
+    <form action = "#" th:action = "@{/saveTag}" th:object ="${tagsDTO}" class="was-validated" method = post>
+        <input type="hidden" th:field="${tagsDTO.tagID}"/>
+        <input type="hidden" th:field="${tagsDTO.originalID}"/>
+        <input type="hidden" th:field="${tagsDTO.type}"/>
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+            Bei der Speicherung des Kontakts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+        </div>
+        <div class="form-group mt-2 mr-5">
+            <!-- Submit Button -->
+            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                Neuen Kontakt hinzufügen
+            </button>
+            <!-- Modal for Submit Button -->
+            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="submitModalLabel">Kontakt Speicherung</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
+                        <div class="modal-body">
+                            <div class = "row">
+                                <div class = "col w-25">
+                                    Bezeichnung: <input type="text" class="form-control" name = "firstname" th:field="*{tag.name}" required>
+                                    <div class="valid-feedback">valid</div>
+                                    <div class="invalid-feedback">Bitte geben sie eine Bezeichnung an</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Options to Dismiss or Save the Contact-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                            <button type="submit" class="btn btn-primary">Kontakt speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
+                        the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
+                        Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+                        will open up an editing window where the user can change the stored information or delete this specific contact altogether-->
+
+    <!-- Search Button, to search for a certain Contact to have a Relationship with -->
+    <form class="mt-2" ACTION="#" th:action="@{/searchTag}" th:object="${tagsDTO.searchWord}" method="post">
+        <input type="hidden" th:field="${tagsDTO.originalID}"/>
+        <input type="hidden" th:field="${tagsDTO.type}"/>
+        <!-- Search form -->
+        <div class="md-form active-cyan active-cyan-2 mb-3">
+            <div class="row">
+                <div class = "col-10">
+                    <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                           title="Suche nach Name des Tags möglich">
+                </div>
+                <div class = "col-2 justify-content-end">
+                    <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                </div>
+
+
+            </div>
+        </div>
+
+    </form>
+    <!-- Table with the Possible Results -->
+    <table class="table table-striped mt-3 mb-5" th:if="${showList}">
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        <tr th:each="tag : ${allTags}">
+            <td th:text="${tag.name}"></td>
+            <td>
+                <form class="mt-2" ACTION="#" th:action="@{/setTag}" th:object="${tagsDTO}" method="post">
+                        <input type="hidden" th:value="${tag.tagsID}" th:name="tagID"/>
+                        <input type="hidden" th:field="${tagsDTO.originalID}"/>
+                        <input type="hidden" th:field="${tagsDTO.type}"/>
+                        <button type="submit" class="btn btn-secondary ml-2 " >Auswählen </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
