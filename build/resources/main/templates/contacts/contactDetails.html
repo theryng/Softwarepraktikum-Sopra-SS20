@@ -275,17 +275,19 @@
             </div>
             <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                 <div class="card-body">
-                        <row th:each="tag : ${contact.tags}">
+                        <div class="row" th:each="tag : ${contact.tags}">
+                            <div class="col">
+                                <form ACTION="#" th:action="@{/deleteContactTag}" th:object="${tagDTO}" method="get">
 
-                        <form ACTION="#" th:action="@{/deleteContactTag}" th:object="${tagDTO}" method="get">
-                            <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
-                            <input type="hidden" th:field="${tagDTO.originalID}" />
-                            <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
-                                <a class="mr-2" th:text="${tag.name}"></a>
-                                <i class="fas fa-times icon-large" ></i> </button>
-                        </form>
+                                        <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
+                                        <input type="hidden" th:field="${tagDTO.originalID}" />
+                                        <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                            <a class="mr-2" th:text="${tag.name}"></a>
+                                            <i class="fas fa-times icon-large" ></i> </button>
 
-                        </row>
+                                </form>
+                            </div>
+                        </div>
 
                     <!-- If Statement if no Relationship is available -->
                     <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
