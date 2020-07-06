@@ -3,8 +3,10 @@ package de.hohenheim.sopraproject.entity;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,42 +21,35 @@ import java.util.regex.Pattern;
  * Institue ID is the primary key.
  */
 @Entity
-public class Institute {
+public class Project {
 
     @Id
     @GeneratedValue
-    private Integer instituteID;
+    private Integer projectID;
 
     private String name;
 
-    private String linkToHomepage;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate since;
 
-    private String email;
-
-    @Embedded
-    private Address address = new Address();
+    private String description;
 
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
-    @ManyToMany(mappedBy = "institutes")
-    private Set<Project> projects = new HashSet<>();
+    @ManyToMany
+    private Set<Institute> institutes = new HashSet<>();
 
-    public Institute(){
+    public Project(){
         //empty constructor for Hibernate
     }
 
-    public Institute(Integer instituteID, String name, String location) {
-        this.instituteID = instituteID;
+    public Project(Integer projectID, String name, LocalDate since, Set<Contact> contacts, Set<Institute> institutes) {
+        this.projectID = projectID;
         this.name = name;
-    }
-
-    public Integer getInstituteID() {
-        return instituteID;
-    }
-
-    public void setInstituteID(Integer institutID) {
-        this.instituteID = institutID;
+        this.since = since;
+        this.contacts = contacts;
+        this.institutes = institutes;
     }
 
     public String getName() {
@@ -76,49 +71,68 @@ public class Institute {
             throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only ");
         }
     }
-
     public Set<Contact> getContacts() {
         return contacts;
+    }
+
+    public void setSince(int year, int month, int day) {
+        this.since = LocalDate.of(year, month, day);
+    }
+
+    public void setSince(LocalDate date) {
+        this.since = date;
     }
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public Address getAddress() {
-        return address;
+    public Integer getProjectID() {
+        return projectID;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setProjectID(Integer projectID) {
+        this.projectID = projectID;
+    }
+
+    public LocalDate getSince() {
+        return since;
+    }
+
+    public Set<Institute> getInstitutes() {
+        return institutes;
+    }
+
+    public void setInstitutes(Set<Institute> institutes) {
+        this.institutes = institutes;
     }
 
     /**
      * Adds a Contact to an Institution, only if the Contact exists.
      * @param contact
      */
-    public void addInstitutionContacts(Contact contact){
+    public void addProjectContacts(Contact contact){
         if(contact != null){
             contacts.add(contact);
         }
     }
 
-    public String getLinkToHomepage() {
-        return linkToHomepage;
-    }
-    public void setLinkToHomepage(String linkToHomepage) {
-        this.linkToHomepage = linkToHomepage;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        if(email.contains("@")) {
-            this.email = email;
-        }else{
-            throw new IllegalStateException("An E-Mail have to contain an @ symbol");
+    /**
+     * Adds a Contact to an Institution, only if the Contact exists.
+     * @param institute
+     */
+    public void addProjectInstitutes(Institute institute) {
+        if (institute != null) {
+            institutes.add(institute);
         }
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
+

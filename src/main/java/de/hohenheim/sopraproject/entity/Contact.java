@@ -55,6 +55,9 @@ public class Contact {
 
     private String linkToHomepage;
 
+    @ManyToMany(mappedBy = "contacts")
+    private Set<Project> projects = new HashSet<>();
+
     @OneToMany(mappedBy = "contactA", cascade = CascadeType.ALL)
     public Set<Relationship> outgoingRelationships = new HashSet<>();
 
@@ -140,7 +143,11 @@ public class Contact {
     }
 
     public void setEvents(Set<Event> events) {
-        this.events = events;
+        if(events != null) {
+            this.events = events;
+        } else{
+            throw new IllegalStateException("event should be initialized");
+        }
     }
 
     public String getFirstname() {
