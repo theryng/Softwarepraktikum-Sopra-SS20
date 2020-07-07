@@ -1,6 +1,5 @@
 package de.hohenheim.sopraproject.controller;
 
-import com.zaxxer.hikari.HikariConfig;
 import de.hohenheim.sopraproject.entity.Role;
 import de.hohenheim.sopraproject.entity.User;
 import de.hohenheim.sopraproject.repository.RoleRepository;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class UserDetailsController {
@@ -52,14 +50,10 @@ public class UserDetailsController {
         System.out.println(user.getPassword());
 
 
-
         if(result.hasErrors()){
-            return "/userDetails";
+            return "userDetails";
         }
-
-
         user.setUsername(user.getUsername());
-
 
         //encodes new Password and binds it to account
         if (!StringUtils.isEmpty(user.getPassword())) {
@@ -68,7 +62,7 @@ public class UserDetailsController {
 
 
 
-         //wenn username geändert wird -> Password gelöscht
+        //wenn username geändert wird -> Password gelöscht
         //Check if username already exists. If so userDetails wont be overwritten
         if(userRepository.findByUsername(user.getUsername()) != null && userRepository.findByUserId(user.getUserId()) == null){
                 result.hasErrors();
@@ -90,12 +84,17 @@ public class UserDetailsController {
         }
 
 
+
+
     @PostMapping(value = "/backUserDetails")
-    public String backUserDetails(User user) {
-        if(user.getIsAdmin() == false){
-            return "home";
-        }
+    public String backUserDetails() {
         return "redirect:/registration";
+    }
+
+
+    @PostMapping(value = "/backHome")
+    public String backHome(){
+        return "redirect:/home";
     }
 
 }

@@ -24,14 +24,24 @@
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1">Accountinformationen</h1>
     <div class="row ml-1">
+        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
         <form ACTION="#" th:action="@{/backUserDetails}" method="post">
             <button type="submit" class="btn btn-secondary">Zurück</button>
         </form>
+        </div>
+        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == false}">
+            <form ACTION="#" th:action="@{/backHome}" method="post">
+                <button type="submit" class="btn btn-secondary">Zurück</button>
+            </form>
+        </div>
     </div>
+
 
     <!-- Accordion for better navigation-->
     <div class="accordion mt-2" id="accordionExample">
         <div class="card">
+
+
 
             <!-- First Accordion Element, with general Information of the viewed Contact-->
             <div class="card-header" id="headingOne">
@@ -46,7 +56,7 @@
                 <div class="card-body">
                     <form class="form-horizontal was-validated" id="multiCollapseExample1" th:object="${user}" th:action="@{/overrideUser}" method="post">
                         <!-- Input and View Field for the Contact Details-->
-                        <input type="hidden" th:field="*{userId}"/>
+                        <input type="hidden" th:field="*{username}"/>
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
                         </div>
@@ -102,6 +112,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
 
