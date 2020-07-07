@@ -61,7 +61,7 @@ public class InstituteContactCreatorController {
         System.out.println(instituteDTO.getInstituteID());
         String searchWord = instituteDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
-        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts(), "Name");
+        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
         instituteDTO.setFoundInstitutes(foundContactsTemp);
 
         model.addAttribute("viewTable", true);

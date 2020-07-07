@@ -55,7 +55,7 @@ public class EventContactCreatorController {
         System.out.println(eventDTO.getEventID());
         String searchWord = eventDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
-        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts(), "Name");
+        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
         eventDTO.setFoundEvents(foundContactsTemp);
 
         model.addAttribute("viewTable", true);

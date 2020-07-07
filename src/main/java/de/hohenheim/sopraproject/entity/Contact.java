@@ -313,7 +313,7 @@ public class Contact {
         }
     }
     public String getSearchString(){
-        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
+        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname + courseOfStudies + freeText;
         return searchString;
     }
 

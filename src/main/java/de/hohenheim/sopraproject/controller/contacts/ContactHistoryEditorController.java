@@ -166,7 +166,7 @@ public class ContactHistoryEditorController {
             contactHistoryDTO.setChosenContacts(generateList(contactHistoryDTO.getStringFoundIDs()));
         }
         ContactFinder findContact = new ContactFinder();
-        List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts(), "Name");
+        List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts());
 
         ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
         contactHistoryDTO.setOriginalContactID(contactHistoryDTO.getOriginalContactID());

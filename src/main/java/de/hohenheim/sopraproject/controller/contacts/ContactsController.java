@@ -1,15 +1,10 @@
 package de.hohenheim.sopraproject.controller.contacts;
 
-import de.hohenheim.sopraproject.dto.SearchDTO;
-import de.hohenheim.sopraproject.entity.Address;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
-import de.hohenheim.sopraproject.entity.EditingHistory;
-import de.hohenheim.sopraproject.repository.ContactRepository;
-import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.EditingHistoryService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,9 +31,11 @@ import java.util.*;
 public class ContactsController {
 
     @Autowired
-    EditingHistoryService editingHistoryService;
+    private EditingHistoryService editingHistoryService;
     @Autowired
     private ContactService contactService;
+    @Autowired
+    private TagsService tagsService;
 
     /**
      * This method gets all the information about a contact
@@ -56,10 +53,13 @@ public class ContactsController {
         if(allContacts.size()>0){
             showList = true;
         }
+
         model.addAttribute("showList", showList);
         model.addAttribute("allContacts", allContacts);
-        model.addAttribute("searchWord", new SearchDTO());
+        model.addAttribute("searchWord", "");
         model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
 
         return "contacts";
     }
@@ -100,14 +100,16 @@ public class ContactsController {
      *  Method which can be used to search for a certain Contact.
      *  Calls the Contact Finder, and uses a searchWord to find a Contact.
      *  Reloads the Site at the very End.
-     * @param searchDTO
+     * @param searchWord
      * @return contactHistoryCreator1
      */
     @PostMapping(value ="/searchContact")
-    public String searchContacts(@RequestBody @ModelAttribute("allContacts") LinkedList<Contact> allContacts, SearchDTO searchDTO, Model model) {
+    public String searchContacts(String searchWord, Model model) {
+
+        List<Contact> allContacts;
         ContactFinder findContact = new ContactFinder();
 
-        LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchDTO.getSearchWord(), contactService.findAllContacts(), "Name");
+        LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
 
         allContacts = foundContactsTemp;
 
@@ -120,7 +122,38 @@ public class ContactsController {
         model.addAttribute("allContacts", allContacts);
         model.addAttribute("searchWord", searchword);
         model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
 
         return "contacts";
     }
+
+    @PostMapping(value ="/sortByTag")
+    public String sortByTag(Tags tag, Model model) {
+        System.out.println("sorting by Tag");
+        Tags tags = tagsService.findByTagID(tag.getTagsID());
+        List<Contact> allContacts = contactService.findAllContacts();
+        System.out.println(tag.getName() + tag.getTagsID());
+        List<Contact> foundContacts = new LinkedList<Contact>();
+        for(Contact con : allContacts){
+            if(con.getTags().contains(tags)){
+                System.out.println("AddContact");
+                foundContacts.add(con);
+            }
+        }
+        allContacts = foundContacts;
+        boolean showList = false;
+        if(allContacts.size()>0){
+            showList = true;
+        }
+        model.addAttribute("showList", showList);
+        model.addAttribute("allContacts", allContacts);
+        model.addAttribute("searchWord", "");
+        model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
+        return "contacts";
+    }
+
+
 }

@@ -45,6 +45,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private TagsService tagsService;
+
 
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
@@ -428,6 +431,35 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Set<ContactHistory> historyFour = new HashSet<>();
         historyFour.add(historyFourDates);
+
+        Tags student = new Tags();
+        student.setName("Student");
+        student.getContacts().add(max);
+        student.getContacts().add(julia);
+        student.getContacts().add(alfred);
+        student.getContacts().add(tristan);
+        student.getContacts().add(sabine);
+        student.getContacts().add(alex);
+
+        tagsService.saveTags(student);
+
+        Tags mitarbeiter = new Tags();
+        mitarbeiter.setName("Mitarbeiter");
+        mitarbeiter.getContacts().add(jose);
+        mitarbeiter.getContacts().add(anna);
+        mitarbeiter.getContacts().add(jana);
+        mitarbeiter.getContacts().add(florian);
+        mitarbeiter.getContacts().add(sofia);
+        mitarbeiter.getContacts().add(marlene);
+
+        tagsService.saveTags(mitarbeiter);
+
+        Tags tutor = new Tags();
+        tutor.setName("Tutoren");
+        tutor.getContacts().add(jose);
+        tutor.getContacts().add(peter);
+
+        tagsService.saveTags(tutor);
 
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
         max.setContacthistories(historyOne);

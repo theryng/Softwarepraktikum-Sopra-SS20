@@ -59,7 +59,7 @@ public class ProjectContactCreatorController {
         System.out.println(projectDTO.getProjectID());
         String searchWord = projectDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
-        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts(), "Name");
+        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
         projectDTO.setFoundProjects(foundContactsTemp);
 
         model.addAttribute("viewTable", true);

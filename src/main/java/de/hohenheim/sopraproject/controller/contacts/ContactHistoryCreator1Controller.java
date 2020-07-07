@@ -58,7 +58,7 @@ public class ContactHistoryCreator1Controller {
             contactHistoryDTO.setChosenContacts(generateList(contactHistoryDTO.getStringChosenIDs()));
         }
         ContactFinder findContact = new ContactFinder();
-        List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts(), "Name");
+        List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts());
 
         if(foundContacts.size()>0){
             contactHistoryDTO.setFoundContacts(foundContacts);

@@ -56,7 +56,7 @@ public class RelationshipCreator1Controller {
         System.out.println(relationshipDTO.getContactA());
         String searchWord = relationshipDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
-        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts(), "Name");
+        List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
         relationshipDTO.setFoundContact(foundContactsTemp);
 
         model.addAttribute("viewTable", true);
