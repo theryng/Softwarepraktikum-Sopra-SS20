@@ -37,8 +37,6 @@
     </div>
 
 
-
-
     <!-- Accordion for better navigation-->
     <div class="accordion mt-2" id="accordionExample">
         <div class="card">
@@ -58,7 +56,7 @@
                 <div class="card-body">
                     <form class="form-horizontal was-validated" id="multiCollapseExample1" th:object="${user}" th:action="@{/overrideUser}" method="post">
                         <!-- Input and View Field for the Contact Details-->
-                        <input type="hidden" th:field="*{username}"/>
+                        <input type="hidden" th:field="*{userId}"/>
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
                         </div>

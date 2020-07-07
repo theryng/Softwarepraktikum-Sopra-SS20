@@ -45,14 +45,15 @@ public class UserDetailsController {
         return "userDetails";
     }
 
+
     @PostMapping("/overrideUser")
     public String userDetails(@ModelAttribute("user") @Valid User user, BindingResult result) {
         System.out.println(user.getPassword());
 
-
         if(result.hasErrors()){
             return "userDetails";
         }
+
         user.setUsername(user.getUsername());
 
         //encodes new Password and binds it to account
@@ -69,7 +70,6 @@ public class UserDetailsController {
                 System.out.println("Nichts gespeichert");
                 return "redirect:/registration";
             }
-
 
         //New userData will be saved
         if(!userService.getUserById(user.getUserId()).equals(user.getUserId())){
