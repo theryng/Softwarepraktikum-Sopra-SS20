@@ -46,6 +46,11 @@
                 <div class="invalid-feedback">Bitte geben Sie Art der Kontakthistorie an</div></br>
             Datum des Kontakts: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{contactHistory.date}" required>
                  <div class="invalid-feedback">Bitte geben Sie ein Datum an</div></br></br>
+
+            <div>
+                <label for="adminCheckBox" th:text="'Gemeinsamer Kontakt: '"></label>
+                <input type="checkbox" id="adminCheckBox" th:value="*{contactHistory.getMutualMeetup()}" th:name="mutualMeetup"/>
+            </div>
             <button type="submit" class="btn btn-primary">Kontakt Historie speichern</button>
         </form>
     </div>

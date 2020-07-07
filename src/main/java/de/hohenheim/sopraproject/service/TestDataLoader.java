@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.*;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -388,14 +389,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyOneDates.addContactHistoryContact(max);
         historyOneDates.addContactHistoryContact(julia);
         historyOneDates.setText("Beim Kaffetrinken kennengelernt");
-        historyOneDates.setDate(2018, 04, 13);
+        historyOneDates.setDate(LocalDate.of(2018, 04, 13));
         contactHistoryService.saveContacthistory(historyOneDates);
 
         ContactHistory historyTwoDates = new ContactHistory();
         historyTwoDates.addContactHistoryContact(alfred);
         historyTwoDates.addContactHistoryContact(tristan);
         historyTwoDates.addContactHistoryContact(sabine);
-        historyTwoDates.setDate(2020, 9, 30);
+        historyTwoDates.setDate(LocalDate.of(2020, 9, 30));
         historyTwoDates.setText("Beim Teetrinken getroffen");
         contactHistoryService.saveContacthistory(historyTwoDates);
 
@@ -404,7 +405,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyThreeDates.addContactHistoryContact(anna);
         historyThreeDates.addContactHistoryContact(jana);
         historyThreeDates.addContactHistoryContact(peter);
-        historyThreeDates.setDate(2019, 12, 12);
+        historyThreeDates.setDate(LocalDate.of(2019, 12, 12));
         historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
         contactHistoryService.saveContacthistory(historyThreeDates);
 
@@ -412,7 +413,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyFourDates.addContactHistoryContact(marlene);
         historyFourDates.addContactHistoryContact(aleyna);
         historyFourDates.addContactHistoryContact(florian);
-        historyFourDates.setDate(2019, 07, 27);
+        historyFourDates.setDate(LocalDate.of(2019, 07, 27));
         historyFourDates.setText("In der Stadt getroffen");
         contactHistoryService.saveContacthistory(historyFourDates);
 

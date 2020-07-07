@@ -1,5 +1,6 @@
 package de.hohenheim.sopraproject.controller.contacts;
 
+import de.hohenheim.sopraproject.dto.SearchDTO;
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -56,7 +58,7 @@ public class ContactsController {
         }
         model.addAttribute("showList", showList);
         model.addAttribute("allContacts", allContacts);
-        model.addAttribute("searchWord", searchword);
+        model.addAttribute("searchWord", new SearchDTO());
         model.addAttribute("contact", new Contact());
 
         return "contacts";
@@ -73,7 +75,7 @@ public class ContactsController {
      * @return redirect:/contacts
      */
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
-    public String saveContact(@Valid Contact contact, BindingResult result, Model model){
+    public String saveContact(@Valid Contact contact, BindingResult result, Principal principal, Model model){
         if(result.hasErrors()){
             System.out.println("Fehler");
 
@@ -89,7 +91,7 @@ public class ContactsController {
             Date date = new Date();
             System.out.println(dateFormat.format(date));
 
-            editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
             return "redirect:/contacts";
         }
     }
@@ -98,14 +100,14 @@ public class ContactsController {
      *  Method which can be used to search for a certain Contact.
      *  Calls the Contact Finder, and uses a searchWord to find a Contact.
      *  Reloads the Site at the very End.
-     * @param searchWord
+     * @param searchDTO
      * @return contactHistoryCreator1
      */
     @PostMapping(value ="/searchContact")
-    public String searchContacts(@RequestBody @ModelAttribute("allContacts") LinkedList<Contact> allContacts, String searchWord, Model model) {
+    public String searchContacts(@RequestBody @ModelAttribute("allContacts") LinkedList<Contact> allContacts, SearchDTO searchDTO, Model model) {
         ContactFinder findContact = new ContactFinder();
 
-        LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
+        LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchDTO.getSearchWord(), contactService.findAllContacts(), "Name");
 
         allContacts = foundContactsTemp;
 

@@ -6,7 +6,9 @@
 .li:hover{
     background-color: whitesmoke;
 }
-
+.sortable th {
+    cursor: pointer;
+}
 .hr-sect {
     display: flex;
     flex-basis: 100%;

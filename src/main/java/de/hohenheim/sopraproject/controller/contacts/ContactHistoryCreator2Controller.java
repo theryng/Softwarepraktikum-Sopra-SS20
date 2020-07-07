@@ -69,6 +69,15 @@ public class ContactHistoryCreator2Controller {
             }
             contactHistory.addContactHistoryContact(contactService.findByContactID(Integer.valueOf(contactHistoryDTO.getOriginalContactID())));
 
+            Contact contact = contactService.findByContactID(Integer.valueOf(contactHistoryDTO.getOriginalContactID()));
+            System.out.println("Ist ein Gemeinsames Meetup "+contactHistory.getMutualMeetup());
+            if(contactHistory.getMutualMeetup()){
+                for(Contact con : contactHistory.getContactOfHistory()){
+                    con.setLastContact(contactHistory.getDate());
+                    contactService.saveContact(con);
+                    System.out.println("Saving the new ContactDate");
+                }
+            }
             contactHistoryService.saveContacthistory(contactHistory);
             return "redirect:/contactDetails/"+contactHistoryDTO.getOriginalContactID();
         }
