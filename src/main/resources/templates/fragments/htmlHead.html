@@ -51,8 +51,10 @@
                     <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/home">Einstellungen</a>
-                        <a class="dropdown-item" href="/optionen">Optionen</a>
+                        <a class="dropdown-item" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}" method="get">Optionen</a>
+                        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
                         <a class="dropdown-item" href="/registration">User hinzufügen</a>
+                        </div>
                         <a class="dropdown-item" href="/logout">Log out</a>
                     </div>
                 </div>

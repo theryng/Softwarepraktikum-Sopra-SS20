@@ -1,11 +1,14 @@
 package de.hohenheim.sopraproject.controller;
 
+import com.zaxxer.hikari.HikariConfig;
 import de.hohenheim.sopraproject.entity.Role;
 import de.hohenheim.sopraproject.entity.User;
 import de.hohenheim.sopraproject.repository.RoleRepository;
 import de.hohenheim.sopraproject.repository.UserRepository;
 import de.hohenheim.sopraproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -34,12 +38,12 @@ public class UserDetailsController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/userDetails/{userId}")
-    public String userDetails(@PathVariable("userId") Integer userId, Model model) {
-        System.out.println("Testing the stuff2 " + userId);
-        User user = userService.getUserById(userId);
-
+    @GetMapping("/userDetails/{username}")
+    public String userDetails(@PathVariable("username") String username, Model model) {
+        System.out.println("Testing the stuff2 " + username);
+        User user = userService.getUserByUsername(username);
         model.addAttribute("user", user);
+
         return "userDetails";
     }
 
@@ -77,12 +81,20 @@ public class UserDetailsController {
         if(!userService.getUserById(user.getUserId()).equals(user.getUserId())){
                 userService.saveUser(user);
         }
+
+        if(user.getIsAdmin() == false){
+            return "redirect:/userDetails/"+user.getUsername();
+        }
+
         return "redirect:/registration";
         }
 
 
     @PostMapping(value = "/backUserDetails")
-    public String backUserDetails() {
+    public String backUserDetails(User user) {
+        if(user.getIsAdmin() == false){
+            return "home";
+        }
         return "redirect:/registration";
     }
 
