@@ -84,62 +84,34 @@
     <!--The table that shows all the stored institutes inside the database.
         Each institute has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
         will open up an editing window where the user can change the stored information or delete this specific institute altogether-->
-    <table class="table table-striped mt-3">
+    <table id="eventsTable" class="table table-striped mt-3">
         <tr>
-            <th>Eventname</th>
-            <th>Datum</th>
-            <th>Adresse</th>
-            <th>Freier Text</th>
-            <th>Funktionen</th>
+            <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
+            <th role="button" onclick="sortTable(1)">Datum<i class="fas fa-sort ml-1"></i></th>
+            <th role="button" onclick="sortTable(2)">Adresse<i class="fas fa-sort ml-1"></i></th>
+            <th></th>
         </tr>
         <tr th:each="event : ${eventDTO.getAllEvents()}">
-            <td th:text="${event.eventName}"></td>
-            <td th:text="${event.date}"></td>
-            <td th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></td>
-            <td th:text="${event.text}"></td>
             <td>
-
+                <a>Name</a>
+                <h6 th:text="${event.eventName}"></h6>
+            </td>
+            <td>
+                <a>Datum</a>
+                <h6 th:text="${event.date}"></h6>
+            </td>
+            <td>
+                <a>Adresse</a>
+                <h6 th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></h6>
+            </td>
+            <td>
                 <a type="button" th:href="@{/eventDetails/{eventID}(eventID=${event.getEventID()})}" method="get">
                     <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
                 </a>
-
             </td>
         </tr>
     </table>
 </div>
-<!-- Table that shows all necessary information about events: The name of an event, the adress of an event, the date, and
-a free text about an event. Each event has a button at the end of its row, which will open the editing menu for events.
-    <table>
-        <tr>
-            <th>Eventname</th>
-            <th>Adresse</th>
-            <th>Datum</th>
-            <th>Freier Text</th>
-            <th>Funktionen</th>
-        </tr>
-        <tr>
-            <td>Hochzeit</td>
-            <td>Königstraße 90</td>
-            <td>01.09.2020</td>
-            <td>Am Schlossplatz</td>
-            <td>Event einsehen</td>
-        </tr>
-        <tr>
-            <td>Abschlussfeier</td>
-            <td>Am Feldrand 13</td>
-            <td>31.07.2020</td>
-
-            <td>Event einsehen</td>
-        </tr>
-        <tr>
-            <td>Eröffnung Informatiker-Gebäude</td>
-            <td>Universitätsstraße 39</td>
-            <td>15.03.2021</td>
-            <td>Neubau Universitäts-Geäbude wird eröffnet</td>
-            <td>Event einsehen</td>
-        </tr>
-    </table>
--->
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -149,3 +121,48 @@ a free text about an event. Each event has a button at the end of its row, which
 
 </body>
 </html>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("eventsTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+</script>

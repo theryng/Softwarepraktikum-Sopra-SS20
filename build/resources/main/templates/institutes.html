@@ -86,17 +86,26 @@
     <!--The table that shows all the stored institutes inside the database.
         Each institute has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
         will open up an editing window where the user can change the stored information or delete this specific institute altogether-->
-    <table class="table table-striped mt-3">
+    <table id="institutesTable" class="table table-striped mt-3">
         <tr>
-            <th>Name</th>
-            <th>Link zur Homepage</th>
-            <th>Adresse</th>
+            <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
+            <th role="button" onclick="sortTable(1)">Link zur Homepage<i class="fas fa-sort ml-1"></i></th>
+            <th role="button" onclick="sortTable(2)">Adresse<i class="fas fa-sort ml-1"></i></th>
             <th></th>
         </tr>
         <tr th:each="institute : ${instituteDTO.getAllInstitutes()}">
-            <td th:text="${institute.name}"></td>
-            <td th:text="${institute.linkToHomepage}" th:href="${institute.linkToHomepage}"></td>
-            <td th:text="${institute.address.street} + ' ' + ${institute.address.houseNumber} + ', ' + ${institute.address.zipCode} + ' ' + ${institute.address.city}"></td>
+            <td>
+                <a>Name</a>
+                <h6 th:text="${institute.name}"></h6>
+            </td>
+            <td>
+                <a>Link zur Homepage</a>
+                <h6 th:text="${institute.linkToHomepage}"></h6>
+            </td>
+            <td>
+                <a>Adresse</a>
+                <h6 th:href="${institute.linkToHomepage}"></h6>
+            </td>
             <td>
                 <!--Button that opens up the editing window-->
                 <a type="button" th:href="@{/instituteDetails/{instituteId}(instituteId=${institute.getInstituteID()})}" method="get">
@@ -114,3 +123,48 @@
 
 </body>
 </html>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("institutesTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+</script>

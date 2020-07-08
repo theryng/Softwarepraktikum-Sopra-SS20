@@ -68,17 +68,26 @@
     <!--The table that shows all the stored projects inside the database.
         Each project has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
         will open up an editing window where the user can change the stored information or delete this specific project altogether-->
-    <table class="table table-striped mt-3">
+    <table id="projectsTable" class="table table-striped mt-3">
         <tr>
-            <th>Name</th>
-            <th>Beschreibung</th>
-            <th>Seit</th>
+            <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
+            <th role="button" onclick="sortTable(1)">Beschreibung<i class="fas fa-sort ml-1"></i></th>
+            <th role="button" onclick="sortTable(2)">Seit<i class="fas fa-sort ml-1"></i></th>
             <th></th>
         </tr>
         <tr th:each="project : ${projectDTO.getAllProjects()}">
-            <td th:text="${project.name}"></td>
-            <td th:text="${project.description}" th:href="${project.description}"></td>
-            <td th:text="${project.since}"></td>
+            <td>
+                <a>Name</a>
+                <h6 th:text="${project.name}"></h6>
+            </td>
+            <td>
+                <a>Beschreibung</a>
+                <h6 th:text="${project.description}"></h6>
+            </td>
+            <td>
+                <a>Seit</a>
+                <h6  th:text="${project.since}"></h6>
+            </td>
             <td>
                 <!--Button that opens up the editing window-->
                 <a type="button" th:href="@{/projectDetails/{projectId}(projectId=${project.getProjectID()})}" method="get">
@@ -96,3 +105,48 @@
 
 </body>
 </html>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("projectsTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+</script>
