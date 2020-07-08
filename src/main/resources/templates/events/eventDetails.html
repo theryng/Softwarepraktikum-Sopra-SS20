@@ -213,12 +213,12 @@
                         </div>
                     </div>
 
-                    <!-- If Statement if no Tag is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
+                    <!-- If Statement if no Relationship is available -->
+                    <div class="mr-5 mt-5 mb-2" th:if="${not viewEvent}" >
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
                     </a>
 
                 </div>

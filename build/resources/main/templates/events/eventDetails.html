@@ -187,6 +187,43 @@
             </div>
         </div>
 
+        <!-- Third Accordion Element for Viewing of Contact Histories-->
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <h3 class = "text-dark">Tags</h3>
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row" th:each="tag : ${event.tags}">
+                        <div class="col">
+                            <form ACTION="#" th:action="@{/deleteEventTag}" th:object="${tagDTO}" method="get">
+
+                                <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
+                                <input type="hidden" th:field="${tagDTO.originalID}" />
+                                <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                    <a class="mr-2" th:text="${tag.name}"></a>
+                                    <i class="fas fa-times icon-large" ></i>
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- If Statement if no Relationship is available -->
+                    <div class="mr-5 mt-5 mb-2" th:if="${not viewEvent}" >
+                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
+                    </div>
+                    <!-- Button to Start Creation of new Tag -->
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    </a>
+
+                </div>
+            </div>
+        </div>
 
         </div>
 

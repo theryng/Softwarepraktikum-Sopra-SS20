@@ -4,10 +4,7 @@ import de.hohenheim.sopraproject.dto.TagsDTO;
 import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
-import de.hohenheim.sopraproject.service.ContactFinder;
-import de.hohenheim.sopraproject.service.ContactService;
-import de.hohenheim.sopraproject.service.EditingHistoryService;
-import de.hohenheim.sopraproject.service.TagsService;
+import de.hohenheim.sopraproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +34,8 @@ public class TagsController {
     EditingHistoryService editingHistoryService;
     @Autowired
     private TagsService tagsService;
+    @Autowired
+    EventService eventService;
 
     /**
      * This method gets all the information about a contact
@@ -133,8 +132,61 @@ public class TagsController {
             contactService.saveContact(contact);
             return "redirect:/contactDetails/"+tagsDTO.getOriginalID();
         }
+
         System.out.println("Fehler im Setten");
         //TBD IF For other Types like Insitute/Events etc.
         return null;
     }
+/**
+ * else if(objectType.equals("event")){
+ *             System.out.println("Type Event");
+ *             Event event = eventService.findByEventID(id);
+ *             Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+ *             tag.getEvents().add(event);
+ *             tagsService.saveTags(tag);
+ *             eventService.saveEvent(event);
+ *             return "redirect:/eventDetails/"+tagsDTO.getOriginalID();
+ *
+ *         }
+ *
+    @RequestMapping(value="/saveTag", method = RequestMethod.POST)
+    public String saveEvent(@Valid TagsDTO tagsDTO, BindingResult result, Model model){
+        if(result.hasErrors()){
+            System.out.println("Fehler");
+
+            model.addAttribute("allTags", tagsService.findAllTags());
+
+        }
+        else{
+            tagsService.saveTags(tagsDTO.getTag());
+            model.addAttribute("allTags", tagsService.findAllTags());
+
+        }
+        model.addAttribute("tagsDTO", tagsDTO);
+        model.addAttribute("showList", true);
+
+        return "tags/tags";
+
+    }
+
+    @PostMapping(value ="/searchTag")
+    public String searchEvents(TagsDTO tagsDTO, Model model) {
+        EventFinder findEvent = new EventFinder();
+
+        LinkedList<Tags> foundTagsTemp = findEvent.findTags(tagsDTO.getSearchWord(), tagsService.findAllTags());
+
+        boolean showList = false;
+        if(foundTagsTemp.size()>0){
+            showList = true;
+        }
+        model.addAttribute("showList", showList);
+        model.addAttribute("allTags", foundTagsTemp);
+        model.addAttribute("tagsDTO", tagsDTO);
+
+        return "tags/tags";
+    }
+
+*/
+
+
 }
