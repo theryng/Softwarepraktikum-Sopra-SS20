@@ -9,6 +9,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -39,6 +40,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private RelationshipService relationshipService;
+
+    @Autowired
+    private ProjectService projectService;
 
 
     /**
@@ -464,7 +468,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         //example events
         Event picknick = new Event();
-        picknick.setDate(2020, 06, 06);
+        picknick.setDate(2020, 06, 01);
         picknick.setEventName("Picknick");
         picknick.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "201"));
@@ -521,6 +525,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         allianzStuttgart.setName("Allianz AG, Niederlassung in Stuttgart");
         allianzStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "102"));
+        allianzStuttgart.setLinkToHomepage("www.allianz.de");
         instituteService.saveInstitute(allianzStuttgart);
 
         Institute porscheStuttgart = new Institute();
@@ -555,6 +560,13 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
                 "105"));
         instituteService.saveInstitute(mercedesStuttgart);
 
+        Institute sap = new Institute();
+        sap.setName("SAP");
+        sap.addInstitutionContacts(jana);
+        sap.addInstitutionContacts(peter);
+        sap.setAddress(new Address("55554", "Fritzhausen", "Carl-Otto-Weg", "1"));
+        instituteService.saveInstitute(sap);
+
         Institute mahleStuttgart = new Institute();
         mahleStuttgart.setName("MAHLE GmbH");
         mahleStuttgart.addInstitutionContacts(jose);
@@ -574,5 +586,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         heirat.setSinceDate(2010, 01, 30);
         heirat.setTypeOfRelationship("Verheiratet");
         relationshipService.saveRelationship(heirat);
+
+        Project covid = new Project();
+        covid.setName("Corona tracking App");
+        covid.setDescription("Entwickeln einer Corona tracking App to flatten the curve");
+        covid.setSince(2020, 04, 20);
+        covid.addProjectContacts(max);
+        covid.addProjectContacts(jana);
+        covid.addProjectInstitutes(sap);
+        projectService.saveProject(covid);
     }
 }

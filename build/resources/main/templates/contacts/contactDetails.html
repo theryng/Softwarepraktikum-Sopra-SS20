@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
     <title>Kontakte</title>
 </head>
 
@@ -18,7 +19,7 @@
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<div class="container-fluid mt-5" style="background-image: url('Hintergrundbild.jpg')">
+<div class="container-fluid mt-5">
 
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 class="ml-1"> Kontaktinformationen</h1>
@@ -243,6 +244,7 @@
                             <td th:text="${contacthistories.date}"></td>
                             <td th:text="*{contacthistories.text}"></td>
                             <td>
+
                                 <!--Button that opens up the editing window-->
                                 <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
                                 </a>
@@ -262,6 +264,43 @@
         </div>
 
 
+        <!-- Third Accordion Element for Viewing of Contact Histories-->
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <h3 class = "text-dark">Tags</h3>
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                        <div class="row" th:each="tag : ${contact.tags}">
+                            <div class="col">
+                                <form ACTION="#" th:action="@{/deleteContactTag}" th:object="${tagDTO}" method="get">
+
+                                        <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
+                                        <input type="hidden" th:field="${tagDTO.originalID}" />
+                                        <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                            <a class="mr-2" th:text="${tag.name}"></a>
+                                            <i class="fas fa-times icon-large" ></i>
+                                        </button>
+
+                                </form>
+                            </div>
+                        </div>
+
+                    <!-- If Statement if no Relationship is available -->
+                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
+                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
+                    </div>
+                    <!-- Button to Start Creation of new Contact History -->
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    </a>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

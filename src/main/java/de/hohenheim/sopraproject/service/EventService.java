@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class EventService {
 
@@ -17,8 +18,18 @@ public class EventService {
         return eventRepository.save(event);
     }
 
+
+    public void deleteByEventID(Integer id){
+        eventRepository.deleteById(id);
+    }
+
     public List<Event> findAllEvents() {
         return eventRepository.findAll();
     }
+
+
+    public Event findByEventID(Integer id){
+     return  eventRepository.findByEventID(id);
+   }
 
 }

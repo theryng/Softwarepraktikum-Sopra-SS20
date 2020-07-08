@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.Tags;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,5 +23,14 @@ public class ContactFinder {
             }
         }
         return foundContacts;
+    }
+    public LinkedList<Tags> findTags(String searchWord, List<Tags> allTags) {
+        LinkedList<Tags> foundTags = new LinkedList<>();
+        for (Tags elem : allTags) {
+            if (elem.getSearchString().contains(searchWord)) {
+                foundTags.add(elem);
+            }
+        }
+        return foundTags;
     }
 }

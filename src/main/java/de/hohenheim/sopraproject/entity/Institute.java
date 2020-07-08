@@ -37,6 +37,9 @@ public class Institute {
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
+    @ManyToMany(mappedBy = "institutes")
+    private Set<Project> projects = new HashSet<>();
+
     public Institute(){
         //empty constructor for Hibernate
     }

@@ -1,4 +1,4 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.contacts;
 
 import de.hohenheim.sopraproject.entity.Address;
 import de.hohenheim.sopraproject.entity.Contact;
@@ -92,9 +92,6 @@ public class ContactsController {
             editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
             return "redirect:/contacts";
         }
-
-
-
     }
 
     /**
