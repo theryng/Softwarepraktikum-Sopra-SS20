@@ -136,7 +136,7 @@
                 </td>
                 <td>
                     <!--Button that opens up the editing window-->
-                    <a type="button" th:href="@{/userDetails/{userId}(userId=${users.getUserId()})}" method="get" title="User bearbeiten">
+                    <a type="button" th:href="@{/userDetails/{username}(username=${users.getUsername()})}" method="get" title="User bearbeiten">
                         <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
                     </a>
                 </td>

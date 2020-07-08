@@ -23,15 +23,19 @@
             <ul class="navbar-nav mr-auto">
                 <!--leads to the contactlist-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/contacts">Kontakte</a>
+                    <a class="nav-link text-white" th:href="@{/contacts}">Kontakte</a>
                 </li>
                 <!--leads to the calender-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/calendar">Kalender</a>
+                    <a class="nav-link text-white" th:href="@{/calendar}">Kalender</a>
                 </li>
                 <!--leads to the eventlist-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/events">Events</a>
+                    <a class="nav-link text-white" th:href="@{/events}">Events</a>
+                </li>
+                <!--leads to the project list-->
+                <li class="nav-item active">
+                    <a class="nav-link text-white" th:href="@{/projects}">Projekte</a>
                 </li>
                 <!--leads to the project list-->
                 <li class="nav-item active">
@@ -39,7 +43,7 @@
                 </li>
                 <!--leads to the institute list-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/institutes">Institute</a>
+                    <a class="nav-link text-white" th:href="@{/institutes}">Institute</a>
                 </li>
             </ul>
             <!--The small dropdown menu at the end of the navbar-->
@@ -51,8 +55,10 @@
                     <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/home">Einstellungen</a>
-                        <a class="dropdown-item" href="/optionen">Optionen</a>
-                        <a class="dropdown-item" href="/registration">User hinzufügen</a>
+                        <a class="dropdown-item" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}" method="get">Accountinformation</a>
+                        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
+                        <a class="dropdown-item" href="/registration">User verwalten</a>
+                        </div>
                         <a class="dropdown-item" href="/logout">Log out</a>
                     </div>
                 </div>
