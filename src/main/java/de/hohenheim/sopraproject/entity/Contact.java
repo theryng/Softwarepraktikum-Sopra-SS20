@@ -3,6 +3,8 @@ package de.hohenheim.sopraproject.entity;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.persistence.*;
 import javax.swing.text.html.HTML;
@@ -338,4 +340,5 @@ public class Contact {
     public void setTags(List<Tags> tags) {
         this.tags = tags;
     }
+
 }
