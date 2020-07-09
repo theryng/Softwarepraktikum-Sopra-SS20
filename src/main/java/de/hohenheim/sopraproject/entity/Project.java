@@ -134,5 +134,9 @@ public class Project {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getSearchString(){
+        return name+description;
+    }
 }
 

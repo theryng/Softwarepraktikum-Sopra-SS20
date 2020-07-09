@@ -138,4 +138,8 @@ public class Event {
         this.date = date;
 
     }
+
+    public String getSearchString(){
+        return eventName + text;
+    }
 }

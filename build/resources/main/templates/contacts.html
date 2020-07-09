@@ -24,7 +24,7 @@
    <!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
         the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
             <div class = "container-fluid ml-1000 mr-1000">
-                <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Kontakte in der Datenbank</h3>
+                <h2 align="center" style="margin-top: 15px">Kontakte</h2>
 
                 <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
                     <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
@@ -128,7 +128,7 @@
                         <h5>Sortieren nach Tags</h5>
 
                         <div th:each="tags : ${allTags}">
-                            <form class="mt-2" ACTION="#" th:action="@{/sortByTag}" th:object="${tag}" method="post">
+                            <form class="mt-2" ACTION="#" th:action="@{/sortByTagContact}" th:object="${tag}" method="post">
                                 <input type="hidden" th:value="${tags.name}" th:name ="name" />
                                 <input type="hidden" th:value="${tags.getTagsID()}" th:name ="tagsID" />
                                 <button type="submit" class= "btn btn-secondary" th:text="${tags.name}">
@@ -138,8 +138,6 @@
                     </div>
 
                     <div class="col-10">
-
-
                         <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
                                             the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
                                             Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
@@ -147,42 +145,44 @@
 
 
                         <!-- Table with the Possible Results -->
-                        <table id="contactTable" class="table table-striped " th:if="${showList}">
-                            <tr>
-                                <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
-                                <th role="button" onclick="sortTable(1)">Studium<i class="fas fa-sort ml-1"></i></th>
-                                <th role="button" onclick="sortTable(2)">Letzter Kontakt<i class="fas fa-sort ml-1"></i></th>
-                                <th role="button" onclick="sortTable(3)">E-Mail<i class="fas fa-sort ml-1"></i></th>
-                                <th role="button"></th>
-                            </tr>
-                            <tr th:each="contact : ${allContacts}">
-                                <td>
-                                    <a>Name</a>
-                                    <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
-                                </td>
-                                <td>
-                                    <a>Studium</a>
-                                    <h6 th:text="${contact.courseOfStudies}"></h6>
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <table id="contactTable" class="table table-striped " th:if="${showList}">
+                                <tr>
+                                    <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
+                                    <th role="button" onclick="sortTable(1)">Studium<i class="fas fa-sort ml-1"></i></th>
+                                    <th role="button" onclick="sortTable(2)">Letzter Kontakt<i class="fas fa-sort ml-1"></i></th>
+                                    <th role="button" onclick="sortTable(3)">E-Mail<i class="fas fa-sort ml-1"></i></th>
+                                    <th role="button"></th>
+                                </tr>
+                                <tr class="tableBody" th:each="contact : ${allContacts}">
+                                    <td>
+                                        <a>Name</a>
+                                        <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                                    </td>
+                                    <td>
+                                        <a>Studium</a>
+                                        <h6 th:text="${contact.courseOfStudies}"></h6>
 
-                                </td>
-                                <td>
-                                    <a>Geburtsdatum</a>
-                                    <h6 th:text="${contact.lastContact}"></h6>
+                                    </td>
+                                    <td>
+                                        <a>Geburtsdatum</a>
+                                        <h6 th:text="${contact.lastContact}"></h6>
 
-                                </td>
-                                <td>
-                                    <a>E-Mail</a>
-                                    <h6 th:text="${contact.email}"></h6>
+                                    </td>
+                                    <td>
+                                        <a>E-Mail</a>
+                                        <h6 th:text="${contact.email}"></h6>
 
-                                </td>
-                                <td>
-                                    <!--Button that opens up the editing window-->
-                                    <a type="button" th:href="@{/contactDetails/{contactId}(contactId=${contact.getContactID()})}" method="get">
-                                        <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
+                                    </td>
+                                    <td>
+                                        <!--Button that opens up the editing window-->
+                                        <a type="button" th:href="@{/contactDetails/{contactId}(contactId=${contact.getContactID()})}" method="get">
+                                            <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
         </div>

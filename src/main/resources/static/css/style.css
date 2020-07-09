@@ -31,17 +31,12 @@
     margin-right: auto;
     margin-left: auto;
     margin-top: 40px;
-    max-width: 1200px;
+    max-width:67%;
     background-color: #f5f5f5;
 
     border-radius: 30px;
     border: 2px solid #c7c7c7;
     padding: 20px;
-}
-.body{
-    margin-right: auto;
-    margin-left: auto;
-    max-width: 1200px;
 }
 .container-center {
     height: 100%;
@@ -107,4 +102,12 @@
 }
 .hideFromUser{
     display:none
+}
+.my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
 }

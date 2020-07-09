@@ -22,7 +22,7 @@
 
 <div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
 
-    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Events in der Datenbank</h3>
+    <h2 align="center" style="margin-top: 15px;margin-bottom: 15px">Events</h2>
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
     <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
@@ -81,36 +81,72 @@
             </div>
         </div>
     </form>
-    <!--The table that shows all the stored institutes inside the database.
-        Each institute has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
-        will open up an editing window where the user can change the stored information or delete this specific institute altogether-->
-    <table id="eventsTable" class="table table-striped mt-3">
-        <tr>
-            <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
-            <th role="button" onclick="sortTable(1)">Datum<i class="fas fa-sort ml-1"></i></th>
-            <th role="button" onclick="sortTable(2)">Adresse<i class="fas fa-sort ml-1"></i></th>
-            <th></th>
-        </tr>
-        <tr th:each="event : ${eventDTO.getAllEvents()}">
-            <td>
-                <a>Name</a>
-                <h6 th:text="${event.eventName}"></h6>
-            </td>
-            <td>
-                <a>Datum</a>
-                <h6 th:text="${event.date}"></h6>
-            </td>
-            <td>
-                <a>Adresse</a>
-                <h6 th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></h6>
-            </td>
-            <td>
-                <a type="button" th:href="@{/eventDetails/{eventID}(eventID=${event.getEventID()})}" method="get">
-                    <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
-                </a>
-            </td>
-        </tr>
-    </table>
+
+    <!-- Search Button, to search for a certain Contact to have a Relationship with -->
+    <form class="mt-2" ACTION="#" th:action="@{/searchEvent}" th:object="${searchWord}" method="post">
+        <!-- Search form -->
+        <div class="md-form active-cyan active-cyan-2 mb-3">
+            <div class="row">
+                <div class = "col-10">
+                    <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                           title="Suche nach Vorname, Nachname und E-Mail möglich">
+                </div>
+                <div class = "col-2 justify-content-end">
+                    <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <!-- ///////////////////////////////////////////////////////////////////////////// -->
+    <div class="row mt-3 mb-5">
+        <div class="col-2 border-right">
+            <h5>Sortieren nach Tags</h5>
+
+            <div th:each="tags : ${allTags}">
+                <form class="mt-2" ACTION="#" th:action="@{/sortByTagEvents}" th:object="${tag}" method="post">
+                    <input type="hidden" th:value="${tags.name}" th:name ="name" />
+                    <input type="hidden" th:value="${tags.getTagsID()}" th:name ="tagsID" />
+                    <button type="submit" class= "btn btn-secondary" th:text="${tags.name}">
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-10">
+            <!--The table that shows all the stored institutes inside the database.
+            Each institute has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
+            will open up an editing window where the user can change the stored information or delete this specific institute altogether-->
+            <table id="eventsTable" class="table table-striped mt-3">
+                <tr>
+                    <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
+                    <th role="button" onclick="sortTable(1)">Datum<i class="fas fa-sort ml-1"></i></th>
+                    <th role="button" onclick="sortTable(2)">Adresse<i class="fas fa-sort ml-1"></i></th>
+                    <th></th>
+                </tr>
+                <tr th:each="event : ${eventDTO.getAllEvents()}">
+                    <td>
+                        <a>Name</a>
+                        <h6 th:text="${event.eventName}"></h6>
+                    </td>
+                    <td>
+                        <a>Datum</a>
+                        <h6 th:text="${event.date}"></h6>
+                    </td>
+                    <td>
+                        <a>Adresse</a>
+                        <h6 th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></h6>
+                    </td>
+                    <td>
+                        <a type="button" th:href="@{/eventDetails/{eventID}(eventID=${event.getEventID()})}" method="get">
+                            <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
 </div>
 
 <!-- Optional JavaScript -->

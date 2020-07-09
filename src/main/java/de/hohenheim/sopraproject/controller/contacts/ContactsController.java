@@ -128,7 +128,7 @@ public class ContactsController {
         return "contacts";
     }
 
-    @PostMapping(value ="/sortByTag")
+    @PostMapping(value ="/sortByTagContact")
     public String sortByTag(Tags tag, Model model) {
         System.out.println("sorting by Tag");
         Tags tags = tagsService.findByTagID(tag.getTagsID());
