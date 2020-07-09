@@ -11,8 +11,8 @@ public class OccurrenceDTO {
     private Occurrence occurrence = new Occurrence();
     private List<Occurrence> allOccurrences = new LinkedList<>();
     private List<Occurrence> allUpcomingOccurrences = new LinkedList<>();
-    private List<Occurrence> foundOccurrences = new LinkedList<>();
-    private List<Occurrence> chosenOccurrences = new LinkedList<>();
+    private List<Contact> foundOccurrences = new LinkedList<>();
+    private List<Contact> chosenOccurrences = new LinkedList<>();
     private String searchWord = "";
     public Integer occurrenceID;
     public Contact contact = new Contact();
@@ -45,19 +45,19 @@ public class OccurrenceDTO {
         this.allOccurrences = allOccurrences;
     }
 
-    public List<Occurrence> getFoundOccurrences() {
+    public List<Contact> getFoundOccurrences() {
         return foundOccurrences;
     }
 
-    public void setFoundOccurrences(List<Occurrence> foundOccurrences) {
+    public void setFoundOccurrences(List<Contact> foundOccurrences) {
         this.foundOccurrences = foundOccurrences;
     }
 
-    public List<Occurrence> getChosenOccurrences() {
+    public List<Contact> getChosenOccurrences() {
         return chosenOccurrences;
     }
 
-    public void setChosenOccurrences(List<Occurrence> chosenOccurrences) {
+    public void setChosenOccurrences(List<Contact> chosenOccurrences) {
         this.chosenOccurrences = chosenOccurrences;
     }
 

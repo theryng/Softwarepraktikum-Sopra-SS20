@@ -601,34 +601,37 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Occurrence erstieEinführung = new Occurrence();
         erstieEinführung.setDate(LocalDate.now());
-        erstieEinführung.setDescription("");
+        erstieEinführung.setDescription("Blaue Krawatte anziehen");
         erstieEinführung.setStartTime(9,30);
         erstieEinführung.setEndTime(10,30);
         erstieEinführung.setTitle("Erstie Begrüßung");
+        erstieEinführung.addContact(jana);
         occurrenceService.saveOccurrence(erstieEinführung);
 
         Occurrence vortragMüller = new Occurrence();
         vortragMüller.setDate(LocalDate.now());
-        vortragMüller.setDescription("Vortrag von Prof. Dr. Müller");
+        vortragMüller.setDescription("Prof. Dr. Müller, Audimax");
         vortragMüller.setStartTime(12,30);
         vortragMüller.setEndTime(14,0);
         vortragMüller.setTitle("Treibhausgas Emissionssenkung");
+        vortragMüller.addContact(jonas);
+        vortragMüller.addContact(max);
         occurrenceService.saveOccurrence(vortragMüller);
 
         Occurrence begrüßungGastprofessoren = new Occurrence();
         begrüßungGastprofessoren.setDate(LocalDate.now());
-        begrüßungGastprofessoren.setDescription("Schwedischen Gastprofessorin Frau Prof. Dr. Andersson");
+        begrüßungGastprofessoren.setDescription("Aus Schweden, Geschenk nicht Vergessen!");
         begrüßungGastprofessoren.setStartTime(15,45);
         begrüßungGastprofessoren.setEndTime(16,0);
-        begrüßungGastprofessoren.setTitle("Begrüßung Gastprofessorin");
+        begrüßungGastprofessoren.setTitle("Gastprofessorin Prof. Dr. Andersson begrüßen");
         occurrenceService.saveOccurrence(begrüßungGastprofessoren);
 
         Occurrence professorenMeeting = new Occurrence();
         professorenMeeting.setDate(LocalDate.now());
-        professorenMeeting.setDescription("Zum Informationsaustausch in der empirischen Forschung");
+        professorenMeeting.setDescription("Zum Informationsaustausch");
         professorenMeeting.setStartTime(17,30);
         professorenMeeting.setEndTime(19,30);
-        professorenMeeting.setTitle("Online Meeting mit Havard Prof. Dr. Smith");
+        professorenMeeting.setTitle("Meeting mit Prof. Dr. Smith \"empirischen Forschung\"");
         occurrenceService.saveOccurrence(professorenMeeting);
 
         Occurrence vortragMayer = new Occurrence();

@@ -5,8 +5,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class defines all the occurrences that the admin has
@@ -28,6 +33,9 @@ public class Occurrence {
     private LocalTime endTime;
 
     private String title;
+
+    @OneToMany
+    private Set<Contact> contacts = new HashSet<>();
 
     public Occurrence(){
         //for hibernate
@@ -78,10 +86,43 @@ public class Occurrence {
     }
 
     public void setStartTime(int hours, int minutes) {
-        startTime = LocalTime.of(hours, minutes);
+        if(hours < 25 && minutes < 60) {
+            startTime = LocalTime.of(hours, minutes);
+        } else {
+            throw new IllegalStateException();
+        }
     }
 
     public void setEndTime(int hours, int minutes) {
-        endTime = LocalTime.of(hours, minutes);
+        if(hours < 25 && minutes < 60) {
+            endTime = LocalTime.of(hours, minutes);
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public void addContact(Contact contact){
+        if(contact != null && contacts != null){
+            contacts.add(contact);
+        }
+        else{
+            throw new IllegalStateException();
+        }
     }
 }

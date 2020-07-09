@@ -78,6 +78,9 @@ public class Contact {
     @ManyToMany (mappedBy = "contacts", cascade = CascadeType.ALL)
     private List<Tags> tags = new LinkedList<>();
 
+    @ManyToOne
+    private Occurrence occurrence;
+
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, LocalDate date) {
