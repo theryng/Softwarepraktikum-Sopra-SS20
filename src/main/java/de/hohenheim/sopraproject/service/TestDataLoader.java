@@ -517,6 +517,30 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
 
+        Event zukunftDerLehre = new Event();
+        karateSport.setDate(2020, 7, 01);
+        karateSport.setEventName("Zukunft der Lehre");
+        karateSport.setAddress(new Address("70578", "Stuttgart", "Garbenstraße",
+                "30"));
+        karateSport.addEventContact(florian);
+        karateSport.addEventContact(jana);
+        karateSport.addEventContact(sabine);
+        karateSport.addEventContact(peter);
+        karateSport.setText("Informationsveranstaltung wie die zukünftige Lehre aussehen könnte");
+        eventService.saveEvent(zukunftDerLehre);
+
+        Event frisbee = new Event();
+        karateSport.setDate(2019, 5, 01);
+        karateSport.setEventName("Frisbee werfen für Anfänger");
+        karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
+                "203"));
+        karateSport.addEventContact(aleyna);
+        karateSport.addEventContact(sabine);
+        karateSport.addEventContact(luisa);
+        karateSport.addEventContact(jose);
+        karateSport.setText("'Schnupperkurs Frisbee werfen'");
+        eventService.saveEvent(frisbee);
+
         //Example institutes
         Institute deutscheBahnBerlin = new Institute();
         deutscheBahnBerlin.setName("Deutsche Bahn");
@@ -599,13 +623,48 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         covid.addProjectInstitutes(sap);
         projectService.saveProject(covid);
 
-        Occurrence erstieEinführung = new Occurrence();
-        erstieEinführung.setDate(LocalDate.now());
-        erstieEinführung.setDescription("");
-        erstieEinführung.setStartTime(9,30);
-        erstieEinführung.setEndTime(10,30);
-        erstieEinführung.setTitle("Erstie Begrüßung");
-        occurrenceService.saveOccurrence(erstieEinführung);
+        Project campus = new Project();
+        covid.setName("Campussystem Erneuerung");
+        covid.setDescription("Das komplette Campussystem wird erneuert");
+        covid.setSince(2020, 06, 30);
+        covid.addProjectContacts(florian);
+        covid.addProjectContacts(alex);
+        covid.addProjectInstitutes(sap);
+        projectService.saveProject(campus);
+
+        Project liquidLehre = new Project();
+        covid.setName("Liquid Lehre App");
+        covid.setDescription("Entwickeln einer App zur besseren Kommunikation zwischen Studierenden und Dozenten.");
+        covid.setSince(2018, 10, 20);
+        covid.addProjectContacts(aleyna);
+        covid.addProjectContacts(jana);
+        covid.addProjectInstitutes(sap);
+        projectService.saveProject(liquidLehre);
+
+        Project verschoenern = new Project();
+        covid.setName("Verschönern des Campus");
+        covid.setDescription("Der Campus der Uni Hohenheim soll schöner und grüner werden.");
+        covid.setSince(2020, 04, 20);
+        covid.addProjectContacts(jonas);
+        covid.addProjectContacts(jose);
+        projectService.saveProject(verschoenern);
+
+        Project gegenRassismus = new Project();
+        covid.setName("Uni gegen Rassismus");
+        covid.setDescription("Sensibilisieren der Kommilitonen bezüglich des Themas Rassismus");
+        covid.setSince(2020, 07, 20);
+        covid.addProjectContacts(peter);
+        covid.addProjectContacts(sofia);
+        covid.addProjectContacts(sabine);
+        projectService.saveProject(gegenRassismus);
+
+        Occurrence erstiEinführung = new Occurrence();
+        erstiEinführung.setDate(LocalDate.now());
+        erstiEinführung.setDescription("");
+        erstiEinführung.setStartTime(9,30);
+        erstiEinführung.setEndTime(10,30);
+        erstiEinführung.setTitle("Erstsemester Begrüßung");
+        occurrenceService.saveOccurrence(erstiEinführung);
 
         Occurrence vortragMüller = new Occurrence();
         vortragMüller.setDate(LocalDate.now());

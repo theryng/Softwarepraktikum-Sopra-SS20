@@ -36,6 +36,10 @@ public class TagsController {
     private TagsService tagsService;
     @Autowired
     EventService eventService;
+    @Autowired
+    InstituteService instituteService;
+    @Autowired
+    ProjectService projectService;
 
     /**
      * This method gets all the information about a contact
@@ -141,6 +145,26 @@ public class TagsController {
             tagsService.saveTags(tag);
             eventService.saveEvent(event);
             return "redirect:/eventDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("institute")){
+            System.out.println("Type Institute");
+            Institute institute = instituteService.findByInstitutesID(id);
+            Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+            tag.getInstitutes().add(institute);
+            tagsService.saveTags(tag);
+            instituteService.saveInstitute(institute);
+            return "redirect:/instituteDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("project")){
+            System.out.println("Type Project");
+            Project project = projectService.findByProjectID(id);
+            Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+            tag.getProjects().add(project);
+            tagsService.saveTags(tag);
+            projectService.saveProject(project);
+            return "redirect:/projectDetails/"+tagsDTO.getOriginalID();
         }
 
         System.out.println("Fehler im Setten");

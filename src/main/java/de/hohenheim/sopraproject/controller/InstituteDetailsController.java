@@ -2,10 +2,8 @@ package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.dto.ContactHistoryDTO;
 import de.hohenheim.sopraproject.dto.InstituteDTO;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
-import de.hohenheim.sopraproject.entity.Institute;
-import de.hohenheim.sopraproject.entity.Relationship;
+import de.hohenheim.sopraproject.dto.TagsDTO;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ContactHistoryRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
@@ -13,10 +11,12 @@ import de.hohenheim.sopraproject.repository.RelationshipRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.InstituteService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,7 +46,11 @@ public class InstituteDetailsController {
     @Autowired
     private ContactService contactService;
 
+    @Autowired
+    private TagsService tagsService;
 
+    @Autowired
+    private ContactRepository contactRepository;
 
     /**
      * Main method for Viewing of Institute Details Site, adds necessary Attributes
@@ -58,10 +62,15 @@ public class InstituteDetailsController {
         System.out.println("Testing the stuff " + instituteID);
         InstituteDTO instituteDTO = new InstituteDTO();
         Institute institute = instituteService.findByInstitutesID(instituteID);
+        System.out.println("Anzahl Tags: " + institute.getTags().size());
+        String searchWord = "";
+        TagsDTO tagsDTO = new TagsDTO();
+        tagsDTO.setOriginalID(instituteID);
         instituteDTO.setInstitute(institute);
         instituteDTO.setInstituteID(instituteDTO.getInstitute().getInstituteID());
         model.addAttribute("instituteDTO", instituteDTO);
         model.addAttribute("viewTable", checkTables(institute));
+        model.addAttribute("tagDTO", tagsDTO);
         return "institutes/instituteDetails";
     }
 
@@ -113,6 +122,33 @@ public class InstituteDetailsController {
         model.addAttribute("viewTable", checkTables(institute));
         return "institutes/instituteDetails";
     }
+
+
+    @GetMapping("/deleteInstituteTag")
+    public String deleteInstituteTag(TagsDTO tagsDTO) {
+        List<Tags> tags = instituteService.findByInstitutesID(tagsDTO.getOriginalID()).getTags();
+        System.out.println("Number of Tags 1" + tags.size());
+        Tags removeTag = new Tags();
+        for(Tags tag : tags){
+            if(tag.getTagsID() == tagsDTO.getTagID()){
+                System.out.println("remove");
+                removeTag = tag;
+            }
+        }
+        tags.remove(removeTag);
+
+        System.out.println("Number of Tags 2" + tags.size());
+        Institute institute = instituteService.findByInstitutesID(tagsDTO.getOriginalID());
+        institute.setTags(tags);
+        System.out.println(institute.getTags().size());
+        instituteService.saveInstitute(institute);
+        Tags tag = tagsService.findByTagID(removeTag.getTagsID());
+        tag.getInstitutes().remove(institute);
+        tagsService.saveTags(tag);
+        return "redirect:/instituteDetails/"+institute.getInstituteID();
+    }
+
+
 
     private boolean checkTables(Institute institute){
         if(institute.getContacts().size()>0){
