@@ -26,7 +26,11 @@ public class ContactHistory {
 
     public String text;
 
-    private boolean mutualMeetup = false;
+    @ManyToOne
+    private Event event;
+
+    @ManyToOne
+    private Project project;
 
     @ManyToMany(fetch = FetchType.EAGER)
     public Set<Contact> contactOfHistory = new HashSet<>();
@@ -37,7 +41,6 @@ public class ContactHistory {
         setDate(LocalDate.of(year, month, day));
         this.text = text;
         this.contactOfHistory = contactOfHistory;
-        mutualMeetup = false;
     }
 
     public ContactHistory() {
@@ -82,11 +85,20 @@ public class ContactHistory {
         this.contactHistoryID = contacthistoryId;
     }
 
-    public boolean getMutualMeetup() {
-        return mutualMeetup;
+
+    public Event getEvent() {
+        return event;
     }
 
-    public void setMutualMeetup(boolean mutualMeetup) {
-        this.mutualMeetup = mutualMeetup;
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

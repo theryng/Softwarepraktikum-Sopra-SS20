@@ -23,16 +23,16 @@
 
    <!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
         the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
-            <div class = "container-fluid ml-1000 mr-1000">
-                <h2 align="center" style="margin-top: 15px">Kontakte</h2>
+            <div class = "container-fluid">
+                <h1 align="center" style="margin-top: 15px">Kontakte</h1>
 
                 <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
                     <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                         Bei der Speicherung des Kontakts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
                     </div>
-                    <div class="form-group mt-2 mr-5">
+                    <div class="form-group mr-5">
                         <!-- Submit Button -->
-                        <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                        <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
                             Neuen Kontakt hinzufügen
                         </button>
                         <!-- Modal for Submit Button -->
@@ -46,7 +46,7 @@
                                         </button>
                                     </div>
                                     <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
-                                    <div class="modal-body">
+                                    <div class="modal-body table-wrapper-scroll-y my-custom-modal">
                                         <div class = "row">
                                             <div class = "col w-25">
                                                 Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}" required>
@@ -109,7 +109,7 @@
                 <!-- Search Button, to search for a certain Contact to have a Relationship with -->
                 <form class="mt-2" ACTION="#" th:action="@{/searchContact}" th:object="${searchWord}" method="post">
                     <!-- Search form -->
-                    <div class="md-form active-cyan active-cyan-2 mb-3">
+                    <div class="md-form active-cyan active-cyan-2 mb-3 ">
                         <div class="row">
                             <div class = "col-10">
                                 <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
@@ -123,8 +123,8 @@
                 </form>
                 <hr>
                 <!-- ///////////////////////////////////////////////////////////////////////////// -->
-                <div class="row mt-3 mb-5">
-                    <div class="col-2 border-right">
+                <div class="row mt-3">
+                    <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
                         <h5>Sortieren nach Tags</h5>
 
                         <div th:each="tags : ${allTags}">

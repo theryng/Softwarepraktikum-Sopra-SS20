@@ -45,6 +45,9 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
         contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
         contactHistoryDTO.setContactHistory(contactHistory);
+        contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
+        boolean checkConnection = checkConnection(contactHistory);
+        model.addAttribute("viewConnection", checkConnection);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         model.addAttribute("allContacts", contactService.findAllContacts());
         return "contacts/contactHistoryEditor";
@@ -107,8 +110,10 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setChosenContacts(chosenContacts);
         ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
         contactHistory.setContactOfHistory(contactList);
+        contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
         contactHistoryService.saveContacthistory(contactHistory);
-
+        boolean checkConnection = checkConnection(contactHistory);
+        model.addAttribute("viewConnection", checkConnection);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
 
         return "contactHistoryEditor";
@@ -144,7 +149,10 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
         contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
         contactHistoryDTO.setContactHistory(contactHistory);
+        contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
 
+        boolean checkConnection = checkConnection(contactHistory);
+        model.addAttribute("viewConnection", checkConnection);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         model.addAttribute("addContact", false);
         model.addAttribute("viewTable", false);
@@ -173,6 +181,7 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
         contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
         contactHistoryDTO.setContactHistory(contactHistory);
+        contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
         System.out.println("Anzahl Suchergebnisse: "+foundContacts.size());
         if(foundContacts.size()>0){
             String string = "";
@@ -191,6 +200,7 @@ public class ContactHistoryEditorController {
             model.addAttribute("addContact", true);
             model.addAttribute("viewTable", true);
         }
+        model.addAttribute("viewConnection", checkConnection(contactHistory));
         System.out.println("Die gefunden Kontakte sind: "+contactHistoryDTO.getFoundContacts());
         return "contacts/contactHistoryEditor";
     }
@@ -208,7 +218,33 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
         contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
         contactHistoryDTO.setContactHistory(contactHistory);
+        contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
+        boolean checkConnection = checkConnection(contactHistory);
+        model.addAttribute("viewConnection", checkConnection);
+        model.addAttribute("viewConnection", checkConnection(contactHistory));
+        model.addAttribute("addContact", true);
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        return "contacts/contactHistoryEditor";
+    }
+    /**
+     *  Enables the Viewing of the addContact Table,
+     *  if its already seen it hides it.
+     * @return contactHistoryEditor
+     */
+    @RequestMapping(value ="/removeConnection", method = RequestMethod.POST)
+    public String removeConnection(ContactHistoryDTO contactHistoryDTO, Model model) {
 
+        ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
+        contactHistory.setProject(null);
+        contactHistory.setEvent(null);
+        contactHistoryService.saveContacthistory(contactHistory);
+        contactHistoryDTO.setOriginalContactID(contactHistoryDTO.getOriginalContactID());
+        contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
+        contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
+        contactHistoryDTO.setContactHistory(contactHistory);
+        contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
+        boolean checkConnection = checkConnection(contactHistory);
+        model.addAttribute("viewConnection", checkConnection);
         model.addAttribute("addContact", true);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         return "contacts/contactHistoryEditor";
@@ -248,5 +284,24 @@ public class ContactHistoryEditorController {
             foundContacts.add(contactService.findByContactID(integer));
         }
         return foundContacts;
+    }
+
+    public boolean checkConnection(ContactHistory contactHistory){
+        System.out.println("Checking 1");
+        try{
+            if(!contactHistory.getEvent().equals(null)){
+                System.out.println("Checking 2");
+                return true;
+
+            }
+            if(!contactHistory.getProject().equals(null)){
+                System.out.println("Checking 3");
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        System.out.println("Checking 4");
+        return false;
     }
 }

@@ -79,8 +79,19 @@ public class ContactsController {
         if(result.hasErrors()){
             System.out.println("Fehler");
 
+            String searchword = "";
+            List<Contact> allContacts = contactService.findAllContacts();
+            boolean showList = false;
+            if(allContacts.size()>0){
+                showList = true;
+            }
             model.addAttribute("allContacts", contactService.findAllContacts());
-
+            model.addAttribute("showList", showList);
+            model.addAttribute("allContacts", allContacts);
+            model.addAttribute("searchWord", "");
+            model.addAttribute("contact", new Contact());
+            model.addAttribute("allTags", tagsService.findAllTags());
+            model.addAttribute("tag", new Tags());
             return "contacts";
         }
         else{

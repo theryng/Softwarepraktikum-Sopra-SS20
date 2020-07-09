@@ -27,9 +27,9 @@
     <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
 </div>
-        <div class="form-group mt-2 mr-5">
+        <div class="form-group mr-5">
             <!-- Submit Button -->
-            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#eventSubmitModal">
+            <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventSubmitModal">
                 Neues Event hinzufügen
             </button>
             <!-- Modal for Submit Button -->
@@ -100,7 +100,7 @@
     <hr>
     <!-- ///////////////////////////////////////////////////////////////////////////// -->
     <div class="row mt-3 mb-5">
-        <div class="col-2 border-right">
+        <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
             <h5>Sortieren nach Tags</h5>
 
             <div th:each="tags : ${allTags}">
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div class="col-10">
+        <div class="col-10 table-wrapper-scroll-y my-custom-scrollbar">
             <!--The table that shows all the stored institutes inside the database.
             Each institute has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
             will open up an editing window where the user can change the stored information or delete this specific institute altogether-->

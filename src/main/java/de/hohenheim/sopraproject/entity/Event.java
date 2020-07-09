@@ -31,6 +31,9 @@ public class Event {
 
     private String text;
 
+    @OneToMany
+    private Set<ContactHistory> contactHistories = new HashSet<>();
+
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
@@ -141,5 +144,13 @@ public class Event {
 
     public String getSearchString(){
         return eventName + text;
+    }
+
+    public Set<ContactHistory> getContactHistories() {
+        return contactHistories;
+    }
+
+    public void setContactHistories(Set<ContactHistory> contactHistories) {
+        this.contactHistories = contactHistories;
     }
 }

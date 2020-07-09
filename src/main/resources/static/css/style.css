@@ -30,13 +30,18 @@
 .container-fluid {
     margin-right: auto;
     margin-left: auto;
-    margin-top: 40px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     max-width:67%;
+    min-width: 1200px;
     background-color: #f5f5f5;
 
     border-radius: 30px;
     border: 2px solid #c7c7c7;
-    padding: 20px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 30px;
 }
 .container-center {
     height: 100%;
@@ -105,7 +110,12 @@
 }
 .my-custom-scrollbar {
     position: relative;
-    height: 500px;
+    max-height: 600px;
+    overflow: auto;
+}
+.my-custom-modal {
+    position: relative;
+    height: 600px;
     overflow: auto;
 }
 .table-wrapper-scroll-y {
