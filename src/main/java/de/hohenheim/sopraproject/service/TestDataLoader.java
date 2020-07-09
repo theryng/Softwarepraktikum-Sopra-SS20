@@ -604,7 +604,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         erstieEinführung.setDescription("Blaue Krawatte anziehen");
         erstieEinführung.setStartTime(9,30);
         erstieEinführung.setEndTime(10,30);
-        erstieEinführung.setTitle("Erstie Begrüßung");
+        erstieEinführung.setTitle("Erstie begrüßung");
         erstieEinführung.addContact(jana);
         occurrenceService.saveOccurrence(erstieEinführung);
 
