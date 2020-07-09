@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Event Details</title>
 </head>
 <body class="backgroundimage">
@@ -206,7 +208,7 @@
                                 <input type="hidden" th:field="${tagDTO.originalID}" />
                                 <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
                                     <a class="mr-2" th:text="${tag.name}"></a>
-                                    <i class="fas fa-times icon-large" ></i>
+                                    <i class ="fas fa-times icon-large " ></i>
                                 </button>
 
                             </form>
@@ -214,7 +216,7 @@
                     </div>
 
                     <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewEvent}" >
+                    <div class="mr-5 mt-5 mb-2" th:if="${not viewTable}" >
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
