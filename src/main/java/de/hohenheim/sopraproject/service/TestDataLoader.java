@@ -518,27 +518,27 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(yogaSport);
 
         Event zukunftDerLehre = new Event();
-        karateSport.setDate(2020, 7, 01);
-        karateSport.setEventName("Zukunft der Lehre");
-        karateSport.setAddress(new Address("70578", "Stuttgart", "Garbenstraße",
+        zukunftDerLehre.setDate(2020, 7, 01);
+        zukunftDerLehre.setEventName("Zukunft der Lehre");
+        zukunftDerLehre.setAddress(new Address("70578", "Stuttgart", "Garbenstraße",
                 "30"));
-        karateSport.addEventContact(florian);
-        karateSport.addEventContact(jana);
-        karateSport.addEventContact(sabine);
-        karateSport.addEventContact(peter);
-        karateSport.setText("Informationsveranstaltung wie die zukünftige Lehre aussehen könnte");
+        zukunftDerLehre.addEventContact(florian);
+        zukunftDerLehre.addEventContact(jana);
+        zukunftDerLehre.addEventContact(sabine);
+        zukunftDerLehre.addEventContact(peter);
+        zukunftDerLehre.setText("Informationsveranstaltung wie die zukünftige Lehre aussehen könnte");
         eventService.saveEvent(zukunftDerLehre);
 
         Event frisbee = new Event();
-        karateSport.setDate(2019, 5, 01);
-        karateSport.setEventName("Frisbee werfen für Anfänger");
-        karateSport.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
+        frisbee.setDate(2019, 5, 01);
+        frisbee.setEventName("Frisbee werfen für Anfänger");
+        frisbee.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "203"));
-        karateSport.addEventContact(aleyna);
-        karateSport.addEventContact(sabine);
-        karateSport.addEventContact(luisa);
-        karateSport.addEventContact(jose);
-        karateSport.setText("'Schnupperkurs Frisbee werfen'");
+        frisbee.addEventContact(aleyna);
+        frisbee.addEventContact(sabine);
+        frisbee.addEventContact(luisa);
+        frisbee.addEventContact(jose);
+        frisbee.setText("'Schnupperkurs Frisbee werfen'");
         eventService.saveEvent(frisbee);
 
         //Example institutes
@@ -624,38 +624,39 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         projectService.saveProject(covid);
 
         Project campus = new Project();
-        covid.setName("Campussystem Erneuerung");
-        covid.setDescription("Das komplette Campussystem wird erneuert");
-        covid.setSince(2020, 06, 30);
-        covid.addProjectContacts(florian);
-        covid.addProjectContacts(alex);
-        covid.addProjectInstitutes(sap);
+        campus.setName("Campussystem Erneuerung");
+        campus.setDescription("Das komplette Campussystem wird erneuert");
+        campus.setSince(2020, 06, 30);
+        campus.addProjectContacts(florian);
+        campus.addProjectContacts(alex);
+        campus.addProjectInstitutes(sap);
         projectService.saveProject(campus);
 
         Project liquidLehre = new Project();
-        covid.setName("Liquid Lehre App");
-        covid.setDescription("Entwickeln einer App zur besseren Kommunikation zwischen Studierenden und Dozenten.");
-        covid.setSince(2018, 10, 20);
-        covid.addProjectContacts(aleyna);
-        covid.addProjectContacts(jana);
-        covid.addProjectInstitutes(sap);
+        liquidLehre.setName("Liquid Lehre App");
+        liquidLehre.setDescription("Entwickeln einer App zur besseren Kommunikation zwischen Studierenden und Dozenten.");
+        liquidLehre.setSince(2018, 10, 20);
+        liquidLehre.addProjectContacts(aleyna);
+        liquidLehre.addProjectContacts(jana);
+        liquidLehre.addProjectInstitutes(sap);
         projectService.saveProject(liquidLehre);
 
         Project verschoenern = new Project();
-        covid.setName("Verschönern des Campus");
-        covid.setDescription("Der Campus der Uni Hohenheim soll schöner und grüner werden.");
-        covid.setSince(2020, 04, 20);
-        covid.addProjectContacts(jonas);
-        covid.addProjectContacts(jose);
+        verschoenern.setName("Verschönern des Campus");
+        verschoenern.setDescription("Der Campus der Uni Hohenheim soll schöner und grüner werden.");
+        verschoenern.setSince(2020, 04, 20);
+        verschoenern.addProjectContacts(jonas);
+        verschoenern.addProjectContacts(jose);
         projectService.saveProject(verschoenern);
 
+
         Project gegenRassismus = new Project();
-        covid.setName("Uni gegen Rassismus");
-        covid.setDescription("Sensibilisieren der Kommilitonen bezüglich des Themas Rassismus");
-        covid.setSince(2020, 07, 20);
-        covid.addProjectContacts(peter);
-        covid.addProjectContacts(sofia);
-        covid.addProjectContacts(sabine);
+        gegenRassismus.setName("Uni gegen Rassismus");
+        gegenRassismus.setDescription("Sensibilisieren der Kommilitonen bezüglich des Themas Rassismus");
+        gegenRassismus.setSince(2020, 07, 20);
+        gegenRassismus.addProjectContacts(peter);
+        gegenRassismus.addProjectContacts(sofia);
+        gegenRassismus.addProjectContacts(sabine);
         projectService.saveProject(gegenRassismus);
 
         Occurrence erstiEinführung = new Occurrence();

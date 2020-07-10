@@ -68,8 +68,10 @@ public class InstituteDetailsController {
         tagsDTO.setOriginalID(instituteID);
         instituteDTO.setInstitute(institute);
         instituteDTO.setInstituteID(instituteDTO.getInstitute().getInstituteID());
+        model.addAttribute("allContacts", institute.getContacts());
         model.addAttribute("instituteDTO", instituteDTO);
-        model.addAttribute("viewTable", checkTables(institute));
+        model.addAttribute("institute", institute);
+        model.addAttribute("viewTable", true);
         model.addAttribute("tagDTO", tagsDTO);
         return "institutes/instituteDetails";
     }

@@ -62,8 +62,10 @@ public class ProjectDetailsController {
         tagsDTO.setOriginalID(projectID);
         projectDTO.setProject(project);
         projectDTO.setProjectID(projectID);
+        model.addAttribute("allContacts", project.getContacts());
+        model.addAttribute("project", project);
         model.addAttribute("projectDTO", projectDTO);
-        model.addAttribute("viewTable", checkTables(project));
+        model.addAttribute("viewTable", true);
         model.addAttribute("tagDTO", tagsDTO);
         return "projects/projectDetails";
     }
