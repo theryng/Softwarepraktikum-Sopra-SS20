@@ -66,21 +66,19 @@
                                     <div class = "col w-25">
                                         Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/></br>
                                         <div class="invalid-feedback">Please fill in a Name</div>
+                                        Username:<input type="text" id="username" class="form-control" name="username" th:field="*{username}" required></br>
+                                        <div class="invalid-feedback">Please fill in a unique Username</div>
+                                        <input type="hidden" class="form-control" name ="usedPassword"  th:field="*{password}"/>
                                     </div>
                                 </div>
-                                alte/neue Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required/>
-                                <div class="invalid-feedback">Bitte geben sie das aktuelle oder neue Passwort an.</div>
-                                Passwort bestätigen:<input type="password" id="confirmPassword" class="form-control" name ="confirmNewPassword" required/>
-                                <div class="invalid-feedback">Bitte bestätigen sie ihre Eingabe</div>
                             </div>
                             <div class = "col">
                                 Nachname:<input type="text" class="form-control" name ="lastname"  th:field="*{lastName}" required/></br>
                                 <div class="invalid-feedback">Please fill in a Name</div>
-                                Username:<input type="text" id="username" class="form-control" name="username" th:field="*{username}" required></br>
-                                <div class="invalid-feedback">Please fill in a unique Username</div>
-                                Rolle: <input type="hidden" class="form-control" name ="lastname"  th:field="*{isAdmin}"/>
+                                Rolle: <input type="hidden" class="form-control" name ="isAdmin"  th:field="*{isAdmin}"/>
                                 </br> <span th:if="${user.isAdmin == true}">Administrator</span>
                                 <span th:unless="${user.isAdmin == true}">Mitarbeiter</span></br>
+                                <input type="hidden" id="oldPassword" class="form-control" name ="password" th:field="*{password}"/>
                             </div>
                         </div>
                         <!-- Button trigger modal -->
@@ -113,6 +111,73 @@
             </div>
         </div>
 
+        <!-- Second Accordion Element for the password-->
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h3 class = "text-dark">Passwort ändern</h3>
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <form class="form-horizontal was-validated" id="multiCollapseExample2" th:object="${user}" th:action="@{/overridePassword}" method="post">
+                        <!-- Input and View Field for the Contact Details-->
+                        <input type="hidden" th:field="*{userId}"/>
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                            <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
+                        </div>
+                        <div class="row">
+                            <div class = "col">
+                                <div class = "row">
+                                    <div class = "col w-25">
+                                        neues Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required>
+                                        <div class="invalid-feedback">Bitte geben sie das aktuelle oder neue Passwort an.</div>
+                                        <!--Passwort bestätigen:<input type="password" id="confirmPassword" class="form-control" name ="confirmNewPassword" required>
+                                        <div class="invalid-feedback">Bitte bestätigen sie ihre Eingabe</div>-->
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <input type="hidden" class="form-control" name ="firstName"  th:field="*{firstName}"/>
+                                <input type="hidden" class="form-control" name ="lastName"  th:field="*{lastName}"/>
+                                <input type="hidden" class="form-control" name ="username"  th:field="*{username}"/>
+                                <input type="hidden" class="form-control" name ="isAdmin"  th:field="*{isAdmin}"/>
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#passwordModal">
+                            Änderungen speichern
+                        </button>
+
+                                <!-- Modal for Deletion of Relationships -->
+                                <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="passwordModalLabel">Passwort ändern</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Sind sie sicher das Sie das Passwort ändern möchten?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                                <button type="submit" class="btn btn-primary">Passwort ändern</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -122,7 +187,7 @@
         , confirmPassword = document.getElementById("confirmPassword");
 
     function validatePassword(){
-        if(password.value != confirmPassword.value) {
+        if(password.value !== confirmPassword.value) {
             confirmPassword.setCustomValidity("Passwords Don't Match");
         } else {
             confirmPassword.setCustomValidity(''); //no special messages if the passwords match

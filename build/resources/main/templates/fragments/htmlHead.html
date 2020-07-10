@@ -52,7 +52,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/home">Einstellungen</a>
                         <a class="dropdown-item" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}" method="get">Accountinformation</a>
-                        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
+                        <div th:unless="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == false}">
                         <a class="dropdown-item" href="/registration">User verwalten</a>
                         </div>
                         <a class="dropdown-item" href="/logout">Log out</a>

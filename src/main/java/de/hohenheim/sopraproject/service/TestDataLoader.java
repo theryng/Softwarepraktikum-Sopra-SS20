@@ -44,7 +44,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private ProjectService projectService;
 
-
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
      * is initialized that means it will be executed whenever the server is (re-)started. There are several Sets in this
