@@ -1,11 +1,14 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.events;
 
 import de.hohenheim.sopraproject.dto.EventDTO;
+import de.hohenheim.sopraproject.dto.TagsDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.Event;
+import de.hohenheim.sopraproject.entity.Tags;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.EventService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +28,9 @@ public class EventDetailsController {
     private EventService eventService;
 
     @Autowired
+    private TagsService tagsService;
+
+    @Autowired
     private ContactService contactService;
 
     @Autowired
@@ -35,6 +41,10 @@ public class EventDetailsController {
         System.out.println("Testing the stuff " + eventID);
         EventDTO eventDTO = new EventDTO();
         Event event = eventService.findByEventID(eventID);
+        System.out.println("Anzahl Tags: " + event.getTags().size());
+        String searchWord = "";
+        TagsDTO tagsDTO = new TagsDTO();
+        tagsDTO.setOriginalID(eventID);
         System.out.println(event.getContacts().size());
         eventDTO.setEvent(event);
         eventDTO.setEventID(event.getEventID());
@@ -42,6 +52,7 @@ public class EventDetailsController {
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("event", event);
         model.addAttribute("viewTable", true);
+        model.addAttribute("tagDTO", tagsDTO);
         return "events/eventDetails";
     }
 
@@ -52,7 +63,7 @@ public class EventDetailsController {
      * existing institute. As long thats not the case a new institute will be saved to the database. Once the institute is saved
      * the page will be reloaded to update the table with the new given information/attributes.
      *
-     * @param eventDTO
+     * @param
      * @return redirect:/institutes
      */
     @RequestMapping(value = "/savingEvent", method = RequestMethod.POST)
@@ -107,6 +118,30 @@ public class EventDetailsController {
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("viewTable", checkTables(event));
         return "redirect:/eventDetails/"+eventDTO.getEventID();
+    }
+
+    @GetMapping("/deleteEventTag")
+    public String deleteEventTag(TagsDTO tagsDTO) {
+        List<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
+        System.out.println("Number of Tags 1" + tags.size());
+        Tags removeTag = new Tags();
+        for(Tags tag : tags){
+            if(tag.getTagsID() == tagsDTO.getTagID()){
+                System.out.println("remove");
+                removeTag = tag;
+            }
+        }
+        tags.remove(removeTag);
+
+        System.out.println("Number of Tags 2" + tags.size());
+        Event event = eventService.findByEventID(tagsDTO.getOriginalID());
+        event.setTags(tags);
+        System.out.println(event.getTags().size());
+        eventService.saveEvent(event);
+        Tags tag = tagsService.findByTagID(removeTag.getTagsID());
+        tag.getEvents().remove(event);
+        tagsService.saveTags(tag);
+        return "redirect:/eventDetails/"+event.getEventID();
     }
 
 

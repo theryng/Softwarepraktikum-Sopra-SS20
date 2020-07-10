@@ -31,8 +31,14 @@ public class Event {
 
     private String text;
 
+    @OneToMany
+    private Set<ContactHistory> contactHistories = new HashSet<>();
+
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
+
+    @ManyToMany (mappedBy = "events", cascade = CascadeType.ALL)
+    private List<Tags> tags = new LinkedList<>();
 
     public Event() {
         //empty constructor for Hibernate
@@ -82,6 +88,14 @@ public class Event {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public List<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
     }
 
     /**
@@ -137,5 +151,17 @@ public class Event {
     public void setDate(LocalDate date) {
         this.date = date;
 
+    }
+
+    public String getSearchString(){
+        return eventName + text;
+    }
+
+    public Set<ContactHistory> getContactHistories() {
+        return contactHistories;
+    }
+
+    public void setContactHistories(Set<ContactHistory> contactHistories) {
+        this.contactHistories = contactHistories;
     }
 }

@@ -23,14 +23,14 @@
     column filled with a button per projects that allows the user to edit/delete the said project-->
 <div class = "container-fluid ml-1000 mr-1000">
 
-    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Projekte in der Datenbank</h3>
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px">Projekte</h1>
     <!--<div class="alert alert-danger" role="alert" th:if="${hasError}">
         Bei der Speicherung des Projektes ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
     </div>-->
     <form action = "#" th:action = "@{/saveProject}" th:object ="${projectDTO}" class="was-validated" method = post>
-        <div class="form-group mt-2 mr-5">
+        <div class="form-group mr-5">
             <!-- Submit Button -->
-            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+            <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
                 Neues Projekt hinzufügen
             </button>
             <!-- Modal for Submit Button -->
@@ -43,7 +43,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <!--Inputs for a project in a small Modal once the button: Neues Projekt hinzufügen is pushed-->
+                        <!--Inputs for a project in a small Modal once the button: Neues Institut hinzufügen is pushed-->
                         <div class="modal-body">
                             Name: <input type="text" class="form-control" name = "name"
                                          title="Ein Name darf keinerlei Sonderzeichen enthalten"
@@ -65,29 +65,76 @@
             </div>
         </div>
     </form>
-    <!--The table that shows all the stored projects inside the database.
+
+    <!-- Search Button, to search for a certain Contact to have a Relationship with -->
+    <form class="mt-2" ACTION="#" th:action="@{/searchProject}" th:object="${searchWord}" method="post">
+        <!-- Search form -->
+        <div class="md-form active-cyan active-cyan-2 mb-3">
+            <div class="row">
+                <div class = "col-10">
+                    <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                           title="Suche nach Vorname, Nachname und E-Mail möglich">
+                </div>
+                <div class = "col-2 justify-content-end">
+                    <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+
+    <!-- ///////////////////////////////////////////////////////////////////////////// -->
+    <div class="row mt-3 mb-5">
+        <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
+            <h5>Sortieren nach Tags</h5>
+
+            <div th:each="tags : ${allTags}">
+                <form class="mt-2" ACTION="#" th:action="@{/sortByTagProjects}" th:object="${tag}" method="post">
+                    <input type="hidden" th:value="${tags.name}" th:name ="name" />
+                    <input type="hidden" th:value="${tags.getTagsID()}" th:name ="tagsID" />
+                    <button type="submit" class= "btn btn-info" th:text="${tags.name}">
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-10 table-wrapper-scroll-y my-custom-scrollbar">
+        <!--The table that shows all the stored projects inside the database.
         Each project has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
         will open up an editing window where the user can change the stored information or delete this specific project altogether-->
-    <table class="table table-striped mt-3">
-        <tr>
-            <th>Name</th>
-            <th>Beschreibung</th>
-            <th>Seit</th>
-            <th></th>
-        </tr>
-        <tr th:each="project : ${projectDTO.getAllProjects()}">
-            <td th:text="${project.name}"></td>
-            <td th:text="${project.description}" th:href="${project.description}"></td>
-            <td th:text="${project.since}"></td>
-            <td>
-                <!--Button that opens up the editing window-->
-                <a type="button" th:href="@{/projectDetails/{projectId}(projectId=${project.getProjectID()})}" method="get">
-                    <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
-                </a>
-            </td>
-        </tr>
-    </table>
+            <table id="projectsTable" class="table table-striped mt-3">
+                <tr>
+                    <th role="button" onclick="sortTable(0)">Name<i class="fas fa-sort ml-1"></i></th>
+                    <th role="button" onclick="sortTable(1)">Beschreibung<i class="fas fa-sort ml-1"></i></th>
+                    <th role="button" onclick="sortTable(2)">Seit<i class="fas fa-sort ml-1"></i></th>
+                    <th></th>
+                </tr>
+                <tr th:each="project : ${projectDTO.getAllProjects()}">
+                    <td>
+                        <a>Name</a>
+                        <h6 th:text="${project.name}"></h6>
+                    </td>
+                    <td>
+                        <a>Beschreibung</a>
+                        <h6 th:text="${project.description}"></h6>
+                    </td>
+                    <td>
+                        <a>Seit</a>
+                        <h6  th:text="${project.since}"></h6>
+                    </td>
+                    <td>
+                        <!--Button that opens up the editing window-->
+                        <a type="button" th:href="@{/projectDetails/{projectId}(projectId=${project.getProjectID()})}" method="get">
+                            <i align="center" class="text-dark  fas fa-edit fa-2x"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
+
+<footer  th:insert="fragments/htmlFooter.html :: footer"> </footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -96,3 +143,48 @@
 
 </body>
 </html>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("projectsTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+</script>

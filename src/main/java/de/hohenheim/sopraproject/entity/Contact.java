@@ -3,8 +3,6 @@ package de.hohenheim.sopraproject.entity;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.persistence.*;
 import javax.swing.text.html.HTML;
@@ -45,6 +43,9 @@ public class Contact {
     private String freeText;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate lastContact = LocalDate.of(1900, 01, 01);
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dayOfBirth;
 
     @Transient
@@ -78,13 +79,9 @@ public class Contact {
     @ManyToMany (mappedBy = "contacts", cascade = CascadeType.ALL)
     private List<Tags> tags = new LinkedList<>();
 
-    @ManyToOne
-    private Occurrence occurrence;
-
 
     public Contact(String firstname, String lastname, String occupation, String email,
                    String courseOfStudies, String freeText, LocalDate date) {
-
         setFirstname(firstname);
         setLastname(lastname);
         this.occupation = occupation;
@@ -316,7 +313,7 @@ public class Contact {
         }
     }
     public String getSearchString(){
-        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
+        searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname + courseOfStudies + freeText;
         return searchString;
     }
 
@@ -344,4 +341,22 @@ public class Contact {
         this.tags = tags;
     }
 
+    public LocalDate getLastContact() {
+        return lastContact;
+    }
+
+    public void setLastContact(LocalDate lastContact) {
+        if(lastContact.isAfter(this.lastContact)){
+            System.out.println("Setting new Last Meetup");
+            this.lastContact = lastContact;
+        }
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
 }

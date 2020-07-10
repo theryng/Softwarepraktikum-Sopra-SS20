@@ -9,7 +9,7 @@ public class Tags {
 
     @Id
     @GeneratedValue
-    private int tagsID;
+    private Integer tagsID;
 
     private String name;
     @ManyToMany
@@ -19,15 +19,17 @@ public class Tags {
     @ManyToMany
     private List<Event> events = new LinkedList<>();
 
+    @ManyToMany
+    private List<Project> projects = new LinkedList<>();
+
     public Tags() {
     }
 
-    public int getTagsID() {
+    public Integer getTagsID() {
         return tagsID;
     }
 
-    public void setTagsID(int tagsID) {
-        tagsID = tagsID;
+    public void setTagsID(Integer tagsID) { this.tagsID = tagsID;
     }
 
     public String getName() {
@@ -64,5 +66,13 @@ public class Tags {
 
     public String getSearchString(){
         return name;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }

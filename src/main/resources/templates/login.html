@@ -12,6 +12,11 @@
 <!--Main Body of the login site. This is the first site a user will see once he opens this application. A user will also be redirected
     to this site whenever e decides to logout from his account-->
 <body class="backgroundimage">
+<nav class="navbar navbar-expand-lg navbar-light uniblue">
+    <!--ALUMNI NETZ has a reference to the homepage-->
+    <a class="navbar-brand text-white" href="/home">ALUMNI NETZ</a>
+
+</nav>
 <div class="container centerAlign">
     <form th:action="@{/login}" method="POST" class="form-horizontal">
         <div class="card">

@@ -3,16 +3,16 @@
 <head th:fragment="head">
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 
 <!--Navbar for every page inside this application. Its meant to provide a smooth way to navigate to all different pages
     by just clicking on the corresponding items-->
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-light uniblue">
+    <nav class="navbar navbar-expand-lg navbar-light uniblue fixed-top">
         <!--ALUMNI NETZ has a reference to the homepage-->
-        <a class="navbar-brand text-white" href="/home">ALUMNI NETZ</a>
+        <a class="navbar-brand text-white navbar-logo" href="/home">ALUMNI NETZ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -50,9 +50,8 @@
                     </button>
                     <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/home">Einstellungen</a>
                         <a class="dropdown-item" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}" method="get">Accountinformation</a>
-                        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
+                        <div th:unless="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == false}">
                         <a class="dropdown-item" href="/registration">User verwalten</a>
                         </div>
                         <a class="dropdown-item" href="/logout">Log out</a>

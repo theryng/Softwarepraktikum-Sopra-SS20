@@ -2,11 +2,21 @@
     background-color: #004a8a;
     opacity: 0.50;
 }
+.navbar{
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+
+.navbar-logo{
+    font-size: 24px;
+}
 
 .li:hover{
     background-color: whitesmoke;
 }
-
+.sortable th {
+    cursor: pointer;
+}
 .hr-sect {
     display: flex;
     flex-basis: 100%;
@@ -26,15 +36,40 @@
 }
 /* set a max-width for horizontal fluid layout and make it centered */
 .container-fluid {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+
     margin-right: auto;
     margin-left: auto;
-    margin-top: 40px;
-    max-width: 1200px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    max-width:73%;
+    min-width: 1200px;
+    min-height: 600px;
+    background-color: #f5f5f5;
+    border: 2px solid #d4d4d4;
+    border-radius: 3px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+}
+.container-fluid-home{
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    max-width: 90%;
+    min-width: 1200px;
+    min-height: 600px;
     background-color: #f5f5f5;
 
-    border-radius: 30px;
-    border: 2px solid #c7c7c7;
-    padding: 20px;
+    border-radius: 3px;
+    border: 2px solid #d4d4d4;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 30px;
 }
 .body{
     margin-right: auto;
@@ -57,6 +92,7 @@
 }
 
 .btn-primary{
+    border-radius: 1px;
     background-color: #003f75;
     border-color: #003f75;
 }
@@ -64,10 +100,14 @@
     background-color: #005fb0;
 }
 .btn-secondary{
-    background-color: #428c68;
+    border-radius: 1px;
 }
-.btn-secondary:hover{
-    background-color: #005fb0;
+.btn-info{
+    background-color: #428c68;
+    border-color: #428c68;
+}
+.btn-info:hover{
+    background-color: #428c48;
 }
 .lightgrey {
     background-color: #f5f5f5;
@@ -103,6 +143,32 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-.hideFromUser{
-    display:none
+
+.table-scroll {
+    height:600px;
+    width:820px;
+    overflow:auto;
+    margin-top:20px;
+}
+.my-custom-scrollbar {
+    position: relative;
+    max-height: 1600px;
+    overflow: auto;
+}
+.my-custom-modal {
+    position: relative;
+    height: 600px;
+    overflow: auto;
+}
+.my-custom-contact {
+    position: relative;
+    height: 650px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+.body{
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
 }
