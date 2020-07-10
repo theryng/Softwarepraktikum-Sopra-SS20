@@ -2,6 +2,8 @@ package de.hohenheim.sopraproject.dto;
 
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
+import de.hohenheim.sopraproject.entity.Event;
+import de.hohenheim.sopraproject.entity.Project;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,12 +12,23 @@ public class ContactHistoryDTO {
     private ContactHistory contactHistory = new ContactHistory();
     private List<Contact> foundContacts= new LinkedList<Contact>();
     private List<Contact> chosenContacts = new LinkedList<Contact>();
+    private List<Event> allEvents = new LinkedList<Event>();
+    private List<Project> allProjects = new LinkedList<Project>();
     private String searchWord = "";
     private int selectedContact;
     private List<Integer> chosenIDs = new LinkedList<Integer>();
     private String stringChosenIDs = "";
     private String stringFoundIDs = "";
     private String originalContactID;
+    private Integer originalContactHistoryID;
+    private String eventID = "";
+    private ConnectedObject connectedObject;
+    private Integer connectedID;
+
+    enum ConnectedObject{
+        Event,
+        Project
+    }
 
 
     public ContactHistoryDTO(){
@@ -92,5 +105,53 @@ public class ContactHistoryDTO {
 
     public void setOriginalContactID(String originalContactID) {
         this.originalContactID = originalContactID;
+    }
+
+    public List<Event> getAllEvents() {
+        return allEvents;
+    }
+
+    public void setAllEvents(List<Event> allEvents) {
+        this.allEvents = allEvents;
+    }
+
+    public Integer getOriginalContactHistoryID() {
+        return originalContactHistoryID;
+    }
+
+    public void setOriginalContactHistoryID(Integer originalContactHistoryID) {
+        this.originalContactHistoryID = originalContactHistoryID;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
+
+    public List<Project> getAllProjects() {
+        return allProjects;
+    }
+
+    public void setAllProjects(List<Project> allProjects) {
+        this.allProjects = allProjects;
+    }
+
+    public ConnectedObject getConnectedObject() {
+        return connectedObject;
+    }
+
+    public void setConnectedObject(ConnectedObject connectedObject) {
+        this.connectedObject = connectedObject;
+    }
+
+    public Integer getConnectedID() {
+        return connectedID;
+    }
+
+    public void setConnectedID(Integer connectedID) {
+        this.connectedID = connectedID;
     }
 }

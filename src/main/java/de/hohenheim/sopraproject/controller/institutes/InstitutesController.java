@@ -1,13 +1,12 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.institutes;
 
 import de.hohenheim.sopraproject.dto.InstituteDTO;
-import de.hohenheim.sopraproject.entity.Address;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.Institute;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.InstituteService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +27,8 @@ public class InstitutesController {
 
     @Autowired
     private InstituteService instituteService;
+    @Autowired
+    private TagsService tagsService;
 
     @RequestMapping(value = "/institutes", method = RequestMethod.GET)
     public String institutes(Model model) {
@@ -36,6 +37,10 @@ public class InstitutesController {
         instituteDTO.setAllInstitutes(allInstitutes);
         instituteDTO.setInstitute(new Institute());
         model.addAttribute("instituteDTO", instituteDTO);
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
+        model.addAttribute("searchWord", "");
+
         return "institutes";
     }
 
@@ -60,21 +65,6 @@ public class InstitutesController {
     }
 
     /**
-     * This method finds all Institutes.
-     *
-     * This method finds all existing institutes and returns them to the user
-     *
-     * @param model
-     * @return contacts
-     */
-    @RequestMapping("/allInstitutes")
-    public String allInstitutes(Model model) {
-        model.addAttribute("allInstitutes", instituteService.findAllInstitutes());
-        return "institutes";
-    }
-
-
-    /**
      *  Method which can be used to search for a certain Institute.
      *  Calls the Contact Finder, and uses a searchWord to find a Institute.
      *  Reloads the Site at the very End.
@@ -82,15 +72,27 @@ public class InstitutesController {
      * @return contactHistoryCreator1
      */
     @RequestMapping(value ="/searchInstitute", method = RequestMethod.POST)
-    public String searchInstitutes(String searchWord) {
-        /*ContactFinder findContact = new ContactFinder();
-        Set<Institute> foundInstitutesTemp = findContact.findContacts(searchWord, contactRepository.findAll());
-        if(foundContactsTemp.size()>0){
-            foundContacts = foundContactsTemp;
+    public String searchInstitutes(String searchWord, Model model) {
+        List<Institute> allInstitutes;
+        ContactFinder findInstitute = new ContactFinder();
+
+        LinkedList<Institute> foundInstitutesTemp = findInstitute.findInstitutes(searchWord, instituteService.findAllInstitutes());
+
+        allInstitutes = foundInstitutesTemp;
+
+        boolean showList = false;
+        if(allInstitutes.size()>0){
+            showList = true;
         }
-        else{
-            foundContacts.clear();
-        }*/
-        return "redirect:/contacts";
+        List<Institute> institutes = instituteService.findAllInstitutes();
+        InstituteDTO instituteDTO = new InstituteDTO();
+        instituteDTO.setAllInstitutes(allInstitutes);
+        instituteDTO.setInstitute(new Institute());
+        model.addAttribute("instituteDTO", instituteDTO);
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
+        model.addAttribute("searchWord", "");
+
+        return "redirect:/institutes";
     }
 }

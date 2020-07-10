@@ -37,6 +37,51 @@
 
             <button type="submit" class="btn btn-primary mt-3">Kontakthistorie speichern</button>
         </form>
+
+
+        <p>
+            <button class="btn btn-primary mt-2" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Vernüpfen</button>
+        </p>
+        <!-- Option to add the ingoing Relationship Type -->
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="CollapseIngoing">
+                    <div class="card card-body">
+                        <div align="center" th:if="${not viewConnection}">
+                            <a type="button" class="btn btn-secondary" th:href="@{/eventSelector/{ID}/{IDs}(ID=${contactHistoryDTO.getOriginalContactHistoryID()}, IDs=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Event verknüpfen'">
+                            </a>
+                            <a type="button" class="btn btn-secondary" th:href="@{/projectSelector/{ID}/{IDs}(ID=${contactHistoryDTO.getOriginalContactHistoryID()}, IDs=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Project verknüpfen'">
+                            </a>
+                        </div>
+                        <div th:if="${viewConnection}" >
+                            <div th:if="${projectOrEvent}" >
+                                <a>Es wurde bereits ein Projekt verknüpft, Verknüpfung aufheben?</a> <br>
+                                <a type="button" class="btn btn-secondary" th:href="@{/projectDetails/{ID}/(ID=${contactHistoryDTO.getConnectedID()})}" method="get" th:text="'Project einsehen'">
+                                </a>
+                            </div>
+                            <div th:if="${not projectOrEvent}" >
+                                <a>Es wurde bereits ein Event verknüpft, Verknüpfung aufheben?</a>
+                                <a type="button" class="btn btn-secondary" th:href="@{/eventDetails/{ID}/(ID=${contactHistoryDTO.getConnectedID()})}" method="get" th:text="'Event einsehen'">
+                                </a>
+                            </div>
+                            <!-- Editing and Viewing general Information of the History -->
+                            <form class="form-horizontal" th:object="${contactHistoryDTO}" th:action="@{/removeConnection}" method="post">
+                                <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
+                                <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                                <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
+                                <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
+
+                                <button type="submit" class="btn btn-primary mt-3">Verknüpfung aufheben</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Table with the current Contacts of the History -->
         <h3 class="mt-3">Beteiligte Kontakte</h3>
         <table class="table table-striped mt-3">

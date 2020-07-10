@@ -7,10 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,11 +31,17 @@ public class Project {
 
     private String description;
 
+    @OneToMany
+    private Set<ContactHistory> contactHistories = new HashSet<>();
+
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
     @ManyToMany
     private Set<Institute> institutes = new HashSet<>();
+
+    @ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL)
+    private List<Tags> tags = new LinkedList<>();
 
     public Project(){
         //empty constructor for Hibernate
@@ -95,6 +98,14 @@ public class Project {
         this.projectID = projectID;
     }
 
+    public List<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
+    }
+
     public LocalDate getSince() {
         return since;
     }
@@ -133,6 +144,18 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSearchString(){
+        return name+description;
+    }
+
+    public Set<ContactHistory> getContactHistories() {
+        return contactHistories;
+    }
+
+    public void setContactHistories(Set<ContactHistory> contactHistories) {
+        this.contactHistories = contactHistories;
     }
 }
 

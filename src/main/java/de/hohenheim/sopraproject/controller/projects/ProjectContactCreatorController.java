@@ -1,4 +1,4 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.projects;
 
 import de.hohenheim.sopraproject.dto.ProjectDTO;
 import de.hohenheim.sopraproject.dto.RelationshipDTO;

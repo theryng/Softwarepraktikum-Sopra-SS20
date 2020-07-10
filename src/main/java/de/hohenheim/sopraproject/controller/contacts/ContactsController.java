@@ -1,14 +1,10 @@
 package de.hohenheim.sopraproject.controller.contacts;
 
-import de.hohenheim.sopraproject.entity.Address;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
-import de.hohenheim.sopraproject.entity.EditingHistory;
-import de.hohenheim.sopraproject.repository.ContactRepository;
-import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.EditingHistoryService;
+import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,9 +31,11 @@ import java.util.*;
 public class ContactsController {
 
     @Autowired
-    EditingHistoryService editingHistoryService;
+    private EditingHistoryService editingHistoryService;
     @Autowired
     private ContactService contactService;
+    @Autowired
+    private TagsService tagsService;
 
     /**
      * This method gets all the information about a contact
@@ -54,10 +53,13 @@ public class ContactsController {
         if(allContacts.size()>0){
             showList = true;
         }
+
         model.addAttribute("showList", showList);
         model.addAttribute("allContacts", allContacts);
-        model.addAttribute("searchWord", searchword);
+        model.addAttribute("searchWord", "");
         model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
 
         return "contacts";
     }
@@ -73,12 +75,23 @@ public class ContactsController {
      * @return redirect:/contacts
      */
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
-    public String saveContact(@Valid Contact contact, BindingResult result, Model model){
+    public String saveContact(@Valid Contact contact, BindingResult result, Principal principal, Model model){
         if(result.hasErrors()){
             System.out.println("Fehler");
 
+            String searchword = "";
+            List<Contact> allContacts = contactService.findAllContacts();
+            boolean showList = false;
+            if(allContacts.size()>0){
+                showList = true;
+            }
             model.addAttribute("allContacts", contactService.findAllContacts());
-
+            model.addAttribute("showList", showList);
+            model.addAttribute("allContacts", allContacts);
+            model.addAttribute("searchWord", "");
+            model.addAttribute("contact", new Contact());
+            model.addAttribute("allTags", tagsService.findAllTags());
+            model.addAttribute("tag", new Tags());
             return "contacts";
         }
         else{
@@ -89,7 +102,7 @@ public class ContactsController {
             Date date = new Date();
             System.out.println(dateFormat.format(date));
 
-            editingHistoryService.saveEditingHistory(new EditingHistory("User1", "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
             return "redirect:/contacts";
         }
     }
@@ -102,7 +115,9 @@ public class ContactsController {
      * @return contactHistoryCreator1
      */
     @PostMapping(value ="/searchContact")
-    public String searchContacts(@RequestBody @ModelAttribute("allContacts") LinkedList<Contact> allContacts, String searchWord, Model model) {
+    public String searchContacts(String searchWord, Model model) {
+
+        List<Contact> allContacts;
         ContactFinder findContact = new ContactFinder();
 
         LinkedList<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
@@ -118,7 +133,38 @@ public class ContactsController {
         model.addAttribute("allContacts", allContacts);
         model.addAttribute("searchWord", searchword);
         model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
 
         return "contacts";
     }
+
+    @PostMapping(value ="/sortByTagContact")
+    public String sortByTag(Tags tag, Model model) {
+        System.out.println("sorting by Tag");
+        Tags tags = tagsService.findByTagID(tag.getTagsID());
+        List<Contact> allContacts = contactService.findAllContacts();
+        System.out.println(tag.getName() + tag.getTagsID());
+        List<Contact> foundContacts = new LinkedList<Contact>();
+        for(Contact con : allContacts){
+            if(con.getTags().contains(tags)){
+                System.out.println("AddContact");
+                foundContacts.add(con);
+            }
+        }
+        allContacts = foundContacts;
+        boolean showList = false;
+        if(allContacts.size()>0){
+            showList = true;
+        }
+        model.addAttribute("showList", showList);
+        model.addAttribute("allContacts", allContacts);
+        model.addAttribute("searchWord", "");
+        model.addAttribute("contact", new Contact());
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
+        return "contacts";
+    }
+
+
 }
