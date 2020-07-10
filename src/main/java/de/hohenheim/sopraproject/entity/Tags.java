@@ -19,6 +19,9 @@ public class Tags {
     @ManyToMany
     private List<Event> events = new LinkedList<>();
 
+    @ManyToMany
+    private List<Project> projects = new LinkedList<>();
+
     public Tags() {
     }
 
@@ -63,5 +66,13 @@ public class Tags {
 
     public String getSearchString(){
         return name;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }

@@ -7,10 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +39,9 @@ public class Project {
 
     @ManyToMany
     private Set<Institute> institutes = new HashSet<>();
+
+    @ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL)
+    private List<Tags> tags = new LinkedList<>();
 
     public Project(){
         //empty constructor for Hibernate
@@ -96,6 +96,14 @@ public class Project {
 
     public void setProjectID(Integer projectID) {
         this.projectID = projectID;
+    }
+
+    public List<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
     }
 
     public LocalDate getSince() {

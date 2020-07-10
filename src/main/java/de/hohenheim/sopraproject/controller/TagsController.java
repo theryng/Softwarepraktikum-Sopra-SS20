@@ -4,10 +4,7 @@ import de.hohenheim.sopraproject.dto.TagsDTO;
 import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
-import de.hohenheim.sopraproject.service.ContactFinder;
-import de.hohenheim.sopraproject.service.ContactService;
-import de.hohenheim.sopraproject.service.EditingHistoryService;
-import de.hohenheim.sopraproject.service.TagsService;
+import de.hohenheim.sopraproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +34,12 @@ public class TagsController {
     EditingHistoryService editingHistoryService;
     @Autowired
     private TagsService tagsService;
+    @Autowired
+    EventService eventService;
+    @Autowired
+    InstituteService instituteService;
+    @Autowired
+    ProjectService projectService;
 
     /**
      * This method gets all the information about a contact
@@ -133,8 +136,43 @@ public class TagsController {
             contactService.saveContact(contact);
             return "redirect:/contactDetails/"+tagsDTO.getOriginalID();
         }
+
+        else if(objectType.equals("event")){
+            System.out.println("Type Event");
+            Event event = eventService.findByEventID(id);
+            Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+            tag.getEvents().add(event);
+            tagsService.saveTags(tag);
+            eventService.saveEvent(event);
+            return "redirect:/eventDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("institute")){
+            System.out.println("Type Institute");
+            Institute institute = instituteService.findByInstitutesID(id);
+            Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+            tag.getInstitutes().add(institute);
+            tagsService.saveTags(tag);
+            instituteService.saveInstitute(institute);
+            return "redirect:/instituteDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("project")){
+            System.out.println("Type Project");
+            Project project = projectService.findByProjectID(id);
+            Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
+            tag.getProjects().add(project);
+            tagsService.saveTags(tag);
+            projectService.saveProject(project);
+            return "redirect:/projectDetails/"+tagsDTO.getOriginalID();
+        }
+
         System.out.println("Fehler im Setten");
         //TBD IF For other Types like Insitute/Events etc.
         return null;
     }
+
+
+
+
 }

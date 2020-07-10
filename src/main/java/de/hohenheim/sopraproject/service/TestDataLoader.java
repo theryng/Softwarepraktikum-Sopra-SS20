@@ -559,6 +559,30 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         yogaSport.setText("Wöchentliches Yoga für Fortgeschrittene");
         eventService.saveEvent(yogaSport);
 
+        Event zukunftDerLehre = new Event();
+        zukunftDerLehre.setDate(2020, 7, 01);
+        zukunftDerLehre.setEventName("Zukunft der Lehre");
+        zukunftDerLehre.setAddress(new Address("70578", "Stuttgart", "Garbenstraße",
+                "30"));
+        zukunftDerLehre.addEventContact(florian);
+        zukunftDerLehre.addEventContact(jana);
+        zukunftDerLehre.addEventContact(sabine);
+        zukunftDerLehre.addEventContact(peter);
+        zukunftDerLehre.setText("Informationsveranstaltung wie die zukünftige Lehre aussehen könnte");
+        eventService.saveEvent(zukunftDerLehre);
+
+        Event frisbee = new Event();
+        frisbee.setDate(2019, 5, 01);
+        frisbee.setEventName("Frisbee werfen für Anfänger");
+        frisbee.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
+                "203"));
+        frisbee.addEventContact(aleyna);
+        frisbee.addEventContact(sabine);
+        frisbee.addEventContact(luisa);
+        frisbee.addEventContact(jose);
+        frisbee.setText("'Schnupperkurs Frisbee werfen'");
+        eventService.saveEvent(frisbee);
+
         //Example institutes
         Institute deutscheBahnBerlin = new Institute();
         deutscheBahnBerlin.setName("Deutsche Bahn");
@@ -649,6 +673,49 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         erstieEinführung.setTitle("Erstie begrüßung");
         erstieEinführung.addContact(jana);
         occurrenceService.saveOccurrence(erstieEinführung);
+        Project campus = new Project();
+        campus.setName("Campussystem Erneuerung");
+        campus.setDescription("Das komplette Campussystem wird erneuert");
+        campus.setSince(2020, 06, 30);
+        campus.addProjectContacts(florian);
+        campus.addProjectContacts(alex);
+        campus.addProjectInstitutes(sap);
+        projectService.saveProject(campus);
+
+        Project liquidLehre = new Project();
+        liquidLehre.setName("Liquid Lehre App");
+        liquidLehre.setDescription("Entwickeln einer App zur besseren Kommunikation zwischen Studierenden und Dozenten.");
+        liquidLehre.setSince(2018, 10, 20);
+        liquidLehre.addProjectContacts(aleyna);
+        liquidLehre.addProjectContacts(jana);
+        liquidLehre.addProjectInstitutes(sap);
+        projectService.saveProject(liquidLehre);
+
+        Project verschoenern = new Project();
+        verschoenern.setName("Verschönern des Campus");
+        verschoenern.setDescription("Der Campus der Uni Hohenheim soll schöner und grüner werden.");
+        verschoenern.setSince(2020, 04, 20);
+        verschoenern.addProjectContacts(jonas);
+        verschoenern.addProjectContacts(jose);
+        projectService.saveProject(verschoenern);
+
+
+        Project gegenRassismus = new Project();
+        gegenRassismus.setName("Uni gegen Rassismus");
+        gegenRassismus.setDescription("Sensibilisieren der Kommilitonen bezüglich des Themas Rassismus");
+        gegenRassismus.setSince(2020, 07, 20);
+        gegenRassismus.addProjectContacts(peter);
+        gegenRassismus.addProjectContacts(sofia);
+        gegenRassismus.addProjectContacts(sabine);
+        projectService.saveProject(gegenRassismus);
+
+        Occurrence erstiEinführung = new Occurrence();
+        erstiEinführung.setDate(LocalDate.now());
+        erstiEinführung.setDescription("");
+        erstiEinführung.setStartTime(9,30);
+        erstiEinführung.setEndTime(10,30);
+        erstiEinführung.setTitle("Erstsemester Begrüßung");
+        occurrenceService.saveOccurrence(erstiEinführung);
 
         Occurrence vortragMüller = new Occurrence();
         vortragMüller.setDate(LocalDate.now());
