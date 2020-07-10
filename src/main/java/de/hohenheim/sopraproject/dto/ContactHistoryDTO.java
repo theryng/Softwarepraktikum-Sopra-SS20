@@ -22,6 +22,13 @@ public class ContactHistoryDTO {
     private String originalContactID;
     private Integer originalContactHistoryID;
     private String eventID = "";
+    private ConnectedObject connectedObject;
+    private Integer connectedID;
+
+    enum ConnectedObject{
+        Event,
+        Project
+    }
 
 
     public ContactHistoryDTO(){
@@ -130,5 +137,21 @@ public class ContactHistoryDTO {
 
     public void setAllProjects(List<Project> allProjects) {
         this.allProjects = allProjects;
+    }
+
+    public ConnectedObject getConnectedObject() {
+        return connectedObject;
+    }
+
+    public void setConnectedObject(ConnectedObject connectedObject) {
+        this.connectedObject = connectedObject;
+    }
+
+    public Integer getConnectedID() {
+        return connectedID;
+    }
+
+    public void setConnectedID(Integer connectedID) {
+        this.connectedID = connectedID;
     }
 }

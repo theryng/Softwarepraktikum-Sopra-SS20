@@ -62,7 +62,7 @@
 
     <!-- Accordion for better navigation-->
     <div class="accordion mt-2"  id="accordionExample">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar ">
+        <div class="table-wrapper-scroll-y my-custom-contact ">
         <div class="card">
 
             <!-- First Accordion Element, with general Information of the viewed Contact-->
@@ -282,7 +282,7 @@
 
                                         <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
                                         <input type="hidden" th:field="${tagDTO.originalID}" />
-                                        <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                        <button type="submit" class="tagblue mb-2 btn btn-info " href="#">
                                             <a class="mr-2" th:text="${tag.name}"></a>
                                             <i class="fas fa-times icon-large" ></i>
                                         </button>
@@ -306,7 +306,7 @@
     </div>
 </div>
 
-
+<footer th:insert="fragments/htmlFooter.html :: footer"> </footer>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

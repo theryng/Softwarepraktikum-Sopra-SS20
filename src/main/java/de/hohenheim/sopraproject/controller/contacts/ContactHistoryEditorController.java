@@ -39,6 +39,7 @@ public class ContactHistoryEditorController {
      */
     @GetMapping("/contactHistoryEditor/{contactID}/{historyID}")
     public String contactHistoryEditor(@PathVariable("contactID") Integer id, @PathVariable("historyID") Integer historyID, Model model) {
+
         ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(historyID);
         ContactHistoryDTO contactHistoryDTO = new ContactHistoryDTO();
         contactHistoryDTO.setOriginalContactID(id+"");
@@ -47,6 +48,16 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setContactHistory(contactHistory);
         contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
         boolean checkConnection = checkConnection(contactHistory);
+        boolean projectOrEvent = false;
+        if(!(contactHistory.getProject() ==null)){
+            contactHistoryDTO.setConnectedID(contactHistory.getProject().getProjectID());
+            projectOrEvent = true;
+        }
+        if(!(contactHistory.getEvent() ==null)){
+            contactHistoryDTO.setConnectedID(contactHistory.getEvent().getEventID());
+            projectOrEvent = false;
+        }
+        model.addAttribute("projectOrEvent", projectOrEvent);
         model.addAttribute("viewConnection", checkConnection);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         model.addAttribute("allContacts", contactService.findAllContacts());
@@ -288,20 +299,12 @@ public class ContactHistoryEditorController {
 
     public boolean checkConnection(ContactHistory contactHistory){
         System.out.println("Checking 1");
-        try{
-            if(!contactHistory.getEvent().equals(null)){
-                System.out.println("Checking 2");
-                return true;
-
-            }
-            if(!contactHistory.getProject().equals(null)){
-                System.out.println("Checking 3");
-                return true;
-            }
-        } catch (Exception e) {
+        if( contactHistory.getEvent()==null && contactHistory.getProject()==null){
+            System.out.println("Checking 2");
             return false;
         }
+
         System.out.println("Checking 4");
-        return false;
+        return true;
     }
 }

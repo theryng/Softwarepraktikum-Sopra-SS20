@@ -82,6 +82,8 @@ public class EventSelectorController {
         ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getOriginalContactHistoryID());
         Event event = eventService.findByEventID(Integer.valueOf(contactHistoryDTO.getEventID()));
         event.getContactHistories().add(contactHistory);
+        contactHistory.setEvent(event);
+        contactHistoryService.saveContacthistory(contactHistory);
         eventService.saveEvent(event);
         return "redirect:/contactHistoryEditor/"+contactHistoryDTO.getOriginalContactID()+"/"+contactHistoryDTO.getOriginalContactHistoryID();
     }

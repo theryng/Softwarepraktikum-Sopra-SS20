@@ -23,7 +23,7 @@
     column filled with a button per projects that allows the user to edit/delete the said project-->
 <div class = "container-fluid ml-1000 mr-1000">
 
-    <h2 align="center" style="margin-top: 15px;margin-bottom: 15px">Projekte</h2>
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px">Projekte</h1>
     <!--<div class="alert alert-danger" role="alert" th:if="${hasError}">
         Bei der Speicherung des Projektes ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
     </div>-->
@@ -92,7 +92,7 @@
                 <form class="mt-2" ACTION="#" th:action="@{/sortByTagProjects}" th:object="${tag}" method="post">
                     <input type="hidden" th:value="${tags.name}" th:name ="name" />
                     <input type="hidden" th:value="${tags.getTagsID()}" th:name ="tagsID" />
-                    <button type="submit" class= "btn btn-secondary" th:text="${tags.name}">
+                    <button type="submit" class= "btn btn-info" th:text="${tags.name}">
                     </button>
                 </form>
             </div>
@@ -131,7 +131,10 @@
                 </tr>
             </table>
         </div>
+    </div>
 </div>
+
+<footer  th:insert="fragments/htmlFooter.html :: footer"> </footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

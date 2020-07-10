@@ -23,7 +23,7 @@
 
    <!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
         the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
-            <div class = "container-fluid">
+            <div class = "container-fluid ">
                 <h1 align="center" style="margin-top: 15px">Kontakte</h1>
 
                 <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
@@ -111,11 +111,11 @@
                     <!-- Search form -->
                     <div class="md-form active-cyan active-cyan-2 mb-3 ">
                         <div class="row">
-                            <div class = "col-10">
+                            <div class = "col-11">
                                 <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
                                        title="Suche nach Vorname, Nachname und E-Mail möglich">
                             </div>
-                            <div class = "col-2 justify-content-end">
+                            <div class = "col-1 justify-content-end">
                                 <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                             <form class="mt-2" ACTION="#" th:action="@{/sortByTagContact}" th:object="${tag}" method="post">
                                 <input type="hidden" th:value="${tags.name}" th:name ="name" />
                                 <input type="hidden" th:value="${tags.getTagsID()}" th:name ="tagsID" />
-                                <button type="submit" class= "btn btn-secondary" th:text="${tags.name}">
+                                <button type="submit" class= "btn btn-info" th:text="${tags.name}">
                                 </button>
                             </form>
                         </div>
@@ -186,6 +186,8 @@
                     </div>
                 </div>
         </div>
+
+    <footer th:insert="fragments/htmlFooter.html :: footer"> </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
