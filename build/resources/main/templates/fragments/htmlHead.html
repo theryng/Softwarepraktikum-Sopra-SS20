@@ -10,9 +10,9 @@
 <!--Navbar for every page inside this application. Its meant to provide a smooth way to navigate to all different pages
     by just clicking on the corresponding items-->
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-light uniblue" >
+    <nav class="navbar navbar-expand-lg navbar-light uniblue">
         <!--ALUMNI NETZ has a reference to the homepage-->
-        <a class="navbar-brand text-white" href="home">ALUMNI NETZ</a>
+        <a class="navbar-brand text-white" href="/home">ALUMNI NETZ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,27 +23,23 @@
             <ul class="navbar-nav mr-auto">
                 <!--leads to the contactlist-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/contacts">Kontakte</a>
+                    <a class="nav-link text-white" th:href="@{/contacts}">Kontakte</a>
                 </li>
                 <!--leads to the calender-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/calendar">Kalender</a>
+                    <a class="nav-link text-white" th:href="@{/calendar}">Kalender</a>
                 </li>
                 <!--leads to the eventlist-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="/events">Events</a>
-                </li>
-                <!--leads to the institute list-->
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="/institutes">Institute</a>
+                    <a class="nav-link text-white" th:href="@{/events}">Events</a>
                 </li>
                 <!--leads to the project list-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="projects">Projekte</a>
+                    <a class="nav-link text-white" th:href="@{/projects}">Projekte</a>
                 </li>
-                <!--leads to the editing history-->
+                <!--leads to the institute list-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="history">Bearbeitungshistorie</a>
+                    <a class="nav-link text-white" th:href="@{/institutes}">Institute</a>
                 </li>
             </ul>
             <!--The small dropdown menu at the end of the navbar-->
@@ -55,8 +51,10 @@
                     <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/home">Einstellungen</a>
-                        <a class="dropdown-item" href="/optionen">Optionen</a>
-                        <a class="dropdown-item" href="/registration">User hinzufügen</a>
+                        <a class="dropdown-item" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}" method="get">Accountinformation</a>
+                        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
+                        <a class="dropdown-item" href="/registration">User verwalten</a>
+                        </div>
                         <a class="dropdown-item" href="/logout">Log out</a>
                     </div>
                 </div>

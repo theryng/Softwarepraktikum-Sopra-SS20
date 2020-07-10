@@ -3,8 +3,11 @@ package de.hohenheim.sopraproject.entity;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.persistence.*;
+import javax.swing.text.html.HTML;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -71,6 +74,9 @@ public class Contact {
 
     @ManyToMany (mappedBy = "contactOfHistory", cascade = CascadeType.ALL)
     private Set<ContactHistory> contactHistory = new HashSet<>();
+
+    @ManyToMany (mappedBy = "contacts", cascade = CascadeType.ALL)
+    private List<Tags> tags = new LinkedList<>();
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -310,4 +316,29 @@ public class Contact {
         searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname;
         return searchString;
     }
+
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
+    }
+
+    public void setOutgoingRelationships(Set<Relationship> outgoingRelationships) {
+        this.outgoingRelationships = outgoingRelationships;
+    }
+
+    public void setIngoingRelationships(Set<Relationship> ingoingRelationships) {
+        this.ingoingRelationships = ingoingRelationships;
+    }
+
+    public void setContactHistory(Set<ContactHistory> contactHistory) {
+        this.contactHistory = contactHistory;
+    }
+
+    public List<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
+    }
+
 }

@@ -5,10 +5,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,6 +36,9 @@ public class Institute {
 
     @ManyToMany(mappedBy = "institutes")
     private Set<Project> projects = new HashSet<>();
+
+    @ManyToMany (mappedBy = "institutes", cascade = CascadeType.ALL)
+    private List<Tags> tags = new LinkedList<>();
 
     public Institute(){
         //empty constructor for Hibernate
@@ -91,6 +91,22 @@ public class Institute {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    public List<Tags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
     }
 
     /**

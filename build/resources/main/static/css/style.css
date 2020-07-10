@@ -52,6 +52,9 @@
 .uniblue{
     background-color: #003f75;
 }
+.tagblue{
+    background-color: #428c68;
+}
 
 .btn-primary{
     background-color: #003f75;
@@ -61,7 +64,7 @@
     background-color: #005fb0;
 }
 .btn-secondary{
- background-color: #003f75;
+    background-color: #428c68;
 }
 .btn-secondary:hover{
     background-color: #005fb0;
@@ -71,7 +74,8 @@
 }
 .backgroundimage{
     background-image: url("Hintergrundbild.jpg");
-
+    background-position: right top;
+    background-attachment: fixed;
     /* Full height */
     height: 100%;
     align-content: center;
