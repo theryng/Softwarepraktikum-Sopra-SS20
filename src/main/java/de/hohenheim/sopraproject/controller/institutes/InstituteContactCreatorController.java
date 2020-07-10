@@ -1,4 +1,4 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.institutes;
 
 import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.dto.RelationshipDTO;

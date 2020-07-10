@@ -33,9 +33,8 @@
 
             <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
             <!-- Search Button, to search for a certain Contact to have a Relationship with -->
-            <form class="mt-2" ACTION="#" th:action="@{/searchRelationshipContact}" th:object="${relationshipDTO}" method="post">
+            <form class="mt-2" ACTION="#" th:action="@{/searchEventForHistory}" th:object="${relationshipDTO}" method="post">
                 <input th:value="${relationshipDTO.searchWord}" th:name ="searchWord" />
-                <input type = "hidden" th:value="${relationshipDTO.contactA}" th:name ="contactA" />
                 <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
             </form>
             <!-- Table with the Possible Results -->
@@ -46,7 +45,7 @@
                     <th>Email</th>
                     <th>Funktion</th>
                 </tr>
-                <tr th:each="contact : ${relationshipDTO.foundContact}">
+                <tr th:each="contact : ${relationshipDTO.allContacts}">
                     <td th:text="${contact.firstname}"></td>
                     <td th:text="${contact.lastname}"></td>
                     <td th:text="${contact.email}"></td>

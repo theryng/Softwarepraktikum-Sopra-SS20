@@ -121,4 +121,8 @@ public class Institute {
             throw new IllegalStateException("An E-Mail have to contain an @ symbol");
         }
     }
+
+    public String getSearchString(){
+        return name + email + linkToHomepage;
+    }
 }

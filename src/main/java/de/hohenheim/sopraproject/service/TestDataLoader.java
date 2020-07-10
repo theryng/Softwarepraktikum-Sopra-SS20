@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.*;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
     @Autowired
     private OccurrenceService occurrenceService;
+
+    @Autowired
+    private TagsService tagsService;
 
 
     /**
@@ -391,33 +395,45 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyOneDates.addContactHistoryContact(max);
         historyOneDates.addContactHistoryContact(julia);
         historyOneDates.setText("Beim Kaffetrinken kennengelernt");
-        historyOneDates.setDate(2018, 04, 13);
+        historyOneDates.setDate(LocalDate.of(2018, 4, 13));
         contactHistoryService.saveContacthistory(historyOneDates);
+        max.setLastContact(LocalDate.of(2018, 4, 13));
+        julia.setLastContact(LocalDate.of(2018, 4, 13));
 
         ContactHistory historyTwoDates = new ContactHistory();
         historyTwoDates.addContactHistoryContact(alfred);
         historyTwoDates.addContactHistoryContact(tristan);
         historyTwoDates.addContactHistoryContact(sabine);
-        historyTwoDates.setDate(2020, 9, 30);
+        historyTwoDates.setDate(LocalDate.of(2020, 9, 30));
         historyTwoDates.setText("Beim Teetrinken getroffen");
         contactHistoryService.saveContacthistory(historyTwoDates);
+        alfred.setLastContact(LocalDate.of(2019, 9, 30));
+        tristan.setLastContact(LocalDate.of(2019, 9, 30));
+        sabine.setLastContact(LocalDate.of(2019, 9, 30));
 
         ContactHistory historyThreeDates = new ContactHistory();
         historyThreeDates.addContactHistoryContact(alex);
         historyThreeDates.addContactHistoryContact(anna);
         historyThreeDates.addContactHistoryContact(jana);
         historyThreeDates.addContactHistoryContact(peter);
-        historyThreeDates.setDate(2019, 12, 12);
+        historyThreeDates.setDate(LocalDate.of(2019, 12, 12));
         historyThreeDates.setText("Auf der Weihnachtsfeier gesehen");
         contactHistoryService.saveContacthistory(historyThreeDates);
+        alex.setLastContact(LocalDate.of(2019, 12, 12));
+        anna.setLastContact(LocalDate.of(2019, 12, 12));
+        jana.setLastContact(LocalDate.of(2019, 12, 12));
+        peter.setLastContact(LocalDate.of(2019, 12, 12));
 
         ContactHistory historyFourDates = new ContactHistory();
         historyFourDates.addContactHistoryContact(marlene);
         historyFourDates.addContactHistoryContact(aleyna);
         historyFourDates.addContactHistoryContact(florian);
-        historyFourDates.setDate(2019, 07, 27);
+        historyFourDates.setDate(LocalDate.of(2019, 07, 27));
         historyFourDates.setText("In der Stadt getroffen");
         contactHistoryService.saveContacthistory(historyFourDates);
+        marlene.setLastContact(LocalDate.of(2019, 07, 27));
+        aleyna.setLastContact(LocalDate.of(2019, 07, 27));
+        florian.setLastContact(LocalDate.of(2019, 07, 27));
 
         Set<ContactHistory> historyOne = new HashSet<>();
         historyOne.add(historyOneDates);
@@ -430,6 +446,32 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Set<ContactHistory> historyFour = new HashSet<>();
         historyFour.add(historyFourDates);
+
+        Tags student = new Tags();
+        student.setName("Student");
+        student.getContacts().add(max);
+        student.getContacts().add(julia);
+        student.getContacts().add(alfred);
+        student.getContacts().add(tristan);
+        student.getContacts().add(sabine);
+        student.getContacts().add(alex);
+        tagsService.saveTags(student);
+
+        Tags mitarbeiter = new Tags();
+        mitarbeiter.setName("Mitarbeiter");
+        mitarbeiter.getContacts().add(jose);
+        mitarbeiter.getContacts().add(anna);
+        mitarbeiter.getContacts().add(jana);
+        mitarbeiter.getContacts().add(florian);
+        mitarbeiter.getContacts().add(sofia);
+        mitarbeiter.getContacts().add(marlene);
+        tagsService.saveTags(mitarbeiter);
+
+        Tags tutor = new Tags();
+        tutor.setName("Tutoren");
+        tutor.getContacts().add(jose);
+        tutor.getContacts().add(peter);
+        tagsService.saveTags(tutor);
 
         //Connects Contact to Contacthistories. One Contact can have multiple entries in Contacthistories.
         max.setContacthistories(historyOne);

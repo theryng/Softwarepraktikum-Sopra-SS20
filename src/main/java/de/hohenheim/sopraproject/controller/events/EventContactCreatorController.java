@@ -1,4 +1,4 @@
-package de.hohenheim.sopraproject.controller;
+package de.hohenheim.sopraproject.controller.events;
 
 import de.hohenheim.sopraproject.dto.EventDTO;
 import de.hohenheim.sopraproject.dto.InstituteDTO;

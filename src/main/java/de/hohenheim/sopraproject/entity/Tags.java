@@ -9,7 +9,7 @@ public class Tags {
 
     @Id
     @GeneratedValue
-    private int tagsID;
+    private Integer tagsID;
 
     private String name;
     @ManyToMany
@@ -22,12 +22,11 @@ public class Tags {
     public Tags() {
     }
 
-    public int getTagsID() {
+    public Integer getTagsID() {
         return tagsID;
     }
 
-    public void setTagsID(int tagsID) {
-        tagsID = tagsID;
+    public void setTagsID(Integer tagsID) { this.tagsID = tagsID;
     }
 
     public String getName() {

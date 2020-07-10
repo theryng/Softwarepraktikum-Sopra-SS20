@@ -34,6 +34,9 @@ public class Project {
 
     private String description;
 
+    @OneToMany
+    private Set<ContactHistory> contactHistories = new HashSet<>();
+
     @ManyToMany
     private Set<Contact> contacts = new HashSet<>();
 
@@ -133,6 +136,18 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSearchString(){
+        return name+description;
+    }
+
+    public Set<ContactHistory> getContactHistories() {
+        return contactHistories;
+    }
+
+    public void setContactHistories(Set<ContactHistory> contactHistories) {
+        this.contactHistories = contactHistories;
     }
 }
 
