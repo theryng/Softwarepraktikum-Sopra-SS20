@@ -88,23 +88,24 @@ public class EventsController {
         System.out.println(tag.getName() + tag.getTagsID());
         List<Event> foundEvents = new LinkedList<Event>();
         for(Event event : allEvents){
-            //if(project.getTags().contains(tags)){
-            // System.out.println("AddContact");
-            //  foundProject.add(project);
-            //}
+            if(event.getTags().contains(tags)){
+            foundEvents.add(event);
+            }
         }
         allEvents = foundEvents;
         boolean showList = false;
         if(allEvents.size()>0){
             showList = true;
         }
-        model.addAttribute("showList", showList);
-        model.addAttribute("allContacts", allEvents);
-        model.addAttribute("searchWord", "");
-        model.addAttribute("contact", new Contact());
+        EventDTO eventDTO = new EventDTO();
+        eventDTO.setAllEvents(allEvents);
+        eventDTO.setEvent(new Event());
+        String searchword = "";
+        model.addAttribute("searchWord", searchword);
+        model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("allTags", tagsService.findAllTags());
         model.addAttribute("tag", new Tags());
-        return "projects";
+        return "events";
     }
 
 }

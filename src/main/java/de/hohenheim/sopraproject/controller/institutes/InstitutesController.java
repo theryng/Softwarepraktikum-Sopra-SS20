@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.controller.institutes;
 
 import de.hohenheim.sopraproject.dto.InstituteDTO;
+import de.hohenheim.sopraproject.dto.ProjectDTO;
 import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -94,5 +96,33 @@ public class InstitutesController {
         model.addAttribute("searchWord", "");
 
         return "redirect:/institutes";
+    }
+
+    @PostMapping(value ="/sortByTagInstitutes")
+    public String sortByTag(Tags tag, Model model) {
+        System.out.println("sorting by Tag");
+        Tags tags = tagsService.findByTagID(tag.getTagsID());
+        List<Institute> allInstitutes = instituteService.findAllInstitutes();
+        System.out.println(tag.getName() + tag.getTagsID());
+        List<Institute> foundInstitute = new LinkedList<Institute>();
+        for(Institute institute : allInstitutes){
+            if(institute.getTags().contains(tags)){
+                System.out.println("AddContact");
+                foundInstitute.add(institute);
+            }
+        }
+        allInstitutes = foundInstitute;
+        boolean showList = false;
+        if(allInstitutes.size()>0){
+            showList = true;
+        }
+        InstituteDTO instituteDTO = new InstituteDTO();
+        instituteDTO.setAllInstitutes(allInstitutes);
+        instituteDTO.setInstitute(new Institute());
+        model.addAttribute("instituteDTO", instituteDTO);
+        model.addAttribute("allTags", tagsService.findAllTags());
+        model.addAttribute("tag", new Tags());
+        model.addAttribute("searchWord", "");
+        return "institutes";
     }
 }

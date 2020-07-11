@@ -106,20 +106,21 @@ public class ProjectController {
         System.out.println(tag.getName() + tag.getTagsID());
         List<Project> foundProject = new LinkedList<Project>();
         for(Project project : allProjects){
-            //if(project.getTags().contains(tags)){
-               // System.out.println("AddContact");
-              //  foundProject.add(project);
-            //}
+            if(project.getTags().contains(tags)){
+               System.out.println("AddContact");
+                foundProject.add(project);
+            }
         }
         allProjects = foundProject;
         boolean showList = false;
         if(allProjects.size()>0){
             showList = true;
         }
-        model.addAttribute("showList", showList);
-        model.addAttribute("allContacts", allProjects);
+        ProjectDTO projectDTO = new ProjectDTO();
+        projectDTO.setAllProjects(allProjects);
+        projectDTO.setProject(new Project());
+        model.addAttribute("projectDTO", projectDTO);
         model.addAttribute("searchWord", "");
-        model.addAttribute("contact", new Contact());
         model.addAttribute("allTags", tagsService.findAllTags());
         model.addAttribute("tag", new Tags());
         return "projects";
