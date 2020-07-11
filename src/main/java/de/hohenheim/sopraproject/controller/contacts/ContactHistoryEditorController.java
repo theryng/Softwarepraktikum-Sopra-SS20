@@ -232,7 +232,6 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
         boolean checkConnection = checkConnection(contactHistory);
         model.addAttribute("viewConnection", checkConnection);
-        model.addAttribute("viewConnection", checkConnection(contactHistory));
         model.addAttribute("addContact", true);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         return "contacts/contactHistoryEditor";

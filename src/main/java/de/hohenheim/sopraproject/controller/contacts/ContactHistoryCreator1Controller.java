@@ -36,10 +36,12 @@ public class ContactHistoryCreator1Controller {
         List<Contact> allContacts = contactService.findAllContacts();
         ContactHistoryDTO contactHistoryDTO = new ContactHistoryDTO();
         contactHistoryDTO.setOriginalContactID(contactID+"");
-        contactHistoryDTO.setFoundContacts(contactService.findAllContacts());
+        contactHistoryDTO.setFoundContacts(new LinkedList<>());
+        contactHistoryDTO.setStringFoundIDs("");
         String searchWord = "";
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
-
+        model.addAttribute("showSearchlist", false);
+        model.addAttribute("showSelectedlist", false);
         return "contacts/contactHistoryCreator1";
     }
 
@@ -66,9 +68,18 @@ public class ContactHistoryCreator1Controller {
                 contactHistoryDTO.setStringFoundIDs(contactHistoryDTO.getStringFoundIDs() + con.getContactID() + " ");
             }
             model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+            model.addAttribute("showSearchList", true);
         }
         else{
-            model.addAttribute("contactHistoryDTO", contactService.findAllContacts());
+            model.addAttribute("contactHistoryDTO", new LinkedList<>());
+            model.addAttribute("showSearchList", false);
+        }
+        if(!(contactHistoryDTO.getStringChosenIDs()=="")){
+            model.addAttribute("showSelectedList", true);
+            System.out.println("Selected List true");
+        }
+        else{
+            model.addAttribute("showSelectedList", false);
         }
         return "contacts/contactHistoryCreator1";
     }
@@ -82,6 +93,7 @@ public class ContactHistoryCreator1Controller {
     @RequestMapping(value = "/chooseContactForHistory", method = RequestMethod.POST)
     public String chooseContactForHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
         System.out.println(contactHistoryDTO.getStringChosenIDs());
+        System.out.println("Gefundene Kontakte " + contactHistoryDTO.getStringFoundIDs());
 
         Contact selectedContact = contactService.findByContactID(contactHistoryDTO.getSelectedContact());
 
@@ -95,12 +107,16 @@ public class ContactHistoryCreator1Controller {
                 chosenList.add(Integer.valueOf(strings));
             }
         }
-        String string2 = contactHistoryDTO.getStringFoundIDs();
-        String[] stringTemp2  = string2.split(" ");
-        for(String string : stringTemp2){
-            foundList.add(Integer.valueOf(string.trim()));
+            String string2 = contactHistoryDTO.getStringFoundIDs();
+            String[] stringTemp2  = string2.split(" ");
+            for(String string : stringTemp2){
+                foundList.add(Integer.valueOf(string.trim()));
+            }
+        System.out.println("Anzahl gefundener Kontakte "+foundList.size());
+        if(!chosenList.contains(selectedContact.getContactID())){
+            chosenList.add(selectedContact.getContactID());
         }
-        chosenList.add(selectedContact.getContactID());
+
         List<Contact> chosenContacts = new LinkedList<Contact>();
         String stringChosen = "";
         for(Integer integer : chosenList){
@@ -117,6 +133,9 @@ public class ContactHistoryCreator1Controller {
             foundContacts.add(contactService.findByContactID(integer));
         }
         contactHistoryDTO.setFoundContacts(foundContacts);
+
+        model.addAttribute("showSelectedList", true);
+        model.addAttribute("showSearchList", true);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         System.out.println(contactHistoryDTO.getStringChosenIDs());
         return "contacts/contactHistoryCreator1";
@@ -137,8 +156,15 @@ public class ContactHistoryCreator1Controller {
                 contacts.remove(con);
             }
         }
+        if(contacts.size()>0){
+            model.addAttribute("showSelectedlist", true);
+        }
+        else{
+            model.addAttribute("showSelectedlist", false);
+        }
         contactHistoryDTO.setChosenContacts(contacts);
-        return "contactHistoryCreator1";
+        model.addAttribute("contactHistoryDTO", contactHistoryDTO);
+        return "contacts/contactHistoryCreator1";
     }
 
     /**

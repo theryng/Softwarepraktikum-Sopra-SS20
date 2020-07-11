@@ -7,20 +7,55 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
 
-    <title>Kontakthistorien Bearbeitung</title>
+    <title>Eintrag Einsehen</title>
 
 </head>
 <body class="backgroundimage">
 <!-- HTMLHead with Taskbar -->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
     <!-- Container with main Contents of Site-->
-    <div class = "container-fluid mt-5">
+    <div class = "container-fluid">
 
-        <h1>Bearbeiten einer Kontakthistorie</h1>
+        <h1>Bearbeiten eines Eintrags</h1>
         <!-- Back button returns to ContactDetails -->
         <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
         </a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Beziehung Löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Sind sie sicher das Sie diesen Kontakt löschen möchten?
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <!--Form for Deletion of ContactHistory-->
+                        <form ACTION="#" th:action="@{/deleteContactHistory}" th:object="${contactHistoryDTO}" method="post">
+                            <input type="hidden" th:value="${contactHistoryDTO.contactHistory.contactHistoryID}" th:name ="contactHistoryID" />
+                            <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
+                            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                            <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
+                            <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
+                            <button type="submit" class="btn btn-danger">Kontakthistorie löschen </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Editing and Viewing general Information of the History -->
         <form class="form-horizontal" id="EditingHistory" th:object="${contactHistoryDTO}" th:action="@{/savingContactHistory}" method="get">
@@ -35,12 +70,12 @@
                 Beschreibung: <input type="text" class="form-control" name = "text" th:field = "${contactHistoryDTO.contactHistory.text}"/> </br>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Kontakthistorie speichern</button>
+            <button type="submit" class="btn btn-primary mt-3">Änderungen speichern</button>
         </form>
 
 
         <p>
-            <button class="btn btn-primary mt-2" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Vernüpfen</button>
+            <button class="btn btn-secondary mt-3" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Vernüpfen</button>
         </p>
         <!-- Option to add the ingoing Relationship Type -->
         <div class="row">
@@ -83,7 +118,7 @@
 
 
         <!-- Table with the current Contacts of the History -->
-        <h3 class="mt-3">Beteiligte Kontakte</h3>
+        <h3 class="mt-2">Beteiligte Kontakte</h3>
         <table class="table table-striped mt-3">
             <tr>
                 <th>Name</th>
@@ -119,16 +154,24 @@
             <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
         </form>
         <!-- Form with which you can add another Contact to the ContactHistory -->
-        <div th:if="${addContact}">
+        <div class="mt-3" th:if="${addContact}">
             <h5>Wählen Sie einen Kontakt aus</h5>
             <!-- Search option for Contacts -->
-            <form ACTION="#" th:action="@{/searchContactForHistoryEditor}" th:object="${contactHistoryDTO}" method="post">
-                <input th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" />
+            <form ACTION="#"  method="post">
                 <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
                 <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
                 <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
                 <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
-                <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+
+                <div class="row">
+                    <div class = "col-11">
+                        <input class="form-control" type="text" th:action="@{/searchContactForHistoryEditor}" th:object="${contactHistoryDTO}"placeholder="Search" aria-label="Search"
+                               title="Suche nach Vorname, Nachname und E-Mail möglich">
+                    </div>
+                    <div class = "col-1 justify-content-end">
+                        <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                    </div>
+                </div>
             </form>
             <!-- Table with the results -->
             <table class="table table-striped mt-3" th:if="${viewTable}">
@@ -157,16 +200,10 @@
             </table>
         </div>
 
-        <!--Form for Deletion of ContactHistory-->
-        <form ACTION="#" th:action="@{/deleteContactHistory}" th:object="${contactHistoryDTO}" method="post">
-            <input type="hidden" th:value="${contactHistoryDTO.contactHistory.contactHistoryID}" th:name ="contactHistoryID" />
-            <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
-            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
-            <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
-            <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
-            <button type="submit" class="btn btn-danger mt-3">Kontakthistorie löschen </button>
-        </form>
+
     </div>
+
+<footer th:insert="fragments/htmlFooter.html :: footer"> </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

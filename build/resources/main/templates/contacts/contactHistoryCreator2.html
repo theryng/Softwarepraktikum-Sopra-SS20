@@ -27,11 +27,13 @@
             </div>
         </div>
         <!--Button to return to contactHistoryCreator1-->
-        <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
+        <a type="button" class="btn btn-secondary mt-2 ml-5" th:href="@{/contactHistoryCreator1/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
         </a>
 
+
+
         <!--Input Form for other general Information, like type of Relationship and when it started-->
-        <h5 class="mr-5 ml-5 mt-3"> Hier werden weitere Informationen wie Text und Datum festgelegt</h5>
+        <h5 class="mr-5 ml-5 mt-2"> Hier werden weitere Informationen wie Text und Datum festgelegt</h5>
         <form action = "#" th:action = "@{/saveFinalContactHistory}" th:object ="${contactHistoryDTO}" class="was-validated mr-5 ml-5 mt-3" method = "post">
 
             <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
@@ -47,13 +49,10 @@
             Datum des Kontakts: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{contactHistory.date}" required>
                  <div class="invalid-feedback">Bitte geben Sie ein Datum an</div></br></br>
 
-            <div>
-                <label for="adminCheckBox" th:text="'Gemeinsamer Kontakt: '"></label>
-                <input type="checkbox" id="adminCheckBox" th:value="*{contactHistory.getMutualMeetup()}" th:name="mutualMeetup"/>
-            </div>
             <button type="submit" class="btn btn-primary">Kontakt Historie speichern</button>
         </form>
     </div>
 
+    <footer th:insert="fragments/htmlFooter.html :: footer"> </footer>
 </body>
 </html>

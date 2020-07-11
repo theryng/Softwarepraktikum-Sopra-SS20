@@ -108,7 +108,7 @@
             <h5>Sortieren nach Tags</h5>
 
             <div th:each="tags : ${allTags}">
-                <form class="mt-2" ACTION="#" th:action="@{/sortByTag}" th:object="${tag}" method="post">
+                <form class="mt-2" ACTION="#" th:action="@{/sortByTagInstitutes}" th:object="${tag}" method="post">
                     <input type="hidden" th:value="${tags.name}" th:name ="name" />
                     <input type="hidden" th:value="${tags.getTagsID()}" th:name ="tagsID" />
                     <button type="submit" class= "btn btn-info" th:text="${tags.name}">

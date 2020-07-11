@@ -30,7 +30,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            Kontakt Löschen
+            <i class="fas fa-trash-alt"></i>
         </button>
 
         <!-- Modal -->
@@ -62,7 +62,6 @@
 
     <!-- Accordion for better navigation-->
     <div class="accordion mt-2"  id="accordionExample">
-        <div class="table-wrapper-scroll-y my-custom-contact ">
         <div class="card">
 
             <!-- First Accordion Element, with general Information of the viewed Contact-->
@@ -113,7 +112,7 @@
                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                Hausnummer:<input type="number" class="form-control" min="1" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
                                                   title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
@@ -214,7 +213,7 @@
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div th:if="${not viewRelationship}" class="mr-5 mt-5 mb-2">
+                    <div th:if="${not viewRelationship}" class="mr-5 mt-2 mb-2">
                         Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
@@ -226,7 +225,7 @@
         <!-- Third Accordion Element for Viewing of Contact Histories-->
         <div class="card">
             <div class="card-header" id="headingThree">
-                <h2 class="mb-0">
+                <h2>
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         <h3 class = "text-dark">Kontakthistorien</h3>
                     </button>
@@ -253,7 +252,7 @@
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
+                    <div class="mr-5 mt-2 mb-2" th:if="${not viewContactHistory}" >
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
@@ -300,7 +299,6 @@
                     </a>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

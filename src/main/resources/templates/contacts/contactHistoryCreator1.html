@@ -27,7 +27,7 @@
         </div>
         <!--Back Button which returns to the ContactDetails page-->
         <!-- Back button to return to contactDetails -->
-        <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
+        <a type="button" class="btn btn-secondary ml-5" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
         </a>
 
         <!--General Informations-->
@@ -43,7 +43,7 @@
                 </form>
             </div>
             <!--Table which shows the results of the , only visible if search is succesfull-->
-            <table class="table table-striped">
+            <table th:if="${showSearchList}" class="table table-striped">
                 <tr>
                     <th>Vorname</th>
                     <th>Nachname</th>
@@ -59,16 +59,16 @@
                         <form ACTION="#" th:action="@{/chooseContactForHistory}" th:object="${contactHistoryDTO}" method="post">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="selectedContact"/>
                             <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
-                            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                            <input type="hidden" th:field="${contactHistoryDTO.stringChosenIDs}"/>
 
-                            <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
+                            <input type="hidden" th:field="${contactHistoryDTO.stringFoundIDs}"/>
                             <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
                         </form>
                     </td>
                 </tr>
             </table>
             <!--Chosen Contacts, only to be seen if it has an entry-->
-            <table class="table table-striped">
+            <table th:if="${showSelectedList}" class="table table-striped">
                 <h3>Ausgewählte Teilnehmer</h3>
                 <tr>
                     <th>Vorname</th>
@@ -85,19 +85,20 @@
                         <form ACTION="#" th:action="@{/deleteChoosenContacts}" th:object="${contactHistoryDTO}" method = "post">
                             <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
                             <input type="hidden" th:value="${contactHistoryDTO.selectedContact}" th:name ="selectedContact" />
-                            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                            <input type="hidden" th:field="${contactHistoryDTO.stringChosenIDs}"/>
+                            <input type="hidden" th:field="${contactHistoryDTO.stringFoundIDs}"/>
                             <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt Entfernen</button>
                         </form>
                     </td>
                 </tr>
             </table>
         </div>
-        <div class="mr-5 ml-5 mt-3">
+        <div th:if="${showSelectedList}" class="mr-5 ml-5 mt-3">
             <form ACTION="#" th:action="@{/submitChosenContacts}" th:object="${contactHistoryDTO}" method="post">
                 <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Teilnehmer bestätigen</button>
                 <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
                 <input type="hidden" th:value="${contactHistoryDTO.selectedContact}" th:name ="selectedContact" />
-                <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                <input type="hidden" th:field="${contactHistoryDTO.stringChosenIDs}"/>
             </form>
         </div>
     </div>

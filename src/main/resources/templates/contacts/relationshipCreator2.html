@@ -31,7 +31,7 @@
             <!--Button that opens up the editing window-->
             <a type="button" class="btn btn-secondary" th:href="@{/relationshipCreator1/{contactHistoryID}(contactHistoryID=${relationshipDTO.getContactA()})}" method="get" th:text="'Zurück'">
             </a>
-            <h4>Weitere Eingaben</h4>
+            <h4 class="mt-2">Weitere Eingaben</h4>
             <!-- Form to add Information to the Relationship -->
             <form class="form-horizontal mt-3" id="multiCollapseExample1" th:object="${relationshipDTO}" th:action="@{/saveRelationship}" method="post">
                 <input type = "hidden" th:value="${relationshipDTO.contactA}" th:name ="contactA" />
