@@ -33,8 +33,6 @@ public class RelationshipCreator2Controller {
      */
     @GetMapping("/relationshipCreator2/{contactID}")
     public String relationshipCreator2Controller(@PathVariable("contactID") Integer contactID, @ModelAttribute("relationshipDTO") RelationshipDTO relationshipDTO , Model model) {
-        System.out.println(relationshipDTO.getContactB());
-        System.out.println(relationshipDTO.getContactA());
         relationshipDTO.setRelationship(new Relationship());
         relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
         relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));

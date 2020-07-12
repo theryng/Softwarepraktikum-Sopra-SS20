@@ -73,9 +73,6 @@ public class ContactHistoryEditorController {
     @RequestMapping(value = "/savingContactHistory", method = RequestMethod.GET)
     public String savingContactHistory(@ModelAttribute("contactHistoryEditor")ContactHistoryDTO contactHistoryDTO, Model model) {
         ContactHistory contactHistory = contactHistoryDTO.getContactHistory();
-        System.out.println(contactHistoryDTO.getContactHistory().getText());
-        System.out.println(contactHistory.getDate());
-        System.out.println(contactHistory.getContactHistoryID());
         Set<Contact> list = generateSet(contactHistoryDTO.getStringChosenIDs());
         for(Contact con : list){
             contactHistory.addContactHistoryContact(con);
@@ -104,7 +101,6 @@ public class ContactHistoryEditorController {
      */
     @RequestMapping(value = "/deleteContactFromHistory", method = RequestMethod.POST)
     public String deleteFromContactHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println("Delete Contact: "+contactHistoryDTO.getSelectedContact());
         String string = contactHistoryDTO.getStringChosenIDs();
 
         Set<Contact> contactList = generateSet(string);
@@ -113,10 +109,8 @@ public class ContactHistoryEditorController {
 
         List<Contact> chosenContacts = new LinkedList<Contact>();
         for(Contact con : contactList){
-            System.out.println(con.getContactID()+"");
             chosenContacts.add(con);
         }
-        System.out.println(generateString(contactList));
         contactHistoryDTO.setStringChosenIDs(generateString(contactList));
         contactHistoryDTO.setChosenContacts(chosenContacts);
         ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
@@ -150,9 +144,7 @@ public class ContactHistoryEditorController {
         if(!exists){
             existingContacts.add(addedContact);
         }
-        else{
-            System.out.println("Adding of Contact stopped, as it already exists");
-        }
+
         ContactHistory contactHistory = contactHistoryService.findByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
         contactHistory.setContactOfHistory(existingContacts);
         contactHistoryService.saveContacthistory(contactHistory);
@@ -179,7 +171,6 @@ public class ContactHistoryEditorController {
      */
     @RequestMapping(value ="/searchContactForHistoryEditor", method = RequestMethod.POST)
     public String searchContactsForHistoryEditor(ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println(contactHistoryDTO.getStringFoundIDs());
 
         if(!(contactHistoryDTO.getStringFoundIDs().equals(""))){
             contactHistoryDTO.setChosenContacts(generateList(contactHistoryDTO.getStringFoundIDs()));
@@ -193,7 +184,7 @@ public class ContactHistoryEditorController {
         contactHistoryDTO.setStringChosenIDs(generateString(contactHistory.getContactOfHistory()));
         contactHistoryDTO.setContactHistory(contactHistory);
         contactHistoryDTO.setOriginalContactHistoryID(contactHistory.getContactHistoryID());
-        System.out.println("Anzahl Suchergebnisse: "+foundContacts.size());
+
         if(foundContacts.size()>0){
             String string = "";
             for(Contact con : foundContacts){
@@ -212,7 +203,6 @@ public class ContactHistoryEditorController {
             model.addAttribute("viewTable", true);
         }
         model.addAttribute("viewConnection", checkConnection(contactHistory));
-        System.out.println("Die gefunden Kontakte sind: "+contactHistoryDTO.getFoundContacts());
         return "contacts/contactHistoryEditor";
     }
 
@@ -297,13 +287,10 @@ public class ContactHistoryEditorController {
     }
 
     public boolean checkConnection(ContactHistory contactHistory){
-        System.out.println("Checking 1");
         if( contactHistory.getEvent()==null && contactHistory.getProject()==null){
-            System.out.println("Checking 2");
             return false;
         }
 
-        System.out.println("Checking 4");
         return true;
     }
 }

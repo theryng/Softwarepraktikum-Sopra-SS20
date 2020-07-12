@@ -53,9 +53,7 @@ public class ContactDetailsController {
      */
     @GetMapping("/contactDetails/{contactID}")
     public String contactDetails(@PathVariable("contactID") Integer contactID, Model model) {
-        System.out.println("Testing the stuff " + contactID);
         Contact contact = contactService.findByContactID(contactID);
-        System.out.println("Anzahl Tags: " + contact.getTags().size());
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(contactID);
@@ -81,7 +79,6 @@ public class ContactDetailsController {
      */
     @PostMapping("/savingContact")
     public String contactDetails(@ModelAttribute("contact") @Valid Contact contact, BindingResult result) {
-        System.out.println(contact.getContactID());
         if(result.hasErrors()){
             return "contactDetails";
         }
@@ -119,7 +116,6 @@ public class ContactDetailsController {
      */
     @RequestMapping(value ="/createNewContactHistory", method = RequestMethod.POST)
     public String createNewContactHistory(Contact contact,@ModelAttribute("mapping1Form") final Model model, final RedirectAttributes redirectAttributes) {
-
         return "redirect:/contactHistoryCreator1";
     }
 
@@ -141,7 +137,6 @@ public class ContactDetailsController {
         if(!(choosenRelationship.getPartnerRelationship()==0)){
             relationshipService.deleteByRelationshipID(choosenRelationship.getPartnerRelationship());
         }
-
         relationshipService.deleteByRelationshipID(relationship.getRelationshipID());
         return "redirect:/contactDetails/"+id;
     }
@@ -149,7 +144,6 @@ public class ContactDetailsController {
     @GetMapping("/deleteContactTag")
     public String deleteContactTag(TagsDTO tagsDTO) {
         List<Tags> tags = contactService.findByContactID(tagsDTO.getOriginalID()).getTags();
-        System.out.println("Number of Tags 1" + tags.size());
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
@@ -159,10 +153,8 @@ public class ContactDetailsController {
         }
         tags.remove(removeTag);
 
-        System.out.println("Number of Tags 2" + tags.size());
         Contact contact = contactService.findByContactID(tagsDTO.getOriginalID());
         contact.setTags(tags);
-        System.out.println(contact.getTags().size());
         contactService.saveContact(contact);
         Tags tag = tagsService.findByTagID(removeTag.getTagsID());
         tag.getContacts().remove(contact);

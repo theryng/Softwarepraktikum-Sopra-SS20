@@ -72,8 +72,6 @@
 
             <button type="submit" class="btn btn-primary mt-3">Änderungen speichern</button>
         </form>
-
-
         <p>
             <button class="btn btn-secondary mt-3" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Vernüpfen</button>
         </p>
@@ -116,9 +114,23 @@
             </div>
         </div>
 
-
+    <div class="row">
+        <div class="col-11">
+            <h3 class="mt-2">Beteiligte Kontakte</h3>
+        </div>
+        <div class="col-1">
+            <!-- Button to enable the adding of other Contacts -->
+            <form ACTION="#" class="justify-content-end" th:action="@{/enableAddContacts}" method="post">
+                <button type="submit" class="btn btn-secondary" ><i class="fas fa-plus "></i> </button>
+                <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
+                <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
+                <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
+            </form>
+        </div>
+    </div>
         <!-- Table with the current Contacts of the History -->
-        <h3 class="mt-2">Beteiligte Kontakte</h3>
+
         <table class="table table-striped mt-3">
             <tr>
                 <th>Name</th>
@@ -145,19 +157,14 @@
                 </td>
             </tr>
         </table>
-        <!-- Button to enable the adding of other Contacts -->
-        <form ACTION="#" th:action="@{/enableAddContacts}" method="post">
-            <button type="submit" class="btn btn-secondary" >Neue Kontakte hinzufügen </button>
-            <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
-            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
-            <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
-            <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
-        </form>
+
+
+
         <!-- Form with which you can add another Contact to the ContactHistory -->
         <div class="mt-3" th:if="${addContact}">
             <h5>Wählen Sie einen Kontakt aus</h5>
             <!-- Search option for Contacts -->
-            <form ACTION="#"  method="post">
+            <form ACTION="#" th:action="@{/searchContactForHistoryEditor}" th:object="${contactHistoryDTO}" method="post">
                 <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
                 <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
                 <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
@@ -165,7 +172,7 @@
 
                 <div class="row">
                     <div class = "col-11">
-                        <input class="form-control" type="text" th:action="@{/searchContactForHistoryEditor}" th:object="${contactHistoryDTO}"placeholder="Search" aria-label="Search"
+                        <input class="form-control" type="text" th:field="${contactHistoryDTO.searchWord}" placeholder="Search" aria-label="Search"
                                title="Suche nach Vorname, Nachname und E-Mail möglich">
                     </div>
                     <div class = "col-1 justify-content-end">
@@ -199,8 +206,6 @@
                 </tr>
             </table>
         </div>
-
-
     </div>
 
 <footer th:insert="fragments/htmlFooter.html :: footer"> </footer>

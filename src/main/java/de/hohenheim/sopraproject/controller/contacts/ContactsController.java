@@ -77,7 +77,6 @@ public class ContactsController {
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
     public String saveContact(@Valid Contact contact, BindingResult result, Principal principal, Model model){
         if(result.hasErrors()){
-            System.out.println("Fehler");
 
             String searchword = "";
             List<Contact> allContacts = contactService.findAllContacts();
@@ -97,10 +96,8 @@ public class ContactsController {
         else{
             contactService.saveContact(contact);
 
-
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
-            System.out.println(dateFormat.format(date));
 
             editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
             return "redirect:/contacts";
@@ -141,14 +138,11 @@ public class ContactsController {
 
     @PostMapping(value ="/sortByTagContact")
     public String sortByTag(Tags tag, Model model) {
-        System.out.println("sorting by Tag");
         Tags tags = tagsService.findByTagID(tag.getTagsID());
         List<Contact> allContacts = contactService.findAllContacts();
-        System.out.println(tag.getName() + tag.getTagsID());
         List<Contact> foundContacts = new LinkedList<Contact>();
         for(Contact con : allContacts){
             if(con.getTags().contains(tags)){
-                System.out.println("AddContact");
                 foundContacts.add(con);
             }
         }

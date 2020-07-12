@@ -53,8 +53,6 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value ="/searchContactForHistory", method = RequestMethod.POST)
     public String searchContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO,  Model model) {
-        System.out.println(contactHistoryDTO.getStringChosenIDs());
-
 
         if(!(contactHistoryDTO.getStringChosenIDs().equals(""))){
             contactHistoryDTO.setChosenContacts(generateList(contactHistoryDTO.getStringChosenIDs()));
@@ -76,7 +74,6 @@ public class ContactHistoryCreator1Controller {
         }
         if(!(contactHistoryDTO.getStringChosenIDs()=="")){
             model.addAttribute("showSelectedList", true);
-            System.out.println("Selected List true");
         }
         else{
             model.addAttribute("showSelectedList", false);
@@ -92,8 +89,6 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/chooseContactForHistory", method = RequestMethod.POST)
     public String chooseContactForHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println(contactHistoryDTO.getStringChosenIDs());
-        System.out.println("Gefundene Kontakte " + contactHistoryDTO.getStringFoundIDs());
 
         Contact selectedContact = contactService.findByContactID(contactHistoryDTO.getSelectedContact());
 
@@ -112,7 +107,6 @@ public class ContactHistoryCreator1Controller {
             for(String string : stringTemp2){
                 foundList.add(Integer.valueOf(string.trim()));
             }
-        System.out.println("Anzahl gefundener Kontakte "+foundList.size());
         if(!chosenList.contains(selectedContact.getContactID())){
             chosenList.add(selectedContact.getContactID());
         }
@@ -124,7 +118,6 @@ public class ContactHistoryCreator1Controller {
             stringChosen = stringChosen + integer.toString() + " ";
         }
 
-        System.out.println("done list: "+stringChosen);
         contactHistoryDTO.setStringChosenIDs(stringChosen);
         contactHistoryDTO.setChosenContacts(chosenContacts);
 
@@ -137,7 +130,6 @@ public class ContactHistoryCreator1Controller {
         model.addAttribute("showSelectedList", true);
         model.addAttribute("showSearchList", true);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
-        System.out.println(contactHistoryDTO.getStringChosenIDs());
         return "contacts/contactHistoryCreator1";
     }
 
@@ -149,7 +141,6 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/deleteChoosenContacts", method = RequestMethod.POST)
     public String deleteChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println(contactHistoryDTO.getStringChosenIDs());
         List<Contact> contacts = generateList(contactHistoryDTO.getStringChosenIDs());
         for(Contact con : contacts){
             if(con.getContactID() == contactHistoryDTO.getSelectedContact()){
@@ -175,7 +166,6 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
     public String submitChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, RedirectAttributes redirectAttributes) {
-        System.out.println("Vor Submit " + contactHistoryDTO.getStringChosenIDs());
 
         redirectAttributes.addFlashAttribute("contactHistoryDTO", contactHistoryDTO);
         return "redirect:/contactHistoryCreator2/"+contactHistoryDTO.getOriginalContactID();
