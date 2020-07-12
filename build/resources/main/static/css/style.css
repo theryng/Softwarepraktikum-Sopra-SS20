@@ -121,6 +121,11 @@
     outline: none;
     box-shadow:none !important;
 }
+.btn-link{
+    outline: none;
+    box-shadow:none !important;
+    text-decoration-color: #000000;
+}
 .btn-info:hover{
     background-color: #428c48;
 }

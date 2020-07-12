@@ -78,7 +78,7 @@
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
                         <!-- Input and View Field for the Contact Details-->
                         <input type="hidden" th:field="*{contactID}"/>
-                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
+                        <div class="alert alert-danger" role="alert" th:if="${error}">
                             <a>Eine ihrer Eingaben ist fehlerhaft, bitte überprüfen Sie ihre Eingaben</a>
                         </div>
                         <div class="row">
