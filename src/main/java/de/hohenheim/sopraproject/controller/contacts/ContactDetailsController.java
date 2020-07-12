@@ -57,6 +57,12 @@ public class ContactDetailsController {
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(contactID);
+        if(contact.getTags().size()>0){
+            model.addAttribute("viewTags", true);
+        }
+        else{
+            model.addAttribute("viewTags", false);
+        }
         model.addAttribute("relationship", new Relationship());
         model.addAttribute("contact", contact);
         model.addAttribute("viewedHistory", new ContactHistory());

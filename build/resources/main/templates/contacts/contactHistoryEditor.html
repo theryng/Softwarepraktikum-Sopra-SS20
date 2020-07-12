@@ -76,7 +76,7 @@
             <button class="btn btn-secondary mt-3" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Vernüpfen</button>
         </p>
         <!-- Option to add the ingoing Relationship Type -->
-        <div class="row">
+        <div class="row mb-2">
             <div class="col">
                 <div class="collapse multi-collapse" id="CollapseIngoing">
                     <div class="card card-body">
@@ -181,30 +181,49 @@
                 </div>
             </form>
             <!-- Table with the results -->
-            <table class="table table-striped mt-3" th:if="${viewTable}">
-                <tr>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Email</th>
-                    <th>Funktion</th>
-                </tr>
-                <tr th:each="contact : ${allContacts}">
-                    <td th:text="${contact.firstname}"></td>
-                    <td th:text="${contact.lastname}"></td>
-                    <td th:text="${contact.email}"></td>
-                    <td>
-                        <!-- Add selected Contact to the History -->
-                        <form ACTION="#" th:action="@{/addContactToHistory}" th:object="${contactHistoryDTO}" method="post">
-                            <input type="hidden" th:value="${contact.contactID}" th:name ="selectedContact" />
-                            <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
-                            <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
-                            <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
-                            <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
-                            <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
+            <div class="table-wrapper-scroll-y my-custom-searchbar">
+                <table class="table table-striped mt-3 "  th:if="${viewTable}">
+                    <tr>
+                        <th>Name</th>
+                        <th>Studium</th>
+                        <th>Letzter Kontakt</th>
+                        <th>E-Mail</th>
+                        <th>Funktion</th>
+                    </tr>
+                    <tr  th:each="contact : ${allContacts}">
+                        <td>
+                            <a>Name</a>
+                            <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                        </td>
+                        <td>
+                            <a>Studium</a>
+                            <h6 th:text="${contact.courseOfStudies}"></h6>
+
+                        </td>
+                        <td>
+                            <a>Letzter Kontakt</a>
+                            <h6 th:text="${contact.lastContact}"></h6>
+
+                        </td>
+                        <td>
+                            <a>E-Mail</a>
+                            <h6 th:text="${contact.email}"></h6>
+
+                        </td>
+                        <td>
+                            <!-- Add selected Contact to the History -->
+                            <form ACTION="#" th:action="@{/addContactToHistory}" th:object="${contactHistoryDTO}" method="post">
+                                <input type="hidden" th:value="${contact.contactID}" th:name ="selectedContact" />
+                                <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
+                                <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
+                                <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
+                                <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
+                                <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 

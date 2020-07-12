@@ -177,6 +177,11 @@
     max-height: 1600px;
     overflow: auto;
 }
+.my-custom-searchbar {
+    position: relative;
+    max-height: 600px;
+    overflow: auto;
+}
 .my-custom-modal {
     position: relative;
     height: 600px;

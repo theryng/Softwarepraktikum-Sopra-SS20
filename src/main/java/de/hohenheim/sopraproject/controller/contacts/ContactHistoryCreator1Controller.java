@@ -61,6 +61,17 @@ public class ContactHistoryCreator1Controller {
         List<Contact> foundContacts = findContact.findContacts(contactHistoryDTO.getSearchWord(), contactService.findAllContacts());
 
         if(foundContacts.size()>0){
+            Contact tempDeleteContact = new Contact();
+            for(Contact con : foundContacts){
+                if(con.getContactID().equals(Integer.valueOf(contactHistoryDTO.getOriginalContactID()))){
+                    tempDeleteContact = con;
+                }
+            }
+            try {
+                foundContacts.remove(tempDeleteContact);
+            } finally {
+            }
+
             contactHistoryDTO.setFoundContacts(foundContacts);
             for(Contact con : foundContacts){
                 contactHistoryDTO.setStringFoundIDs(contactHistoryDTO.getStringFoundIDs() + con.getContactID() + " ");
@@ -166,7 +177,7 @@ public class ContactHistoryCreator1Controller {
      */
     @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
     public String submitChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, RedirectAttributes redirectAttributes) {
-
+        contactHistoryDTO.getFoundContacts().add(contactService.findByContactID(Integer.valueOf(contactHistoryDTO.getOriginalContactID())));
         redirectAttributes.addFlashAttribute("contactHistoryDTO", contactHistoryDTO);
         return "redirect:/contactHistoryCreator2/"+contactHistoryDTO.getOriginalContactID();
     }

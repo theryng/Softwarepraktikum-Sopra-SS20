@@ -48,12 +48,16 @@ public class RelationshipCreator2Controller {
      * @return contactDetails
      */
     @RequestMapping(value = "/saveRelationship", method = RequestMethod.POST)
-    public String saveRelationship( @Valid RelationshipDTO relationshipDTO, BindingResult result){
+    public String saveRelationship( @Valid RelationshipDTO relationshipDTO, Model model, BindingResult result){
         relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
         relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));
         Relationship relationship = relationshipDTO.getRelationship();
         if(result.hasErrors()){
+            relationshipDTO.setRelationship(new Relationship());
+            relationshipDTO.getRelationship().setContactA(contactService.findByContactID(relationshipDTO.getContactA()));
+            relationshipDTO.getRelationship().setContactB(contactService.findByContactID(relationshipDTO.getContactB()));
 
+            model.addAttribute("relationshipDTO", relationshipDTO);
             return "contact/relationshipCreator2";
         }
         else{

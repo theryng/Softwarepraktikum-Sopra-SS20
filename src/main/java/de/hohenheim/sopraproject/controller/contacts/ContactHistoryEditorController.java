@@ -91,7 +91,7 @@ public class ContactHistoryEditorController {
     public String deleteContactHistory(ContactHistoryDTO contactHistoryDTO) {
         contactHistoryService.deleteByContactHistoryID(contactHistoryDTO.getContactHistory().getContactHistoryID());
 
-        return "redirect:/contactDetails"+contactHistoryDTO.getOriginalContactID();
+        return "redirect:/contactDetails/"+contactHistoryDTO.getOriginalContactID();
     }
 
     /**

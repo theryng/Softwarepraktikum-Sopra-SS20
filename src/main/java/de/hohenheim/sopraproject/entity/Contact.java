@@ -120,10 +120,6 @@ public class Contact {
         this.contactID = contactID;
     }
 
-    public void setDayOfBirthDate(LocalDate dayOfBirth) {
-        this.dayOfBirth = dayOfBirth;
-    }
-
     public void setOutgoingRelationship(Set<Relationship> outgoingRelationship) {
         this.outgoingRelationships = outgoingRelationship;
     }
@@ -246,14 +242,6 @@ public class Contact {
         return dayOfBirth;
     }
 
-    public boolean yearFormatCheck(String inputYear){
-       boolean format = false;
-       if(inputYear.length() == 9 && inputYear.matches("[0-9]") && inputYear.contains("-")){
-           format = true;
-       }
-        return format;
-    }
-
     /**
      * Sets the Date of birth only if it has this format: yy-MM-dd. the method takes three int values. The method will
      * check if the values of month and day have only one int value. if so, there will be automatically a "0" added to
@@ -292,7 +280,6 @@ public class Contact {
         return linkToHomepage;
     }
 
-
     public void setLinkToHomepage(String linkToHomepage) {
             this.linkToHomepage = linkToHomepage;
     }
@@ -312,6 +299,7 @@ public class Contact {
             throw new IllegalStateException("institute should be initialized");
         }
     }
+
     public String getSearchString(){
         searchString = firstname + " " + lastname + " " + email + " " + lastname + ", " + firstname + courseOfStudies + freeText;
         return searchString;
@@ -347,7 +335,6 @@ public class Contact {
 
     public void setLastContact(LocalDate lastContact) {
         if(lastContact.isAfter(this.lastContact)){
-            System.out.println("Setting new Last Meetup");
             this.lastContact = lastContact;
         }
     }
