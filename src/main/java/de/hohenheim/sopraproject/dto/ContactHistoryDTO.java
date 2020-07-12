@@ -9,21 +9,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ContactHistoryDTO {
-    private ContactHistory contactHistory = new ContactHistory();
-    private List<Contact> foundContacts= new LinkedList<Contact>();
-    private List<Contact> chosenContacts = new LinkedList<Contact>();
-    private List<Event> allEvents = new LinkedList<Event>();
-    private List<Project> allProjects = new LinkedList<Project>();
-    private String searchWord = "";
-    private int selectedContact;
-    private List<Integer> chosenIDs = new LinkedList<Integer>();
-    private String stringChosenIDs = "";
-    private String stringFoundIDs = "";
-    private String originalContactID;
-    private Integer originalContactHistoryID;
-    private String eventID = "";
-    private ConnectedObject connectedObject;
-    private Integer connectedID;
+    public ContactHistory contactHistory = new ContactHistory();
+    public List<Contact> foundContacts= new LinkedList<Contact>();
+    public List<Contact> chosenContacts = new LinkedList<Contact>();
+    public List<Event> allEvents = new LinkedList<Event>();
+    public List<Project> allProjects = new LinkedList<Project>();
+    public String searchWord = "";
+    public int selectedContact;
+    public List<Integer> chosenIDs = new LinkedList<Integer>();
+    public String stringChosenIDs = "";
+    public String stringFoundIDs = "";
+    public String originalContactID;
+    public Integer originalContactHistoryID;
+    public String eventID = "";
+    public ConnectedObject connectedObject;
+    public Integer connectedID;
 
     enum ConnectedObject{
         Event,

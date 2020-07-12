@@ -17,7 +17,7 @@
     <div class = "container-fluid">
         <!--Progressbar and Heading-->
         <div class="mr-5 ml-5 mt-3">
-            <h1>Erstellen einer neuen Kontakthistorie</h1>
+            <h1>Erstellen eines neuen Historien Eintrags</h1>
         </div>
         <div class="progress mr-5 ml-5 mt-3">
             <div class="progress-bar" role="progressbar" aria-valuenow="70"
@@ -36,24 +36,48 @@
             <div class="mt-3 mb-3">
                 <!--Search Function to find a Contact-->
                 <form ACTION="#" th:action="@{/searchContactForHistory}" th:object="${contactHistoryDTO}" method="post">
-                    <input th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" />
                     <input type="hidden" th:value="${contactHistoryDTO.originalContactID}" th:name ="originalContactID" />
                     <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
-                    <button type="submit" class="btn btn-primary" >Kontakt suchen </button>
+                    <div class="row">
+                        <div class = "col-11">
+                            <input class="form-control" type="text" th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                                   title="Suche nach Vorname, Nachname und E-Mail möglich">
+                        </div>
+                        <div class = "col-1 justify-content-end">
+                            <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <!--Table which shows the results of the , only visible if search is succesfull-->
             <table th:if="${showSearchList}" class="table table-striped">
                 <tr>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Studium</th>
+                    <th>Letzter Kontakt</th>
+                    <th>E-Mail</th>
                     <th>Funktion</th>
                 </tr>
-                <tr th:each="contact : ${contactHistoryDTO.foundContacts}">
-                    <td th:text="${contact.firstname}"></td>
-                    <td th:text="${contact.lastname}"></td>
-                    <td th:text="${contact.email}"></td>
+                <tr  th:each="contact : ${contactHistoryDTO.foundContacts}">
+                    <td>
+                        <a>Name</a>
+                        <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                    </td>
+                    <td>
+                        <a>Studium</a>
+                        <h6 th:text="${contact.courseOfStudies}"></h6>
+
+                    </td>
+                    <td>
+                        <a>Letzter Kontakt</a>
+                        <h6 th:text="${contact.lastContact}"></h6>
+
+                    </td>
+                    <td>
+                        <a>E-Mail</a>
+                        <h6 th:text="${contact.email}"></h6>
+
+                    </td>
                     <td>
                         <!--Button, which adds a Contact to the chosen Contact List-->
                         <form ACTION="#" th:action="@{/chooseContactForHistory}" th:object="${contactHistoryDTO}" method="post">
@@ -71,15 +95,32 @@
             <table th:if="${showSelectedList}" class="table table-striped">
                 <h3>Ausgewählte Teilnehmer</h3>
                 <tr>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Email</th>
-                    <th>Optionen</th>
+                    <th>Name</th>
+                    <th>Studium</th>
+                    <th>Letzter Kontakt</th>
+                    <th>E-Mail</th>
+                    <th>Funktion</th>
                 </tr>
-                <tr th:each="contact : ${contactHistoryDTO.chosenContacts}">
-                    <td th:text="${contact.firstname}"></td>
-                    <td th:text="${contact.lastname}"></td>
-                    <td th:text="${contact.email}"></td>
+                <tr  th:each="contact : ${contactHistoryDTO.chosenContacts}">
+                    <td>
+                        <a>Name</a>
+                        <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                    </td>
+                    <td>
+                        <a>Studium</a>
+                        <h6 th:text="${contact.courseOfStudies}"></h6>
+
+                    </td>
+                    <td>
+                        <a>Letzter Kontakt</a>
+                        <h6 th:text="${contact.lastContact}"></h6>
+
+                    </td>
+                    <td>
+                        <a>E-Mail</a>
+                        <h6 th:text="${contact.email}"></h6>
+
+                    </td>
                     <td>
                         <!--Button for Deletion of a Chosen Contact from the List-->
                         <form ACTION="#" th:action="@{/deleteChoosenContacts}" th:object="${contactHistoryDTO}" method = "post">
