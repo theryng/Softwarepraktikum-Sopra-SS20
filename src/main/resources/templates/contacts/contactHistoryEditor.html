@@ -83,7 +83,7 @@
                         <div align="center" th:if="${not viewConnection}">
                             <a type="button" class="btn btn-secondary" th:href="@{/eventSelector/{ID}/{IDs}(ID=${contactHistoryDTO.getOriginalContactHistoryID()}, IDs=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Event verknüpfen'">
                             </a>
-                            <a type="button" class="btn btn-secondary" th:href="@{/projectSelector/{ID}/{IDs}(ID=${contactHistoryDTO.getOriginalContactHistoryID()}, IDs=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Project verknüpfen'">
+                            <a type="button" class="btn btn-secondary" th:href="@{/projectSelector/{ID}/{IDs}(ID=${contactHistoryDTO.getOriginalContactHistoryID()}, IDs=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Projekt verknüpfen'">
                             </a>
                         </div>
                         <div th:if="${viewConnection}" >
@@ -140,10 +140,22 @@
                 <th>Funktionen</th>
             </tr>
             <tr th:each="contact : ${contactHistoryDTO.contactHistory.contactOfHistory}">
-                <td th:text="${contact.firstname} + ' ' + ${contact.lastname}"></td>
-                <td th:text="${contact.courseOfStudies}"></td>
-                <td th:text="${contact.dayOfBirth}"></td>
-                <td th:text="${contact.email}"></td>
+                <td>
+                    <a>Name</a>
+                    <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                </td>
+                <td>
+                    <a>Studium</a>
+                    <h6 th:text="${contact.courseOfStudies}"></h6>
+                </td>
+                <td>
+                    <a>Geburtsdatum</a>
+                    <h6 th:text="${contact.dayOfBirth}"></h6>
+                </td>
+                <td>
+                    <a>E-Mail</a>
+                    <h6 th:text="${contact.email}"></h6>
+                </td>
                 <td>
                     <!-- Delete Contact from History -->
                     <form ACTION="#" th:action="@{/deleteContactFromHistory}" th:object="${contactHistoryDTO}" method="post">
@@ -198,17 +210,14 @@
                         <td>
                             <a>Studium</a>
                             <h6 th:text="${contact.courseOfStudies}"></h6>
-
                         </td>
                         <td>
-                            <a>Letzter Kontakt</a>
-                            <h6 th:text="${contact.lastContact}"></h6>
-
+                            <a>Geburtsdatum</a>
+                            <h6 th:text="${contact.dayOfBirth}"></h6>
                         </td>
                         <td>
                             <a>E-Mail</a>
                             <h6 th:text="${contact.email}"></h6>
-
                         </td>
                         <td>
                             <!-- Add selected Contact to the History -->

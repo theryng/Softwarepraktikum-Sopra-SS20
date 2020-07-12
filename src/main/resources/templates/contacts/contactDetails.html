@@ -172,10 +172,22 @@
                             <th>Funktionen</th>
                         </tr>
                         <tr th:each="relationship : ${contact.outgoingRelationships}">
-                            <td th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></td>
-                            <td th:text="${relationship.typeOfRelationship}"></td>
-                            <td th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></td>
-                            <td th:text="${relationship.since}"></td>
+                            <td>
+                                <a>Name</a>
+                                <h6 th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></h6>
+                            </td>
+                            <td>
+                                <a>Art der Beziehung</a>
+                                <h6 th:text="${relationship.typeOfRelationship}"></h6>
+                            </td>
+                            <td>
+                                <a>Mit</a>
+                                <h6 th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></h6>
+                            </td>
+                            <td>
+                                <a>Seit</a>
+                                <h6 th:text="${relationship.since}"></h6>
+                            </td>
                             <td>
 
                                 <!-- Button for Deletion of Relationship -->
@@ -241,10 +253,15 @@
                             <th>Funktionen</th>
                         </tr>
                         <tr th:each="contacthistories : ${contact.contactHistory}">
-                            <td th:text="${contacthistories.date}"></td>
-                            <td th:text="*{contacthistories.text}"></td>
                             <td>
-
+                                <a>Datum des Kontakts</a>
+                                <h6 th:text="${contacthistories.date}"></h6>
+                            </td>
+                            <td>
+                                <a>Text</a>
+                                <h6 th:text="*{contacthistories.text}"></h6>
+                            </td>
+                            <td>
                                 <!--Button that opens up the editing window-->
                                 <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
                                 </a>

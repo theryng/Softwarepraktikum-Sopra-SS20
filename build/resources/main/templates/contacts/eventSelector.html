@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
-    <title>Neue Beziehung</title>
+    <title>Verknüpfen</title>
 </head>
 <body class="backgroundimage">
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
@@ -18,7 +18,7 @@
 
     <!-- Main Body, with Heading and Progressbar -->
     <div class="mr-5 ml-5 mt-3">
-        <h1>Erstellen einer neuen Beziehung</h1>
+        <h1>Verknüpfen eines Events</h1>
     </div>
     <div class="progress mr-5 ml-5 mt-3">
         <div class="progress-bar" role="progressbar" aria-valuenow="70"
@@ -31,7 +31,7 @@
         <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{ID}/{ID2}(ID=${contactHistoryDTO.getOriginalContactID()}, ID2=${contactHistoryDTO.getOriginalContactHistoryID()})}" method="get" th:text="'Zurück'">
         </a>
 
-        <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
+        <h4>Wählen Sie ein Event aus um es zu verknüpfen</h4>
         <!-- Search Button, to search for a certain Contact to have a Relationship with -->
         <form class="mt-2" ACTION="#" th:action="@{/searchEventForHistory}" th:object="${contactHistoryDTO}" method="post">
             <input type="hidden" th:value="*{originalContactID}" th:name ="originalContactID"/>
@@ -42,20 +42,31 @@
         <!-- Table with the Possible Results -->
         <table th:if="${viewTable}" class="table table-striped mt-3">
             <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Email</th>
+                <th>Name</th>
+                <th>Datum</th>
+                <th>Beschreibung</th>
                 <th>Funktion</th>
             </tr>
             <tr th:each="events : ${contactHistoryDTO.allEvents}">
-                <td th:text="${events.eventName}"></td>
+                <td>
+                    <a>Name</a>
+                    <h6 th:text="${events.eventName}"></h6>
+                </td>
+                <td>
+                    <a>Datum</a>
+                    <h6 th:text="${events.date}"></h6>
+                </td>
+                <td>
+                    <a>Beschreibung</a>
+                    <h6 th:text="${events.text}"></h6>
+                </td>
                 <td>
                     <!-- Button which selects the Contact you have a relationship with -->
                     <form ACTION="#" th:action="@{/selectEventForHistory}" th:attribute th:object="${contactHistoryDTO}" method="post">
                         <input type="hidden" th:value="${events.getEventID()}" th:name ="eventID" />
                         <input type="hidden" th:value="*{originalContactID}" th:name ="originalContactID"/>
                         <input type="hidden" th:value="*{originalContactHistoryID}" th:name ="originalContactHistoryID"/>
-                        <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                        <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Event verknüpfen</button>
                     </form>
                 </td>
             </tr>
