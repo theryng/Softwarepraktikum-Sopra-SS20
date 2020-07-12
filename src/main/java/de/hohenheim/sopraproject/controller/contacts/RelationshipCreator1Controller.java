@@ -52,11 +52,22 @@ public class RelationshipCreator1Controller {
      */
     @RequestMapping(value ="/searchRelationshipContact", method = RequestMethod.POST)
     public String searchContacts(RelationshipDTO relationshipDTO, Model model) {
-        System.out.println(relationshipDTO.getSearchWord());
-        System.out.println(relationshipDTO.getContactA());
         String searchWord = relationshipDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
         List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
+
+        Contact tempDeleteContact = new Contact();
+        for(Contact con : foundContactsTemp){
+            if(con.getContactID().equals(relationshipDTO.getContactA())){
+                tempDeleteContact = con;
+            }
+        }
+        try {
+            foundContactsTemp.remove(tempDeleteContact);
+        } finally {
+        }
+
+
         relationshipDTO.setFoundContact(foundContactsTemp);
 
         model.addAttribute("viewTable", true);
@@ -70,9 +81,6 @@ public class RelationshipCreator1Controller {
      */
     @RequestMapping(value = "/setContactB", method = RequestMethod.POST)
     public String setContactB(RelationshipDTO relationshipDTO, RedirectAttributes redirectAttributes) {
-        System.out.println(relationshipDTO.getContactB());
-        System.out.println(relationshipDTO.getContactA());
-        System.out.println("redirecting to PArt 2");
         redirectAttributes.addFlashAttribute("relationshipDTO", relationshipDTO);
         return "redirect:/relationshipCreator2/"+relationshipDTO.getContactB();
     }
