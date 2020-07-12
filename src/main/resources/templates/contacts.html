@@ -49,30 +49,30 @@
                                     <div class="modal-body table-wrapper-scroll-y my-custom-modal">
                                         <div class = "row">
                                             <div class = "col w-25">
-                                                Vorname: <input type="text" class="form-control" name = "firstname" th:field="*{firstname}" required>
+                                                Vorname: <input type="text" class="form-control"maxlength="40" name = "firstname" th:field="*{firstname}" required>
                                                 <div class="invalid-feedback">Bitte geben sie einen Vornamen an</div>
                                             </div>
                                             <div class = "col w-25">
-                                                Nachname:<input type="text" class="form-control" name = "lastname" th:field="*{lastname}" required>
+                                                Nachname:<input type="text" class="form-control" maxlength="40"  name = "lastname" th:field="*{lastname}" required>
                                                 <div class="invalid-feedback">Bitte geben sie einen Nachnamen an</div>
                                             </div>
                                         </div>
                                         <!-- Inputs for the newly generated Contact-->
-                                        Anstellung:<input type="text" class="form-control" name = "occupation" th:field="*{occupation}" required/>
+                                        Anstellung:<input type="text" class="form-control" maxlength="50"  name = "occupation" th:field="*{occupation}" required/>
                                         <div class="invalid-feedback">Bitte geben sie eine Anstellung an</div></br>
 
-                                        E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}" required/>
+                                        E-Mail:<input type="email" class="form-control" maxlength="50" name = "email" th:field="*{email}" required/>
                                         <div class="invalid-feedback">Bitte geben sie eine Email Adresse an</div></br>
 
-                                        Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                        Studium:<input type="text" class="form-control" maxlength="50" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
 
                                         Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:field="*{dayOfBirth}"></br>
 
-                                        Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                        Freier Text:<input type="text" class="form-control" maxlength="200"  name = "freeText" rows="3" th:field="*{freeText}"/></br>
 
-                                        Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
+                                        Hobbies:<input type="text" class="form-control" maxlength="50"  name = "hobby" th:field="*{hobby}"/></br>
 
-                                        Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                        Homepage:<input type="text" class="form-control" maxlength="50" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
 
                                         <div class = "row">
                                             <div class = "col">
