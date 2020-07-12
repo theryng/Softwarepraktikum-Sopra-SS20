@@ -96,7 +96,7 @@
                                 Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
                             </div>
                             <div class = "col">
-                                Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+                                Geburtsdatum:<input type="date" id="start" class="form-control" maxlength="8" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
                                 Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
                                 Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
                                 Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
@@ -281,7 +281,7 @@
 
                                         <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
                                         <input type="hidden" th:field="${tagDTO.originalID}" />
-                                        <button type="submit" class="tagblue mb-2 btn btn-info " href="#">
+                                        <button type="submit" class="btn btn-info mb-1" href="#">
                                             <a class="mr-2" th:text="${tag.name}"></a>
                                             <i class="fas fa-times icon-large" ></i>
                                         </button>
@@ -291,11 +291,11 @@
                         </div>
 
                     <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
-                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
+                    <div class="mr-5 mt-2 mb-2" th:if="${not viewTags}" >
+                        Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Tag zuordnen'">
                     </a>
                 </div>
             </div>
