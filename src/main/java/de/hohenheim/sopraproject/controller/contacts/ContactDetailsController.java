@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.controller.contacts;
 
 import de.hohenheim.sopraproject.dto.ContactDTO;
+import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.dto.TagsDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.ContactHistory;
@@ -53,6 +54,7 @@ public class ContactDetailsController {
      */
     @GetMapping("/contactDetails/{contactID}")
     public String contactDetails(@PathVariable("contactID") Integer contactID, Model model) {
+
         Contact contact = contactService.findByContactID(contactID);
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
@@ -84,9 +86,9 @@ public class ContactDetailsController {
      * @return redirect:/contacts
      */
     @PostMapping("/savingContact")
-    public String contactDetails(@ModelAttribute("contact") @Valid Contact contact, BindingResult result) {
+    public String contactDetails(@ModelAttribute("contact") @Valid Contact contact, BindingResult result, RedirectAttributes redirectAttributes) {
         if(result.hasErrors()){
-            return "contactDetails";
+            return "redirect:/contactDetails/"+contact.getContactID();
         }
         else{
             contact.setContactID(contact.getContactID());

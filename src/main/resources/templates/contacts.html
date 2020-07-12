@@ -24,7 +24,7 @@
    <!-- Main Body of the contact html site. It shows a table across the site showing off all the important information of the contacts. These informations contain
         the name, their major, their date of birth, their email adress and a function column filled with a button per contact that allows the user to edit/delete the said contact-->
             <div class = "container-fluid ">
-                <h1 align="center" style="margin-top: 15px">Kontakte</h1>
+                <h1 align="center" style="margin-top: 15px"> <i class="far fa-address-book"></i> Kontakte</h1>
 
                 <form action = "#" th:action = "@{/saveContact}" th:object ="${contact}" class="was-validated" method = post>
                     <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
