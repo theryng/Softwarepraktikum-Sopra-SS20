@@ -588,6 +588,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         deutscheBahnBerlin.setName("Deutsche Bahn");
         deutscheBahnBerlin.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "101"));
+        deutscheBahnBerlin.setLinkToHomepage("www.deutsch-Bahn-Berlin.de");
+        deutscheBahnBerlin.setEmail("deutschebahn@web.de");
         instituteService.saveInstitute(deutscheBahnBerlin);
 
         Institute allianzStuttgart = new Institute();
@@ -595,6 +597,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         allianzStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "102"));
         allianzStuttgart.setLinkToHomepage("www.allianz.de");
+        allianzStuttgart.setEmail("allianz@web.de");
         instituteService.saveInstitute(allianzStuttgart);
 
         Institute porscheStuttgart = new Institute();
@@ -604,6 +607,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         porscheStuttgart.addInstitutionContacts(peter);
         porscheStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "103"));
+        porscheStuttgart.setEmail("prosche@web.de");
+        porscheStuttgart.setLinkToHomepage("www.Porsche.de");
         instituteService.saveInstitute(porscheStuttgart);
 
         Institute boschLeinfelden = new Institute();
@@ -618,6 +623,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         boschLeinfelden.addInstitutionContacts(milan);
         boschLeinfelden.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "104"));
+        boschLeinfelden.setEmail("bosch@web.de");
+        boschLeinfelden.setLinkToHomepage("www.Bosch.de");
         instituteService.saveInstitute(boschLeinfelden);
 
         Institute mercedesStuttgart = new Institute();
@@ -627,6 +634,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         mercedesStuttgart.addInstitutionContacts(julia);
         mercedesStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "105"));
+        mercedesStuttgart.setEmail("mercedes@web.de");
+        mercedesStuttgart.setLinkToHomepage("www.Mercedes.de");
         instituteService.saveInstitute(mercedesStuttgart);
 
         Institute sap = new Institute();
@@ -634,6 +643,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         sap.addInstitutionContacts(jana);
         sap.addInstitutionContacts(peter);
         sap.setAddress(new Address("55554", "Fritzhausen", "Carl-Otto-Weg", "1"));
+        sap.setLinkToHomepage("www.sap.de");
+        sap.setEmail("sap@web.de");
         instituteService.saveInstitute(sap);
 
         Institute mahleStuttgart = new Institute();
@@ -646,6 +657,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         mahleStuttgart.addInstitutionContacts(marlene);
         mahleStuttgart.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
                 "106"));
+        mahleStuttgart.setEmail("mahle@web.de");
+        mahleStuttgart.setLinkToHomepage("www.mahle.de");
         instituteService.saveInstitute(mahleStuttgart);
 
         //Test data for relationships between contacts
@@ -670,7 +683,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         erstieEinführung.setDescription("Blaue Krawatte anziehen");
         erstieEinführung.setStartTime(9,30);
         erstieEinführung.setEndTime(10,30);
-        erstieEinführung.setTitle("Erstie begrüßung");
+        erstieEinführung.setTitle("Ersti Begrüßung");
         erstieEinführung.addContact(jana);
         occurrenceService.saveOccurrence(erstieEinführung);
         Project campus = new Project();
