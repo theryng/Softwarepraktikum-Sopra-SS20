@@ -91,6 +91,7 @@ public class InstituteDetailsController {
         if(result.hasErrors()){
             return "institutes/instituteDetails";
         }
+
         else{
             Institute institute = instituteDTO.getInstitute();
             institute.setInstituteID(instituteDTO.getInstituteID());

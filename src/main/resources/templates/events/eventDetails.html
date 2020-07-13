@@ -87,14 +87,18 @@
                                     <div class = "col w-25">
                                         Eventname: <input type="text" class="form-control" name = "eventName"  th:field="*{eventName}" required/> </br>
                                     </div>
+
                                 </div>
+
                             </div>
                             <div class = "col">
                                 Datum:<input type="date" id="start" class="form-control" name="date"  th:field="*{date}"></br>
-                                Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
-                            </div>
-                        </div>
 
+                            </div>
+
+                        </div>
+                        <div class = "row"> <div class = "col"> Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
+                        </div> </div>
                         <div class = "row">
                             <div class = "col">
                                 Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
@@ -104,7 +108,7 @@
                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                Hausnummer:<input type="number" class="form-control" min="1" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
                                                   title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
@@ -206,7 +210,7 @@
 
                                 <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
                                 <input type="hidden" th:field="${tagDTO.originalID}" />
-                                <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                <button type="submit" class="tagblue mb-2 btn btn-info " href="#">
                                     <a class="mr-2" th:text="${tag.name}"></a>
                                     <i class ="fas fa-times icon-large " ></i>
                                 </button>
@@ -220,7 +224,7 @@
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Tag zuordnen'">
                     </a>
 
                 </div>

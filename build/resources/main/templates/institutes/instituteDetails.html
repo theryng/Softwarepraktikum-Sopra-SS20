@@ -103,7 +103,7 @@
                                     Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{institute.address.street}" required/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{institute.address.houseNumber}"
+                                    Hausnummer:<input type="number" class="form-control" min="1" name = "tempHouseNmbr" th:field="*{institute.address.houseNumber}"
                                                       title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                                 </div>
                                 <div class = "col">
@@ -205,7 +205,7 @@
 
                                 <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
                                 <input type="hidden" th:field="${tagDTO.originalID}" />
-                                <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                <button type="submit" class="tagblue mb-2 btn btn-info " href="#">
                                     <a class="mr-2" th:text="${tag.name}"></a>
                                     <i class ="fas fa-times icon-large " ></i>
                                 </button>
@@ -219,7 +219,7 @@
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{instituteID}(type= ${'institute'}, instituteID=${institute.getInstituteID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{instituteID}(type= ${'institute'}, instituteID=${institute.getInstituteID()})}" method="get" th:text="'Tag zuordnen'">
                     </a>
 
                 </div>
