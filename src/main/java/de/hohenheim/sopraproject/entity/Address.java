@@ -49,7 +49,7 @@ public class Address {
      * @param houseNumber the input String value of a house number
      */
     public void setHouseNumber(String houseNumber) {
-       Pattern pattern = Pattern.compile("[0-9]");
+       Pattern pattern = Pattern.compile("[0-9a-zA-Z/-]");
        Matcher matcher = pattern.matcher(houseNumber);
 
        if(matcher.find()) {

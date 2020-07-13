@@ -59,8 +59,8 @@
     margin-left: auto;
     margin-top: 100px;
     margin-bottom: 100px;
-    max-width: 90%;
-    min-width: 1200px;
+    max-width: 75%;
+    min-width: 1100px;
     min-height: 600px;
     background-color: #f5f5f5;
 
@@ -90,31 +90,52 @@
 .tagblue{
     background-color: #428c68;
 }
-
+/* -------------------BUTTONS------------------------------------*/
 .btn-primary{
     border-radius: 1px;
     background-color: #003f75;
     border-color: #003f75;
+    outline: none;
+    box-shadow:none !important;
 }
 .btn-primary:hover{
     background-color: #005fb0;
 }
 .btn-secondary{
     border-radius: 1px;
+    background-color: #616161;
+    border-color: #616161;
+    outline: none;
+    box-shadow:none !important;
+}
+.btn-danger{
+    border-radius: 1px;
+    background-color: #a3251c;
+    border-color: #a3251c;
+    outline: none;
+    box-shadow:none !important;
 }
 .btn-info{
     background-color: #428c68;
     border-color: #428c68;
+    outline: none;
+    box-shadow:none !important;
+}
+.btn-link{
+    outline: none;
+    box-shadow:none !important;
+    text-decoration-color: #000000;
 }
 .btn-info:hover{
     background-color: #428c48;
 }
+/* -------------------BUTTONS------------------------------------*/
 .lightgrey {
     background-color: #f5f5f5;
 }
 .backgroundimage{
     background-image: url("Hintergrundbild.jpg");
-    background-position: right top;
+    background-position: left top;
     background-attachment: fixed;
     /* Full height */
     height: 100%;
@@ -123,16 +144,22 @@
     background-position: center;
 }
 /* Accordion */
+.accordion{
+    border-radius: 4px;
+}
 .card-header{
-    border-radius: 10px;
+    border-radius: 4px;
     border: 2px solid #c7c7c7;
     padding: 20px;
 
 }
+.card-body{
+    border-radius: 2px;
+}
 .card{
-    border-radius: 10px;
+    border-radius: 4px;
     border: 2px solid #c7c7c7;
-    padding: 20px;
+    padding: 5px;
 }
 /* Login */
 .centerAlign{
@@ -155,6 +182,11 @@
     max-height: 1600px;
     overflow: auto;
 }
+.my-custom-searchbar {
+    position: relative;
+    max-height: 600px;
+    overflow: auto;
+}
 .my-custom-modal {
     position: relative;
     height: 600px;
@@ -171,4 +203,19 @@
 .body{
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
+}
+input[type="text"], textarea {
+    border-radius: 0px;
+}
+input[type="email"], textarea {
+    border-radius: 0px;
+}
+input[type="password"], textarea {
+    border-radius: 0px;
+}
+input[type="number"], textarea {
+    border-radius: 0px;
+}
+input[type="date"], textarea {
+    border-radius: 0px;
 }

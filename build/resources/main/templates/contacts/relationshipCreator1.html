@@ -33,32 +33,61 @@
 
             <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
             <!-- Search Button, to search for a certain Contact to have a Relationship with -->
-            <form class="mt-2" ACTION="#" th:action="@{/searchEventForHistory}" th:object="${relationshipDTO}" method="post">
-                <input th:value="${relationshipDTO.searchWord}" th:name ="searchWord" />
-                <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+            <form class="mt-2" ACTION="#" th:action="@{/searchRelationshipContact}" th:object="${relationshipDTO}" method="post">
+                <input type = "hidden" th:field="${relationshipDTO.contactA}"/>
+
+                <div class="row">
+                    <div class = "col-11">
+                        <input class="form-control" type="text" th:value="${relationshipDTO.searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                               title="Suche nach Vorname, Nachname und E-Mail möglich">
+                    </div>
+                    <div class = "col-1 justify-content-end">
+                        <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                    </div>
+                </div>
+
             </form>
             <!-- Table with the Possible Results -->
-            <table th:if="${viewTable}" class="table table-striped mt-3">
-                <tr>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Email</th>
-                    <th>Funktion</th>
-                </tr>
-                <tr th:each="contact : ${relationshipDTO.allContacts}">
-                    <td th:text="${contact.firstname}"></td>
-                    <td th:text="${contact.lastname}"></td>
-                    <td th:text="${contact.email}"></td>
-                    <td>
-                        <!-- Button which selects the Contact you have a relationship with -->
-                        <form ACTION="#" th:action="@{/setContactB}" th:attribute th:object="${relationshipDTO}" method="post">
-                            <input type="hidden" th:value="${contact.getContactID()}" th:name ="contactB" />
-                            <input type = "hidden" th:value="${relationshipDTO.contactA}" th:name ="contactA" />
-                            <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
+            <div class="table-wrapper-scroll-y my-custom-searchbar">
+                <table th:if="${viewTable}" class="table table-striped mt-3">
+                    <tr>
+                        <th>Name</th>
+                        <th>Studium</th>
+                        <th>Letzter Kontakt</th>
+                        <th>E-Mail</th>
+                        <th>Funktion</th>
+                    </tr>
+                    <tr  th:each="contact : ${relationshipDTO.foundContact}">
+                        <td>
+                            <a>Name</a>
+                            <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                        </td>
+                        <td>
+                            <a>Studium</a>
+                            <h6 th:text="${contact.courseOfStudies}"></h6>
+
+                        </td>
+                        <td>
+                            <a>Letzter Kontakt</a>
+                            <h6 th:text="${contact.lastContact}"></h6>
+
+                        </td>
+                        <td>
+                            <a>E-Mail</a>
+                            <h6 th:text="${contact.email}"></h6>
+
+                        </td>
+                        <td>
+                            <!-- Button which selects the Contact you have a relationship with -->
+                            <form ACTION="#" th:action="@{/setContactB}" th:attribute th:object="${relationshipDTO}" method="post">
+                                <input type="hidden" th:value="${contact.getContactID()}" th:name ="contactB" />
+                                <input type = "hidden" th:field="${relationshipDTO.contactA}"/>
+                                <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt auswählen</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 

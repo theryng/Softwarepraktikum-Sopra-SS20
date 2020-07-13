@@ -42,7 +42,6 @@ public class ContactHistoryCreator2Controller {
     @GetMapping("/contactHistoryCreator2/{contactID}")
     public String ContactHistoryCreatorController(@PathVariable("contactID") Integer contactID, @ModelAttribute("chosenContacts") LinkedList chosenContacts, Model model, @ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO) {
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
-        System.out.println("In Creator 2");
         return "contacts/contactHistoryCreator2";
     }
 
@@ -53,7 +52,6 @@ public class ContactHistoryCreator2Controller {
      */
     @RequestMapping(value = "/saveFinalContactHistory", method = RequestMethod.POST)
     public String saveContactHistory(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, BindingResult result){
-        System.out.println("In Saving: "+ contactHistoryDTO.getStringChosenIDs());
         if(result.hasErrors()){
             return "contactHistoryCreator2";
         }
@@ -73,7 +71,6 @@ public class ContactHistoryCreator2Controller {
             for(Contact con : contactHistory.getContactOfHistory()){
                 con.setLastContact(contactHistory.getDate());
                 contactService.saveContact(con);
-                System.out.println("Saving the new ContactDate");
             }
             contactHistoryService.saveContacthistory(contactHistory);
             return "redirect:/contactDetails/"+contactHistoryDTO.getOriginalContactID();

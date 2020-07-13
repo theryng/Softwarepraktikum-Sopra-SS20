@@ -60,18 +60,18 @@ public class Project {
     }
 
     public void setName(String name) {
-        Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ]");
-        Pattern pattern2 = Pattern.compile("[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.{´]^°<>]");
+        Pattern pattern = Pattern.compile("[a-zA-ZäöüÄÖÜ0-9-/]");
+        Pattern pattern2 = Pattern.compile("[?!¡¿“¶[]|{}≠€§$%&()=`+#'.{´]^°<>]");
         Matcher matcher = pattern.matcher(name);
         Matcher matcher2 = pattern2.matcher(name);
 
         if(matcher2.find()) {
             throw new IllegalArgumentException("No characters of this kind are allowed: " +
-                    "[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.{´]^°<>]");
+                    "[?!¡¿“¶[]|{}≠€§$%&()=`+#'.{´]^°<>]");
         }else if(matcher.find()){
             this.name = name;
         }else{
-            throw new IllegalArgumentException("The firstname must contain \"[a-zA-Z]\" only ");
+            throw new IllegalArgumentException("The name must contain \"[a-zA-ZäöüÄÖÜ0-9]\" only ");
         }
     }
     public Set<Contact> getContacts() {

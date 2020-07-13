@@ -31,12 +31,12 @@
             <!--Button that opens up the editing window-->
             <a type="button" class="btn btn-secondary" th:href="@{/relationshipCreator1/{contactHistoryID}(contactHistoryID=${relationshipDTO.getContactA()})}" method="get" th:text="'Zurück'">
             </a>
-            <h4>Weitere Eingaben</h4>
+            <h4 class="mt-2">Weitere Eingaben</h4>
             <!-- Form to add Information to the Relationship -->
             <form class="form-horizontal mt-3" id="multiCollapseExample1" th:object="${relationshipDTO}" th:action="@{/saveRelationship}" method="post">
                 <input type = "hidden" th:value="${relationshipDTO.contactA}" th:name ="contactA" />
                 <input type = "hidden" th:value="${relationshipDTO.contactB}" th:name ="contactB" />
-                <div class="alert alert-danger" role="alert" th:if="${hasError}">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                     Bitte überprüfen Sie Ihre Eingaben, da diese Fehlerhaft sind.
                 </div>
 
@@ -44,14 +44,14 @@
                     Gewählter Kontakt: <a th:text = "${relationshipDTO.getRelationship().getContactB().getFirstname()}">  </a></br>
                 </div>
                     Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{relationship.typeOfRelationship}"/></br>
-                    Datum des Begins der Beziehung: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{relationship.since}"></br>
+                    Datum des Begins der Beziehung: <input type="date" id="start" maxlength="8" class="form-control" name="trip-start" th:field="*{relationship.since}"></br>
                     <p>
                         <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Bezeichnung für Gegenrechnung hinzufügen</button>
                     </p>
                     <!-- Option to add the ingoing Relationship Type -->
                     <div class="row">
                         <div class="col">
-                            <div class="collapse multi-collapse" id="CollapseIngoing">
+                            <div class="collapse multi-collapse mb-2" id="CollapseIngoing">
                                 <div class="card card-body">
                                     <div class="mb-2 text-muted"> Hinweis: Eingabe nicht nötig, bei fehlender Eingabe identisch</div>
                                     Gegenrichtung: <input type="text" class="form-control" name="ingoingString" th:field="*{relationship.ingoingString}"></br>

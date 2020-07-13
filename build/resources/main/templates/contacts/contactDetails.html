@@ -30,7 +30,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            Kontakt Löschen
+            <i class="fas fa-trash-alt"></i>
         </button>
 
         <!-- Modal -->
@@ -62,7 +62,6 @@
 
     <!-- Accordion for better navigation-->
     <div class="accordion mt-2"  id="accordionExample">
-        <div class="table-wrapper-scroll-y my-custom-contact ">
         <div class="card">
 
             <!-- First Accordion Element, with general Information of the viewed Contact-->
@@ -79,28 +78,28 @@
                     <form class="form-horizontal" id="multiCollapseExample1" th:object="${contact}" th:action="@{/savingContact}" method="post">
                         <!-- Input and View Field for the Contact Details-->
                         <input type="hidden" th:field="*{contactID}"/>
-                        <!--<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
-                            <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
-                        </div>-->
+                        <div class="alert alert-danger" role="alert" th:if="${error}">
+                            <a>Eine ihrer Eingaben ist fehlerhaft, bitte überprüfen Sie ihre Eingaben</a>
+                        </div>
                         <div class="row">
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstname}" required/> </br>
+                                        Vorname: <input type="text" class="form-control" name = "firstname"  maxlength="40" th:field="*{firstname}" required/> </br>
                                     </div>
                                     <div class = "col w-25">
-                                        Nachname:<input type="text" class="form-control" name = "lastname"  th:field="*{lastname}" required/></br>
+                                        Nachname:<input type="text" class="form-control" name = "lastname" maxlength="40"   th:field="*{lastname}" required/></br>
                                     </div>
                                 </div>
-                                Anstellung:<input type="text" class="form-control" name = "occupation"  th:field="*{occupation}" /></br>
-                                E-Mail:<input type="email" class="form-control" name = "email" th:field="*{email}"/></br>
-                                Studium:<input type="text" class="form-control" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                Anstellung:<input type="text" class="form-control" name = "occupation" maxlength="50"  th:field="*{occupation}" /></br>
+                                E-Mail:<input type="email" class="form-control" maxlength="50"  name = "email" th:field="*{email}"/></br>
+                                Studium:<input type="text" class="form-control"  maxlength="50" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
                             </div>
                             <div class = "col">
-                                Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
-                                Freier Text:<input type="text" class="form-control" name = "freeText" rows="3" th:field="*{freeText}"/></br>
-                                Hobbies:<input type="text" class="form-control" name = "hobby" th:field="*{hobby}"/></br>
-                                Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                Geburtsdatum:<input type="date" id="start" class="form-control" maxlength="8" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
+                                Freier Text:<input type="text" class="form-control" maxlength="200" name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                Hobbies:<input type="text" class="form-control" maxlength="50" name = "hobby" th:field="*{hobby}"/></br>
+                                Homepage:<input type="text" class="form-control" maxlength="50" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
                             </div>
                         </div>
 
@@ -113,7 +112,7 @@
                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                Hausnummer:<input type="number" class="form-control" min="1" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
                                                   title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
@@ -173,10 +172,22 @@
                             <th>Funktionen</th>
                         </tr>
                         <tr th:each="relationship : ${contact.outgoingRelationships}">
-                            <td th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></td>
-                            <td th:text="${relationship.typeOfRelationship}"></td>
-                            <td th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></td>
-                            <td th:text="${relationship.since}"></td>
+                            <td>
+                                <a>Name</a>
+                                <h6 th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></h6>
+                            </td>
+                            <td>
+                                <a>Art der Beziehung</a>
+                                <h6 th:text="${relationship.typeOfRelationship}"></h6>
+                            </td>
+                            <td>
+                                <a>Mit</a>
+                                <h6 th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></h6>
+                            </td>
+                            <td>
+                                <a>Seit</a>
+                                <h6 th:text="${relationship.since}"></h6>
+                            </td>
                             <td>
 
                                 <!-- Button for Deletion of Relationship -->
@@ -214,7 +225,7 @@
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div th:if="${not viewRelationship}" class="mr-5 mt-5 mb-2">
+                    <div th:if="${not viewRelationship}" class="mr-5 mt-2 mb-2">
                         Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
@@ -226,7 +237,7 @@
         <!-- Third Accordion Element for Viewing of Contact Histories-->
         <div class="card">
             <div class="card-header" id="headingThree">
-                <h2 class="mb-0">
+                <h2>
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         <h3 class = "text-dark">Kontakthistorien</h3>
                     </button>
@@ -242,10 +253,15 @@
                             <th>Funktionen</th>
                         </tr>
                         <tr th:each="contacthistories : ${contact.contactHistory}">
-                            <td th:text="${contacthistories.date}"></td>
-                            <td th:text="*{contacthistories.text}"></td>
                             <td>
-
+                                <a>Datum des Kontakts</a>
+                                <h6 th:text="${contacthistories.date}"></h6>
+                            </td>
+                            <td>
+                                <a>Text</a>
+                                <h6 th:text="*{contacthistories.text}"></h6>
+                            </td>
+                            <td>
                                 <!--Button that opens up the editing window-->
                                 <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
                                 </a>
@@ -253,7 +269,7 @@
                         </tr>
                     </table>
                     <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
+                    <div class="mr-5 mt-2 mb-2" th:if="${not viewContactHistory}" >
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
@@ -282,7 +298,7 @@
 
                                         <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
                                         <input type="hidden" th:field="${tagDTO.originalID}" />
-                                        <button type="submit" class="tagblue mb-2 btn btn-info " href="#">
+                                        <button type="submit" class="btn btn-info mb-1" href="#">
                                             <a class="mr-2" th:text="${tag.name}"></a>
                                             <i class="fas fa-times icon-large" ></i>
                                         </button>
@@ -292,15 +308,14 @@
                         </div>
 
                     <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewContactHistory}" >
-                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
+                    <div class="mr-5 mt-2 mb-2" th:if="${not viewTags}" >
+                        Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Tag zuordnen'">
                     </a>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
