@@ -23,11 +23,10 @@
 
 <!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
      as well as a button to open up a modal which allows te admin to create more users for this application-->
-<div class = "container-fluid ml-1000 mr-1000">
-
-    <h3 align="center" style="margin-top: 15px;margin-bottom: 15px">Mitarbeiter/User der Anwendung</h3>
+<div class = "container-fluid body">
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"><i class="fa fa-handshake-o"></i> Mitarbeiter/User der Anwendung</h1>
     <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" class="was-validated" method = "post">
-        <div class="form-group ml-5 mt-2 mr-5">
+        <div class="form-group ml-3 mt-2 mr-5">
             <!--Button to open up the modal to create a new user-->
             <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
                 Neuen User hinzufügen
@@ -115,10 +114,10 @@
     <!--A table to view all the created user and their account information. This information consists of their full name, username, password and role. Whenever a new User is created
     the table will automatically update itself. Adding the new user to the table. It also provides an option of deleting existing users by the admin-->
     <div class = "col w-60">
-        <table class="table table-striped">
+        <table class="table table-hover table-striped">
             <thead>
-            <th>UserId</th>
-            <th>Name</th>
+            <th>Vorname</th>
+            <th>Nachname</th>
             <th>Username</th>
             <th>Rolle</th>
             <th></th>
@@ -127,8 +126,8 @@
             <!--table filled with information of the users by referencing the java class User. allUsers explained in the registrationController-->
             <tbody style="max-width: available ;overflow-x: scroll">
             <tr th:each="users : ${allUsers}">
-                <td th:text="${users.userId}"></td>
-                <td th:text="${users.firstName} + ' ' + ${users.lastName}"></td>
+                <td th:text="${users.firstName}"></td>
+                <td th:text="${users.lastName}"></td>
                 <td th:text="${users.username}"></td>
                 <td>
                     <span th:if="${users.isAdmin == true}">Administrator</span>

@@ -1,13 +1,11 @@
 package de.hohenheim.sopraproject.controller.projects;
 
 import de.hohenheim.sopraproject.dto.ProjectDTO;
-import de.hohenheim.sopraproject.entity.Address;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.Project;
-import de.hohenheim.sopraproject.entity.Tags;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ProjectRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import de.hohenheim.sopraproject.service.ProjectService;
 import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.*;
 
 @Controller
 public class ProjectController {
 
-
+    @Autowired
+    private EditingHistoryService editingHistoryService;
     @Autowired
     private ProjectService projectService;
 
@@ -58,13 +58,17 @@ public class ProjectController {
      * @return redirect:/projects
      */
     @RequestMapping(value="/saveProject", method = RequestMethod.POST)
-    public String saveProject(@Valid ProjectDTO projectDTO, BindingResult result){
+    public String saveProject(@Valid ProjectDTO projectDTO, BindingResult result, Principal principal){
         if(result.hasErrors()){
             System.out.println("Fehler");
         }
         else{
             projectService.saveProject(projectDTO.getProject());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
 
+
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projekt: " + projectDTO.getProject().getName(), dateFormat.format(date)));
         }
         return "redirect:/projects";
     }

@@ -8,10 +8,7 @@ import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.ContactHistoryRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.repository.RelationshipRepository;
-import de.hohenheim.sopraproject.service.ContactFinder;
-import de.hohenheim.sopraproject.service.ContactService;
-import de.hohenheim.sopraproject.service.InstituteService;
-import de.hohenheim.sopraproject.service.TagsService;
+import de.hohenheim.sopraproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This controller is used to handle all methods revolving around the html page instituteDetails
@@ -38,7 +35,8 @@ import java.util.Set;
 @Controller
 public class InstituteDetailsController {
 
-
+    @Autowired
+    private EditingHistoryService editingHistoryService;
 
     @Autowired
     private InstituteService instituteService;
@@ -87,7 +85,7 @@ public class InstituteDetailsController {
      * @return redirect:/institutes
      */
     @RequestMapping(value = "/savingInstitute", method = RequestMethod.POST)
-    public String savingInstitute(@Valid InstituteDTO instituteDTO, BindingResult result, Model model) {
+    public String savingInstitute(@Valid InstituteDTO instituteDTO, BindingResult result, Model model, Principal principal) {
         if(result.hasErrors()){
             return "institutes/instituteDetails";
         }
@@ -99,6 +97,10 @@ public class InstituteDetailsController {
             }
             instituteDTO.setInstitute(institute);
             model.addAttribute("instituteDTO", instituteDTO);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institutdetails: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
             return "institutes/instituteDetails";
         }
     }
@@ -110,7 +112,7 @@ public class InstituteDetailsController {
     }
 
     @RequestMapping(value = "/deleteContactFromInstitute", method = RequestMethod.POST)
-    public String deleteContactFromInstitute(InstituteDTO instituteDTO, Model model) {
+    public String deleteContactFromInstitute(InstituteDTO instituteDTO, Model model, Principal principal) {
         Institute institute = instituteService.findByInstitutesID(instituteDTO.getInstituteID());
         Set<Contact> contacts = institute.getContacts();
         System.out.println(contacts.size());
@@ -122,6 +124,11 @@ public class InstituteDetailsController {
         instituteDTO.setInstitute(institute);
         model.addAttribute("instituteDTO", instituteDTO);
         model.addAttribute("viewTable", checkTables(institute));
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+
+        editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institutdetails Mitarbeiter: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
         return "institutes/instituteDetails";
     }
 

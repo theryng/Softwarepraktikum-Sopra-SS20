@@ -6,6 +6,7 @@ import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.repository.InstituteRepository;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import de.hohenheim.sopraproject.service.InstituteService;
 import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.*;
 
 @Controller
 public class InstitutesController {
 
 
+    @Autowired
+    private EditingHistoryService editingHistoryService;
     @Autowired
     private InstituteService instituteService;
     @Autowired
@@ -56,12 +60,17 @@ public class InstitutesController {
      * @return redirect:/institutes
      */
     @RequestMapping(value="/saveInstitute", method = RequestMethod.POST)
-    public String saveInstitute(@Valid InstituteDTO instituteDTO, BindingResult result){
+    public String saveInstitute(@Valid InstituteDTO instituteDTO, BindingResult result, Principal principal){
         if(result.hasErrors()){
             System.out.println("Fehler");
         }
         else{
             instituteService.saveInstitute(instituteDTO.getInstitute());
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institut: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
         }
         return "redirect:/institutes";
     }

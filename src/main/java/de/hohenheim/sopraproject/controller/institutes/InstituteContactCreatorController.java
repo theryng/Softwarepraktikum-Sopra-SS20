@@ -3,10 +3,12 @@ package de.hohenheim.sopraproject.controller.institutes;
 import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.EditingHistory;
 import de.hohenheim.sopraproject.entity.Institute;
 import de.hohenheim.sopraproject.entity.Relationship;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import de.hohenheim.sopraproject.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -28,6 +34,8 @@ import java.util.List;
 @Controller
 public class InstituteContactCreatorController {
 
+    @Autowired
+    private EditingHistoryService editingHistoryService;
     @Autowired
     private ContactService contactService;
     @Autowired
@@ -74,13 +82,14 @@ public class InstituteContactCreatorController {
      * @return relationshipCreator2
      */
     @RequestMapping(value = "/setInstituteContact", method = RequestMethod.POST)
-    public String setInstituteContact(InstituteDTO instituteDTO) {
+    public String setInstituteContact(InstituteDTO instituteDTO, Principal principal) {
         System.out.println("IDS für die Institute:");
         System.out.println(instituteDTO.getContactTempID());
         System.out.println(instituteDTO.getInstituteID());
         Institute institut = instituteService.findByInstitutesID(instituteDTO.getInstituteID());
         institut.addInstitutionContacts(contactService.findByContactID(instituteDTO.getContactTempID()));
         instituteService.saveInstitute(institut);
+
         return "redirect:/instituteDetails/"+instituteDTO.getInstituteID();
     }
 }

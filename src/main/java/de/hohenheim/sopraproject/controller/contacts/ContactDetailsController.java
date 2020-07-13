@@ -3,14 +3,8 @@ package de.hohenheim.sopraproject.controller.contacts;
 import de.hohenheim.sopraproject.dto.ContactDTO;
 import de.hohenheim.sopraproject.dto.RelationshipDTO;
 import de.hohenheim.sopraproject.dto.TagsDTO;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.ContactHistory;
-import de.hohenheim.sopraproject.entity.Relationship;
-import de.hohenheim.sopraproject.entity.Tags;
-import de.hohenheim.sopraproject.service.ContactHistoryService;
-import de.hohenheim.sopraproject.service.ContactService;
-import de.hohenheim.sopraproject.service.RelationshipService;
-import de.hohenheim.sopraproject.service.TagsService;
+import de.hohenheim.sopraproject.entity.*;
+import de.hohenheim.sopraproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +32,8 @@ import java.util.Set;
 @Controller
 public class ContactDetailsController {
 
+    @Autowired
+    private EditingHistoryService editingHistoryService;
 
     @Autowired
     private ContactService contactService;
@@ -86,7 +86,7 @@ public class ContactDetailsController {
      * @return redirect:/contacts
      */
     @PostMapping("/savingContact")
-    public String contactDetails(@ModelAttribute("contact") @Valid Contact contact, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String contactDetails(@ModelAttribute("contact") @Valid Contact contact, BindingResult result, RedirectAttributes redirectAttributes, Principal principal) {
         if(result.hasErrors()){
             return "redirect:/contactDetails/"+contact.getContactID();
         }
@@ -94,6 +94,12 @@ public class ContactDetailsController {
             contact.setContactID(contact.getContactID());
             if(!contactService.findByContactID(contact.getContactID()).equals(contact.getContactID())){
                 contactService.saveContact(contact);
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+
+                editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontaktdetails: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
+
             }
             return "redirect:/contactDetails/"+contact.getContactID();
         }
@@ -123,7 +129,7 @@ public class ContactDetailsController {
      * @return redirect:/contactHistoryCreator1
      */
     @RequestMapping(value ="/createNewContactHistory", method = RequestMethod.POST)
-    public String createNewContactHistory(Contact contact,@ModelAttribute("mapping1Form") final Model model, final RedirectAttributes redirectAttributes) {
+    public String createNewContactHistory(Contact contact,@ModelAttribute("mapping1Form") final Model model, final RedirectAttributes redirectAttributes, Principal principal) {
         return "redirect:/contactHistoryCreator1";
     }
 

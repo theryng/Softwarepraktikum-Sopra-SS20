@@ -4,6 +4,7 @@ import de.hohenheim.sopraproject.dto.EventDTO;
 import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.service.ContactFinder;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import de.hohenheim.sopraproject.service.EventService;
 import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @Controller
 public class EventsController {
+
+    @Autowired
+    private EditingHistoryService editingHistoryService;
 
     @Autowired
     private EventService eventService;
@@ -42,7 +51,7 @@ public class EventsController {
 
 
     @RequestMapping(value="/saveEvent", method = RequestMethod.POST)
-    public String saveEvent(@Valid EventDTO eventDTO, BindingResult result, Model model){
+    public String saveEvent(@Valid EventDTO eventDTO, BindingResult result, Model model, Principal principal){
         if(result.hasErrors()) {
             System.out.println("Fehler");
             model.addAttribute("allEvents", eventService.findAllEvents());
@@ -51,10 +60,15 @@ public class EventsController {
 
         }
         else {
+                eventService.saveEvent(eventDTO.getEvent());
 
-            eventService.saveEvent(eventDTO.getEvent());
-        }
-            return "redirect:/events";
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+
+
+                editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Event: " + eventDTO.getEvent().getEventName(), dateFormat.format(date)));
+                return "redirect:/events";
+            }
     }
 
 

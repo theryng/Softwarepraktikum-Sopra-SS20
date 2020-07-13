@@ -171,11 +171,12 @@
     transform: translate(-50%, -50%);
 }
 
-.table-scroll {
-    height:600px;
-    width:820px;
+.table-properties {
+    height:500px;
+    table-layout: fixed;
+    width: 100%;
     overflow:auto;
-    margin-top:20px;
+    margin-top:10px;
 }
 .my-custom-scrollbar {
     position: relative;

@@ -2,12 +2,10 @@ package de.hohenheim.sopraproject.controller.projects;
 
 import de.hohenheim.sopraproject.dto.ProjectDTO;
 import de.hohenheim.sopraproject.dto.TagsDTO;
-import de.hohenheim.sopraproject.entity.Contact;
-import de.hohenheim.sopraproject.entity.Event;
-import de.hohenheim.sopraproject.entity.Project;
-import de.hohenheim.sopraproject.entity.Tags;
+import de.hohenheim.sopraproject.entity.*;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import de.hohenheim.sopraproject.service.ProjectService;
 import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,8 @@ import java.util.Set;
 public class ProjectDetailsController {
 
 
+    @Autowired
+    private EditingHistoryService editingHistoryService;
 
     @Autowired
     private ProjectService projectService;
@@ -81,7 +85,7 @@ public class ProjectDetailsController {
      * @return redirect:/projects
      */
     @RequestMapping(value = "/savingProject", method = RequestMethod.POST)
-    public String savingProject(@Valid ProjectDTO projectDTO, BindingResult result, Model model) {
+    public String savingProject(@Valid ProjectDTO projectDTO, BindingResult result, Model model, Principal principal) {
         Project project = projectDTO.getProject();
         project.setProjectID(projectDTO.getProjectID());
         if(result.hasErrors()){
@@ -93,6 +97,13 @@ public class ProjectDetailsController {
             }
             projectDTO.setProject(project);
             model.addAttribute("projectDTO", projectDTO);
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
+
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projektdetails: " + projectDTO.getProject().getName(), dateFormat.format(date)));
+
             return "redirect:/projectDetails/"+project.getProjectID();
         }
     }
@@ -104,7 +115,7 @@ public class ProjectDetailsController {
     }
 
     @RequestMapping(value = "/deleteContactFromProject", method = RequestMethod.POST)
-    public String deleteContactFromProject(ProjectDTO projectDTO, Model model) {
+    public String deleteContactFromProject(ProjectDTO projectDTO, Model model, Principal principal) {
         Project project = projectService.findByProjectID(projectDTO.getProjectID());
         Set<Contact> contacts = project.getContacts();
         System.out.println(contacts.size());
@@ -116,6 +127,14 @@ public class ProjectDetailsController {
         projectDTO.setProject(project);
         model.addAttribute("projectDTO", projectDTO);
         model.addAttribute("viewTable", checkTables(project));
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+
+
+        editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projekt Mitarbeiter: " + projectDTO.getProject().getName(), dateFormat.format(date)));
+
+
         return "projects/projectDetails";
     }
 
@@ -143,12 +162,6 @@ public class ProjectDetailsController {
         tagsService.saveTags(tag);
         return "redirect:/projectDetails/"+project.getProjectID();
     }
-
-
-
-
-
-
 
     private boolean checkTables(Project project){
         if(project.getContacts().size()>0){

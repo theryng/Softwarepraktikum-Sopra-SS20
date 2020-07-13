@@ -22,7 +22,7 @@
 <div class="container-fluid">
 
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
-    <h1 class="ml-1">Accountinformationen</h1>
+    <h1 style="text-align: center">Accountinformationen</h1>
     <div class="row ml-1">
         <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
         <form ACTION="#" th:action="@{/backUserDetails}" method="post">
@@ -66,8 +66,9 @@
                                     <div class = "col w-25">
                                         Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/></br>
                                         <div class="invalid-feedback">Please fill in a Name</div>
-                                        Username:<input type="text" id="username" class="form-control" name="username" th:field="*{username}" required></br>
-                                        <div class="invalid-feedback">Please fill in a unique Username</div>
+                                        Username:
+                                        </br> <span th:text="*{username}"></span>
+                                        <input type="hidden" id="username" class="form-control" name="username" th:field="*{username}"></br>
                                         <input type="hidden" class="form-control" name ="usedPassword"  th:field="*{password}"/>
                                     </div>
                                 </div>
@@ -134,8 +135,6 @@
                                     <div class = "col w-25">
                                         neues Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required>
                                         <div class="invalid-feedback">Bitte geben sie das aktuelle oder neue Passwort an.</div>
-                                        <!--Passwort bestätigen:<input type="password" id="confirmPassword" class="form-control" name ="confirmNewPassword" required>
-                                        <div class="invalid-feedback">Bitte bestätigen sie ihre Eingabe</div>-->
                                     </div>
                                     <div>
 
@@ -143,6 +142,12 @@
                                 </div>
                             </div>
                             <div class="col">
+                                <h5>Das Passwort muss folgendes enthalten:</h5>
+                                <ul>
+                                    <li id="letter" class="invalid">Einen <b>Kleinbuchstaben</b></li>
+                                    <li id="number" class="invalid">Eine <b>Zahl</b></li>
+                                    <li id="length" class="invalid">Mindestens <b>4 Zeichen</b></li>
+                                </ul>
                                 <input type="hidden" class="form-control" name ="firstName"  th:field="*{firstName}"/>
                                 <input type="hidden" class="form-control" name ="lastName"  th:field="*{lastName}"/>
                                 <input type="hidden" class="form-control" name ="username"  th:field="*{username}"/>

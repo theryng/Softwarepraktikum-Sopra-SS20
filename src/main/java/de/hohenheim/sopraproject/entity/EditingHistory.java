@@ -3,6 +3,7 @@ package de.hohenheim.sopraproject.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalTime;
 
 @Entity
 public class EditingHistory {
@@ -12,6 +13,7 @@ public class EditingHistory {
     private String user;
     private String objectEdited;
     private String date;
+
 
     public EditingHistory(){
     }
@@ -53,4 +55,7 @@ public class EditingHistory {
     public void setEditingHistoryID(Integer editingHistoryID) {
         this.editingHistoryID = editingHistoryID;
     }
-}
+
+    }
+
+

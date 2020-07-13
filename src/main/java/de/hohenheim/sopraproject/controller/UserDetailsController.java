@@ -51,7 +51,7 @@ public class UserDetailsController {
 
     //User hat zwar admin properties left aber kann nicht registration page erreichen!
     @PostMapping("/overridePassword")
-    public String userPassword(@ModelAttribute("user") @Valid User user,BindingResult result) {
+    public String userPassword(@ModelAttribute("user") @Valid User user, BindingResult result) {
         System.out.println("Das Passwort des Users lautet: " + user.getPassword());
 
 
@@ -65,7 +65,7 @@ public class UserDetailsController {
         }
 
         //ensures all userrights remain the same after overriding data
-        if(user.getIsAdmin()){
+        if (user.getIsAdmin()) {
             System.out.println("Der User müsste ein Admin sein");
             Role admin = new Role("ROLE_ADMIN");
             Set<Role> adminRoles = new HashSet<>();
@@ -73,7 +73,7 @@ public class UserDetailsController {
             roleService.saveRole(admin);
             adminRoles.add(admin);
             user.setRoles(adminRoles);
-        }else{
+        } else {
             Role normalUser = new Role("ROLE_USER");
             Set<Role> userRoles = new HashSet<>();
 
@@ -107,23 +107,24 @@ public class UserDetailsController {
         System.out.println(user.getRoles());
 
         String oldPassword = userService.getUserById(user.getUserId()).getPassword();
+        String oldUsername = userService.getUserById(user.getUserId()).getUsername();
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "userDetails";
         }
 
         user.setUsername(user.getUsername());
 
         //encodes new Password and binds it to account
-        if (!StringUtils.isEmpty(user.getPassword()) && user.getPassword()==oldPassword) {
+        if (!StringUtils.isEmpty(user.getPassword()) && user.getPassword() == oldPassword) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }else{
+        } else {
             System.out.println("altes Password");
             user.setPassword(oldPassword);
         }
 
         //ensures all userrights remain the same after overriding data
-        if(user.getIsAdmin()){
+        if (user.getIsAdmin()) {
             System.out.println("Der User müsste ein Admin sein");
             Role admin = new Role("ROLE_ADMIN");
             Set<Role> adminRoles = new HashSet<>();
@@ -131,7 +132,7 @@ public class UserDetailsController {
             roleService.saveRole(admin);
             adminRoles.add(admin);
             user.setRoles(adminRoles);
-        }else{
+        } else {
             Role normalUser = new Role("ROLE_USER");
             Set<Role> userRoles = new HashSet<>();
 
@@ -140,24 +141,18 @@ public class UserDetailsController {
             user.setRoles(userRoles);
         }
 
-        //Check if username already exists. If so userDetails wont be overwritten
-        if(userRepository.findByUsername(user.getUsername()) != null && userRepository.findByUserId(user.getUserId()) == null){
-                result.hasErrors();
-                System.out.println("Nichts gespeichert");
-                return "redirect:/registration";
-            }
-
         //New userData will be saved
-        if(!userService.getUserById(user.getUserId()).equals(user.getUserId())){
-                userService.saveUser(user);
+        if (!userService.getUserById(user.getUserId()).equals(user.getUserId())) {
+            userService.saveUser(user);
         }
 
-        if(user.getIsAdmin() == false){
-            return "redirect:/userDetails/"+user.getUsername();
+        if (user.getIsAdmin() == false) {
+            return "redirect:/userDetails/" + user.getUsername();
         }
 
         return "redirect:/registration";
-        }
+    }
+
 
 
 
