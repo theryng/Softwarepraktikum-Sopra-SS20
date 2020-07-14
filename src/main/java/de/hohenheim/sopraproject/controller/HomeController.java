@@ -1,10 +1,9 @@
 package de.hohenheim.sopraproject.controller;
 
-import de.hohenheim.sopraproject.dto.InstituteDTO;
-import de.hohenheim.sopraproject.dto.OccurrenceDTO;
-import de.hohenheim.sopraproject.entity.Occurrence;
+import de.hohenheim.sopraproject.dto.MeetingDTO;
+import de.hohenheim.sopraproject.entity.Meeting;
 import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
-import de.hohenheim.sopraproject.service.OccurrenceService;
+import de.hohenheim.sopraproject.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +22,7 @@ public class HomeController {
     private EditingHistoryRepository editingHistoryRepository;
 
     @Autowired
-    private OccurrenceService occurrenceService;
+    private MeetingService meetingService;
 
     /**
      * Zeigt die Startseite Ihrer Anwendung.
@@ -35,65 +34,65 @@ public class HomeController {
         model.addAttribute("message", "Und hier sehen Sie ein Model Attribut");
         model.addAttribute("editingHistory", editingHistoryRepository.findAll());
 
-        List<Occurrence> allUpcomingOccurrences = occurrenceService.findtAllUpcomingOccurrences();
-        OccurrenceDTO occurrenceDTO = new OccurrenceDTO();
-        occurrenceDTO.setAllUpcomingOccurrences(allUpcomingOccurrences);
-        occurrenceDTO.setOccurrence(new Occurrence());
-        model.addAttribute("occurrenceDTO", occurrenceDTO);
+        List<Meeting> allUpcomingMeetings = meetingService.findtAllUpcomingMeetings();
+        MeetingDTO meetingDTO = new MeetingDTO();
+        meetingDTO.setAllUpcomingMeetings(allUpcomingMeetings);
+        meetingDTO.setMeeting(new Meeting());
+        model.addAttribute("meetingDTO", meetingDTO);
 
         return "home";
     }
 
     /**
-     * This method saves a new occurrence
+     * This method saves a new meeting
      *
-     * This method saves a newly created occurrence to the database. Once the new occurrence was saved to the database the page will
+     * This method saves a newly created meeting to the database. Once the new meeting was saved to the database the page will
      * be reloaded and the table will be updated.
      *
      * @param
      * @return redirect:/home
      */
-    @RequestMapping(value="/saveOccurrence", method = RequestMethod.POST)
-    public String saveOccurrence(@Valid OccurrenceDTO occurrenceDTO, BindingResult result){
+    @RequestMapping(value="/saveMeeting", method = RequestMethod.POST)
+    public String saveMeeting(@Valid MeetingDTO meetingDTO, BindingResult result){
         if(result.hasErrors()){
             System.out.println("Fehler");
         }
         else{
-            occurrenceService.saveOccurrence(occurrenceDTO.getOccurrence());
+            meetingService.saveMeeting(meetingDTO.getMeeting());
         }
         return "redirect:/home";
     }
 
     /**
-     * This method finds all occurrences.
+     * This method finds all meeting.
      *
-     * This method finds all existing occurrence and returns them to the user
+     * This method finds all existing meeting and returns them to the user
      *
      * @param model
      * @return home
      */
-    @RequestMapping("/allOccurrences")
-    public String allOccurrences(Model model) {
-        model.addAttribute("allOccurrences", occurrenceService.findAllOccurrences());
+    @RequestMapping("/allMeetings")
+    public String allmeetings(Model model) {
+        model.addAttribute("allMeetings", meetingService.findAllMeetings());
         return "home";
     }
 
 
     /**
-     *  Method which can be used to search for a certain occurrence.
-     *  Calls the Contact Finder, and uses a searchWord to find a occurrence.
+     *  Method which can be used to search for a certain meeting.
+     *  Calls the Contact Finder, and uses a searchWord to find a meeting.
      *  Reloads the Site at the very End.
      * @param searchWord
      * @return redirect:/contacts
      */
-    @RequestMapping(value ="/searchOccurrence", method = RequestMethod.POST)
-    public String searchOccurrences(String searchWord) {
+    @RequestMapping(value ="/searchMeeting", method = RequestMethod.POST)
+    public String searchMeetings(String searchWord) {
         return "redirect:/contacts";
     }
 
-    @RequestMapping(value = "/deleteOccurrence", method = RequestMethod.GET)
-    public String deleteOccurrence(OccurrenceDTO occurrenceDTO) {
-        occurrenceService.deleteByOccurrenceID(occurrenceDTO.getOccurrenceID());
+    @RequestMapping(value = "/deleteMeeting", method = RequestMethod.GET)
+    public String deleteMeeting(MeetingDTO meetingDTO) {
+        meetingService.deleteByMeetingID(meetingDTO.getMeetingID());
         return "redirect:/home";
     }
 }
