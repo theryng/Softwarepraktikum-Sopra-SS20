@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <!--fontawesome button pics-->
     <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
 
     <title>User Details</title>
@@ -21,7 +22,7 @@
 
 <div class="container-fluid">
 
-    <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
+    <!-- Main Body of the userDetails Site, includes general Information, as well as the option to change the password of this user-->
     <h1 style="text-align: center">Accountinformationen</h1>
     <div class="row ml-1">
         <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
@@ -40,10 +41,7 @@
     <!-- Accordion for better navigation-->
     <div class="accordion mt-2" id="accordionExample">
         <div class="card">
-
-
-
-            <!-- First Accordion Element, with general Information of the viewed Contact-->
+            <!-- First Accordion Element, with general Information of the viewed User-->
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -51,11 +49,10 @@
                     </button>
                 </h1>
             </div>
-
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
                     <form class="form-horizontal was-validated" id="multiCollapseExample1" th:object="${user}" th:action="@{/overrideUser}" method="post">
-                        <!-- Input and View Field for the Contact Details-->
+                        <!-- Input and View Field for the user Details-->
                         <input type="hidden" th:field="*{userId}"/>
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
@@ -64,8 +61,10 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
+                                        <!--input to change the first name of the user. Can not be empty. In case of no firstname use a whitespace-->
                                         Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/></br>
                                         <div class="invalid-feedback">Please fill in a Name</div>
+                                        <!--Shows the username of the account-->
                                         Username:
                                         </br> <span th:text="*{username}"></span>
                                         <input type="hidden" id="username" class="form-control" name="username" th:field="*{username}"></br>
@@ -74,6 +73,7 @@
                                 </div>
                             </div>
                             <div class = "col">
+                                <!--input to change the last name of the user. Beneath the role of this user is stated-->
                                 Nachname:<input type="text" class="form-control" name ="lastname"  th:field="*{lastName}" required/></br>
                                 <div class="invalid-feedback">Please fill in a Name</div>
                                 Rolle: <input type="hidden" class="form-control" name ="isAdmin"  th:field="*{isAdmin}"/>
@@ -82,12 +82,12 @@
                                 <input type="hidden" id="oldPassword" class="form-control" name ="password" th:field="*{password}"/>
                             </div>
                         </div>
-                        <!-- Button trigger modal -->
+                        <!-- Button trigger save modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
                             Änderungen speichern
                         </button>
 
-                        <!-- Modal -->
+                        <!-- save Modal -->
                         <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -124,7 +124,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
                     <form class="form-horizontal was-validated" id="multiCollapseExample2" th:object="${user}" th:action="@{/overridePassword}" method="post">
-                        <!-- Input and View Field for the Contact Details-->
+                        <!-- Input and View Field for the password field-->
                         <input type="hidden" th:field="*{userId}"/>
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
                             <a th:each="err : ${#fields.errors('*')}">Eine ihrer Eingaben ist falsch, bitte überprüfen Sie diese</a>
@@ -133,6 +133,7 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
+                                        <!--input in case a new password has to be set. The rules of the password are the same like the registration-->
                                         neues Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required>
                                         <div class="invalid-feedback">Bitte geben sie das aktuelle oder neue Passwort an.</div>
                                     </div>
@@ -142,6 +143,7 @@
                                 </div>
                             </div>
                             <div class="col">
+                                <!--Password rules shown besides the input bar to help the user get a correct new password-->
                                 <h5>Das Passwort muss folgendes enthalten:</h5>
                                 <ul>
                                     <li id="letter" class="invalid">Einen <b>Kleinbuchstaben</b></li>
@@ -159,7 +161,7 @@
                             Änderungen speichern
                         </button>
 
-                                <!-- Modal for Deletion of Relationships -->
+                                <!-- Modal for overriding password -->
                                 <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
