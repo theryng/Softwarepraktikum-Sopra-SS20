@@ -724,6 +724,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         gegenRassismus.addProjectContacts(sabine);
         projectService.saveProject(gegenRassismus);
 
+        Occurrence meetingGerdt = new Occurrence();
+        meetingGerdt.setDate(LocalDate.now());
+        meetingGerdt.setDescription("Klimaschutz");
+        meetingGerdt.setStartTime(8,30);
+        meetingGerdt.setEndTime(9,20);
+        meetingGerdt.setTitle("Webex Meeting mit Drof. Dr. Gerdt");
+        occurrenceService.saveOccurrence(meetingGerdt);
+
         Occurrence erstiEinführung = new Occurrence();
         erstiEinführung.setDate(LocalDate.now());
         erstiEinführung.setDescription("");
