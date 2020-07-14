@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.UserTransaction;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class EventDetailsController {
         model.addAttribute("allContacts", event.getContacts());
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("event", event);
-        model.addAttribute("viewTable", true);
+        model.addAttribute("viewTable", checkTables(event.getContacts()));
         model.addAttribute("tagDTO", tagsDTO);
         return "events/eventDetails";
     }
@@ -81,7 +82,7 @@ public class EventDetailsController {
             model.addAttribute("allContacts", tempEvent.getContacts());
             model.addAttribute("eventDTO", eventDTO);
             model.addAttribute("event", tempEvent);
-            model.addAttribute("viewTable", true);
+            model.addAttribute("viewTable", checkTables(tempEvent.getContacts()));
             return "events/eventDetails";
         }
         else{
@@ -116,7 +117,7 @@ public class EventDetailsController {
         eventService.saveEvent(event);
         eventDTO.setEvent(event);
         model.addAttribute("eventDTO", eventDTO);
-        model.addAttribute("viewTable", checkTables(event));
+        model.addAttribute("viewTable", checkTables(event.getContacts()));
         return "redirect:/eventDetails/"+eventDTO.getEventID();
     }
 
@@ -145,8 +146,8 @@ public class EventDetailsController {
     }
 
 
-    private boolean checkTables(Event event){
-        if(event.getContacts().size()>0){
+    private boolean checkTables(Set<Contact> contacts){
+        if(contacts.size()>0){
             return true;
         }
         return false;
