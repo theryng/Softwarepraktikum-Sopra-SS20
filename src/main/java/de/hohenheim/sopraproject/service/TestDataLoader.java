@@ -1,7 +1,6 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.*;
-import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     private ProjectService projectService;
 
     @Autowired
-    private OccurrenceService occurrenceService;
+    private MeetingService meetingService;
 
     @Autowired
     private TagsService tagsService;
@@ -100,13 +99,21 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         normalUser5.setLastName("Bensack");
         userService.saveUser(normalUser5);
 
+        User normalUser6 = new User();
+        normalUser6.setUsername("_Luk");
+        normalUser6.setPassword(passwordEncoder.encode("TollesPasswort7"));
+        normalUser6.setRoles(userRoles);
+        normalUser6.setFirstName("Lukas");
+        normalUser6.setLastName("Januschke");
+        userService.saveUser(normalUser5);
+
         User admin = new User();
-        admin.setUsername("_Luk");
+        admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
         admin.setIsAdmin(true);
-        admin.setFirstName("Lukas");
-        admin.setLastName("Januschke");
+        admin.setFirstName("Max");
+        admin.setLastName("Mustermann");
         userService.saveUser(admin);
 
         //Example contacts
@@ -662,14 +669,15 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         covid.addProjectInstitutes(sap);
         projectService.saveProject(covid);
 
-        Occurrence erstieEinführung = new Occurrence();
+        Meeting erstieEinführung = new Meeting();
         erstieEinführung.setDate(LocalDate.now());
         erstieEinführung.setDescription("Blaue Krawatte anziehen");
         erstieEinführung.setStartTime(9,30);
         erstieEinführung.setEndTime(10,30);
         erstieEinführung.setTitle("Ersti Begrüßung");
         erstieEinführung.addContact(jana);
-        occurrenceService.saveOccurrence(erstieEinführung);
+        meetingService.saveMeeting(erstieEinführung);
+
         Project campus = new Project();
         campus.setName("Campussystem Erneuerung");
         campus.setDescription("Das komplette Campussystem wird erneuert");
@@ -716,15 +724,23 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         gegenRassismus.addProjectContacts(sabine);
         projectService.saveProject(gegenRassismus);
 
-        Occurrence erstiEinführung = new Occurrence();
+        Meeting meetingGerdt = new Meeting();
+        meetingGerdt.setDate(LocalDate.now());
+        meetingGerdt.setDescription("Klimaschutz");
+        meetingGerdt.setStartTime(8,30);
+        meetingGerdt.setEndTime(9,20);
+        meetingGerdt.setTitle("Webex Meeting mit Drof. Dr. Gerdt");
+        meetingService.saveMeeting(meetingGerdt);
+
+        Meeting erstiEinführung = new Meeting();
         erstiEinführung.setDate(LocalDate.now());
         erstiEinführung.setDescription("");
         erstiEinführung.setStartTime(9,30);
         erstiEinführung.setEndTime(10,30);
         erstiEinführung.setTitle("Erstsemester Begrüßung");
-        occurrenceService.saveOccurrence(erstiEinführung);
+        meetingService.saveMeeting(erstiEinführung);
 
-        Occurrence vortragMüller = new Occurrence();
+        Meeting vortragMüller = new Meeting();
         vortragMüller.setDate(LocalDate.now());
         vortragMüller.setDescription("Prof. Dr. Müller, Audimax");
         vortragMüller.setStartTime(12,30);
@@ -732,30 +748,30 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         vortragMüller.setTitle("Treibhausgas Emissionssenkung");
         vortragMüller.addContact(jonas);
         vortragMüller.addContact(max);
-        occurrenceService.saveOccurrence(vortragMüller);
+        meetingService.saveMeeting(vortragMüller);
 
-        Occurrence begrüßungGastprofessoren = new Occurrence();
+        Meeting begrüßungGastprofessoren = new Meeting();
         begrüßungGastprofessoren.setDate(LocalDate.now());
         begrüßungGastprofessoren.setDescription("Aus Schweden, Geschenk nicht Vergessen!");
         begrüßungGastprofessoren.setStartTime(15,45);
         begrüßungGastprofessoren.setEndTime(16,0);
         begrüßungGastprofessoren.setTitle("Gastprofessorin Prof. Dr. Andersson begrüßen");
-        occurrenceService.saveOccurrence(begrüßungGastprofessoren);
+        meetingService.saveMeeting(begrüßungGastprofessoren);
 
-        Occurrence professorenMeeting = new Occurrence();
+        Meeting professorenMeeting = new Meeting();
         professorenMeeting.setDate(LocalDate.now());
         professorenMeeting.setDescription("Zum Informationsaustausch");
         professorenMeeting.setStartTime(17,30);
         professorenMeeting.setEndTime(19,30);
         professorenMeeting.setTitle("Meeting mit Prof. Dr. Smith \"empirischen Forschung\"");
-        occurrenceService.saveOccurrence(professorenMeeting);
+        meetingService.saveMeeting(professorenMeeting);
 
-        Occurrence vortragMayer = new Occurrence();
+        Meeting vortragMayer = new Meeting();
         vortragMayer.setDate(2021, 10, 19);
         vortragMayer.setDescription("Wissenschaftlicher Vortrag");
         vortragMayer.setStartTime(12,30);
         vortragMayer.setEndTime(13,0);
         vortragMayer.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer);
+        meetingService.saveMeeting(vortragMayer);
     }
 }

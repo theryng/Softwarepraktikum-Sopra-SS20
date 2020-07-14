@@ -170,10 +170,10 @@ public class ContactHistoryCreator1Controller {
     }
 
     /**
-     * Deletes the Contact specified in the HTML page.
-     * Finds the chosen Contact and deletes it.
-     * @param
-     * @return
+     * Submits the Chosen Contacts and sends them to the Second Part of the
+     * Contact History Creation Process
+     * @param contactHistoryDTO
+     * @return contactHistoryCreator2
      */
     @RequestMapping(value = "/submitChosenContacts", method = RequestMethod.POST)
     public String submitChosenContacts(@ModelAttribute("contactHistoryDTO") ContactHistoryDTO contactHistoryDTO, RedirectAttributes redirectAttributes) {
@@ -199,6 +199,11 @@ public class ContactHistoryCreator1Controller {
         return foundContacts;
     }
 
+    /**
+     * Generates a String out of a List of Contacts
+     * @param list
+     * @return
+     */
     public String generateString(List<Contact> list){
         String string = "";
         for(Contact con : list){

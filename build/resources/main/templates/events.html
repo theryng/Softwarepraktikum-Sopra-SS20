@@ -25,7 +25,7 @@
         the name, their date, their address and a function column filled with a button per event that allows the user to edit/delete the said event-->
 <div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
 
-    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"> <i class="far fa-handshake"></i>  Events</h1>
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"> <i class="far fa-handshake"></i> <i class="fas fa-glass-cheers"></i> Events</h1>
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
     <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
@@ -89,8 +89,8 @@
         <!-- Search form -->
         <div class="md-form active-cyan active-cyan-2 mb-3">
             <div class="row">
-                <div class = "col-11">
-                    <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                <div class = "11">
+                    <input aria-label="Search" class="form-control" placeholder="Suchen" th:name ="searchWord" th:value="${searchWord}" type="text"
                            title="Suche nach Vorname, Nachname und E-Mail möglich">
                 </div>
                 <div class = "col-1 justify-content-end">

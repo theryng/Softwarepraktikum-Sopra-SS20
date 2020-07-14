@@ -139,6 +139,12 @@ public class ContactsController {
         return "contacts";
     }
 
+    /**
+     * Sorts the List of Contacts by Tags
+     * @param tag
+     * @param model
+     * @return
+     */
     @PostMapping(value ="/sortByTagContact")
     public String sortByTag(Tags tag, Model model) {
         Tags tags = tagsService.findByTagID(tag.getTagsID());

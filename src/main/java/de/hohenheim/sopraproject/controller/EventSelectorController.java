@@ -55,7 +55,7 @@ public class EventSelectorController {
     }
 
     /**
-     * searches for a Contact to have a relationship with
+     * searches for a Contact to have a Connection with
      * uses the findContacts method of the ContactFinder class
      * @param contactHistoryDTO
      * @return relationshipCreator1
@@ -74,7 +74,7 @@ public class EventSelectorController {
     }
 
     /**
-     * Sets the Contact to have a Relationship with
+     * Sets the Contact to have a Connecton with
      * @return relationshipCreator2
      */
     @RequestMapping(value = "/selectEventForHistory", method = RequestMethod.POST)

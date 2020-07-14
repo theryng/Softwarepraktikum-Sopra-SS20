@@ -104,14 +104,11 @@ public class ProjectController {
 
     @PostMapping(value ="/sortByTagProjects")
     public String sortByTag(Tags tag, Model model) {
-        System.out.println("sorting by Tag");
         Tags tags = tagsService.findByTagID(tag.getTagsID());
         List<Project> allProjects = projectService.findAllProjects();
-        System.out.println(tag.getName() + tag.getTagsID());
         List<Project> foundProject = new LinkedList<Project>();
         for(Project project : allProjects){
             if(project.getTags().contains(tags)){
-               System.out.println("AddContact");
                 foundProject.add(project);
             }
         }

@@ -22,7 +22,7 @@
 <div class="container-fluid">
 
     <!-- Main Body of the ContactDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
-    <h1 align="center" style="margin-top: 15px" > Kontaktinformationen</h1>
+    <h1 align="center" style="margin-top: 15px"><i class="far fa-address-book"></i>  Kontaktinformationen</h1>
     <div class="row ml-1">
         <form ACTION="#" th:action="@{/backContactDetails}" method="post">
             <button type="submit" class="btn btn-secondary">Zurück</button>
@@ -91,15 +91,29 @@
                                         Nachname:<input type="text" class="form-control" name = "lastname" maxlength="40"   th:field="*{lastname}" required/></br>
                                     </div>
                                 </div>
-                                Anstellung:<input type="text" class="form-control" name = "occupation" maxlength="50"  th:field="*{occupation}" /></br>
-                                E-Mail:<input type="email" class="form-control" maxlength="50"  name = "email" th:field="*{email}"/></br>
-                                Studium:<input type="text" class="form-control"  maxlength="50" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                <div>
+                                    Anstellung:<input type="text" class="form-control" name = "occupation" maxlength="50"  th:field="*{occupation}" /></br>
+                                </div>
+                                <div>
+                                    E-Mail:<input type="email" class="form-control" maxlength="50"  name = "email" th:field="*{email}"/></br>
+                                </div>
+                                <div>
+                                    Studium:<input type="text" class="form-control"  maxlength="50" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                </div>
                             </div>
                             <div class = "col">
-                                Geburtsdatum:<input type="date" id="start" class="form-control" maxlength="8" name="dayOfBirth" th:value = "*{dayOfBirth}" th:field="*{dayOfBirth}"></br>
-                                Freier Text:<input type="text" class="form-control" maxlength="200" name = "freeText" rows="3" th:field="*{freeText}"/></br>
-                                Hobbies:<input type="text" class="form-control" maxlength="50" name = "hobby" th:field="*{hobby}"/></br>
-                                Homepage:<input type="text" class="form-control" maxlength="50" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                <div>
+                                    Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" max='2200-01-01' th:field="*{dayOfBirth}"></br>
+                                </div>
+                                <div>
+                                    Freier Text:<input type="text" class="form-control" maxlength="200"  name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                </div>
+                                <div>
+                                    Hobbies:<input type="text" class="form-control" maxlength="50"  name = "hobby" th:field="*{hobby}"/></br>
+                                </div>
+                                <div>
+                                    Homepage:<input type="text" class="form-control" maxlength="50" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                </div>
                             </div>
                         </div>
 
@@ -114,8 +128,7 @@
                                 <div class="invalid-feedback">Bitte geben sie eine Straße an</div></br>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr"  pattern="[A-Za-z0-9]*" maxlength="5" th:field="*{address.houseNumber}"
-                                                  title="Eine Hausnummer darf nur aus Zahlen und Buchstaben bestehen und dar nicht länger als 5 Zeichen sein"/>
+                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
                                 <div class="invalid-feedback">Bitte geben sie eine Hausnummer an</div></br>
                             </div>
                             <div class = "col">
@@ -168,28 +181,28 @@
                     <!--Table for Relationships-->
                     <table class="table table-striped mb-2" th:if="${viewRelationship}">
                         <tr>
-                            <th>Name</th>
-                            <th>Art der Beziehung</th>
-                            <th>Mit</th>
-                            <th>Seit</th>
-                            <th>Funktionen</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         <tr th:each="relationship : ${contact.outgoingRelationships}">
                             <td>
                                 <a>Name</a>
-                                <h6 th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></h6>
+                                <h6 class="tableElement" th:text="${relationship.contactA.firstname + ' ' + relationship.contactA.lastname}"></h6>
                             </td>
                             <td>
                                 <a>Art der Beziehung</a>
-                                <h6 th:text="${relationship.typeOfRelationship}"></h6>
+                                <h6 class="tableElement" th:text="${relationship.typeOfRelationship}"></h6>
                             </td>
                             <td>
                                 <a>Mit</a>
-                                <h6 th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></h6>
+                                <h6 class="tableElement" th:text="${relationship.contactB.firstname + ' '+relationship.contactB.lastname}"></h6>
                             </td>
                             <td>
                                 <a>Seit</a>
-                                <h6 th:text="${relationship.since}"></h6>
+                                <h6 class="tableElement"  th:text="${relationship.since}"></h6>
                             </td>
                             <td>
 
@@ -251,22 +264,23 @@
                     <!-- Table for Contact Histories-->
                     <table class="table table-striped" th:if="${viewContactHistory}">
                         <tr>
-                            <th>Datum des Kontakts </th>
-                            <th>Text</th>
-                            <th>Funktionen</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         <tr th:each="contacthistories : ${contact.contactHistory}">
                             <td>
                                 <a>Datum des Kontakts</a>
-                                <h6 th:text="${contacthistories.date}"></h6>
+                                <h6 class="tableElement" th:text="${contacthistories.date}"></h6>
                             </td>
                             <td>
-                                <a>Text</a>
-                                <h6 th:text="*{contacthistories.text}"></h6>
+                                <a>Weitere Informationen</a>
+                                <h6 class="tableElement" th:text="*{contacthistories.text}"></h6>
                             </td>
                             <td>
                                 <!--Button that opens up the editing window-->
-                                <a type="button" class="btn btn-secondary" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get" th:text="'Eintrag einsehen'">
+                                <a type="button" th:href="@{/contactHistoryEditor/{contactID}/{historyID}(contactID=${contact.getContactID()}, historyID=${contacthistories.getContactHistoryID()})}" method="get">
+                                    <i align="center" class="text-dark fa-2x fas fa-edit "></i>
                                 </a>
                             </td>
                         </tr>

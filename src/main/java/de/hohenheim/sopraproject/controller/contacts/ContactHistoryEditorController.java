@@ -83,8 +83,8 @@ public class ContactHistoryEditorController {
     }
 
     /**
-     * Deletes the ContactHistory
-     * @param
+     * Deletes the ContactHistory and redirects to the contactDetails page
+     * @param contactHistoryDTO
      * @return contactDetails
      */
     @RequestMapping(value = "/deleteContactHistory", method = RequestMethod.POST)
@@ -96,7 +96,7 @@ public class ContactHistoryEditorController {
 
     /**
      * Deletes the Selected Contact from the Contact History
-     * @param
+     * @param contactHistoryDTO
      * @return contactHistoryEditor
      */
     @RequestMapping(value = "/deleteContactFromHistory", method = RequestMethod.POST)
@@ -126,7 +126,7 @@ public class ContactHistoryEditorController {
 
     /**
      * Adds a Contact to the Contact History
-     * @param
+     * @param contactHistoryDTO
      * @return contactHistoryEditor
      */
     @RequestMapping(value = "/addContactToHistory", method = RequestMethod.POST)
@@ -166,7 +166,7 @@ public class ContactHistoryEditorController {
     /**
      * Searches the Contacts for a Contact which can be added to the History
      * Uses a searchword and calls the findContacts Method of the ContactFinder
-     * @param
+     * @param contactHistoryDTO
      * @return contactHistoryEditor
      */
     @RequestMapping(value ="/searchContactForHistoryEditor", method = RequestMethod.POST)
@@ -226,10 +226,12 @@ public class ContactHistoryEditorController {
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
         return "contacts/contactHistoryEditor";
     }
+
     /**
-     *  Enables the Viewing of the addContact Table,
-     *  if its already seen it hides it.
-     * @return contactHistoryEditor
+     * Removes the Connection of a Project or Event to the Contact History
+     * @param contactHistoryDTO
+     * @param model
+     * @return
      */
     @RequestMapping(value ="/removeConnection", method = RequestMethod.POST)
     public String removeConnection(ContactHistoryDTO contactHistoryDTO, Model model) {
@@ -250,6 +252,11 @@ public class ContactHistoryEditorController {
         return "contacts/contactHistoryEditor";
     }
 
+    /**
+     * Help Method which Generates a String out of a List of Contacts
+     * @param list
+     * @return
+     */
     public String generateString(Set<Contact> list){
         String string = "";
         for(Contact con : list){
@@ -258,6 +265,11 @@ public class ContactHistoryEditorController {
         return string;
     }
 
+    /**
+     * Help Method which generates a Set of Contacts out of a String
+     * @param list
+     * @return
+     */
     public Set<Contact> generateSet(String list){
         Set<Integer> foundList = new HashSet<Integer>();
         String[] stringTemp2  = list.split(" ");
@@ -272,6 +284,11 @@ public class ContactHistoryEditorController {
         return foundContacts;
     }
 
+    /**
+     * Help Method which generates a List of Contacts out of a String
+     * @param list
+     * @return
+     */
     public List<Contact> generateList(String list){
         List<Integer> foundList = new LinkedList<Integer>();
         String[] stringTemp2  = list.split(" ");
@@ -286,6 +303,11 @@ public class ContactHistoryEditorController {
         return foundContacts;
     }
 
+    /**
+     * Help Method which checks for Connections of the ContactHistory
+     * @param contactHistory
+     * @return
+     */
     public boolean checkConnection(ContactHistory contactHistory){
         if( contactHistory.getEvent()==null && contactHistory.getProject()==null){
             return false;

@@ -122,8 +122,7 @@ public class ContactDetailsController {
     }
 
     /**
-     * This method creates a new contactHistory
-     *
+     * This method links to the creation of a new ContactHistory
      *
      * @param contact
      * @return redirect:/contactHistoryCreator1
@@ -155,6 +154,11 @@ public class ContactDetailsController {
         return "redirect:/contactDetails/"+id;
     }
 
+    /**
+     * This function deletes the selected Tag from the Contact
+     * @param tagsDTO
+     * @return
+     */
     @GetMapping("/deleteContactTag")
     public String deleteContactTag(TagsDTO tagsDTO) {
         List<Tags> tags = contactService.findByContactID(tagsDTO.getOriginalID()).getTags();
@@ -188,6 +192,11 @@ public class ContactDetailsController {
         return "redirect:/contacts";
     }
 
+    /**
+     * Help method which checks for ContactHistories in the Contact
+     * @param list
+     * @return
+     */
     private boolean checkContactHistoryList(Set<ContactHistory> list){
         if(list.size()>0){
             return true;
@@ -195,6 +204,11 @@ public class ContactDetailsController {
         return false;
     }
 
+    /**
+     * Help Method which checks for Relationships in the Contact
+     * @param list
+     * @return
+     */
     private boolean checkRelationshipList(Set<Relationship> list){
         if(list.size()>0){
             return true;
