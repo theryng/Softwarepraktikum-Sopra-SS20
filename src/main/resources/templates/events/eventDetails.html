@@ -66,7 +66,7 @@
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h3>Allgemeine Eventinformationen</h3>
+                        <h3 class = "text-dark">Allgemeine Eventinformationen</h3>
                     </button>
                 </h1>
             </div>
@@ -87,14 +87,18 @@
                                     <div class = "col w-25">
                                         Eventname: <input type="text" class="form-control" name = "eventName"  th:field="*{eventName}" required/> </br>
                                     </div>
+
                                 </div>
+
                             </div>
                             <div class = "col">
                                 Datum:<input type="date" id="start" class="form-control" name="date"  th:field="*{date}"></br>
-                                Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
-                            </div>
-                        </div>
 
+                            </div>
+
+                        </div>
+                        <div class = "row"> <div class = "col"> Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
+                        </div> </div>
                         <div class = "row">
                             <div class = "col">
                                 Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
@@ -104,7 +108,8 @@
                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
+                                Hausnummer:<input type="number" class="form-control" min="1" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
+                                                  title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
                             </div>
                             <div class = "col">
                                 Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
@@ -193,7 +198,7 @@
             <div class="card-header" id="headingFour">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <h3>Tags</h3>
+                        <h3 class = "text-dark">Tags</h3>
                     </button>
                 </h2>
             </div>
@@ -205,7 +210,7 @@
 
                                 <input type="hidden" th:value="${tag.tagsID}" th:name ="tagID" />
                                 <input type="hidden" th:field="${tagDTO.originalID}" />
-                                <button type="submit" class="tagblue mb-2 btn btn-secondary " href="#">
+                                <button type="submit" class="tagblue mb-2 btn btn-info " href="#">
                                     <a class="mr-2" th:text="${tag.name}"></a>
                                     <i class ="fas fa-times icon-large " ></i>
                                 </button>
@@ -219,7 +224,7 @@
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Tag zuordnen'">
                     </a>
 
                 </div>

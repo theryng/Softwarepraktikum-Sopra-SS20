@@ -38,14 +38,14 @@ public class EventDetailsController {
 
     @GetMapping(value = "/eventDetails/{eventID}")
     public String eventDetails(@PathVariable("eventID") Integer eventID, Model model) {
-        System.out.println("Testing the stuff " + eventID);
+
         EventDTO eventDTO = new EventDTO();
         Event event = eventService.findByEventID(eventID);
-        System.out.println("Anzahl Tags: " + event.getTags().size());
+
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(eventID);
-        System.out.println(event.getContacts().size());
+
         eventDTO.setEvent(event);
         eventDTO.setEventID(event.getEventID());
         model.addAttribute("allContacts", event.getContacts());
@@ -108,10 +108,10 @@ public class EventDetailsController {
     public String deleteContactFromEvent(EventDTO eventDTO, Model model) {
         Event event = eventService.findByEventID(eventDTO.getEventID());
         Set<Contact> contacts = event.getContacts();
-        System.out.println(contacts.size());
+
         Contact deleteContact = contactService.findByContactID(eventDTO.getContactTempID());
         contacts.remove(deleteContact);
-        System.out.println(contacts.size());
+
         event.setContacts(contacts);
         eventService.saveEvent(event);
         eventDTO.setEvent(event);
@@ -123,20 +123,20 @@ public class EventDetailsController {
     @GetMapping("/deleteEventTag")
     public String deleteEventTag(TagsDTO tagsDTO) {
         List<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
-        System.out.println("Number of Tags 1" + tags.size());
+
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
-                System.out.println("remove");
+
                 removeTag = tag;
             }
         }
         tags.remove(removeTag);
 
-        System.out.println("Number of Tags 2" + tags.size());
+
         Event event = eventService.findByEventID(tagsDTO.getOriginalID());
         event.setTags(tags);
-        System.out.println(event.getTags().size());
+
         eventService.saveEvent(event);
         Tags tag = tagsService.findByTagID(removeTag.getTagsID());
         tag.getEvents().remove(event);

@@ -696,6 +696,16 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         verschoenern.addProjectContacts(jose);
         projectService.saveProject(verschoenern);
 
+        Project umweltschutz = new Project();
+        umweltschutz.setName("Umweltschutzengagement");
+        umweltschutz.setDescription("Rettet die Bäume! Esst mehr Biber");
+        umweltschutz.setSince(2020  ,05 , 14);
+        umweltschutz.addProjectContacts(alex);
+        umweltschutz.addProjectContacts(aleyna);
+        umweltschutz.addProjectContacts(alfred);
+        umweltschutz.addProjectContacts(anna);
+        projectService.saveProject(umweltschutz);
+
 
         Project gegenRassismus = new Project();
         gegenRassismus.setName("Uni gegen Rassismus");

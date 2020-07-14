@@ -65,7 +65,7 @@ public class UserDetailsController {
      */
     @GetMapping("/userDetails/{username}")
     public String userDetails(@PathVariable("username") String username, Model model) {
-        System.out.println("Testing the stuff2 " + username);
+
         User user = userService.getUserByUsername(username);
         model.addAttribute("user", user);
 

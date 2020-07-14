@@ -107,7 +107,7 @@ public class RegistrationController {
         }
 
         if(userRepository.findByUsername(userDto.getUser().getUsername()) != null){
-            System.out.println("Gleicher Benutzername");
+
             return "redirect:/registration";
         }
 

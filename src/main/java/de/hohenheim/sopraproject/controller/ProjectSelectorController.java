@@ -58,7 +58,7 @@ public class ProjectSelectorController {
      */
     @RequestMapping(value ="/searchContactHistoryProject", method = RequestMethod.POST)
     public String searchContactHistoryProject(ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println(contactHistoryDTO.getSearchWord());
+
         String searchWord = contactHistoryDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
         List<Project> foundProjectsTemp = findContact.findProjects(searchWord, projectService.findAllProjects());
