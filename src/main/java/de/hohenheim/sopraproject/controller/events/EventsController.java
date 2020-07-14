@@ -44,7 +44,7 @@ public class EventsController {
     @RequestMapping(value="/saveEvent", method = RequestMethod.POST)
     public String saveEvent(@Valid EventDTO eventDTO, BindingResult result, Model model){
         if(result.hasErrors()) {
-            System.out.println("Fehler");
+
             model.addAttribute("allEvents", eventService.findAllEvents());
 
             return "events";
@@ -82,10 +82,10 @@ public class EventsController {
 
     @PostMapping(value ="/sortByTagEvents")
     public String sortByTag(Tags tag, Model model) {
-        System.out.println("sorting by Tag");
+
         Tags tags = tagsService.findByTagID(tag.getTagsID());
         List<Event> allEvents = eventService.findAllEvents();
-        System.out.println(tag.getName() + tag.getTagsID());
+
         List<Event> foundEvents = new LinkedList<Event>();
         for(Event event : allEvents){
             if(event.getTags().contains(tags)){

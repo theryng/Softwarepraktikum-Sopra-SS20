@@ -155,7 +155,7 @@ public class ContactDetailsController {
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
-                    System.out.println("remove");
+
                     removeTag = tag;
             }
         }

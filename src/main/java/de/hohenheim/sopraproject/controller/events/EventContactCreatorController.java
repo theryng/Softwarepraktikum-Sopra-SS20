@@ -51,8 +51,7 @@ public class EventContactCreatorController {
      */
     @RequestMapping(value ="/searchEventContact", method = RequestMethod.POST)
     public String searchEventContact(EventDTO eventDTO, Model model) {
-        System.out.println(eventDTO.getSearchWord());
-        System.out.println(eventDTO.getEventID());
+
         String searchWord = eventDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
         List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
@@ -69,14 +68,11 @@ public class EventContactCreatorController {
      */
     @RequestMapping(value = "/setEventContact", method = RequestMethod.POST)
     public String setEventContact(EventDTO eventDTO) {
-        System.out.println("IDS für die Events:");
-        System.out.println(eventDTO.getContactTempID());
-        System.out.println(eventDTO.getEventID());
+
         Event event = eventService.findByEventID(eventDTO.getEventID());
-        System.out.println("Größen Liste");
-        System.out.println(event.getContacts().size());
+
         event.addEventContact(contactService.findByContactID(eventDTO.getContactTempID()));
-        System.out.println(event.getContacts().size());
+
         eventService.saveEvent(event);
         return "redirect:/eventDetails/"+eventDTO.getEventID();
     }

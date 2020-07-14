@@ -100,14 +100,14 @@ public class InstitutesController {
 
     @PostMapping(value ="/sortByTagInstitutes")
     public String sortByTag(Tags tag, Model model) {
-        System.out.println("sorting by Tag");
+
         Tags tags = tagsService.findByTagID(tag.getTagsID());
         List<Institute> allInstitutes = instituteService.findAllInstitutes();
-        System.out.println(tag.getName() + tag.getTagsID());
+
         List<Institute> foundInstitute = new LinkedList<Institute>();
         for(Institute institute : allInstitutes){
             if(institute.getTags().contains(tags)){
-                System.out.println("AddContact");
+
                 foundInstitute.add(institute);
             }
         }

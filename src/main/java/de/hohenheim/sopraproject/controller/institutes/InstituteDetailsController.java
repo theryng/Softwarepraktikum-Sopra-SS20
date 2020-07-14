@@ -114,10 +114,10 @@ public class InstituteDetailsController {
     public String deleteContactFromInstitute(InstituteDTO instituteDTO, Model model) {
         Institute institute = instituteService.findByInstitutesID(instituteDTO.getInstituteID());
         Set<Contact> contacts = institute.getContacts();
-        System.out.println(contacts.size());
+
         Contact deleteContact = contactService.findByContactID(instituteDTO.getContactTempID());
         contacts.remove(deleteContact);
-        System.out.println(contacts.size());
+
         institute.setContacts(contacts);
         instituteService.saveInstitute(institute);
         instituteDTO.setInstitute(institute);
@@ -130,20 +130,20 @@ public class InstituteDetailsController {
     @GetMapping("/deleteInstituteTag")
     public String deleteInstituteTag(TagsDTO tagsDTO) {
         List<Tags> tags = instituteService.findByInstitutesID(tagsDTO.getOriginalID()).getTags();
-        System.out.println("Number of Tags 1" + tags.size());
+
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
-                System.out.println("remove");
+
                 removeTag = tag;
             }
         }
         tags.remove(removeTag);
 
-        System.out.println("Number of Tags 2" + tags.size());
+
         Institute institute = instituteService.findByInstitutesID(tagsDTO.getOriginalID());
         institute.setTags(tags);
-        System.out.println(institute.getTags().size());
+
         instituteService.saveInstitute(institute);
         Tags tag = tagsService.findByTagID(removeTag.getTagsID());
         tag.getInstitutes().remove(institute);

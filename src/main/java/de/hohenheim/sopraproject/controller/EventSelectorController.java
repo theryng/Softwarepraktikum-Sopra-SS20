@@ -62,7 +62,7 @@ public class EventSelectorController {
      */
     @RequestMapping(value ="/searchEventForHistory", method = RequestMethod.POST)
     public String searchEvent(ContactHistoryDTO contactHistoryDTO, Model model) {
-        System.out.println(contactHistoryDTO.getSearchWord());
+
         String searchWord = contactHistoryDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
         List<Event> foundEventsTemp = findContact.findEvents(searchWord, eventService.findAllEvents());
