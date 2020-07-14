@@ -99,8 +99,7 @@
                                                 <div class="invalid-feedback">Bitte geben sie eine Straße an</div></br>
                                             </div>
                                             <div class = "col">
-                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr"  pattern="[A-Za-z0-9]*" maxlength="5" th:field="*{address.houseNumber}"
-                                                                  title="Eine Hausnummer darf nur aus Zahlen und Buchstaben bestehen und dar nicht länger als 5 Zeichen sein"/>
+                                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
                                                 <div class="invalid-feedback">Bitte geben sie eine Hausnummer an</div></br>
                                             </div>
                                             <div class = "col">
