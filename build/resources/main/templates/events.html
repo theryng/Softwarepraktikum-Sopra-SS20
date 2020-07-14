@@ -22,7 +22,7 @@
 
 <div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
 
-    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px">Events</h1>
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"><i class="fas fa-glass-cheers"></i> Events</h1>
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
     <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
