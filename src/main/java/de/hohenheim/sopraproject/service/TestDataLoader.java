@@ -75,54 +75,38 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);
 
-        // User data
-        User normalUser1 = new User();
-        normalUser1.setUsername("user1");
-        normalUser1.setPassword(passwordEncoder.encode("1234"));
-        normalUser1.setRoles(userRoles);
-        normalUser1.setFirstName("test");
-        normalUser1.setLastName("test");
-        userService.saveUser(normalUser1);
-
-        User normalUser2 = new User();
-        normalUser2.setUsername("user2");
-        normalUser2.setPassword(passwordEncoder.encode("1234"));
-        normalUser2.setRoles(userRoles);
-        normalUser2.setFirstName("test");
-        normalUser2.setLastName("test");
-        userService.saveUser(normalUser2);
-
+        //Userdata for the program
         User normalUser3 = new User();
-        normalUser3.setUsername("user3");
-        normalUser3.setPassword(passwordEncoder.encode("1234"));
+        normalUser3.setUsername("mark1010");
+        normalUser3.setPassword(passwordEncoder.encode("Wagner1"));
         normalUser3.setRoles(userRoles);
-        normalUser3.setFirstName("test");
-        normalUser3.setLastName("test");
+        normalUser3.setFirstName("Mark");
+        normalUser3.setLastName("Wagner");
         userService.saveUser(normalUser3);
 
         User normalUser4 = new User();
-        normalUser4.setUsername("user4");
-        normalUser4.setPassword(passwordEncoder.encode("1234"));
+        normalUser4.setUsername("Criss");
+        normalUser4.setPassword(passwordEncoder.encode("Hallo1"));
         normalUser4.setRoles(userRoles);
-        normalUser4.setFirstName("test");
-        normalUser4.setLastName("test");
+        normalUser4.setFirstName("Chris");
+        normalUser4.setLastName("Hasselbach");
         userService.saveUser(normalUser4);
 
         User normalUser5 = new User();
-        normalUser5.setUsername("user5");
-        normalUser5.setPassword(passwordEncoder.encode("1234"));
+        normalUser5.setUsername("Rusk");
+        normalUser5.setPassword(passwordEncoder.encode("Passwort1"));
         normalUser5.setRoles(userRoles);
-        normalUser5.setFirstName("test");
-        normalUser5.setLastName("test");
+        normalUser5.setFirstName("Sergej");
+        normalUser5.setLastName("Bensack");
         userService.saveUser(normalUser5);
 
         User admin = new User();
-        admin.setUsername("admin");
+        admin.setUsername("_Luk");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
         admin.setIsAdmin(true);
-        admin.setFirstName("test");
-        admin.setLastName("test");
+        admin.setFirstName("Lukas");
+        admin.setLastName("Januschke");
         userService.saveUser(admin);
 
         //Example contacts

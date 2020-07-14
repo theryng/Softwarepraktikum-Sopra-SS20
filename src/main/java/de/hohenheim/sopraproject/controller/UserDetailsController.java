@@ -18,6 +18,16 @@ import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class controls all important methods during use of the userDetails page
+ *
+ * Inside this controller there are all important methods that helps updating the data of all users of this application.
+ * It helps creating a new password, overriding data of a specific user as well as simple navigation aspects for the different
+ * authority checks of a user.
+ *
+ * @date 14.07.2020
+ * @author Chris Hasselbach
+ */
 @Controller
 public class UserDetailsController {
 
@@ -36,10 +46,23 @@ public class UserDetailsController {
     private UserRepository userRepository;
 
 
+    //encodes the given password in order to make it usable
     public UserDetailsController(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * This method gives out the user and all the necessary attributes
+     *
+     * This method gives out all the necessary attributes of the chosen user i order to create the detailspage.
+     * The user will be determined by its username! Since it function like a ID it has to be a unique username created during the
+     * registration process
+     *
+     *
+     * @param username
+     * @param model
+     * @return userdetails
+     */
     @GetMapping("/userDetails/{username}")
     public String userDetails(@PathVariable("username") String username, Model model) {
         System.out.println("Testing the stuff2 " + username);
@@ -49,12 +72,18 @@ public class UserDetailsController {
         return "userDetails";
     }
 
-    //User hat zwar admin properties left aber kann nicht registration page erreichen!
+    /**
+     * Overrides password of a user
+     *
+     * This method overrides the password of the user and binds the new one to it. No other attributes are changed
+     * besides the password. The password encoder hashes the password and makes it readable to the application.
+     *
+     * @param user
+     * @param result
+     * @return userDetails || registration
+     */
     @PostMapping("/overridePassword")
     public String userPassword(@ModelAttribute("user") @Valid User user, BindingResult result) {
-        System.out.println("Das Passwort des Users lautet: " + user.getPassword());
-
-
         if (result.hasErrors()) {
             return "userDetails";
         }
@@ -66,7 +95,6 @@ public class UserDetailsController {
 
         //ensures all userrights remain the same after overriding data
         if (user.getIsAdmin()) {
-            System.out.println("Der User müsste ein Admin sein");
             Role admin = new Role("ROLE_ADMIN");
             Set<Role> adminRoles = new HashSet<>();
 
@@ -82,18 +110,18 @@ public class UserDetailsController {
             user.setRoles(userRoles);
         }
 
-
         //Check if username already exists. If so userDetails wont be overwritten
         if (userRepository.findByUsername(user.getUsername()) != null && userRepository.findByUserId(user.getUserId()) == null) {
             result.hasErrors();
-            System.out.println("Nichts gespeichert");
             return "redirect:/registration";
         }
 
+        //saves new Data of the user
         if (!userService.getUserById(user.getUserId()).equals(user.getUserId())) {
             userService.saveUser(user);
         }
 
+        //checks if user was an admin. If not user will be redirected to the updated userDetails page. The admin returns to the registration page
         if (user.getIsAdmin() == false) {
             return "redirect:/userDetails/" + user.getUsername();
         } else {
@@ -101,13 +129,20 @@ public class UserDetailsController {
         }
     }
 
+    /**
+     * Overrides the users account information
+     *
+     * This method updates the account information with new Data if there has been changes made to them. No other
+     * attributes will be overwritten besides the changed ones.
+     *
+     * @param user
+     * @param result
+     * @return userDetails || registration
+     */
     @PostMapping("/overrideUser")
     public String userDetails(@ModelAttribute("user") @Valid User user, BindingResult result) {
-        System.out.println(user.getPassword());
-        System.out.println(user.getRoles());
 
         String oldPassword = userService.getUserById(user.getUserId()).getPassword();
-        String oldUsername = userService.getUserById(user.getUserId()).getUsername();
 
         if (result.hasErrors()) {
             return "userDetails";
@@ -119,13 +154,12 @@ public class UserDetailsController {
         if (!StringUtils.isEmpty(user.getPassword()) && user.getPassword() == oldPassword) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
-            System.out.println("altes Password");
+            //if the password hasnt changed save old one again
             user.setPassword(oldPassword);
         }
 
         //ensures all userrights remain the same after overriding data
         if (user.getIsAdmin()) {
-            System.out.println("Der User müsste ein Admin sein");
             Role admin = new Role("ROLE_ADMIN");
             Set<Role> adminRoles = new HashSet<>();
 
@@ -146,6 +180,7 @@ public class UserDetailsController {
             userService.saveUser(user);
         }
 
+        //checks if user was an admin. If not user will be redirected to the updated userDetails page. The admin returns to the registration page
         if (user.getIsAdmin() == false) {
             return "redirect:/userDetails/" + user.getUsername();
         }
@@ -154,14 +189,24 @@ public class UserDetailsController {
     }
 
 
-
-
+    /**
+     * Closes the details page (ROLE_ADMIN)
+     *
+     * This method closes the userDetails page and returns to the registration page. Only used if the user has the role ROLE_ADMIN
+     * @return registration
+     */
     @PostMapping(value = "/backUserDetails")
     public String backUserDetails() {
         return "redirect:/registration";
     }
 
 
+    /**
+     * Closes the details page (ROLE_USER)
+     *
+     * This method closes the userDetails page and returns to the homepage. Only used if the user has the role ROLE_USER
+     * @return home
+     */
     @PostMapping(value = "/backHome")
     public String backHome(){
         return "redirect:/home";

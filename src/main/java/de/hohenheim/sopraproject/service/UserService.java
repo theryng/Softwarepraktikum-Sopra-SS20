@@ -38,6 +38,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    /**
+     * Sucht nach einem USer mit einer bestimmten user ID
+     *
+     * @param Id der userID
+     * @return User-Objekt
+     */
     public User getUserById(Integer Id){
         return userRepository.findByUserId(Id);
     }

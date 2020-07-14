@@ -7,17 +7,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Roleservice class of the application
+ *
+ * This service helps the programm accessing the roles and bind it to a certain user of the application
+ */
 @Service
 public class RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
 
+    //Saves a role to a user
     public Role saveRole(Role role) {
         return roleRepository.save(role);
-    }
-
-    public List<Role> findAllRoles() {
-        return roleRepository.findAll();
     }
 }
