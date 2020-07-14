@@ -37,7 +37,7 @@
 /* set a max-width for horizontal fluid layout and make it centered */
 .container-fluid {
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 
     margin-right: auto;
     margin-left: auto;
@@ -219,4 +219,7 @@ input[type="number"], textarea {
 }
 input[type="date"], textarea {
     border-radius: 0px;
+}
+.tableElement{
+    font-size: 20px!important;
 }

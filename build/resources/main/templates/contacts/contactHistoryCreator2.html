@@ -46,7 +46,7 @@
 
             Beschreibung:<input type="text" class="form-control" name = "text" th:field="*{contactHistory.text}" required/>
                 <div class="invalid-feedback">Bitte geben Sie Art der Kontakthistorie an</div></br>
-            Datum des Kontakts: <input type="date" id="start" class="form-control" name="trip-start" th:field="*{contactHistory.date}" required>
+            Datum des Kontakts: <input type="date" id="start" class="form-control" name="trip-start"  max="2200-01-01" th:field="*{contactHistory.date}" required>
                  <div class="invalid-feedback">Bitte geben Sie ein Datum an</div></br></br>
 
             <button type="submit" class="btn btn-primary">Kontakt Historie speichern</button>

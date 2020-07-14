@@ -44,7 +44,7 @@
                     Gewählter Kontakt: <a th:text = "${relationshipDTO.getRelationship().getContactB().getFirstname()}">  </a></br>
                 </div>
                     Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{relationship.typeOfRelationship}"/></br>
-                    Datum des Begins der Beziehung: <input type="date" id="start" maxlength="8" class="form-control" name="trip-start" th:field="*{relationship.since}"></br>
+                    Datum des Begins der Beziehung: <input type="date" id="start" maxlength="8" class="form-control" name="trip-start"  max="2200-01-01" th:field="*{relationship.since}"></br>
                     <p>
                         <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#CollapseIngoing" aria-expanded="false" aria-controls="CollapseIngoing">Bezeichnung für Gegenrechnung hinzufügen</button>
                     </p>

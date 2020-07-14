@@ -60,21 +60,21 @@
                     <tr  th:each="contact : ${relationshipDTO.foundContact}">
                         <td>
                             <a>Name</a>
-                            <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                            <h6 class="tableElement" th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
                         </td>
                         <td>
                             <a>Studium</a>
-                            <h6 th:text="${contact.courseOfStudies}"></h6>
+                            <h6 class="tableElement" th:text="${contact.courseOfStudies}"></h6>
 
                         </td>
                         <td>
                             <a>Letzter Kontakt</a>
-                            <h6 th:text="${contact.lastContact}"></h6>
+                            <h6 class="tableElement" th:text="${contact.lastContact}"></h6>
 
                         </td>
                         <td>
                             <a>E-Mail</a>
-                            <h6 th:text="${contact.email}"></h6>
+                            <h6 class="tableElement" th:text="${contact.email}"></h6>
 
                         </td>
                         <td>
