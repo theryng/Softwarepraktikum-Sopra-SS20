@@ -51,7 +51,6 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                         <form ACTION="#" th:action="@{/deleteProject}" th:object="${projectDTO}" method="post">
                             <input type="hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
-
                             <button type="submit" class="btn btn-danger ml-3">Projekt löschen</button>
                         </form>
                     </div>
@@ -165,7 +164,7 @@
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
                     <!-- Button to enable the adding of other Contacts -->
-                    <a type="button" class="btn btn-primary" th:href="@{/projectContactCreator/{projectID}(projectID=${projectDTO.getProjectID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a class="btn btn-primary" method="get" th:href="@{/projectContactCreator/{projectID}(projectID=${projectDTO.getProjectID()})}" th:text="'Neuen Mitarbeiter hinzufügen'" type="button">
                     </a>
 
                 </div>

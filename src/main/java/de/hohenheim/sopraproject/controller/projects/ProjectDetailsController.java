@@ -64,8 +64,15 @@ public class ProjectDetailsController {
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(projectID);
+        if(project.getTags().size()>0){
+            model.addAttribute("viewTags", true);
+        }
+        else{
+            model.addAttribute("viewTags", false);
+        }
         projectDTO.setProject(project);
         projectDTO.setProjectID(projectID);
+        model.addAttribute("viewProject", checkTables(project));
         model.addAttribute("allContacts", project.getContacts());
         model.addAttribute("project", project);
         model.addAttribute("projectDTO", projectDTO);
