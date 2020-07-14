@@ -66,7 +66,7 @@
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h3 class = "text-dark">Allgemeine Eventinformationen</h3>
+                        <h3>Allgemeine Eventinformationen</h3>
                     </button>
                 </h1>
             </div>
@@ -104,8 +104,7 @@
                                 Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input type="number" class="form-control" name = "tempHouseNmbr" th:field="*{address.houseNumber}"
-                                                  title="Eine Hausnummer darf nur aus Zahlen bestehen" required/>
+                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
                             </div>
                             <div class = "col">
                                 Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
@@ -194,7 +193,7 @@
             <div class="card-header" id="headingFour">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <h3 class = "text-dark">Tags</h3>
+                        <h3>Tags</h3>
                     </button>
                 </h2>
             </div>

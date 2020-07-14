@@ -747,45 +747,5 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         vortragMayer.setEndTime(13,0);
         vortragMayer.setTitle("Vortrag Prof. Dr. Mayer");
         occurrenceService.saveOccurrence(vortragMayer);
-
-        Occurrence vortragMayer1= new Occurrence();
-        vortragMayer1.setDate(2021, 10, 19);
-        vortragMayer1.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer1.setStartTime(12,30);
-        vortragMayer1.setEndTime(13,0);
-        vortragMayer1.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer1);
-
-        Occurrence vortragMayer2 = new Occurrence();
-        vortragMayer2.setDate(2021, 10, 19);
-        vortragMayer2.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer2.setStartTime(12,30);
-        vortragMayer2.setEndTime(13,0);
-        vortragMayer2.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer2);
-
-        Occurrence vortragMayer3 = new Occurrence();
-        vortragMayer3.setDate(2021, 10, 19);
-        vortragMayer3.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer3.setStartTime(12,30);
-        vortragMayer3.setEndTime(13,0);
-        vortragMayer3.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer3);
-
-        Occurrence vortragMayer4 = new Occurrence();
-        vortragMayer4.setDate(2021, 10, 19);
-        vortragMayer4.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer4.setStartTime(12,30);
-        vortragMayer4.setEndTime(13,0);
-        vortragMayer4.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer4);
-
-        Occurrence vortragMayer5 = new Occurrence();
-        vortragMayer5.setDate(2021, 10, 19);
-        vortragMayer5.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer5.setStartTime(12,30);
-        vortragMayer5.setEndTime(13,0);
-        vortragMayer5.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer5);
     }
 }
