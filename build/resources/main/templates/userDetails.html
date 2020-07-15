@@ -61,25 +61,25 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        <!--input to change the first name of the user. Can not be empty. In case of no firstname use a whitespace-->
-                                        Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/></br>
-                                        <div class="invalid-feedback">Please fill in a Name</div>
                                         <!--Shows the username of the account-->
                                         Username:
                                         </br> <span th:text="*{username}"></span>
                                         <input type="hidden" id="username" class="form-control" name="username" th:field="*{username}"></br>
                                         <input type="hidden" class="form-control" name ="usedPassword"  th:field="*{password}"/>
+                                        <!--input to change the first name of the user. Can not be empty. In case of no firstname use a whitespace-->
+                                        </br>Vorname: <input type="text" class="form-control" name = "firstname"  th:field="*{firstName}" required/></br>
+                                        <div class="invalid-feedback">Please fill in a Name</div>
                                     </div>
                                 </div>
                             </div>
                             <div class = "col">
                                 <!--input to change the last name of the user. Beneath the role of this user is stated-->
-                                Nachname:<input type="text" class="form-control" name ="lastname"  th:field="*{lastName}" required/></br>
-                                <div class="invalid-feedback">Please fill in a Name</div>
                                 Rolle: <input type="hidden" class="form-control" name ="isAdmin"  th:field="*{isAdmin}"/>
                                 </br> <span th:if="${user.isAdmin == true}">Administrator</span>
                                 <span th:unless="${user.isAdmin == true}">Mitarbeiter</span></br>
                                 <input type="hidden" id="oldPassword" class="form-control" name ="password" th:field="*{password}"/>
+                                </br>Nachname:<input type="text" class="form-control" name ="lastname"  th:field="*{lastName}" required/></br>
+                                <div class="invalid-feedback">Please fill in a Name</div>
                             </div>
                         </div>
                         <!-- Button trigger save modal -->
@@ -137,12 +137,9 @@
                                         neues Passwort:<input type="password" id="password" class="form-control" name ="password" pattern="(?=.*[0-9])(?=.*[a-z]).{4,}" th:field="*{password}" required>
                                         <div class="invalid-feedback">Bitte geben sie das aktuelle oder neue Passwort an.</div>
                                     </div>
-                                    <div>
-
-                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col" id="message">
                                 <!--Password rules shown besides the input bar to help the user get a correct new password-->
                                 <h5>Das Passwort muss folgendes enthalten:</h5>
                                 <ul>
@@ -157,7 +154,7 @@
                             </div>
                         </div>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#passwordModal">
+                        <button id="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#passwordModal">
                             Änderungen speichern
                         </button>
 
@@ -192,59 +189,22 @@
 <footer th:insert="fragments/htmlFooter.html :: footer"> </footer>
 
 <script>
-    var password = document.getElementById("password")
-        , confirmPassword = document.getElementById("confirmPassword");
+    var password = document.getElementById('password'),
+        newPassword = document.getElementById('confirm_Password');
 
     function validatePassword(){
-        if(password.value !== confirmPassword.value) {
-            confirmPassword.setCustomValidity("Passwords Don't Match");
+        if(password.value === newPassword.value) {
+            document.getElementById('submit').disabled = false;
+            newPassword.setCustomValidity(''); //no special messages if the passwords match
         } else {
-            confirmPassword.setCustomValidity(''); //no special messages if the passwords match
+            newPassword.setCustomValidity("Passwords don't match");
+            document.getElementById('submit').disabled = true;
         }
     }
 
     password.onchange = validatePassword;
-    confirmPassword.onkeyup = validatePassword;
+    newPassword.onkeyup = validatePassword;
 
-
-
-    //Variables needed for the password requirements; Code used based on https://www.w3schools.com/howto/howto_js_password_validation.asp
-    var firstInput = document.getElementById("password");
-    var confirmInput = document.getElementById("confirmPassword");
-    var letter = document.getElementById("letter");
-    var number = document.getElementById("number");
-    var length = document.getElementById("length");
-
-    firstInput.onkeyup = function() {
-        // Validation the lowercase letters
-        var lowerCaseLetters = /[a-z]/g;
-        if(firstInput.value.match(lowerCaseLetters)) {
-            letter.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
-            letter.classList.add("valid");
-        } else {
-            letter.classList.remove("valid");
-            letter.classList.add("invalid");
-        }
-
-        // Validation of used numbers
-        var numbers = /[0-9]/g;
-        if(firstInput.value.match(numbers)) {
-            number.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
-            number.classList.add("valid");
-        } else {
-            number.classList.remove("valid");
-            number.classList.add("invalid");
-        }
-
-        // Validation of the password length
-        if(firstInput.value.length >= 4) { //has to be 4 letters or more
-            length.classList.remove("invalid");//if the requirement was matched the invalid notification will be swapped with a valid one
-            length.classList.add("valid");
-        } else {
-            length.classList.remove("valid");
-            length.classList.add("invalid");
-        }
-    }
 </script>
 
 

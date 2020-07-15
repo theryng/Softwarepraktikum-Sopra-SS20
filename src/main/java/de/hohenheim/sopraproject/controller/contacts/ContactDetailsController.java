@@ -98,7 +98,7 @@ public class ContactDetailsController {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
 
-                editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontaktdetails: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
+                editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontaktdetails von: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
 
             }
             return "redirect:/contactDetails/"+contact.getContactID();

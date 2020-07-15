@@ -3,10 +3,12 @@ package de.hohenheim.sopraproject.controller.events;
 import de.hohenheim.sopraproject.dto.EventDTO;
 import de.hohenheim.sopraproject.dto.TagsDTO;
 import de.hohenheim.sopraproject.entity.Contact;
+import de.hohenheim.sopraproject.entity.EditingHistory;
 import de.hohenheim.sopraproject.entity.Event;
 import de.hohenheim.sopraproject.entity.Tags;
 import de.hohenheim.sopraproject.repository.ContactRepository;
 import de.hohenheim.sopraproject.service.ContactService;
+import de.hohenheim.sopraproject.service.EditingHistoryService;
 import de.hohenheim.sopraproject.service.EventService;
 import de.hohenheim.sopraproject.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +29,8 @@ import java.util.Set;
 public class EventDetailsController {
 
 
+    @Autowired
+    private EditingHistoryService editingHistoryService;
 
     @Autowired
     private EventService eventService;
@@ -67,7 +75,7 @@ public class EventDetailsController {
      * @return redirect:/institutes
      */
     @RequestMapping(value = "/savingEvent", method = RequestMethod.POST)
-    public String savingEvent(@Valid Event event, BindingResult result, Model model) {
+    public String savingEvent(@Valid Event event, BindingResult result, Model model, Principal principal) {
         if(result.hasErrors()){
             model.addAttribute("event", event);
             EventDTO eventDTO = new EventDTO();
@@ -92,7 +100,13 @@ public class EventDetailsController {
                 tempEvent.setEventName(event.getEventName());
                 tempEvent.setText(event.getText());
                 eventService.saveEvent(tempEvent);
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+
+
+                editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Eventdetails von: " + event.getEventName(), dateFormat.format(date)));
             }
+
             return "redirect:/eventDetails/"+event.getEventID();
         }
     }

@@ -102,7 +102,7 @@ public class ProjectDetailsController {
             Date date = new Date();
 
 
-            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projektdetails: " + projectDTO.getProject().getName(), dateFormat.format(date)));
+            editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projektdetails von: " + projectDTO.getProject().getName(), dateFormat.format(date)));
 
             return "redirect:/projectDetails/"+project.getProjectID();
         }
@@ -132,7 +132,7 @@ public class ProjectDetailsController {
         Date date = new Date();
 
 
-        editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projekt Mitarbeiter: " + projectDTO.getProject().getName(), dateFormat.format(date)));
+        editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projekt Mitarbeiter von: " + projectDTO.getProject().getName(), dateFormat.format(date)));
 
 
         return "projects/projectDetails";

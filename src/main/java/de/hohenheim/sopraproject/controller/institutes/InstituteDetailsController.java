@@ -128,7 +128,7 @@ public class InstituteDetailsController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
 
-        editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institutdetails Mitarbeiter: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
+        editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institut Mitarbeiter von: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
         return "institutes/instituteDetails";
     }
 

@@ -25,7 +25,7 @@
 <!-- Main Body of the user registration. It will only be available for the admins of this application. It features a small table, listing up all current users of this program
      as well as a button to open up a modal which allows te admin to create more users for this application-->
 <div class = "container-fluid body">
-    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"><i class="fa fa-handshake-o"></i> Mitarbeiter/User der Anwendung</h1>
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"><i class="fas fa-user-alt"></i> Mitarbeiter/User der Anwendung</h1>
     <form action = "#" th:action = "@{/registerUser}" th:object ="${user}" class="was-validated" method = "post">
         <div class="form-group ml-3 mt-2 mr-5">
             <!--Button to open up the modal to create a new user-->
@@ -279,8 +279,6 @@
         document.getElementById("usernameMessage").style.display = "none";
     }
 
-
-
     /**
      * Validation process of all the checked attributes
      *
@@ -305,9 +303,6 @@
             length.classList.add("invalid");
         }
     }
-
-
-
 
 </script>
 
