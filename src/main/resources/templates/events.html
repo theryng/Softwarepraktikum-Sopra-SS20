@@ -33,7 +33,7 @@
         <div class="form-group mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventSubmitModal">
-                <i class="far fa-plus-square"></i> Neues Event hinzufügen
+                Neues Event hinzufügen
             </button>
             <!-- Modal for Submit Button -->
             <div class="modal fade" id="eventSubmitModal" tabindex="-1" role="dialog" aria-labelledby="eventSubmitModalLabel" aria-hidden="true">
@@ -102,7 +102,7 @@
     <!-- ///////////////////////////////////////////////////////////////////////////// -->
     <div class="row mt-3 mb-5">
         <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
-            <h5><i class="fas fa-filter"></i> Sortieren nach Tags</h5>
+            <h5> Sortieren nach Tags</h5>
 
             <div th:each="tags : ${allTags}">
                 <form class="mt-2" ACTION="#" th:action="@{/sortByTagEvents}" th:object="${tag}" method="post">

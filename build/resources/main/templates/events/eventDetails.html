@@ -175,9 +175,7 @@
                                 <form ACTION="#" th:action="@{/deleteContactFromEvent}" th:object="${eventDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
-                                    <button type="submit" class="btn btn-danger">
-                                   <i class="fa fa-trash-alt"> </i>
-                                    </button>
+                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
