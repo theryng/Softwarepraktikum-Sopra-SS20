@@ -92,12 +92,12 @@
                         <div th:if="${viewConnection}" >
                             <div th:if="${projectOrEvent}" >
                                 <a>Es wurde bereits ein Projekt verknüpft, Verknüpfung aufheben?</a> <br>
-                                <a type="button" class="btn btn-secondary" th:href="@{/projectDetails/{ID}/(ID=${contactHistoryDTO.getConnectedID()})}" method="get" th:text="'Project einsehen'">
+                                <a type="button" class="btn btn-secondary mt-2" th:href="@{/projectDetails/{ID}/(ID=${contactHistoryDTO.getConnectedID()})}" method="get" th:text="'Project einsehen'">
                                 </a>
                             </div>
                             <div th:if="${not projectOrEvent}" >
                                 <a>Es wurde bereits ein Event verknüpft, Verknüpfung aufheben?</a> <br>
-                                <a type="button" class="btn btn-secondary" th:href="@{/eventDetails/{ID}/(ID=${contactHistoryDTO.getConnectedID()})}" method="get" th:text="'Event einsehen'">
+                                <a type="button" class="btn btn-secondary mt-2" th:href="@{/eventDetails/{ID}/(ID=${contactHistoryDTO.getConnectedID()})}" method="get" th:text="'Event einsehen'">
                                 </a>
                             </div>
                             <!-- Editing and Viewing general Information of the History -->
