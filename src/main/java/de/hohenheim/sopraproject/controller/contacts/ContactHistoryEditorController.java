@@ -121,7 +121,7 @@ public class ContactHistoryEditorController {
         model.addAttribute("viewConnection", checkConnection);
         model.addAttribute("contactHistoryDTO", contactHistoryDTO);
 
-        return "contactHistoryEditor";
+        return "redirect:/contactHistoryEditor/"+contactHistoryDTO.getOriginalContactID()+"/"+contactHistoryDTO.getContactHistory().getContactHistoryID();
     }
 
     /**
