@@ -46,6 +46,12 @@ public class EventDetailsController {
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(eventID);
+        if(event.getTags().size()>0){
+            model.addAttribute("viewTags", true);
+        }
+        else{
+            model.addAttribute("viewTags", false);
+        }
 
         eventDTO.setEvent(event);
         eventDTO.setEventID(event.getEventID());
@@ -152,9 +158,4 @@ public class EventDetailsController {
         }
         return false;
     }
-
-
-
-
-
 }

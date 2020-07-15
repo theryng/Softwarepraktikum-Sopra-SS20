@@ -25,12 +25,12 @@
     <h1 align="center" style="margin-top: 15px"><i class="far fa-address-book"></i>  Kontaktinformationen</h1>
     <div class="row ml-1">
         <form ACTION="#" th:action="@{/backContactDetails}" method="post">
-            <button type="submit" class="btn btn-secondary">Zurück</button>
+            <button class="btn btn-secondary" type="submit"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
         </form>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt"></i> Löschen
         </button>
 
         <!-- Modal -->
@@ -48,7 +48,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
                         <form ACTION="#" th:action="@{/deleteContact}" th:object="${contact}" method="post">
                             <input type="hidden" th:value="${contact.contactID}" th:name ="contactID" />
 
@@ -68,7 +68,7 @@
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h3 class = "text-dark">Allgemeine Kontaktinformationen</h3>
+                        <h3 class = "text-dark"><i class="fas fa-info-circle"></i> Allgemeine Kontaktinformationen</h3>
                     </button>
                 </h1>
             </div>
@@ -138,7 +138,7 @@
                         </div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
-                            Änderungen speichern
+                            <i class="far fa-save"></i> Änderungen speichern
                         </button>
 
                         <!-- Modal -->
@@ -155,8 +155,8 @@
                                         Sind sie sicher das Sie die Änderungen speichern möchten?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                                        <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
+                                        <button class="btn btn-primary" type="submit"><i class="far fa-save"></i> Änderungen speichern</button>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <h3 class = "text-dark">Beziehungen</h3>
+                        <h3 class = "text-dark"><i class="fas fa-handshake"></i> Beziehungen</h3>
                     </button>
                 </h2>
             </div>
@@ -208,7 +208,7 @@
 
                                 <!-- Button for Deletion of Relationship -->
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#relationshipModal">
-                                    Beziehung Löschen
+                                    <i class="fas fa-trash-alt"></i> Beziehung Löschen
                                 </button>
 
                                 <!-- Modal for Deletion of Relationships -->
@@ -245,7 +245,9 @@
                         Keine Beziehungen vorhanden, neue Beziehung hinzufügen?
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
-                    <a type="button" class="btn btn-primary" th:href="@{/relationshipCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+
+
+                    <a class="btn btn-primary" method="get" th:href="@{/relationshipCreator1/{contactId}(contactId=${contact.getContactID()})}" type="button"><i class="far fa-plus-square"></i> Neuen Eintrag erstellen
                     </a>
                 </div>
             </div>
@@ -255,7 +257,7 @@
             <div class="card-header" id="headingThree">
                 <h2>
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <h3 class = "text-dark">Kontakthistorien</h3>
+                        <h3 class = "text-dark"><i class="fas fa-history"></i> Kontakthistorien</h3>
                     </button>
                 </h2>
             </div>
@@ -290,7 +292,7 @@
                         Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
-                    <a type="button" class="btn btn-primary" th:href="@{/contactHistoryCreator1/{contactId}(contactId=${contact.getContactID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a class="btn btn-primary" method="get" th:href="@{/contactHistoryCreator1/{contactId}(contactId=${contact.getContactID()})}" type="button"> <i class="far fa-plus-square"></i> Neue Beziehung erstellen
                     </a>
 
                 </div>
@@ -303,7 +305,7 @@
             <div class="card-header" id="headingFour">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <h3 class = "text-dark">Tags</h3>
+                        <h3 class = "text-dark"><i class="fas fa-tags"></i> Tags</h3>
                     </button>
                 </h2>
             </div>
@@ -329,7 +331,7 @@
                         Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Contact History -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" method="get" th:text="'Tag zuordnen'">
+                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{contactId}(type= ${'contact'}, contactId=${contact.getContactID()})}" type="button"> <i class="fas fa-tags"></i> Tag zuordnen
                     </a>
                 </div>
             </div>

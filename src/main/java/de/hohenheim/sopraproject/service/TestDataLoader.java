@@ -385,7 +385,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         ContactHistory historyOneDates = new ContactHistory();
         historyOneDates.addContactHistoryContact(max);
         historyOneDates.addContactHistoryContact(julia);
-        historyOneDates.setText("Beim Kaffetrinken kennengelernt");
+        historyOneDates.setText("Beim Kaffetrinken in der Mensa kennengelernt");
         historyOneDates.setDate(LocalDate.of(2018, 4, 13));
         contactHistoryService.saveContacthistory(historyOneDates);
         max.setLastContact(LocalDate.of(2018, 4, 13));
@@ -396,7 +396,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyTwoDates.addContactHistoryContact(tristan);
         historyTwoDates.addContactHistoryContact(sabine);
         historyTwoDates.setDate(LocalDate.of(2020, 9, 30));
-        historyTwoDates.setText("Beim Teetrinken getroffen");
+        historyTwoDates.setText("Beim Teetrinken in der Mensa getroffen");
         contactHistoryService.saveContacthistory(historyTwoDates);
         alfred.setLastContact(LocalDate.of(2019, 9, 30));
         tristan.setLastContact(LocalDate.of(2019, 9, 30));
@@ -575,6 +575,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(frisbee);
 
         //Example institutes
+        Institute zalando = new Institute();
+        zalando.setName("Zalando");
+        zalando.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
+                "1010"));
+        zalando.setLinkToHomepage("www.zalando.de");
+        zalando.setEmail("zalando@web.de");
+        instituteService.saveInstitute(zalando);
+
         Institute deutscheBahnBerlin = new Institute();
         deutscheBahnBerlin.setName("Deutsche Bahn");
         deutscheBahnBerlin.setAddress(new Address("12345", "Musterstadt", "Musterstraße",

@@ -31,7 +31,7 @@
         <div class="form-group mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
-                Neues Institut hinzufügen
+                <i class="far fa-plus-square"></i> Neues Institut hinzufügen
             </button>
             <!-- Modal for Submit Button -->
             <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
@@ -104,7 +104,7 @@
     <!-- ///////////////////////////////////////////////////////////////////////////// -->
     <div class="row">
         <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
-            <h5>Sortieren nach Tags</h5>
+            <h5><i class="fas fa-filter"></i> Sortieren nach Tags</h5>
 
             <div th:each="tags : ${allTags}">
                 <form class="mt-2" ACTION="#" th:action="@{/sortByTagInstitutes}" th:object="${tag}" method="post">

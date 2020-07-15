@@ -23,12 +23,13 @@
     <!-- Main Body of the EventDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 align="center" class="ml-1" style="margin-top: 15px"><i class="fas fa-glass-cheers"></i> Event-Informationen</h1>
     <div class="row ml-1">
-        <a type="button" class="btn btn-secondary" th:href="@{/events}" method="get" th:text="'Zurück'">
-        </a>
+        <form ACTION="#" method="post" th:action="@{/events}">
+            <button class="btn btn-secondary" type="submit"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
+        </form>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            Event Löschen
+            <i class="fas fa-trash-alt"></i> Event Löschen
         </button>
 
         <!-- Modal -->
@@ -46,7 +47,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
                         <form ACTION="#" th:action="@{/deleteEvent}" th:object="${eventDTO}" method="post">
                             <input type="hidden" th:field="${eventDTO.eventID}" th:name ="eventID"/>
 
@@ -66,7 +67,7 @@
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h3 class = "text-dark">Allgemeine Eventinformationen</h3>
+                        <h3 class = "text-dark"><i class="fas fa-info-circle"></i> Allgemeine Eventinformationen</h3>
                     </button>
                 </h1>
             </div>
@@ -117,7 +118,7 @@
                         </div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
-                            Änderungen speichern
+                            <i class="far fa-save"></i> Änderungen speichern
                         </button>
 
                         <!-- Modal -->
@@ -134,8 +135,8 @@
                                         Sind sie sicher das Sie die Änderungen speichern möchten?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                                        <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
+                                        <button class="btn btn-primary" type="submit"><i class="far fa-save"></i> Änderungen speichern</button>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +153,7 @@
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <h3 class = "text-dark">Teilnehmer</h3>
+                        <h3 class = "text-dark"><i class="fas fa-users"></i> Teilnehmer</h3>
                     </button>
                 </h2>
             </div>
@@ -174,7 +175,7 @@
                                 <form ACTION="#" th:action="@{/deleteContactFromEvent}" th:object="${eventDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
-                                    <button type="submit" class="btn btn-danger">Teilnehmer entfernen </button>
+                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Teilnehmer entfernen </button>
                                 </form>
                             </td>
                         </tr>
@@ -185,7 +186,7 @@
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
                     <!-- Button to enable the adding of other Contacts -->
-                    <a type="button" class="btn btn-primary" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" method="get" th:text="'Neuen Eintrag erstellen'">
+                    <a class="btn btn-primary" method="get" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" type="button"> <i class="far fa-plus-square"></i> Neuen Teilnehmer hinzufügen
                     </a>
 
                 </div>
@@ -197,7 +198,7 @@
             <div class="card-header" id="headingFour">
                 <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <h3 class = "text-dark">Tags</h3>
+                        <h3 class = "text-dark"><i class="fas fa-tags"></i> Tags</h3>
                     </button>
                 </h2>
             </div>
@@ -219,11 +220,11 @@
                     </div>
 
                     <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-5 mb-2" th:if="${not viewTable}" >
-                        Keine Kontakthistorien vorhanden, neue Kontakthistorie anlegen?
+                    <div class="mr-5 mt-2 mb-2" th:if="${not viewTags}" >
+                        Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Tag zuordnen'">
+                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" type="button"> <i class="fas fa-tags"></i> Tag zuordnen
                     </a>
 
                 </div>
