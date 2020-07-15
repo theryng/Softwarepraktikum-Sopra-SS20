@@ -30,7 +30,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            <i class="fas fa-trash-alt"></i> Projekt Löschen
+            <i class="fas fa-trash-alt"></i>
         </button>
 
         <!-- Modal -->
@@ -38,7 +38,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Institut löschen</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Projekt löschen</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -96,9 +96,7 @@
                         </div>
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
-                            <i class="far fa-save"></i> Änderungen speichern
-                        </button>
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">Änderungen speichern</button>
 
                         <!-- Modal -->
                         <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
@@ -114,15 +112,13 @@
                                         Sind sie sicher das Sie die Änderungen speichern möchten?
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
-                                        <button class="btn btn-primary" type="submit"><i class="far fa-save"></i> Änderungen speichern</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Abbrechen</button>
+                                        <button class="btn btn-primary" type="submit">Änderungen speichern</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </form>
-
                 </div>
             </div>
         </div>
@@ -153,7 +149,7 @@
                                 <form ACTION="#" th:action="@{/deleteContactFromProject}" th:object="${projectDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <input type="hidden" th:value="${projectDTO.projectID}" th:name ="projectID" />
-                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Mitarbeiter entfernen </button>
+                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -204,7 +200,7 @@
                         Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{projectID}(type= ${'project'}, projectID=${project.getProjectID()})}" type="button"> <i class="fas fa-tags"></i> Tag zuordnen
+                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{projectID}(type= ${'project'}, projectID=${project.getProjectID()})}" type="button">Tag zuordnen
                     </a>
 
                 </div>
