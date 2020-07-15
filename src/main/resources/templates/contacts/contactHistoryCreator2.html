@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <!--fontawesome button pics-->
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Neue Beziehung</title>
 </head>
 <body class="backgroundimage">
@@ -27,7 +30,7 @@
             </div>
         </div>
         <!--Button to return to contactHistoryCreator1-->
-        <a type="button" class="btn btn-secondary mt-2 ml-5" th:href="@{/contactHistoryCreator1/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
+        <a type="button" class="btn btn-secondary mt-2 ml-5" th:href="@{/contactHistoryCreator1/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get"><i class="far fa-arrow-alt-circle-left"></i> Zurück
         </a>
 
 

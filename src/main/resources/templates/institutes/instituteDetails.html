@@ -48,7 +48,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"> Abbrechen</button>
                         <form ACTION="#" th:action="@{/deleteInstitute}" th:object="${instituteDTO}" method="post">
                             <input type="hidden" th:value="${instituteDTO.instituteID}" th:name ="instituteID" />
 
@@ -168,7 +168,7 @@
                                 <form ACTION="#" th:action="@{/deleteContactFromInstitute}" th:object="${instituteDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <input type="hidden" th:value="${instituteDTO.instituteID}" th:name ="instituteID" />
-                                    <button type="submit" class="btn btn-danger"></button>
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -179,7 +179,7 @@
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
                     <!-- Button to enable the adding of other Contacts -->
-                    <a class="btn btn-primary" method="get" th:href="@{/instituteContactCreator/{instituteID}(instituteID=${instituteDTO.getInstituteID()})}" type="button"> <i class="far fa-plus-square"></i> Neuen Mitarbeiter hinzufügen
+                    <a class="btn btn-primary" method="get" th:href="@{/instituteContactCreator/{instituteID}(instituteID=${instituteDTO.getInstituteID()})}" type="button">Neuen Mitarbeiter hinzufügen
                     </a>
 
                 </div>
