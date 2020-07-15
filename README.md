@@ -1,4 +1,12 @@
 # Softwarepraktikum-Sopra-SS20
 Softwarepraktikum im SS20
 
-Korrektur der Aufgabe 3.2 bitte in Branch: "AbgabeBranch"
+v1.0 Final Release
+
+Finale Korrektur im Masterbranch
+
+Copyright:
+Mark Wagner;
+Chris Hasselbach;
+Sergej Bensack;
+Lukas Januschke
