@@ -47,29 +47,28 @@
                         </div>
                         <!--Inputs for an Event in a small Modal once the button: Neues Event hinzufügen is pushed-->
                         <div class="modal-body">
-                            Name: <input type="text" class="form-control" name = "name"
+                            Name: <input type="text" class="form-control" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" name = "name"
                                          title="Ein Name darf keinerlei Sonderzeichen enthalten"
                                          th:field="*{event.eventName}" required>
-                            <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Datum:<input type="date" id="start" class="form-control" name="date" th:field="*{event.date}">
+                            Datum:<input type="date" id="start" class="form-control" name="date" max='2200-01-01' th:field="*{event.date}">
                             Freier Text: <input type="text" id="text" class="form-control" name="date" th:field="*{event.text}"><br>
 
                             <div class = "row">
                                 <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{event.address.city}" required/>
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$"  th:field="*{event.address.city}"/>
 
                                 </div>
                                 <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{event.address.street}" required/>
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{event.address.street}"/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{event.address.houseNumber}" type="text"/>
+                                    Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$" th:field="*{event.address.houseNumber}" type="text"/>
                                 </div>
                                 <div class = "col">
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{event.address.zipCode}"
-                                                        pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
+                                                        pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang"/>
                                 </div>
                             </div>
                         </div>

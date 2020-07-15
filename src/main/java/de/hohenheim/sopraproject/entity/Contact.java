@@ -52,7 +52,7 @@ public class Contact {
     private String searchString;
 
     @Embedded
-    private Address address;
+    private Address address = new Address();
 
     private String hobby;
 

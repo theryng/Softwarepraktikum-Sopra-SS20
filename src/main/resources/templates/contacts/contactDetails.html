@@ -85,10 +85,10 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Vorname: <input type="text" class="form-control" name = "firstname"  maxlength="40" th:field="*{firstname}" required/> </br>
+                                        Vorname: <input type="text" class="form-control" name = "firstname"  maxlength="40"pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{firstname}" required/> </br>
                                     </div>
                                     <div class = "col w-25">
-                                        Nachname:<input type="text" class="form-control" name = "lastname" maxlength="40"   th:field="*{lastname}" required/></br>
+                                        Nachname:<input type="text" class="form-control" name = "lastname" maxlength="40"  pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{lastname}" required/></br>
                                     </div>
                                 </div>
                                 <div>
@@ -119,16 +119,16 @@
 
                         <div class = "row">
                             <div class = "col">
-                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}"/>
+                                Stadt:<input type="text" class="form-control" name = "tempCity" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{address.city}"/>
 
                             </div>
                             <div class = "col">
-                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" pattern="[^0-9]*" th:field="*{address.street}"
+                                Straße:<input type="text" class="form-control" name = "tempStreet" pattern="[^0-9]*" th:field="*{address.street}"
                                               title="Darf keine Zahlen enthalten"/>
                                 <div class="invalid-feedback">Bitte geben sie eine Straße an</div></br>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
+                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  th:field="*{address.houseNumber}" type="text"/>
                                 <div class="invalid-feedback">Bitte geben sie eine Hausnummer an</div></br>
                             </div>
                             <div class = "col">

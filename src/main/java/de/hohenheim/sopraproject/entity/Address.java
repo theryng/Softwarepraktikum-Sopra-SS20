@@ -12,15 +12,20 @@ import java.util.regex.Pattern;
 @Embeddable
 public class Address {
 
-    public String zipCode;
+    public String zipCode = "";
 
-    public String city;
+    public String city = "";
 
-    public String street;
+    public String street = "";
 
-    public String houseNumber;
+    public String houseNumber = "";
 
-    public Address(){};
+    public Address(){
+        zipCode = "";
+        city = "";
+        street = "";
+        houseNumber = "";
+    };
 
     /**
      * The constructor which calls the setter methods of the specified attributes, to ensure that all the defensive

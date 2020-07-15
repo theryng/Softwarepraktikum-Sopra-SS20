@@ -18,10 +18,10 @@
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<div class="container-fluid-eventDetails">
+<div class="container-fluid">
 
     <!-- Main Body of the EventDetails Site, includes general Information, aswell as Memberships and Tags, which all can be Edited or removed-->
-    <h1 align="center" class="ml-1" style="margin-top: 15px"><i class="fas fa-glass-cheers"></i> Eventinformationen</h1>
+    <h1 align="center" class="ml-1" style="margin-top: 15px"><i class="fas fa-glass-cheers"></i> Event-Informationen</h1>
     <div class="row ml-1">
         <a type="button" class="btn btn-secondary" th:href="@{/events}" method="get">
             <i class="far fa-arrow-alt-circle-left"></i> Zurück
@@ -86,34 +86,34 @@
                             <div class = "col">
                                 <div class = "row">
                                     <div class = "col w-25">
-                                        Eventname: <input type="text" class="form-control" name = "eventName"  th:field="*{eventName}" required/> </br>
+                                        Eventname: <input type="text" class="form-control" name = "eventName" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{eventName}" required/> </br>
                                     </div>
 
                                 </div>
 
                             </div>
                             <div class = "col">
-                                Datum:<input type="date" id="start" class="form-control" name="date"  th:field="*{date}"></br>
+                                Datum:<input type="date" id="start" class="form-control" name="date" max='2200-01-01' th:field="*{date}"></br>
 
                             </div>
 
                         </div>
-                        <div class = "row"> <div class = "col"> Freier Text:<input type="text" class="form-control" name = "text" rows="3" th:field="*{text}"/></br>
+                        <div class = "row"> <div class = "col"> Freier Text:<input type="text" class="form-control" name ="text" rows="3" th:field="*{text}"/></br>
                         </div> </div>
                         <div class = "row">
                             <div class = "col">
-                                Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{address.city}" required/>
+                                Stadt:<input type="text" class="form-control" name = "tempCity" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{address.city}"/>
 
                             </div>
                             <div class = "col">
-                                Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{address.street}" required/>
+                                Straße:<input type="text" class="form-control" name = "tempStreet" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{address.street}"/>
                             </div>
                             <div class = "col">
-                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
+                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$" th:field="*{address.houseNumber}" type="text"/>
                             </div>
                             <div class = "col">
                                 Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{address.zipCode}"
-                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
+                                                    pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang"/>
                             </div>
                         </div>
                         <!-- Button trigger modal -->
@@ -220,9 +220,9 @@
                         </div>
                     </div>
 
-                    <!-- If Statement if no Relationship is available -->
-                    <div class="mr-5 mt-2 mb-2" th:if="${not viewTags}" >
-                        Keine Tags zugeordnet, neuen Tag zuordnen?
+                    <!-- If Statement if no Tag is available -->
+                    <div class="mr-5 mt-2 mb-2" th:if="${not viewTable}" >
+                        Keine Tags vorhanden, neuen Tag anlegen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
                     <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Tag zuordnen'">

@@ -86,28 +86,28 @@
                         <!--Viewing and Editing general Informations of the Institute-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
-                                         pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
+                                         pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$"
                                          th:field="*{institute.name}" required>
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{institute.linkToHomepage}" required/></br>
+                            Homepage:<input type="text" class="form-control" name = "linkToHomepage" th:field="*{institute.linkToHomepage}"/></br>
 
-                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{institute.email}" required/></br>
+                            E-Mail:<input type="email" class="form-control" name = "linkToHomepage" th:field="*{institute.email}"/></br>
                             <div class = "row">
                                 <div class = "col">
-                                    Stadt:<input type="text" class="form-control" name = "tempCity" minlength="3" th:field="*{institute.address.city}" required/>
+                                    Stadt:<input type="text" class="form-control" name = "tempCity" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{institute.address.city}"/>
 
                                 </div>
                                 <div class = "col">
-                                    Straße:<input type="text" class="form-control" name = "tempStreet" minlength="3" th:field="*{institute.address.street}" required/>
+                                    Straße:<input type="text" class="form-control" name = "tempStreet" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" th:field="*{institute.address.street}"/>
                                 </div>
                                 <div class = "col">
-                                    Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{institute.address.houseNumber}" type="text"/>
+                                    Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  th:field="*{institute.address.houseNumber}" type="text"/>
                                 </div>
                                 <div class = "col">
                                     Postleitzahl:<input type="text" class="form-control" name = "tempZipCode" th:field="*{institute.address.zipCode}"
-                                                        pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang" required/>
+                                                        pattern="^[0-9]{5}$" title="Postleitzahlen bestehen nur aus Zahlen und sind 5 Zeichen lang"/>
                                 </div>
                             </div>
                         </div>
