@@ -175,7 +175,7 @@ public class EventDetailsController {
      */
     @GetMapping("/deleteEventTag")
     public String deleteEventTag(TagsDTO tagsDTO) {
-        List<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
+        Set<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
 
         Tags removeTag = new Tags();
         for(Tags tag : tags){

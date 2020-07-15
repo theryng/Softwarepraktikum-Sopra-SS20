@@ -143,7 +143,7 @@ public class InstituteDetailsController {
 
     @GetMapping("/deleteInstituteTag")
     public String deleteInstituteTag(TagsDTO tagsDTO) {
-        List<Tags> tags = instituteService.findByInstitutesID(tagsDTO.getOriginalID()).getTags();
+        Set<Tags> tags = instituteService.findByInstitutesID(tagsDTO.getOriginalID()).getTags();
 
         Tags removeTag = new Tags();
         for(Tags tag : tags){

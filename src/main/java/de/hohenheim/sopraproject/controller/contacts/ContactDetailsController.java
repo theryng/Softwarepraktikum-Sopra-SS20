@@ -161,7 +161,7 @@ public class ContactDetailsController {
      */
     @GetMapping("/deleteContactTag")
     public String deleteContactTag(TagsDTO tagsDTO) {
-        List<Tags> tags = contactService.findByContactID(tagsDTO.getOriginalID()).getTags();
+        Set<Tags> tags = contactService.findByContactID(tagsDTO.getOriginalID()).getTags();
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){

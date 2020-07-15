@@ -1,8 +1,10 @@
 package de.hohenheim.sopraproject.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Tags {
@@ -13,14 +15,14 @@ public class Tags {
 
     private String name;
     @ManyToMany
-    private List<Contact> contacts = new LinkedList<>();
+    private Set<Contact> contacts = new HashSet<>();
     @ManyToMany
-    private List<Institute> institutes = new LinkedList<>();
+    private Set<Institute> institutes = new HashSet<>();
     @ManyToMany
-    private List<Event> events = new LinkedList<>();
+    private Set<Event> events = new HashSet<>();
 
     @ManyToMany
-    private List<Project> projects = new LinkedList<>();
+    private Set<Project> projects = new HashSet<>();
 
     public Tags() {
     }
@@ -40,27 +42,27 @@ public class Tags {
         this.name = name;
     }
 
-    public List<Contact> getContacts() {
+    public Set<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public List<Institute> getInstitutes() {
+    public Set<Institute> getInstitutes() {
         return institutes;
     }
 
-    public void setInstitutes(List<Institute> institutes) {
+    public void setInstitutes(Set<Institute> institutes) {
         this.institutes = institutes;
     }
 
-    public List<Event> getEvents() {
+    public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(Set<Event> events) {
         this.events = events;
     }
 
@@ -68,11 +70,11 @@ public class Tags {
         return name;
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 }

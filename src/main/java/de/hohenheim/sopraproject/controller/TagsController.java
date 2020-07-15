@@ -165,13 +165,31 @@ public class TagsController {
             projectService.saveProject(project);
             return "redirect:/projectDetails/"+tagsDTO.getOriginalID();
         }
-
-
-
         return null;
     }
 
 
+    @PostMapping(value ="/returnTag")
+    public String returnTag(TagsDTO tagsDTO, Model model) {
 
+        String objectType = tagsDTO.getType();
+        Integer id = Integer.valueOf(tagsDTO.getOriginalID());
+        if(objectType.equals("contact")){
+            return "redirect:/contactDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("event")){
+            return "redirect:/eventDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("institute")){
+            return "redirect:/instituteDetails/"+tagsDTO.getOriginalID();
+        }
+
+        else if(objectType.equals("project")){
+            return "redirect:/projectDetails/"+tagsDTO.getOriginalID();
+        }
+        return null;
+    }
 
 }

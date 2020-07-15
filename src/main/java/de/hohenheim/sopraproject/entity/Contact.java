@@ -77,7 +77,7 @@ public class Contact {
     private Set<ContactHistory> contactHistory = new HashSet<>();
 
     @ManyToMany (mappedBy = "contacts", cascade = CascadeType.ALL)
-    private List<Tags> tags = new LinkedList<>();
+    private Set<Tags> tags = new HashSet<>();
 
 
     public Contact(String firstname, String lastname, String occupation, String email,
@@ -321,11 +321,11 @@ public class Contact {
         this.contactHistory = contactHistory;
     }
 
-    public List<Tags> getTags() {
+    public Set<Tags> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tags> tags) {
+    public void setTags(Set<Tags> tags) {
         this.tags = tags;
     }
 

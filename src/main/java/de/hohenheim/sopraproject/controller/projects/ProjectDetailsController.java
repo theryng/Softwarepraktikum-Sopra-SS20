@@ -147,7 +147,7 @@ public class ProjectDetailsController {
 
     @GetMapping("/deleteProjectTag")
     public String deleteProjectTag(TagsDTO tagsDTO) {
-        List<Tags> tags = projectService.findByProjectID(tagsDTO.getOriginalID()).getTags();
+        Set<Tags> tags = projectService.findByProjectID(tagsDTO.getOriginalID()).getTags();
 
         Tags removeTag = new Tags();
         for(Tags tag : tags){
