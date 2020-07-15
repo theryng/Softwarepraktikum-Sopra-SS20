@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <!--fontawesome button pics-->
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Verknüpfen</title>
 </head>
 <body class="backgroundimage">
@@ -36,8 +39,15 @@
         <form class="mt-2" ACTION="#" th:action="@{/searchContactHistoryProject}" th:object="${contactHistoryDTO}" method="post">
             <input type="hidden" th:value="*{originalContactID}" th:name ="originalContactID"/>
             <input type="hidden" th:value="*{originalContactHistoryID}" th:name ="originalContactHistoryID"/>
-            <input th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" />
-            <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+            <div class="row">
+                <div class = "col-11">
+                    <input class="form-control" type="text" th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                           title="Suche nach Vorname, Nachname und E-Mail möglich">
+                </div>
+                <div class = "col-1 justify-content-end">
+                    <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                </div>
+            </div>
         </form>
         <!-- Table with the Possible Results -->
         <table th:if="${viewTable}" class="table table-striped mt-3">
