@@ -18,18 +18,18 @@
 <!--Navbar fragment on top of the site. Contains all navigation elements of the project as well as the dropdown menu in order to view the options, logout or add User button-->
 <header th:insert="fragments/htmlHead.html :: header"> </header>
 
-<div class="container-fluid">
+<div class="container-fluid-eventDetails">
 
-    <!-- Main Body of the EventDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
-    <h1 align="center" class="ml-1" style="margin-top: 15px"><i class="fas fa-glass-cheers"></i> Event-Informationen</h1>
+    <!-- Main Body of the EventDetails Site, includes general Information, aswell as Memberships and Tags, which all can be Edited or removed-->
+    <h1 align="center" class="ml-1" style="margin-top: 15px"><i class="fas fa-glass-cheers"></i> Eventinformationen</h1>
     <div class="row ml-1">
-        <form ACTION="#" method="post" th:action="@{/events}">
-            <button class="btn btn-secondary" type="submit"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
-        </form>
+        <a type="button" class="btn btn-secondary" th:href="@{/events}" method="get">
+            <i class="far fa-arrow-alt-circle-left"></i> Zurück
+        </a>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            <i class="fas fa-trash-alt"></i> Event Löschen
+            <i class="fas fa-trash-alt"></i>
         </button>
 
         <!-- Modal -->
@@ -47,7 +47,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                         <form ACTION="#" th:action="@{/deleteEvent}" th:object="${eventDTO}" method="post">
                             <input type="hidden" th:field="${eventDTO.eventID}" th:name ="eventID"/>
 
@@ -63,7 +63,7 @@
     <div class="accordion mt-2" id="accordionExample">
         <div class="card">
 
-            <!-- First Accordion Element, with general Information of the viewed Contact-->
+            <!-- First Accordion Element, with general Information of the viewed Event-->
             <div class="card-header" id="headingOne">
                 <h1 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -118,7 +118,7 @@
                         </div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
-                            <i class="far fa-save"></i> Änderungen speichern
+                            Änderungen speichern
                         </button>
 
                         <!-- Modal -->
@@ -135,8 +135,8 @@
                                         Sind sie sicher das Sie die Änderungen speichern möchten?
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
-                                        <button class="btn btn-primary" type="submit"><i class="far fa-save"></i> Änderungen speichern</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                        <button type="submit" class="btn btn-primary">Änderungen speichern</button>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
-                    <!--Table for Relationships-->
+                    <!--Table for Memberships-->
                     <table class="table table-striped" th:if="${viewTable}">
                         <tr>
                             <th>Name</th>
@@ -175,7 +175,9 @@
                                 <form ACTION="#" th:action="@{/deleteContactFromEvent}" th:object="${eventDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
-                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Teilnehmer entfernen </button>
+                                    <button type="submit" class="btn btn-danger">
+                                   <i class="fa fa-trash-alt"> </i>
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -184,16 +186,15 @@
                     <div class="mr-5 mt-2 mb-2" th:if="${not viewTable}">
                         Event hat keine Teilnehmer, neuen Teilnehmer zuordnen?
                     </div>
-                    <!-- Button to Start Creation of new Relationship -->
-                    <!-- Button to enable the adding of other Contacts -->
-                    <a class="btn btn-primary" method="get" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" type="button"> <i class="far fa-plus-square"></i> Neuen Teilnehmer hinzufügen
+                    <!-- Button to Start Creation of new Membership -->
+                    <a type="button" class="btn btn-primary" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" method="get" th:text="'Teilnehmer hinzufügen'">
                     </a>
 
                 </div>
             </div>
         </div>
 
-        <!-- Third Accordion Element for Viewing of Contact Histories-->
+        <!-- Third Accordion Element for Viewing of Tags-->
         <div class="card">
             <div class="card-header" id="headingFour">
                 <h2 class="mb-0">
@@ -224,7 +225,7 @@
                         Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" type="button"> <i class="fas fa-tags"></i> Tag zuordnen
+                    <a type="button" class="btn btn-primary" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" method="get" th:text="'Tag zuordnen'">
                     </a>
 
                 </div>

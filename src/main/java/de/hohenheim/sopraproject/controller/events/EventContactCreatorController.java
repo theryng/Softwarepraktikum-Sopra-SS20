@@ -1,14 +1,11 @@
 package de.hohenheim.sopraproject.controller.events;
 
 import de.hohenheim.sopraproject.dto.EventDTO;
-import de.hohenheim.sopraproject.dto.InstituteDTO;
 import de.hohenheim.sopraproject.entity.Contact;
 import de.hohenheim.sopraproject.entity.Event;
-import de.hohenheim.sopraproject.entity.Institute;
 import de.hohenheim.sopraproject.service.ContactFinder;
 import de.hohenheim.sopraproject.service.ContactService;
 import de.hohenheim.sopraproject.service.EventService;
-import de.hohenheim.sopraproject.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +25,10 @@ public class EventContactCreatorController {
     private EventService eventService;
 
     /**
-     * Main method of the Relationship Creator
+     * Main method of the Membership Creator
      * Also adds necessary Attributes
      * @param model
-     * @return institutes/instituteContactCreator
+     * @return events/EventContactCreator
      */
     @GetMapping("/eventContactCreator/{eventID}")
     public String eventContactCreator(@PathVariable("eventID") Integer contactID, Model model) {
@@ -44,10 +41,10 @@ public class EventContactCreatorController {
     }
 
     /**
-     * searches for a Contact to have a relationship with
+     * searches for a Contact to have a membership with
      * uses the findContacts method of the ContactFinder class
      * @param eventDTO
-     * @return institutes/instituteContactCreator
+     * @return events/eventContactCreator
      */
     @RequestMapping(value ="/searchEventContact", method = RequestMethod.POST)
     public String searchEventContact(EventDTO eventDTO, Model model) {
@@ -63,8 +60,8 @@ public class EventContactCreatorController {
     }
 
     /**
-     * Sets the Contact to have a Relationship with
-     * @return relationshipCreator2
+     * Sets the Event to have a Membership with
+     *
      */
     @RequestMapping(value = "/setEventContact", method = RequestMethod.POST)
     public String setEventContact(EventDTO eventDTO) {
