@@ -78,6 +78,7 @@ public class EventDetailsController {
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("event", event);
         model.addAttribute("viewTable", checkTables(event.getContacts()));
+        model.addAttribute("viewTag", checkTags(event.getTags()));
         model.addAttribute("tagDTO", tagsDTO);
         return "events/eventDetails";
     }
@@ -108,6 +109,7 @@ public class EventDetailsController {
             model.addAttribute("eventDTO", eventDTO);
             model.addAttribute("event", tempEvent);
             model.addAttribute("viewTable", checkTables(tempEvent.getContacts()));
+            model.addAttribute("viewTag", checkTags(tempEvent.getTags()));
             return "events/eventDetails";
         }
         else{
@@ -200,6 +202,13 @@ public class EventDetailsController {
 
     private boolean checkTables(Set<Contact> contacts){
         if(contacts.size()>0){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkTags(Set<Tags> tags){
+        if(tags.size()>0){
             return true;
         }
         return false;
