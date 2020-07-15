@@ -201,10 +201,7 @@
 .table-wrapper-scroll-y {
     display: block;
 }
-.body{
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-}
+
 input[type="text"], textarea {
     border-radius: 0px;
 }
