@@ -35,9 +35,16 @@
         <h4>Um einen weiteren Teilnehmer hinzuzufügen, wählen Sie einen Kontakt</h4>
         <!-- Search Button, to search for a certain Contact to have a Relationship with -->
         <form class="mt-2" ACTION="#" th:action="@{/searchEventContact}" th:object="${eventDTO}" method="post">
-            <input th:value="${eventDTO.searchWord}" th:name ="searchWord" />
-            <input type = "hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
-            <button type="submit" class="btn btn-danger ml-2" >Suchen </button>
+             <input type = "hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
+            <div class="row">
+                <div class = "col-11">
+                    <input class="form-control" type="text" th:value="${eventDTO.searchWord}" th:name ="searchWord" placeholder="Suchen" aria-label="Search"
+                           title="Suche nach Vorname, Nachname und E-Mail möglich">
+                </div>
+                <div class = "col-1 justify-content-end">
+                    <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                </div>
+            </div>
         </form>
         <!-- Table with the Possible Results -->
         <table th:if="${viewTable}" class="table table-striped mt-3">

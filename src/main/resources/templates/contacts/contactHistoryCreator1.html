@@ -30,7 +30,7 @@
         </div>
         <!--Back Button which returns to the ContactDetails page-->
         <!-- Back button to return to contactDetails -->
-        <a type="button" class="btn btn-secondary ml-5" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get"><i class="far fa-arrow-alt-circle-left"></i> Zurück
+        <a type="button" class="btn btn-secondary ml-5 mt-2" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get"><i class="far fa-arrow-alt-circle-left"></i> Zurück
         </a>
 
         <!--General Informations-->
@@ -43,7 +43,7 @@
                     <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
                     <div class="row">
                         <div class = "col-11">
-                            <input class="form-control" type="text" th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                            <input class="form-control" type="text" th:value="${contactHistoryDTO.searchWord}" th:name ="searchWord" placeholder="Suchen" aria-label="Search"
                                    title="Suche nach Vorname, Nachname und E-Mail möglich">
                         </div>
                         <div class = "col-1 justify-content-end">

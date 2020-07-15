@@ -137,7 +137,7 @@ public class InstituteDetailsController {
         Date date = new Date();
 
         editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institut Mitarbeiter von: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
-        return "institutes/instituteDetails";
+        return "redirect:/instituteDetails/"+instituteDTO.getInstituteID();
     }
 
 
