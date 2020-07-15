@@ -14,6 +14,22 @@ public class EditingHistoryService {
     private EditingHistoryRepository editingHistoryRepository;
 
     public EditingHistory saveEditingHistory(EditingHistory editingHistory) {
+        List<EditingHistory> list = editingHistoryRepository.findAll();
+        for(EditingHistory elem : list){
+            if(elem.getDate().equals(editingHistory.getDate())
+            && elem.getObjectEdited().equals(editingHistory.getObjectEdited())
+            && elem.getUser().equals(editingHistory.getUser())
+            ){
+                System.out.println("Double Entry");
+                return null;
+            }
+        }
+        if(list.size()>8){
+            System.out.println("oversized");
+            list.remove(0);
+            editingHistoryRepository.deleteAll();
+            editingHistoryRepository.saveAll(list);
+        }
         return editingHistoryRepository.save(editingHistory);
     }
 

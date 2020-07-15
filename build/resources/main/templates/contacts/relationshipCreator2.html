@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="alert alert-success" role="alert">
-                    Gewählter Kontakt: <a th:text = "${relationshipDTO.getRelationship().getContactB().getFirstname()}">  </a></br>
+                    Gewählter Kontakt: <a th:text = "${relationshipDTO.getRelationship().getContactB().getFirstname()} + ' ' + ${relationshipDTO.getRelationship().getContactB().getLastname()}">  </a></br>
                 </div>
                     Art der Beziehung:<input type="text" class="form-control" name = "occupation" th:field="*{relationship.typeOfRelationship}"/></br>
                     Datum des Begins der Beziehung: <input type="date" id="start" maxlength="8" class="form-control" name="trip-start"  max="2200-01-01" th:field="*{relationship.since}"></br>

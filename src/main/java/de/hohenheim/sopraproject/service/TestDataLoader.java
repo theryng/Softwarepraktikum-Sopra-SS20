@@ -671,6 +671,16 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         heirat.setTypeOfRelationship("Verheiratet");
         relationshipService.saveRelationship(heirat);
 
+        //Test data for relationships between contacts
+        Relationship heirat2 = new Relationship();
+        heirat2.setContactA(anna);
+        heirat2.setContactB(max);
+        heirat2.setSinceDate(2010, 01, 30);
+        heirat2.setTypeOfRelationship("Verheiratet");
+        heirat2.setPartnerRelationship(heirat.getRelationshipID());
+        relationshipService.saveRelationship(heirat2);
+        heirat.setPartnerRelationship(heirat2.getRelationshipID());
+
         Project covid = new Project();
         covid.setName("Corona tracking App");
         covid.setDescription("Entwickeln einer Corona tracking App to flatten the curve");
