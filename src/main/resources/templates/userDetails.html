@@ -27,12 +27,12 @@
     <div class="row ml-1">
         <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == true}">
         <form ACTION="#" th:action="@{/backUserDetails}" method="post">
-            <button type="submit" class="btn btn-secondary">Zurück</button>
+            <button type="submit" class="btn btn-secondary"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
         </form>
         </div>
         <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == false}">
             <form ACTION="#" th:action="@{/backHome}" method="post">
-                <button type="submit" class="btn btn-secondary">Zurück</button>
+                <button type="submit" class="btn btn-secondary"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
             </form>
         </div>
     </div>

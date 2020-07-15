@@ -23,9 +23,9 @@
 
 <!-- Main Body of the event html site. It shows a table across the site showing off all the important information of the events. These informations contain
         the name, their date, their address and a function column filled with a button per event that allows the user to edit/delete the said event-->
-<div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
+<div class = "container-fluid"> <!--Tabelle?-->
 
-    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"> <i class="fas fa-glass-cheers"></i>  Events</h1>
+    <h1 align="center" style="margin-top: 15px"> <i class="fas fa-glass-cheers"></i>  Events</h1>
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
     <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
@@ -128,15 +128,15 @@
                 <tr th:each="event : ${eventDTO.getAllEvents()}">
                     <td>
                         <a>Name</a>
-                        <h6 th:text="${event.eventName}"></h6>
+                        <h6 class="tableElement" th:text="${event.eventName}"></h6>
                     </td>
                     <td>
                         <a>Datum</a>
-                        <h6 th:text="${event.date}"></h6>
+                        <h6 class="tableElement" th:text="${event.date}"></h6>
                     </td>
                     <td>
                         <a>Adresse</a>
-                        <h6 th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></h6>
+                        <h6 class="tableElement" th:text="${event.address.street} + ' ' + ${event.address.houseNumber} + ', ' + ${event.address.zipCode} + ' ' + ${event.address.city}"></h6>
                     </td>
                     <td>
                         <!--Button that opens up the editing window-->
