@@ -155,15 +155,24 @@
                     <!--Table for Relationships-->
                     <table class="table table-striped" th:if="${viewTable}">
                         <tr>
-                            <th>Name</th>
-                            <th>Studium</th>
-                            <th>Homepage</th>
-                            <th>Funktionen</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         <tr th:each="contact : ${instituteDTO.institute.contacts}">
-                            <td th:text="${contact.firstname + ' ' + contact.lastname}"></td>
-                            <td th:text="${contact.courseOfStudies}"></td>
-                            <td th:text="${contact.linkToHomepage}"></td>
+                            <td>
+                                <a>Name</a>
+                                <h6 class="tableElement" th:text="${contact.firstname + ' ' + contact.lastname}"></h6>
+                            </td>
+                            <td>
+                                <a>Studium</a>
+                                <h6 class="tableElement" th:text="${contact.courseOfStudies}"></h6>
+                            </td>
+                            <td>
+                                <a>Homepage</a>
+                                <h6 class="tableElement" th:text="${contact.linkToHomepage}"></h6>
+                            </td>
                             <td>
                                 <form ACTION="#" th:action="@{/deleteContactFromInstitute}" th:object="${instituteDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />

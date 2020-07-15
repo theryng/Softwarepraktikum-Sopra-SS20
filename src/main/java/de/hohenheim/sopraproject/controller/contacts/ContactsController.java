@@ -79,24 +79,6 @@ public class ContactsController {
      */
     @RequestMapping(value="/saveContact", method = RequestMethod.POST)
     public String saveContact(@Valid Contact contact, BindingResult result, Principal principal, Model model){
-//        if(result.hasErrors()){
-//            System.out.println("Result has Error");
-//            String searchword = "";
-//            List<Contact> allContacts = contactService.findAllContacts();
-//            boolean showList = false;
-//            if(allContacts.size()>0){
-//                showList = true;
-//            }
-//            model.addAttribute("allContacts", contactService.findAllContacts());
-//            model.addAttribute("showList", showList);
-//            model.addAttribute("allContacts", allContacts);
-//            model.addAttribute("searchWord", "");
-//            model.addAttribute("contact", new Contact());
-//            model.addAttribute("allTags", tagsService.findAllTags());
-//            model.addAttribute("tag", new Tags());
-//            return "contacts";
-//        }
-        //else{
             contactService.saveContact(contact);
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -104,7 +86,6 @@ public class ContactsController {
 
             editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Kontakt: " + contact.getFirstname() + " " + contact.getLastname(), dateFormat.format(date)));
             return "redirect:/contacts";
-        //}
     }
 
     /**

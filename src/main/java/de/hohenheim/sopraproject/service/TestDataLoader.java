@@ -50,6 +50,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private TagsService tagsService;
 
+    @Autowired
+    private EditingHistoryService editingHistoryService;
+
 
     /**
      * This method is used to define test Arguments for the database. The method will be execute when the Spring context
@@ -796,5 +799,30 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         vortragMayer.setEndTime(20,0);
         vortragMayer.setTitle("Vortrag Prof. Dr. Mayer");
         meetingService.saveMeeting(vortragMayer);
+
+        EditingHistory editing1 = new EditingHistory();
+        editing1.setObjectEdited("Kontakt: Peter Lustig");
+        editing1.setDate("2020-07-15");
+        editing1.setUser("admin");
+
+        EditingHistory editing2 = new EditingHistory();
+        editing2.setObjectEdited("Event: Kaffeetrinken");
+        editing2.setDate("2019-09-02");
+        editing2.setUser("user2");
+
+        EditingHistory editing3 = new EditingHistory();
+        editing3.setObjectEdited("Kontakt: Jana Mueller");
+        editing3.setDate("2020-07-12");
+        editing3.setUser("admin");
+
+        EditingHistory editing4 = new EditingHistory();
+        editing4.setObjectEdited("Kontakt: Klaus Peter");
+        editing4.setDate("2020-07-10");
+        editing4.setUser("user1");
+
+        editingHistoryService.saveEditingHistory(editing1);
+        editingHistoryService.saveEditingHistory(editing2);
+        editingHistoryService.saveEditingHistory(editing3);
+        editingHistoryService.saveEditingHistory(editing4);
     }
 }
