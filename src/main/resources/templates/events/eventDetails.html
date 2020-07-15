@@ -23,13 +23,13 @@
     <!-- Main Body of the EventDetails Site, includes general Information, aswell as Contact Histories and Relationships, which all can be Edited or removed-->
     <h1 align="center" class="ml-1" style="margin-top: 15px"><i class="fas fa-glass-cheers"></i> Event-Informationen</h1>
     <div class="row ml-1">
-        <form ACTION="#" method="post" th:action="@{/events}">
-            <button class="btn btn-secondary" type="submit"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
-        </form>
+        <a type="button" class="btn btn-secondary" th:href="@{/events}" method="get">
+            <i class="far fa-arrow-alt-circle-left"></i> Zurück
+        </a>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
-            <i class="fas fa-trash-alt"></i> Event Löschen
+            <i class="fas fa-trash-alt"></i>
         </button>
 
         <!-- Modal -->
@@ -118,7 +118,7 @@
                         </div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#saveModal">
-                            <i class="far fa-save"></i> Änderungen speichern
+                            Änderungen speichern
                         </button>
 
                         <!-- Modal -->
@@ -135,8 +135,8 @@
                                         Sind sie sicher das Sie die Änderungen speichern möchten?
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fas fa-ban"></i> Abbrechen</button>
-                                        <button class="btn btn-primary" type="submit"><i class="far fa-save"></i> Änderungen speichern</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Abbrechen</button>
+                                        <button class="btn btn-primary" type="submit">Änderungen speichern</button>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                                 <form ACTION="#" th:action="@{/deleteContactFromEvent}" th:object="${eventDTO}" method="post">
                                     <input type="hidden" th:value="${contact.contactID}" th:name ="contactTempID" />
                                     <input type="hidden" th:value="${eventDTO.eventID}" th:name ="eventID" />
-                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Teilnehmer entfernen </button>
+                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -186,7 +186,7 @@
                     </div>
                     <!-- Button to Start Creation of new Relationship -->
                     <!-- Button to enable the adding of other Contacts -->
-                    <a class="btn btn-primary" method="get" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" type="button"> <i class="far fa-plus-square"></i> Neuen Teilnehmer hinzufügen
+                    <a class="btn btn-primary" method="get" th:href="@{/eventContactCreator/{eventID}(eventID=${eventDTO.getEventID()})}" type="button">Neuen Teilnehmer hinzufügen
                     </a>
 
                 </div>
@@ -224,7 +224,7 @@
                         Keine Tags zugeordnet, neuen Tag zuordnen?
                     </div>
                     <!-- Button to Start Creation of new Tag -->
-                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" type="button"> <i class="fas fa-tags"></i> Tag zuordnen
+                    <a class="btn btn-primary" method="get" th:href="@{/tags/{type}/{eventID}(type= ${'event'}, eventID=${event.getEventID()})}" type="button"> Tag zuordnen
                     </a>
 
                 </div>
