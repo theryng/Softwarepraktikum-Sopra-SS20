@@ -142,7 +142,7 @@ public class ProjectDetailsController {
         editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projekt Mitarbeiter: " + projectDTO.getProject().getName(), dateFormat.format(date)));
 
 
-        return "projects/projectDetails";
+        return "redirect:/projectDetails/"+project.getProjectID();
     }
 
 
