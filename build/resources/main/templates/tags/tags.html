@@ -26,48 +26,60 @@
 <div class = "container-fluid">
 
     <h1 align="center" style="margin-top: 15px;margin-bottom: 15px">Tags</h1>
-    <form action = "#" th:action = "@{/saveTag}" th:object ="${tagsDTO}" class="was-validated" method = post>
-        <input type="hidden" th:field="${tagsDTO.tagID}"/>
-        <input type="hidden" th:field="${tagsDTO.originalID}"/>
-        <input type="hidden" th:field="${tagsDTO.type}"/>
-        <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
-            Bei der Speicherung des Tags ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+
+    <div class="row">
+        <div>
+            <form ACTION="#" th:action="@{/returnTag}" th:object="${tagsDTO}" method="post">
+                <input type="hidden" th:field="${tagsDTO.originalID}"/>
+                <input type="hidden" th:field="${tagsDTO.type}"/>
+                <button align="right" type="submit" class="btn btn-secondary mt-3 ml-3"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
+            </form>
         </div>
-        <div class="form-group mt-2 mr-5">
-            <!-- Submit Button -->
-            <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
-                Neuen Tag hinzufügen
-            </button>
-            <!-- Modal for Submit Button -->
-            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="submitModalLabel">Tag Speicherung</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <!--Inputs for a tag in a small Modal once the button: Neuen Tag hinzufügen is pushed-->
-                        <div class="modal-body">
-                            <div class = "row">
-                                <div class = "col w-25">
-                                    Bezeichnung: <input type="text" class="form-control" name = "firstname" th:field="*{tag.name}" required>
-                                    <div class="valid-feedback">valid</div>
-                                    <div class="invalid-feedback">Bitte geben sie eine Bezeichnung an</div>
+
+        <div>
+            <form action = "#" th:action = "@{/saveTag}" th:object ="${tagsDTO}" class="was-validated" method = post>
+                <input type="hidden" th:field="${tagsDTO.tagID}"/>
+                <input type="hidden" th:field="${tagsDTO.originalID}"/>
+                <input type="hidden" th:field="${tagsDTO.type}"/>
+                <div class="form-group">
+
+                    <!-- Submit Button -->
+                    <button name="submit" type="button" class="btn btn-primary mt-3 ml-2" data-toggle="modal" data-target="#submitModal">
+                        Neuen Tag hinzufügen
+                    </button>
+                    <!-- Modal for Submit Button -->
+                    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="submitModalLabel">Tag Speicherung</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <!--Inputs for a tag in a small Modal once the button: Neuen Tag hinzufügen is pushed-->
+                                <div class="modal-body">
+                                    <div class = "row">
+                                        <div class = "col w-25">
+                                            Bezeichnung: <input type="text" class="form-control" name = "firstname" th:field="*{tag.name}" required>
+                                            <div class="valid-feedback">valid</div>
+                                            <div class="invalid-feedback">Bitte geben sie eine Bezeichnung an</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Options to Dismiss or Save the Contact-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                                    <button type="submit" class="btn btn-primary">Tag speichern</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- Options to Dismiss or Save the Contact-->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                            <button type="submit" class="btn btn-primary">Tag speichern</button>
-                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
+
     <!--The table that shows all the stored contacts inside the database. The attributes that are shown to the user are
                         the name of the contact (firstName and lastName ar combined!), the major, their date of birth and their email adress.
                         Each contact has a button binded to it which is placed at the end of their row inside the column Funktionen. This button
@@ -102,11 +114,11 @@
         <tr th:each="tag : ${allTags}">
             <td th:text="${tag.name}"></td>
             <td>
-                <form class="mt-2" ACTION="#" th:action="@{/setTag}" th:object="${tagsDTO}" method="post">
+                <form class="mt-2 " ACTION="#" th:action="@{/setTag}" th:object="${tagsDTO}" method="post">
                         <input type="hidden" th:value="${tag.tagsID}" th:name="tagID"/>
                         <input type="hidden" th:field="${tagsDTO.originalID}"/>
                         <input type="hidden" th:field="${tagsDTO.type}"/>
-                        <button type="submit" class="btn btn-secondary ml-2 " >Auswählen </button>
+                        <button align="right" type="submit" class="btn btn-secondary ml-2" >Auswählen </button>
                 </form>
             </td>
         </tr>

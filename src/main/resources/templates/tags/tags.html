@@ -28,16 +28,15 @@
     <h1 align="center" style="margin-top: 15px;margin-bottom: 15px">Tags</h1>
 
     <div class="row">
-
-        <div class="col">
-            <form class="mt-2 " ACTION="#" th:action="@{/returnTag}" th:object="${tagsDTO}" method="post">
+        <div>
+            <form ACTION="#" th:action="@{/returnTag}" th:object="${tagsDTO}" method="post">
                 <input type="hidden" th:field="${tagsDTO.originalID}"/>
                 <input type="hidden" th:field="${tagsDTO.type}"/>
-                <button align="right" type="submit" class="btn btn-secondary ml-2" >Zurück </button>
+                <button align="right" type="submit" class="btn btn-secondary mt-3 ml-3"><i class="far fa-arrow-alt-circle-left"></i> Zurück</button>
             </form>
         </div>
-        <div class="col">
 
+        <div>
             <form action = "#" th:action = "@{/saveTag}" th:object ="${tagsDTO}" class="was-validated" method = post>
                 <input type="hidden" th:field="${tagsDTO.tagID}"/>
                 <input type="hidden" th:field="${tagsDTO.originalID}"/>
@@ -45,7 +44,7 @@
                 <div class="form-group">
 
                     <!-- Submit Button -->
-                    <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
+                    <button name="submit" type="button" class="btn btn-primary mt-3 ml-2" data-toggle="modal" data-target="#submitModal">
                         Neuen Tag hinzufügen
                     </button>
                     <!-- Modal for Submit Button -->
