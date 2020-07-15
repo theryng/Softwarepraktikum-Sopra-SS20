@@ -55,8 +55,6 @@ public class ProjectContactCreatorController {
      */
     @RequestMapping(value ="/searchProjectContact", method = RequestMethod.POST)
     public String searchProjectContact(ProjectDTO projectDTO, Model model) {
-        System.out.println(projectDTO.getSearchWord());
-        System.out.println(projectDTO.getProjectID());
         String searchWord = projectDTO.getSearchWord();
         ContactFinder findContact = new ContactFinder();
         List<Contact> foundContactsTemp = findContact.findContacts(searchWord, contactService.findAllContacts());
@@ -73,9 +71,6 @@ public class ProjectContactCreatorController {
      */
     @RequestMapping(value = "/setProjectContact", method = RequestMethod.POST)
     public String setProjectContact(ProjectDTO projectDTO) {
-        System.out.println("IDS für die Project:");
-        System.out.println(projectDTO.getContactTempID());
-        System.out.println(projectDTO.getProjectID());
         Project project = projectService.findByProjectID(projectDTO.getProjectID());
         project.addProjectContacts(contactService.findByContactID(projectDTO.getContactTempID()));
         projectService.saveProject(project);

@@ -22,7 +22,7 @@
 
 <div class = "container-fluid ml-1000 mr-1000"> <!--Tabelle?-->
 
-    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px">Events</h1>
+    <h1 align="center" style="margin-top: 15px;margin-bottom: 15px"><i class="fas fa-glass-cheers"></i> Events</h1>
     <form action = "#" th:action = "@{/saveEvent}" th:object ="${eventDTO}" class="was-validated" method = post>
     <div    class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
         Bei der Speicherung des Events ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
@@ -30,7 +30,7 @@
         <div class="form-group mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventSubmitModal">
-                Neues Event hinzufügen
+                <i class="far fa-plus-square"></i> Neues Event hinzufügen
             </button>
             <!-- Modal for Submit Button -->
             <div class="modal fade" id="eventSubmitModal" tabindex="-1" role="dialog" aria-labelledby="eventSubmitModalLabel" aria-hidden="true">
@@ -87,7 +87,7 @@
         <div class="md-form active-cyan active-cyan-2 mb-3">
             <div class="row">
                 <div class = "col-10">
-                    <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                    <input aria-label="Search" class="form-control" placeholder="Suchen" th:name ="searchWord" th:value="${searchWord}" type="text"
                            title="Suche nach Vorname, Nachname und E-Mail möglich">
                 </div>
                 <div class = "col-2 justify-content-end">
@@ -100,7 +100,7 @@
     <!-- ///////////////////////////////////////////////////////////////////////////// -->
     <div class="row mt-3 mb-5">
         <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
-            <h5>Sortieren nach Tags</h5>
+            <h5><i class="fas fa-filter"></i> Sortieren nach Tags</h5>
 
             <div th:each="tags : ${allTags}">
                 <form class="mt-2" ACTION="#" th:action="@{/sortByTagEvents}" th:object="${tag}" method="post">

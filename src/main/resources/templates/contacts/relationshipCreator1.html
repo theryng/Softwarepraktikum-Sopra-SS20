@@ -28,7 +28,7 @@
         </div>
         <div class="mr-5 ml-5 mt-3">
             <!-- Back button to return to contactDetails -->
-            <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${relationshipDTO.getContactA()})}" method="get" th:text="'Zurück'">
+            <a type="button" class="btn btn-secondary mb-3" th:href="@{/contactDetails/{ID}(ID=${relationshipDTO.getContactA()})}" method="get" th:text="'Zurück'">
             </a>
 
             <h4>Um eine neue Beziehung zu erstellen, wählen Sie einen Kontakt</h4>
@@ -60,21 +60,21 @@
                     <tr  th:each="contact : ${relationshipDTO.foundContact}">
                         <td>
                             <a>Name</a>
-                            <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                            <h6 class="tableElement" th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
                         </td>
                         <td>
                             <a>Studium</a>
-                            <h6 th:text="${contact.courseOfStudies}"></h6>
+                            <h6 class="tableElement" th:text="${contact.courseOfStudies}"></h6>
 
                         </td>
                         <td>
                             <a>Letzter Kontakt</a>
-                            <h6 th:text="${contact.lastContact}"></h6>
+                            <h6 class="tableElement" th:text="${contact.lastContact}"></h6>
 
                         </td>
                         <td>
                             <a>E-Mail</a>
-                            <h6 th:text="${contact.email}"></h6>
+                            <h6 class="tableElement" th:text="${contact.email}"></h6>
 
                         </td>
                         <td>

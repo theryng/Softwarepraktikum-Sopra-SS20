@@ -12,7 +12,7 @@
 <div th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-light uniblue fixed-top">
         <!--ALUMNI NETZ has a reference to the homepage-->
-        <a class="navbar-brand text-white navbar-logo" href="/home">ALUMNI NETZ</a>
+        <a class="navbar-brand text-white navbar-logo" href="/home"><i class="fas fa-user-graduate"></i> ALUMNI NETZ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,34 +23,34 @@
             <ul class="navbar-nav mr-auto">
                 <!--leads to the contactlist-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" th:href="@{/contacts}">Kontakte</a>
+                    <a class="nav-link text-white" th:href="@{/contacts}"><i class="far fa-address-book"></i> Kontakte</a>
                 </li>
                 <!--leads to the eventlist-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" th:href="@{/events}">Events</a>
+                    <a class="nav-link text-white" th:href="@{/events}"><i class="fas fa-glass-cheers"></i> Events</a>
                 </li>
                 <!--leads to the project list-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" th:href="@{/projects}">Projekte</a>
+                    <a class="nav-link text-white" th:href="@{/projects}"><i class="fas fa-project-diagram"></i> Projekte</a>
                 </li>
                 <!--leads to the institute list-->
                 <li class="nav-item active">
-                    <a class="nav-link text-white" th:href="@{/institutes}">Institute</a>
+                    <a class="nav-link text-white" th:href="@{/institutes}"><i class="far fa-building"></i> Institute</a>
                 </li>
             </ul>
             <!--The small dropdown menu at the end of the navbar-->
             <form class="form-inline my-2 my-lg-0">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Account Optionen
+                        <i class="fas fa-cog"></i> Account Optionen
                     </button>
                     <!--The different reference items inside the dropdown menu... The option page is referenced to the homepage until its finished-->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}" method="get">Accountinformation</a>
+                        <a class="dropdown-item" method="get" th:href="@{/userDetails/{username}(username=${#httpServletRequest.getUserPrincipal().getName()})}"><i class="fas fa-info-circle"></i> Accountinformation</a>
                         <div th:unless="${#httpServletRequest.isUserInRole('ROLE_ADMIN') == false}">
-                        <a class="dropdown-item" href="/registration">User verwalten</a>
+                        <a class="dropdown-item" href="/registration"><i class="fas fa-tasks"></i> User verwalten</a>
                         </div>
-                        <a class="dropdown-item" href="/logout">Log out</a>
+                        <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
                     </div>
                 </div>
             </form>

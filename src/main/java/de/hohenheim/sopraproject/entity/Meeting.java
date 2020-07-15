@@ -9,19 +9,17 @@ import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 /**
- * This class defines all the occurrences that the admin has
+ * This class defines all the meetings that the admin has
  */
 @Entity
-public class Occurrence {
+public class Meeting {
 
     @Id
     @GeneratedValue
-    private Integer occurrenceID;
+    private Integer meetingID;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
@@ -37,16 +35,16 @@ public class Occurrence {
     @OneToMany
     private Set<Contact> contacts = new HashSet<>();
 
-    public Occurrence(){
+    public Meeting(){
         //for hibernate
     }
 
-    public Integer getOccurrenceID() {
-        return occurrenceID;
+    public Integer getMeetingID() {
+        return meetingID;
     }
 
-    public void setOccurrenceID(Integer occurenceID) {
-        this.occurrenceID = occurenceID;
+    public void setMeetingID(Integer meetingID) {
+        this.meetingID = meetingID;
     }
 
     public LocalDate getDate() {

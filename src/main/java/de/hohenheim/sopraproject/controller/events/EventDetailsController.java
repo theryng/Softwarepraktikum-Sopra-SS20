@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.UserTransaction;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.DateFormat;
@@ -46,20 +47,26 @@ public class EventDetailsController {
 
     @GetMapping(value = "/eventDetails/{eventID}")
     public String eventDetails(@PathVariable("eventID") Integer eventID, Model model) {
-        System.out.println("Testing the stuff " + eventID);
+
         EventDTO eventDTO = new EventDTO();
         Event event = eventService.findByEventID(eventID);
-        System.out.println("Anzahl Tags: " + event.getTags().size());
+
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(eventID);
-        System.out.println(event.getContacts().size());
+        if(event.getTags().size()>0){
+            model.addAttribute("viewTags", true);
+        }
+        else{
+            model.addAttribute("viewTags", false);
+        }
+
         eventDTO.setEvent(event);
         eventDTO.setEventID(event.getEventID());
         model.addAttribute("allContacts", event.getContacts());
         model.addAttribute("eventDTO", eventDTO);
         model.addAttribute("event", event);
-        model.addAttribute("viewTable", true);
+        model.addAttribute("viewTable", checkTables(event.getContacts()));
         model.addAttribute("tagDTO", tagsDTO);
         return "events/eventDetails";
     }
@@ -89,7 +96,7 @@ public class EventDetailsController {
             model.addAttribute("allContacts", tempEvent.getContacts());
             model.addAttribute("eventDTO", eventDTO);
             model.addAttribute("event", tempEvent);
-            model.addAttribute("viewTable", true);
+            model.addAttribute("viewTable", checkTables(tempEvent.getContacts()));
             return "events/eventDetails";
         }
         else{
@@ -122,35 +129,35 @@ public class EventDetailsController {
     public String deleteContactFromEvent(EventDTO eventDTO, Model model) {
         Event event = eventService.findByEventID(eventDTO.getEventID());
         Set<Contact> contacts = event.getContacts();
-        System.out.println(contacts.size());
+
         Contact deleteContact = contactService.findByContactID(eventDTO.getContactTempID());
         contacts.remove(deleteContact);
-        System.out.println(contacts.size());
+
         event.setContacts(contacts);
         eventService.saveEvent(event);
         eventDTO.setEvent(event);
         model.addAttribute("eventDTO", eventDTO);
-        model.addAttribute("viewTable", checkTables(event));
+        model.addAttribute("viewTable", checkTables(event.getContacts()));
         return "redirect:/eventDetails/"+eventDTO.getEventID();
     }
 
     @GetMapping("/deleteEventTag")
     public String deleteEventTag(TagsDTO tagsDTO) {
         List<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
-        System.out.println("Number of Tags 1" + tags.size());
+
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
-                System.out.println("remove");
+
                 removeTag = tag;
             }
         }
         tags.remove(removeTag);
 
-        System.out.println("Number of Tags 2" + tags.size());
+
         Event event = eventService.findByEventID(tagsDTO.getOriginalID());
         event.setTags(tags);
-        System.out.println(event.getTags().size());
+
         eventService.saveEvent(event);
         Tags tag = tagsService.findByTagID(removeTag.getTagsID());
         tag.getEvents().remove(event);
@@ -159,15 +166,10 @@ public class EventDetailsController {
     }
 
 
-    private boolean checkTables(Event event){
-        if(event.getContacts().size()>0){
+    private boolean checkTables(Set<Contact> contacts){
+        if(contacts.size()>0){
             return true;
         }
         return false;
     }
-
-
-
-
-
 }

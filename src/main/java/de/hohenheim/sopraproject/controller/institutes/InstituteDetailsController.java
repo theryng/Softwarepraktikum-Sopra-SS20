@@ -57,19 +57,24 @@ public class InstituteDetailsController {
      */
     @RequestMapping(value = "/instituteDetails/{instituteID}", method = RequestMethod.GET)
     public String instituteDetails(@PathVariable("instituteID") Integer instituteID, Model model) {
-        System.out.println("Testing the stuff " + instituteID);
         InstituteDTO instituteDTO = new InstituteDTO();
         Institute institute = instituteService.findByInstitutesID(instituteID);
-        System.out.println("Anzahl Tags: " + institute.getTags().size());
         String searchWord = "";
+
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(instituteID);
+        if(institute.getTags().size()>0){
+            model.addAttribute("viewTags", true);
+        }
+        else{
+            model.addAttribute("viewTags", false);
+        }
         instituteDTO.setInstitute(institute);
         instituteDTO.setInstituteID(instituteDTO.getInstitute().getInstituteID());
         model.addAttribute("allContacts", institute.getContacts());
         model.addAttribute("instituteDTO", instituteDTO);
         model.addAttribute("institute", institute);
-        model.addAttribute("viewTable", true);
+        model.addAttribute("viewTable", checkTables(institute));
         model.addAttribute("tagDTO", tagsDTO);
         return "institutes/instituteDetails";
     }
@@ -86,22 +91,25 @@ public class InstituteDetailsController {
      */
     @RequestMapping(value = "/savingInstitute", method = RequestMethod.POST)
     public String savingInstitute(@Valid InstituteDTO instituteDTO, BindingResult result, Model model, Principal principal) {
+        Institute institute = instituteDTO.getInstitute();
+        institute.setInstituteID(instituteDTO.getInstituteID());
         if(result.hasErrors()){
-            return "institutes/instituteDetails";
+            return "redirect:/instituteDetails/"+institute.getInstituteID();
         }
+
         else{
-            Institute institute = instituteDTO.getInstitute();
-            institute.setInstituteID(instituteDTO.getInstituteID());
             if(!instituteService.findByInstitutesID(institute.getInstituteID()).equals(institute)){
                 instituteService.saveInstitute(institute);
             }
             instituteDTO.setInstitute(institute);
             model.addAttribute("instituteDTO", instituteDTO);
+
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
 
             editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Institutdetails: " + instituteDTO.getInstitute().getName(), dateFormat.format(date)));
-            return "institutes/instituteDetails";
+
+            return "redirect:/instituteDetails/"+institute.getInstituteID();
         }
     }
 
@@ -115,10 +123,10 @@ public class InstituteDetailsController {
     public String deleteContactFromInstitute(InstituteDTO instituteDTO, Model model, Principal principal) {
         Institute institute = instituteService.findByInstitutesID(instituteDTO.getInstituteID());
         Set<Contact> contacts = institute.getContacts();
-        System.out.println(contacts.size());
+
         Contact deleteContact = contactService.findByContactID(instituteDTO.getContactTempID());
         contacts.remove(deleteContact);
-        System.out.println(contacts.size());
+
         institute.setContacts(contacts);
         instituteService.saveInstitute(institute);
         instituteDTO.setInstitute(institute);
@@ -136,20 +144,20 @@ public class InstituteDetailsController {
     @GetMapping("/deleteInstituteTag")
     public String deleteInstituteTag(TagsDTO tagsDTO) {
         List<Tags> tags = instituteService.findByInstitutesID(tagsDTO.getOriginalID()).getTags();
-        System.out.println("Number of Tags 1" + tags.size());
+
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
-                System.out.println("remove");
+
                 removeTag = tag;
             }
         }
         tags.remove(removeTag);
 
-        System.out.println("Number of Tags 2" + tags.size());
+
         Institute institute = instituteService.findByInstitutesID(tagsDTO.getOriginalID());
         institute.setTags(tags);
-        System.out.println(institute.getTags().size());
+
         instituteService.saveInstitute(institute);
         Tags tag = tagsService.findByTagID(removeTag.getTagsID());
         tag.getInstitutes().remove(institute);

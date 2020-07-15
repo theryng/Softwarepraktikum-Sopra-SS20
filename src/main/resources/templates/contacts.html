@@ -33,7 +33,7 @@
                     <div class="form-group mr-5">
                         <!-- Submit Button -->
                         <button name="submit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
-                            Neuen Kontakt hinzufügen
+                            <i class="far fa-plus-square"></i> Neuen Kontakt hinzufügen
                         </button>
                         <!-- Modal for Submit Button -->
                         <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
@@ -58,21 +58,34 @@
                                             </div>
                                         </div>
                                         <!-- Inputs for the newly generated Contact-->
-                                        Anstellung:<input type="text" class="form-control" maxlength="50"  name = "occupation" th:field="*{occupation}" required/>
-                                        <div class="invalid-feedback">Bitte geben sie eine Anstellung an</div></br>
-
-                                        E-Mail:<input type="email" class="form-control" maxlength="50" name = "email" th:field="*{email}" required/>
-                                        <div class="invalid-feedback">Bitte geben sie eine Email Adresse an</div></br>
-
-                                        Studium:<input type="text" class="form-control" maxlength="50" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
-
-                                        Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" th:field="*{dayOfBirth}"></br>
-
-                                        Freier Text:<input type="text" class="form-control" maxlength="200"  name = "freeText" rows="3" th:field="*{freeText}"/></br>
-
-                                        Hobbies:<input type="text" class="form-control" maxlength="50"  name = "hobby" th:field="*{hobby}"/></br>
-
-                                        Homepage:<input type="text" class="form-control" maxlength="50" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                        <div>
+                                            Anstellung:<input type="text" class="form-control" maxlength="50"  name = "occupation" th:field="*{occupation}" required/>
+                                            <div class="invalid-feedback">Bitte geben sie eine Anstellung an</div></br>
+                                        </div>
+                                        <div>
+                                            E-Mail:<input type="email" class="form-control" maxlength="50" name = "email" th:field="*{email}" required/>
+                                            <div class="invalid-feedback">Bitte geben sie eine Email Adresse an</div></br>
+                                        </div>
+                                        <div>
+                                            Studium:<input type="text" class="form-control" maxlength="50" name = "courseOfStudies" th:field="*{courseOfStudies}"/></br>
+                                            <div class="invalid-feedback">Bitte geben sie ein korrektes Studium an</div></br>
+                                        </div>
+                                        <div>
+                                            Geburtsdatum:<input type="date" id="start" class="form-control" name="dayOfBirth" max='2200-01-01' th:field="*{dayOfBirth}"></br>
+                                            <div class="invalid-feedback">Bitte geben sie ein korrektes Geburtsdatum an</div></br>
+                                        </div>
+                                        <div>
+                                            Freier Text:<input type="text" class="form-control" maxlength="200"  name = "freeText" rows="3" th:field="*{freeText}"/></br>
+                                            <div class="invalid-feedback">Bitte geben sie einen korrekten Freien Text an</div></br>
+                                        </div>
+                                        <div>
+                                            Hobbies:<input type="text" class="form-control" maxlength="50"  name = "hobby" th:field="*{hobby}"/></br>
+                                            <div class="invalid-feedback">Bitte geben sie ein korrektes Hobby an</div></br>
+                                        </div>
+                                        <div>
+                                            Homepage:<input type="text" class="form-control" maxlength="50" name = "linkToHomepage" th:field="*{linkToHomepage}"/></br>
+                                            <div class="invalid-feedback">Bitte geben sie eine korrekte Homepage an</div></br>
+                                        </div>
 
                                         <div class = "row">
                                             <div class = "col">
@@ -86,8 +99,7 @@
                                                 <div class="invalid-feedback">Bitte geben sie eine Straße an</div></br>
                                             </div>
                                             <div class = "col">
-                                                Hausnummer:<input type="text" class="form-control" name = "tempHouseNmbr"  pattern="[A-Za-z0-9]*" maxlength="5" th:field="*{address.houseNumber}"
-                                                                  title="Eine Hausnummer darf nur aus Zahlen und Buchstaben bestehen und dar nicht länger als 5 Zeichen sein"/>
+                                                Hausnummer:<input class="form-control" name = "tempHouseNmbr" pattern="^[0-9]{1,6}[/]{0,1}[0-9]{0,1}[-]{0,1}[0-9]{0,1}[a-z]{0,1}[A-Z]{0,1}$"  required th:field="*{address.houseNumber}" type="text"/>
                                                 <div class="invalid-feedback">Bitte geben sie eine Hausnummer an</div></br>
                                             </div>
                                             <div class = "col">
@@ -114,11 +126,11 @@
                     <div class="md-form active-cyan active-cyan-2 mb-3 ">
                         <div class="row">
                             <div class = "col-11">
-                                <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Search" aria-label="Search"
+                                <input class="form-control" type="text" th:value="${searchWord}" th:name ="searchWord" placeholder="Suchen" aria-label="Search"
                                        title="Suche nach Vorname, Nachname und E-Mail möglich">
                             </div>
                             <div class = "col-1 justify-content-end">
-                                <button type="submit" class="btn btn-secondary ml-2 " >Suchen </button>
+                                <button type="submit" class="btn btn-secondary ml-2 " > Suchen</i> </button>
                             </div>
                         </div>
                     </div>
@@ -127,7 +139,7 @@
                 <!-- ///////////////////////////////////////////////////////////////////////////// -->
                 <div class="row mt-3">
                     <div class="col-2 border-right table-wrapper-scroll-y my-custom-scrollbar">
-                        <h5>Sortieren nach Tags</h5>
+                        <h5><i class="fas fa-filter"></i> Sortieren nach Tags</h5>
 
                         <div th:each="tags : ${allTags}">
                             <form class="mt-2" ACTION="#" th:action="@{/sortByTagContact}" th:object="${tag}" method="post">
@@ -159,21 +171,21 @@
                                 <tr class="tableBody" th:each="contact : ${allContacts}">
                                     <td>
                                         <a>Name</a>
-                                        <h6 th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
+                                        <h6 class="tableElement" th:text="${contact.firstname} + ' ' + ${contact.lastname}"></h6>
                                     </td>
                                     <td>
                                         <a>Studium</a>
-                                        <h6 th:text="${contact.courseOfStudies}"></h6>
+                                        <h6 class="tableElement" th:text="${contact.courseOfStudies}"></h6>
 
                                     </td>
                                     <td>
                                         <a>Letzter Kontakt</a>
-                                        <h6 th:text="${contact.lastContact}"></h6>
+                                        <h6 class="tableElement" th:text="${contact.lastContact}"></h6>
 
                                     </td>
                                     <td>
                                         <a>E-Mail</a>
-                                        <h6 th:text="${contact.email}"></h6>
+                                        <h6 class="tableElement" th:text="${contact.email}"></h6>
 
                                     </td>
                                     <td>

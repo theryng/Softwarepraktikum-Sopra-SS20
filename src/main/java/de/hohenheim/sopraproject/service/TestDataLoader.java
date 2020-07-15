@@ -1,7 +1,6 @@
 package de.hohenheim.sopraproject.service;
 
 import de.hohenheim.sopraproject.entity.*;
-import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     private ProjectService projectService;
 
     @Autowired
-    private OccurrenceService occurrenceService;
+    private MeetingService meetingService;
 
     @Autowired
     private TagsService tagsService;
@@ -100,13 +99,21 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         normalUser5.setLastName("Bensack");
         userService.saveUser(normalUser5);
 
+        User normalUser6 = new User();
+        normalUser6.setUsername("_Luk");
+        normalUser6.setPassword(passwordEncoder.encode("TollesPasswort7"));
+        normalUser6.setRoles(userRoles);
+        normalUser6.setFirstName("Lukas");
+        normalUser6.setLastName("Januschke");
+        userService.saveUser(normalUser5);
+
         User admin = new User();
-        admin.setUsername("_Luk");
+        admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRoles);
         admin.setIsAdmin(true);
-        admin.setFirstName("Lukas");
-        admin.setLastName("Januschke");
+        admin.setFirstName("Max");
+        admin.setLastName("Mustermann");
         userService.saveUser(admin);
 
         //Example contacts
@@ -378,7 +385,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         ContactHistory historyOneDates = new ContactHistory();
         historyOneDates.addContactHistoryContact(max);
         historyOneDates.addContactHistoryContact(julia);
-        historyOneDates.setText("Beim Kaffetrinken kennengelernt");
+        historyOneDates.setText("Beim Kaffetrinken in der Mensa kennengelernt");
         historyOneDates.setDate(LocalDate.of(2018, 4, 13));
         contactHistoryService.saveContacthistory(historyOneDates);
         max.setLastContact(LocalDate.of(2018, 4, 13));
@@ -389,7 +396,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         historyTwoDates.addContactHistoryContact(tristan);
         historyTwoDates.addContactHistoryContact(sabine);
         historyTwoDates.setDate(LocalDate.of(2020, 9, 30));
-        historyTwoDates.setText("Beim Teetrinken getroffen");
+        historyTwoDates.setText("Beim Teetrinken in der Mensa getroffen");
         contactHistoryService.saveContacthistory(historyTwoDates);
         alfred.setLastContact(LocalDate.of(2019, 9, 30));
         tristan.setLastContact(LocalDate.of(2019, 9, 30));
@@ -568,6 +575,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         eventService.saveEvent(frisbee);
 
         //Example institutes
+        Institute zalando = new Institute();
+        zalando.setName("Zalando");
+        zalando.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
+                "1010"));
+        zalando.setLinkToHomepage("www.zalando.de");
+        zalando.setEmail("zalando@web.de");
+        instituteService.saveInstitute(zalando);
+
         Institute deutscheBahnBerlin = new Institute();
         deutscheBahnBerlin.setName("Deutsche Bahn");
         deutscheBahnBerlin.setAddress(new Address("12345", "Musterstadt", "Musterstraße",
@@ -662,14 +677,15 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         covid.addProjectInstitutes(sap);
         projectService.saveProject(covid);
 
-        Occurrence erstieEinführung = new Occurrence();
+        Meeting erstieEinführung = new Meeting();
         erstieEinführung.setDate(LocalDate.now());
         erstieEinführung.setDescription("Blaue Krawatte anziehen");
         erstieEinführung.setStartTime(9,30);
         erstieEinführung.setEndTime(10,30);
-        erstieEinführung.setTitle("Ersti Begrüßung");
+        erstieEinführung.setTitle("Erstsemester Begrüßung");
         erstieEinführung.addContact(jana);
-        occurrenceService.saveOccurrence(erstieEinführung);
+        meetingService.saveMeeting(erstieEinführung);
+
         Project campus = new Project();
         campus.setName("Campussystem Erneuerung");
         campus.setDescription("Das komplette Campussystem wird erneuert");
@@ -696,6 +712,15 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         verschoenern.addProjectContacts(jose);
         projectService.saveProject(verschoenern);
 
+        Project umweltschutz = new Project();
+        umweltschutz.setName("Umweltschutzengagement");
+        umweltschutz.setDescription("Rettet die Bäume! Esst mehr Biber");
+        umweltschutz.setSince(2020  ,05 , 14);
+        umweltschutz.addProjectContacts(alex);
+        umweltschutz.addProjectContacts(aleyna);
+        umweltschutz.addProjectContacts(alfred);
+        umweltschutz.addProjectContacts(anna);
+        projectService.saveProject(umweltschutz);
 
         Project gegenRassismus = new Project();
         gegenRassismus.setName("Uni gegen Rassismus");
@@ -706,46 +731,70 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         gegenRassismus.addProjectContacts(sabine);
         projectService.saveProject(gegenRassismus);
 
-        Occurrence erstiEinführung = new Occurrence();
-        erstiEinführung.setDate(LocalDate.now());
-        erstiEinführung.setDescription("");
-        erstiEinführung.setStartTime(9,30);
-        erstiEinführung.setEndTime(10,30);
-        erstiEinführung.setTitle("Erstsemester Begrüßung");
-        occurrenceService.saveOccurrence(erstiEinführung);
+        Meeting meditation = new Meeting();
+        meditation.setDate(LocalDate.now());
+        meditation.setDescription("");
+        meditation.setStartTime(10,40);
+        meditation.setEndTime(11,0);
+        meditation.setTitle("Begleitender Meditationskurs für den Stressabbau");
+        meetingService.saveMeeting(meditation);
 
-        Occurrence vortragMüller = new Occurrence();
+        Meeting mensa = new Meeting();
+        mensa.setDate(LocalDate.now());
+        mensa.setDescription("");
+        mensa.setStartTime(14,10);
+        mensa.setEndTime(14,30);
+        mensa.setTitle("Mittagessen mit Herr Fischer");
+        meetingService.saveMeeting(mensa);
+
+        Meeting mcFit = new Meeting();
+        mcFit.setDate(LocalDate.now());
+        mcFit.setDescription("Wilhelmsplatz 11, 70182 Stuttgart");
+        mcFit.setStartTime(13,10);
+        mcFit.setEndTime(14,20);
+        mcFit.setTitle("Probetraining McFit");
+        meetingService.saveMeeting(mcFit);
+
+        Meeting meetingGerdt = new Meeting();
+        meetingGerdt.setDate(LocalDate.now());
+        meetingGerdt.setDescription("Klimaschutz");
+        meetingGerdt.setStartTime(8,30);
+        meetingGerdt.setEndTime(9,20);
+        meetingGerdt.setTitle("Webex Meeting mit Prof. Dr. Gerdt");
+        meetingService.saveMeeting(meetingGerdt);
+
+        Meeting vortragMüller = new Meeting();
         vortragMüller.setDate(LocalDate.now());
         vortragMüller.setDescription("Prof. Dr. Müller, Audimax");
         vortragMüller.setStartTime(12,30);
-        vortragMüller.setEndTime(14,0);
+        vortragMüller.setEndTime(13,0);
         vortragMüller.setTitle("Treibhausgas Emissionssenkung");
         vortragMüller.addContact(jonas);
         vortragMüller.addContact(max);
-        occurrenceService.saveOccurrence(vortragMüller);
+        meetingService.saveMeeting(vortragMüller);
 
-        Occurrence begrüßungGastprofessoren = new Occurrence();
+        Meeting begrüßungGastprofessoren = new Meeting();
         begrüßungGastprofessoren.setDate(LocalDate.now());
         begrüßungGastprofessoren.setDescription("Aus Schweden, Geschenk nicht Vergessen!");
         begrüßungGastprofessoren.setStartTime(15,45);
         begrüßungGastprofessoren.setEndTime(16,0);
         begrüßungGastprofessoren.setTitle("Gastprofessorin Prof. Dr. Andersson begrüßen");
-        occurrenceService.saveOccurrence(begrüßungGastprofessoren);
+        meetingService.saveMeeting(begrüßungGastprofessoren);
 
-        Occurrence professorenMeeting = new Occurrence();
+        Meeting professorenMeeting = new Meeting();
         professorenMeeting.setDate(LocalDate.now());
         professorenMeeting.setDescription("Zum Informationsaustausch");
         professorenMeeting.setStartTime(17,30);
         professorenMeeting.setEndTime(19,30);
         professorenMeeting.setTitle("Meeting mit Prof. Dr. Smith \"empirischen Forschung\"");
-        occurrenceService.saveOccurrence(professorenMeeting);
+        meetingService.saveMeeting(professorenMeeting);
 
-        Occurrence vortragMayer = new Occurrence();
-        vortragMayer.setDate(2021, 10, 19);
+        Meeting vortragMayer = new Meeting();
+        vortragMayer.setDate(LocalDate.now());
         vortragMayer.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer.setStartTime(12,30);
-        vortragMayer.setEndTime(13,0);
+        vortragMayer.setStartTime(19,30);
+        vortragMayer.setEndTime(20,0);
         vortragMayer.setTitle("Vortrag Prof. Dr. Mayer");
-        occurrenceService.saveOccurrence(vortragMayer);
+        meetingService.saveMeeting(vortragMayer);
     }
 }

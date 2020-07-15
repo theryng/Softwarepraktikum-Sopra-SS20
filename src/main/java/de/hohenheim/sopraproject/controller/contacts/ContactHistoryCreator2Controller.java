@@ -77,6 +77,11 @@ public class ContactHistoryCreator2Controller {
         }
     }
 
+    /**
+     * Help Method which creates a List of Contacts out of a String of IDs
+     * @param list
+     * @return
+     */
     public List<Contact> generateList(String list){
         List<Integer> foundList = new LinkedList<Integer>();
         String[] stringTemp2  = list.split(" ");

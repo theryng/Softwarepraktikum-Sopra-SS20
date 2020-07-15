@@ -123,12 +123,11 @@ public class TagsController {
 
     @PostMapping(value ="/setTag")
     public String setTag(TagsDTO tagsDTO, Model model) {
-        System.out.println("setting tag");
-        System.out.println(tagsDTO.getType());
+
         String objectType = tagsDTO.getType();
         Integer id = Integer.valueOf(tagsDTO.getOriginalID());
         if(objectType.equals("contact")){
-            System.out.println("Type Contact");
+
             Contact contact = contactService.findByContactID(id);
             Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
             tag.getContacts().add(contact);
@@ -138,7 +137,7 @@ public class TagsController {
         }
 
         else if(objectType.equals("event")){
-            System.out.println("Type Event");
+
             Event event = eventService.findByEventID(id);
             Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
             tag.getEvents().add(event);
@@ -148,7 +147,7 @@ public class TagsController {
         }
 
         else if(objectType.equals("institute")){
-            System.out.println("Type Institute");
+
             Institute institute = instituteService.findByInstitutesID(id);
             Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
             tag.getInstitutes().add(institute);
@@ -158,7 +157,7 @@ public class TagsController {
         }
 
         else if(objectType.equals("project")){
-            System.out.println("Type Project");
+
             Project project = projectService.findByProjectID(id);
             Tags tag = tagsService.findByTagID(Integer.valueOf(tagsDTO.getTagID()));
             tag.getProjects().add(project);
@@ -167,8 +166,8 @@ public class TagsController {
             return "redirect:/projectDetails/"+tagsDTO.getOriginalID();
         }
 
-        System.out.println("Fehler im Setten");
-        //TBD IF For other Types like Insitute/Events etc.
+
+
         return null;
     }
 

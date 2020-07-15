@@ -31,24 +31,24 @@
         <input type="hidden" th:field="${tagsDTO.originalID}"/>
         <input type="hidden" th:field="${tagsDTO.type}"/>
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">
-            Bei der Speicherung des Kontakts ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
+            Bei der Speicherung des Tags ist ein Fehler unterlaufen, bitte überprüfen Sie die Eingaben.
         </div>
         <div class="form-group mt-2 mr-5">
             <!-- Submit Button -->
             <button name="submit" type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#submitModal">
-                Neuen Kontakt hinzufügen
+                Neuen Tag hinzufügen
             </button>
             <!-- Modal for Submit Button -->
             <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="submitModalLabel">Kontakt Speicherung</h5>
+                            <h5 class="modal-title" id="submitModalLabel">Tag Speicherung</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <!--Inputs for a contact in a small Modal once the button: Neuen Kontakt hinzufügen is pushed-->
+                        <!--Inputs for a tag in a small Modal once the button: Neuen Tag hinzufügen is pushed-->
                         <div class="modal-body">
                             <div class = "row">
                                 <div class = "col w-25">
@@ -61,7 +61,7 @@
                         <!-- Options to Dismiss or Save the Contact-->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                            <button type="submit" class="btn btn-primary">Kontakt speichern</button>
+                            <button type="submit" class="btn btn-primary">Tag speichern</button>
                         </div>
                     </div>
                 </div>

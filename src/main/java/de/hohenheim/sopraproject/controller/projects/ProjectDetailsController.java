@@ -57,19 +57,25 @@ public class ProjectDetailsController {
      */
     @RequestMapping(value = "/projectDetails/{projectID}", method = RequestMethod.GET)
     public String projectDetails(@PathVariable("projectID") Integer projectID, Model model) {
-        System.out.println("Testing the stuff " + projectID);
+
         ProjectDTO projectDTO = new ProjectDTO();
         Project project = projectService.findByProjectID(projectID);
-        System.out.println("Anzahl Tags: " + project.getTags().size());
+
         String searchWord = "";
         TagsDTO tagsDTO = new TagsDTO();
         tagsDTO.setOriginalID(projectID);
+        if(project.getTags().size()>0){
+            model.addAttribute("viewTags", true);
+        }
+        else{
+            model.addAttribute("viewTags", false);
+        }
         projectDTO.setProject(project);
         projectDTO.setProjectID(projectID);
         model.addAttribute("allContacts", project.getContacts());
         model.addAttribute("project", project);
         model.addAttribute("projectDTO", projectDTO);
-        model.addAttribute("viewTable", true);
+        model.addAttribute("viewTable", checkTables(project));
         model.addAttribute("tagDTO", tagsDTO);
         return "projects/projectDetails";
     }
@@ -118,10 +124,10 @@ public class ProjectDetailsController {
     public String deleteContactFromProject(ProjectDTO projectDTO, Model model, Principal principal) {
         Project project = projectService.findByProjectID(projectDTO.getProjectID());
         Set<Contact> contacts = project.getContacts();
-        System.out.println(contacts.size());
+
         Contact deleteContact = contactService.findByContactID(projectDTO.getContactTempID());
         contacts.remove(deleteContact);
-        System.out.println(contacts.size());
+
         project.setContacts(contacts);
         projectService.saveProject(project);
         projectDTO.setProject(project);
@@ -135,27 +141,27 @@ public class ProjectDetailsController {
         editingHistoryService.saveEditingHistory(new EditingHistory(principal.getName(), "Projekt Mitarbeiter von: " + projectDTO.getProject().getName(), dateFormat.format(date)));
 
 
-        return "projects/projectDetails";
+        return "redirect:/projectDetails/"+project.getProjectID();
     }
 
 
     @GetMapping("/deleteProjectTag")
     public String deleteProjectTag(TagsDTO tagsDTO) {
         List<Tags> tags = projectService.findByProjectID(tagsDTO.getOriginalID()).getTags();
-        System.out.println("Number of Tags 1" + tags.size());
+
         Tags removeTag = new Tags();
         for(Tags tag : tags){
             if(tag.getTagsID() == tagsDTO.getTagID()){
-                System.out.println("remove");
+
                 removeTag = tag;
             }
         }
         tags.remove(removeTag);
 
-        System.out.println("Number of Tags 2" + tags.size());
+
         Project project = projectService.findByProjectID(tagsDTO.getOriginalID());
         project.setTags(tags);
-        System.out.println(project.getTags().size());
+
         projectService.saveProject(project);
         Tags tag = tagsService.findByTagID(removeTag.getTagsID());
         tag.getProjects().remove(project);
