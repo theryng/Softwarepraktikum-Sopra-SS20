@@ -1,6 +1,7 @@
 package de.hohenheim.sopraproject.controller;
 
 import de.hohenheim.sopraproject.dto.MeetingDTO;
+import de.hohenheim.sopraproject.entity.EditingHistory;
 import de.hohenheim.sopraproject.entity.Meeting;
 import de.hohenheim.sopraproject.repository.EditingHistoryRepository;
 import de.hohenheim.sopraproject.service.MeetingService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
