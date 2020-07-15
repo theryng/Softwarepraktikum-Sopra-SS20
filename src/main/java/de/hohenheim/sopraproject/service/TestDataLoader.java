@@ -682,7 +682,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         erstieEinführung.setDescription("Blaue Krawatte anziehen");
         erstieEinführung.setStartTime(9,30);
         erstieEinführung.setEndTime(10,30);
-        erstieEinführung.setTitle("Ersti Begrüßung");
+        erstieEinführung.setTitle("Erstsemester Begrüßung");
         erstieEinführung.addContact(jana);
         meetingService.saveMeeting(erstieEinführung);
 
@@ -722,7 +722,6 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         umweltschutz.addProjectContacts(anna);
         projectService.saveProject(umweltschutz);
 
-
         Project gegenRassismus = new Project();
         gegenRassismus.setName("Uni gegen Rassismus");
         gegenRassismus.setDescription("Sensibilisieren der Kommilitonen bezüglich des Themas Rassismus");
@@ -732,27 +731,43 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         gegenRassismus.addProjectContacts(sabine);
         projectService.saveProject(gegenRassismus);
 
+        Meeting meditation = new Meeting();
+        meditation.setDate(LocalDate.now());
+        meditation.setDescription("");
+        meditation.setStartTime(10,40);
+        meditation.setEndTime(11,0);
+        meditation.setTitle("Begleitender Meditationskurs für den Stressabbau");
+        meetingService.saveMeeting(meditation);
+
+        Meeting mensa = new Meeting();
+        mensa.setDate(LocalDate.now());
+        mensa.setDescription("");
+        mensa.setStartTime(14,10);
+        mensa.setEndTime(14,30);
+        mensa.setTitle("Mittagessen mit Herr Fischer");
+        meetingService.saveMeeting(mensa);
+
+        Meeting mcFit = new Meeting();
+        mcFit.setDate(LocalDate.now());
+        mcFit.setDescription("Wilhelmsplatz 11, 70182 Stuttgart");
+        mcFit.setStartTime(13,10);
+        mcFit.setEndTime(14,20);
+        mcFit.setTitle("Probetraining McFit");
+        meetingService.saveMeeting(mcFit);
+
         Meeting meetingGerdt = new Meeting();
         meetingGerdt.setDate(LocalDate.now());
         meetingGerdt.setDescription("Klimaschutz");
         meetingGerdt.setStartTime(8,30);
         meetingGerdt.setEndTime(9,20);
-        meetingGerdt.setTitle("Webex Meeting mit Drof. Dr. Gerdt");
+        meetingGerdt.setTitle("Webex Meeting mit Prof. Dr. Gerdt");
         meetingService.saveMeeting(meetingGerdt);
-
-        Meeting erstiEinführung = new Meeting();
-        erstiEinführung.setDate(LocalDate.now());
-        erstiEinführung.setDescription("");
-        erstiEinführung.setStartTime(9,30);
-        erstiEinführung.setEndTime(10,30);
-        erstiEinführung.setTitle("Erstsemester Begrüßung");
-        meetingService.saveMeeting(erstiEinführung);
 
         Meeting vortragMüller = new Meeting();
         vortragMüller.setDate(LocalDate.now());
         vortragMüller.setDescription("Prof. Dr. Müller, Audimax");
         vortragMüller.setStartTime(12,30);
-        vortragMüller.setEndTime(14,0);
+        vortragMüller.setEndTime(13,0);
         vortragMüller.setTitle("Treibhausgas Emissionssenkung");
         vortragMüller.addContact(jonas);
         vortragMüller.addContact(max);
@@ -775,10 +790,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         meetingService.saveMeeting(professorenMeeting);
 
         Meeting vortragMayer = new Meeting();
-        vortragMayer.setDate(2021, 10, 19);
+        vortragMayer.setDate(LocalDate.now());
         vortragMayer.setDescription("Wissenschaftlicher Vortrag");
-        vortragMayer.setStartTime(12,30);
-        vortragMayer.setEndTime(13,0);
+        vortragMayer.setStartTime(19,30);
+        vortragMayer.setEndTime(20,0);
         vortragMayer.setTitle("Vortrag Prof. Dr. Mayer");
         meetingService.saveMeeting(vortragMayer);
     }
