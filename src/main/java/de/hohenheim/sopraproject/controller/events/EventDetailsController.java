@@ -25,7 +25,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * This controller is used to handle all methods revolving around the html page eventDetails
+ *
+ * It helps with various method to save new events, delete existing ones, create a membership with a Contact
+ * and delete this membership
+ *
+ */
 @Controller
 public class EventDetailsController {
 
@@ -45,6 +51,11 @@ public class EventDetailsController {
     @Autowired
     private ContactRepository contactRepository;
 
+    /**
+     * Main method for Viewing of Event Details Site, adds necessary Attributes
+     * @param model
+     * @return eventDetails
+     */
     @GetMapping(value = "/eventDetails/{eventID}")
     public String eventDetails(@PathVariable("eventID") Integer eventID, Model model) {
 
@@ -72,14 +83,14 @@ public class EventDetailsController {
     }
 
     /**
-     * This method saves the Institutes and saves it to the existing database
+     * This method saves the Events and saves it to the existing database
      *
-     * It also checks if the given ID is already mapped to a different
-     * existing institute. As long thats not the case a new institute will be saved to the database. Once the institute is saved
-     * the page will be reloaded to update the table with the new given information/attributes.
+     * It also checks if the given ID is already mapped to a different existing event.
+     * As long thats not the case a new event will be saved to the database. Once the event is saved
+     * the page will be reloaded to update the table.
      *
-     * @param
-     * @return redirect:/institutes
+     * @param event
+     * @return redirect:/events
      */
     @RequestMapping(value = "/savingEvent", method = RequestMethod.POST)
     public String savingEvent(@Valid Event event, BindingResult result, Model model, Principal principal) {
@@ -118,6 +129,15 @@ public class EventDetailsController {
         }
     }
 
+    /**
+     * This method deletes an existing event inside the database
+     *
+     * An existing event will be deleted. The corresponding eventID will also be deleted so new events can get this
+     * ID in the future. Once the event is deleted the page will be reloaded to update the event table.
+     *
+     * @param model
+     * @return redirect:/events
+     */
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
     public String deleteEvent(EventDTO eventDTO, Model model) {
         eventService.deleteByEventID(eventDTO.getEventID());
@@ -125,6 +145,13 @@ public class EventDetailsController {
         return "redirect:/events";
     }
 
+    /**
+     * This method deletes a Contact from an existing event.
+     *
+     * @param eventDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/deleteContactFromEvent", method = RequestMethod.POST)
     public String deleteContactFromEvent(EventDTO eventDTO, Model model) {
         Event event = eventService.findByEventID(eventDTO.getEventID());
@@ -141,9 +168,14 @@ public class EventDetailsController {
         return "redirect:/eventDetails/"+eventDTO.getEventID();
     }
 
+    /**
+     * This method deletes the tag attached to an Event.
+     * @param tagsDTO
+     * @return
+     */
     @GetMapping("/deleteEventTag")
     public String deleteEventTag(TagsDTO tagsDTO) {
-        List<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
+        Set<Tags> tags = eventService.findByEventID(tagsDTO.getOriginalID()).getTags();
 
         Tags removeTag = new Tags();
         for(Tags tag : tags){

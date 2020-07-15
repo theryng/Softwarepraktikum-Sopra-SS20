@@ -41,7 +41,7 @@ public class Project {
     private Set<Institute> institutes = new HashSet<>();
 
     @ManyToMany (mappedBy = "projects", cascade = CascadeType.ALL)
-    private List<Tags> tags = new LinkedList<>();
+    private Set<Tags> tags = new HashSet<>();
 
     public Project(){
         //empty constructor for Hibernate
@@ -98,11 +98,11 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public List<Tags> getTags() {
+    public Set<Tags> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tags> tags) {
+    public void setTags(Set<Tags> tags) {
         this.tags = tags;
     }
 

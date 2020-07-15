@@ -38,7 +38,7 @@ public class Event {
     private Set<Contact> contacts = new HashSet<>();
 
     @ManyToMany (mappedBy = "events", cascade = CascadeType.ALL)
-    private List<Tags> tags = new LinkedList<>();
+    private Set<Tags> tags = new HashSet<>();
 
     public Event() {
         //empty constructor for Hibernate
@@ -90,11 +90,11 @@ public class Event {
         return date;
     }
 
-    public List<Tags> getTags() {
+    public Set<Tags> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tags> tags) {
+    public void setTags(Set<Tags> tags) {
         this.tags = tags;
     }
 

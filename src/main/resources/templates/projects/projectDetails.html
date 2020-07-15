@@ -85,14 +85,14 @@
                         <!--Viewing and Editing general Informations of the project-->
                         <div>
                             Name: <input type="text" class="form-control" name = "name"
-                                         pattern="[0-9?!¡¿“¶[]|{}≠€§$%&/()=`+#'.,{´]^°<>]"
+                                         pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$"
                                          th:field="*{project.name}" required>
                             <div class="valid-feedback">valid</div>
                             <div class="invalid-feedback">Bitte geben sie einen Namen an</div>
 
-                            Beschreibung:<input type="text" class="form-control" name = "description" th:field="*{project.description}" required/></br>
+                            Beschreibung:<input type="text" class="form-control" name = "description" th:field="*{project.description}"/></br>
 
-                            Seit:<input type="date" class="form-control" name = "since" th:field="*{project.since}" required/></br>
+                            Seit:<input type="date" class="form-control" name = "since" max='2200-01-01' th:field="*{project.since}"/></br>
                         </div>
 
                         <!-- Button trigger modal -->
