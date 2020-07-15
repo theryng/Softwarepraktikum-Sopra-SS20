@@ -9,6 +9,9 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
 
+    <!--fontawesome button pics-->
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Eintrag Einsehen</title>
 
 </head>
@@ -20,7 +23,7 @@
 
         <h1>Bearbeiten eines Eintrags</h1>
         <!-- Back button returns to ContactDetails -->
-        <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get" th:text="'Zurück'">
+        <a type="button" class="btn btn-secondary" th:href="@{/contactDetails/{ID}(ID=${contactHistoryDTO.getOriginalContactID()})}" method="get"><i class="far fa-arrow-alt-circle-left"></i> Zurück
         </a>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger ml-1" data-toggle="modal" data-target="#deleteModal">
@@ -164,7 +167,9 @@
                         <input type="hidden" th:value="${contactHistoryDTO.stringChosenIDs}" th:name ="stringChosenIDs"/>
                         <input type="hidden" th:value="${contactHistoryDTO.stringFoundIDs}" th:name ="stringFoundIDs"/>
                         <input type="hidden" th:field="${contactHistoryDTO.contactHistory.contactHistoryID}"/>
-                        <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="#submitModal">Kontakt Entfernen</button>
+                        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#submitModal">
+                            <i class="fa fa-trash" style="font-size:20px"></i>
+                        </button>
                     </form>
                 </td>
             </tr>

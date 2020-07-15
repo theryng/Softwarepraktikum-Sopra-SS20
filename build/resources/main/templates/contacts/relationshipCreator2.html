@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link th:href="@{/css/style.css}" rel="stylesheet" />
 
+    <!--fontawesome button pics-->
+    <script src="https://kit.fontawesome.com/432f23bc6a.js" crossorigin="anonymous"></script>
+
     <title>Neue Beziehung</title>
 </head>
 <body class="backgroundimage">
@@ -29,7 +32,7 @@
         <!-- Button which returns to the first Step of the Creation process, relationshipCreator1 -->
         <div class="mr-5 ml-5 mt-3 mb-2">
             <!--Button that opens up the editing window-->
-            <a type="button" class="btn btn-secondary" th:href="@{/relationshipCreator1/{contactHistoryID}(contactHistoryID=${relationshipDTO.getContactA()})}" method="get" th:text="'Zurück'">
+            <a type="button" class="btn btn-secondary" th:href="@{/relationshipCreator1/{contactHistoryID}(contactHistoryID=${relationshipDTO.getContactA()})}" method="get"><i class="far fa-arrow-alt-circle-left"></i> Zurück
             </a>
             <h4 class="mt-2">Weitere Eingaben</h4>
             <!-- Form to add Information to the Relationship -->
