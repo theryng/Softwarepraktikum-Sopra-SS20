@@ -764,7 +764,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         mcFit.setDate(LocalDate.now());
         mcFit.setDescription("Wilhelmsplatz 11, 70182 Stuttgart");
         mcFit.setStartTime(13,10);
-        mcFit.setEndTime(14,20);
+        mcFit.setEndTime(14,00);
         mcFit.setTitle("Probetraining McFit");
         meetingService.saveMeeting(mcFit);
 

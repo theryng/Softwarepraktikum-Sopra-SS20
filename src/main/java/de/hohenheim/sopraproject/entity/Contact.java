@@ -43,7 +43,7 @@ public class Contact {
     private String freeText;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate lastContact = LocalDate.of(1900, 01, 01);
+    private LocalDate lastContact = LocalDate.of(2000, 01, 01);
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dayOfBirth;
